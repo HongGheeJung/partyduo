@@ -10,4 +10,5 @@ public class PartyDuoApplication {
 		SpringApplication.run(PartyDuoApplication.class, args);
 	}
 //실험실
+	//신진우 실험중
 }
