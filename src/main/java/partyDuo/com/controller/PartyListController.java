@@ -13,6 +13,7 @@ import partyDuo.com.service.PartyListService;
 public class PartyListController {
 	@Autowired
 	PartyListService plservice;
+	
 	@GetMapping("/partylist/insert")
 	public String insert() {
 		log.info("party_list_insert...");

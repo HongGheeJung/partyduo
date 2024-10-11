@@ -10,7 +10,7 @@ import partyDuo.com.model.PartyBoardVO;
 
 @Mapper
 public interface PartyBoardMapper {
-public int insertOK(PartyBoardVO vo);
+	public int insertOK(PartyBoardVO vo);
 	
 	public List<PartyBoardVO> selectAll();
 

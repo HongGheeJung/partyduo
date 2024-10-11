@@ -14,4 +14,6 @@ public class MainController {
 		log.info("/main");
 		return "main";
 	}
+	
+	
 }
