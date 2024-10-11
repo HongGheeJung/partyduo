@@ -9,5 +9,5 @@ public class PartyDuoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PartyDuoApplication.class, args);
 	}
-
+//실험실
 }
