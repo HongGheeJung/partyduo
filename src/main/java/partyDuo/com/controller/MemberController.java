@@ -1,5 +1,6 @@
 package partyDuo.com.controller;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,4 +116,8 @@ public class MemberController {
 		log.info("result: {}", result);
 		return "member/findIDResult";
 	}
+=======
+public class MemberController {
+
+>>>>>>> hong
 }

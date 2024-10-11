@@ -1,5 +1,6 @@
 package partyDuo.com.model;
 
+
 import java.sql.Date;
 
 import lombok.Data;

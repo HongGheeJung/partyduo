@@ -14,4 +14,12 @@ public class MainController {
 		log.info("/main");
 		return "main";
 	}
+	
+	@GetMapping("/calendar")
+	public String calendar() {
+		log.info("/calendar");
+		return "calendar";
+	}
+	
+	
 }
