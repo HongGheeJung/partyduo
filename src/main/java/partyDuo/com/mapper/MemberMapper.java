@@ -1,4 +1,4 @@
-package partyDuo.com.Mapper;
+package partyDuo.com.mapper;
 
 import java.util.List;
 

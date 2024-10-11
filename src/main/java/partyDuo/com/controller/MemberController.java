@@ -117,4 +117,4 @@ public class MemberController {
 		return "member/findIDResult";
 	}
 }
->>>>>>> 758e117e2650bde1fff7a90050edea68436df014
+
