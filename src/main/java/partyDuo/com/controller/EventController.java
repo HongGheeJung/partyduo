@@ -26,6 +26,11 @@ public class EventController {
 	@Autowired
 	EventService service;
 	
+	@GetMapping("/calendar")
+	public String calendar() {
+		log.info("/calendar");
+		return "calendar";
+	}
 	
 	@GetMapping("/event/insert")
 	public String insert() {
