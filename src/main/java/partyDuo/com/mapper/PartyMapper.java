@@ -20,8 +20,8 @@ public interface PartyMapper {
 
 	public int getTotalRows();
 
-	public int getSearchTotalRowsTitle(String searchWord);
-	public int getSearchTotalRowsContent(String searchWord);
+	public int getSearchTotalRows(String searchWord,String searchKey);
+	
 
 	public List<PartyVO> searchList(String searchWord, String searchKey);
 	public List<PartyVO> searchListPageBlock(String searchWord, String searchKey,int startRow, int endRow);

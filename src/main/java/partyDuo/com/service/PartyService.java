@@ -44,4 +44,12 @@ public class PartyService {
 		log.info("p_service_selectOne");
 		return pmapper.selectOne(vo);
 	}
+	
+	public int getTotalRows() {
+		return pmapper.getTotalRows();
+	}
+
+	public int getSearchTotalRows(String searchWord,String searchKey) {
+		return pmapper.getSearchTotalRows(searchWord, searchKey);
+	}
 }
