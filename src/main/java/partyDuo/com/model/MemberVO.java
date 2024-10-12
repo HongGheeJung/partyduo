@@ -1,7 +1,8 @@
 package partyDuo.com.model;
 
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -11,7 +12,7 @@ public class MemberVO {
 	private String id;
 	private String pw;
 	private String email;
-	private Date regdate;
+	private Timestamp regdate;
 	private String apikey;
 	private String character_name;
 }
