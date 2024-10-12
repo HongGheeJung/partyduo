@@ -15,11 +15,4 @@ public class MainController {
 		return "main";
 	}
 	
-	@GetMapping({"/header"})
-	public String header() {
-		log.info("/main");
-		return "header";
-	}
-	
-	
 }

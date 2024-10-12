@@ -1,11 +1,14 @@
 package partyDuo.com.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.mapper.PartyBoardMapper;
 import partyDuo.com.mapper.PartyMapper;
+import partyDuo.com.model.PartyVO;
 
 @Slf4j
 @Service
@@ -13,25 +16,32 @@ public class PartyService {
 	@Autowired
 	PartyMapper pmapper;
 	
-	public int insertOK() {
+	public int insertOK(PartyVO vo) {
 		log.info("p_service_insertOK");
-		return 0;
+		return pmapper.insertOK(vo);
 	}
 	
-	public int updateOK() {
+	public int updateOK(PartyVO vo) {
 		log.info("p_service_updateOK");
-		return 0;
+		return pmapper.updateOK(vo);
 	}
-	public int deleteOK() {
+	public int deleteOK(PartyVO vo) {
 		log.info("p_service_deleteOK");
-		return 0;
+		return pmapper.deleteOK(vo);
 	}
 	
-	public void searchList() {
+	public List<PartyVO> searchList(String searchWord,String searchKey) {
 		log.info("p_service_searchList");
+		return pmapper.searchList(searchWord,searchKey);
 	}
 	
-	public void selectOne() {
+	public List<PartyVO> searchListPageBlock(String searchWord,String searchKey,int startRow, int endRow){
+		log.info("p_service_searchListPageBlock");
+		return pmapper.searchListPageBlock(searchWord, searchKey,startRow,endRow);
+	}
+	
+	public PartyVO selectOne(PartyVO vo) {
 		log.info("p_service_selectOne");
+		return pmapper.selectOne(vo);
 	}
 }

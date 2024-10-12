@@ -33,32 +33,32 @@ public class PartyController {
 	@GetMapping("/party/selectOne")
 	public String selectOne() {
 		log.info("party_selectOne...");
-		pservice.selectOne();
+	
 		return "party/selectOne";			
 	}
 	
 	@GetMapping("/party/searchList")
 	public String searchList() {
 		log.info("party_searchList...");
-		pservice.searchList();
+		
 		return "party/searchList";			
 	}
 	@PostMapping("/party/insertOK")
 	public String insertOK() {
 		log.info("party_insertOK...");
-		int result=pservice.insertOK();
+	
 		return "redirect:/party/searchList";			
 	}
 	@PostMapping("/party/updateOK")
 	public String updateOK() {
 		log.info("party_updateOK...");
-		int result=pservice.updateOK();
+	
 		return "redirect:/party/searchList";			
 	}
 	@PostMapping("/party/deleteOK")
 	public String deleteOK() {
 		log.info("party_deleteOK...");
-		int result=pservice.deleteOK();
+	
 		return "redirect:/party/searchList";			
 	}
 }

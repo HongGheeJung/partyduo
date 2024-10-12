@@ -13,23 +13,18 @@ public interface PartyMapper {
 	public List<PartyVO> selectAll();
 
 	public PartyVO selectOne(PartyVO vo);
-
+	
+	public int insertOK(PartyVO vo);
 	public int updateOK(PartyVO vo);
 	public int deleteOK(PartyVO vo);
 
-	public List<PartyVO> searchListTitle(String searchWord);
-
-	public List<PartyVO> searchListContent(String searchWord);
-
-	public List<PartyVO> selectAllPageBlock(int startRow, int endRow);
-
 	public int getTotalRows();
-
-	public List<PartyVO> searchListPageBlockTitle(String searchWord, int startRow, int endRow);
-	public List<PartyVO> searchListPageBlockContent(String searchWord, int startRow, int endRow);
 
 	public int getSearchTotalRowsTitle(String searchWord);
 	public int getSearchTotalRowsContent(String searchWord);
+
+	public List<PartyVO> searchList(String searchWord, String searchKey);
+	public List<PartyVO> searchListPageBlock(String searchWord, String searchKey,int startRow, int endRow);
 
 	
 	

@@ -3,5 +3,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="test.com.member.mapper.MemberMapper">
-
+	<insert id="insertOK">
+		insert into party(party_name,party_master)
+		values(#{party_name},#{party_master})
+	</insert>
+	
+	<update id="updateOK">
+		update party set party_name=#{party_name} ,party_master=#{party_master}
+		where party_id=#{party_id} 
+	</update>
+	
+	<delete id="deleteOK"> 
+		delete from party where party_id=#{party_id}
+	</delete>
+	
+	<select id="selectOne">
+		select * from party where party_id=#{party_id}
+	</select>
+	
+	<select id="searchListPageBlock">
+	select rnum,party_id,party_name,party_master from
+		(select row_number() over(order by num desc) as
+		rnum,party_id,party_name,party_master from party where #{searchKey} like #{searchWord})
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
 </mapper>
