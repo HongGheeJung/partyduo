@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>main</title>
+	<title>main</title>
+	<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
 
-	<a href="header.html">header.html</a>
-	<h1>Main</h1>
+<body th:replace="~{layout::layout}">
 
+<div th:fragment="content">
 	<a href="/calendar">캘린더</a>
 	<a href="/member/insert">회원가입</a>
 	<a href="/party_board/insert">파티게시판작성</a>
 	<a href="/party_board_comment/insert">파티게시글댓글작성</a>
 	<a href="/party/insert">파티 생성</a>
 	<a href="/partylist/insert">파티 신청</a>
-	
+</div>	
+
 </body>
 </html>
