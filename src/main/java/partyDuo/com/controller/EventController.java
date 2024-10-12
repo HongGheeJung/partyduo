@@ -1,12 +1,10 @@
 package partyDuo.com.controller;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -162,7 +160,7 @@ public class EventController {
 		if (result == 1) {
 			return "redirect:/event/selectAll";
 		} else {
-			return "redirect:/event/delete" ;
+			return "redirect:/event/delete?event_id=" + vo.getEvent_id();
 		}
 	}
 	

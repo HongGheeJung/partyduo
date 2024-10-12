@@ -29,5 +29,9 @@
 		event_character=#{event_character}
 		where event_id=#{event_id}
 	</update>
+	
+	<delete id="deleteOK">
+		delete from event where event_id=#{event_id}
+	</delete>
 
 </mapper>
