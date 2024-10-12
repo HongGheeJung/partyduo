@@ -2,10 +2,53 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>selectAll.html</title>
 </head>
-<body>
-	<h1>event selectAll</h1>
+<body >
+	<a href="/calendar">캘린더</a>
+	<div >
+		<h1>selectAll.html</h1>
+
+		<form action="/event/searchList">
+			<select name="searchKey">
+				<option value="event_title">event_title</option>
+			</select> <input type="text" name="searchWord" value="ad"> <input
+				type="submit" value="검색">
+		</form>
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>event_id</th>
+					<th>party_id</th>
+					<th>event_title</th>
+					<th>event_content</th>
+					<th>event_startTime</th>
+					<th>event_endTime</th>
+					<th>event_location</th>
+					<th>event_bosstag</th>
+					<th>event_character</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+					<tr>
+						<td><a th:href="|/event/selectOne?event_id=${vo.event_id}|">[[${vo.event_id}]]</a></td>
+						<td>[[${vo.party_id}]]</td>
+						<td>[[${vo.event_title}]]</td>
+						<td>[[${vo.event_content}]]</td>
+						<td>[[${vo.event_startTime}]]</td>
+						<td>[[${vo.event_endTime}]]</td>
+						<td>[[${vo.event_location}]]</td>
+						<td>[[${vo.event_bosstag}]]</td>
+						<td>[[${vo.event_character}]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+
+	</div>
 
 </body>
 </html>

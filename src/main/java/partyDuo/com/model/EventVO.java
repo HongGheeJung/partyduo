@@ -1,6 +1,7 @@
 package partyDuo.com.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -10,8 +11,8 @@ public class EventVO {
 	private int party_id;
 	private String event_title;
 	private String event_content;
-	private Date event_startTime;
-	private Date event_endTime;
+	private Timestamp event_startTime;
+	private Timestamp event_endTime;
 	private String event_location;
 	private String event_bosstag;
 	private String event_character;

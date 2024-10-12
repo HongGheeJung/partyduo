@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.service.EventService;
+
 import partyDuo.com.model.EventVO;
 
 @Slf4j
@@ -39,8 +40,15 @@ public class EventController {
 	}
 	
 	@GetMapping("/event/update")
-	public String update() {
+	public String update(EventVO vo, Model model) {
 		log.info("/event/update");		
+		log.info("vo:{}", vo);
+
+		EventVO vo2 = service.selectOne(vo);
+		log.info("vo2:{}", vo2);
+
+		model.addAttribute("vo2", vo2);
+
 		return "event/update";
 	}
 
@@ -51,9 +59,11 @@ public class EventController {
 	}
 
 	@GetMapping("/event/selectAll")
-	public String selectAll() {
+	public String selectAll(Model model) {
 		log.info("/event/selectAll");
-	
+		
+		List<EventVO> list = service.selectAll();
+		model.addAttribute("list", list);
 
 		return "event/selectAll";
 	}
@@ -100,8 +110,14 @@ public class EventController {
 	}
 
 	@GetMapping("/event/selectOne")
-	public String selectOne() {
+	public String selectOne(EventVO vo, Model model) {
 		log.info("/event/selectOne");	
+		log.info("vo:{}", vo);
+
+		EventVO vo2 = service.selectOne(vo);
+		log.info("vo2:{}", vo2);
+
+		model.addAttribute("vo2", vo2);
 
 		return "event/selectOne";
 	}
@@ -114,7 +130,7 @@ public class EventController {
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/insert";
+			return "redirect:/event/selectAll";
 		} else {
 			return "redirect:/event/insert";
 		}
@@ -130,7 +146,7 @@ public class EventController {
 		int result = service.updateOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/selectOne";
+			return "redirect:/event/selectAll";
 		} else {
 			return "redirect:/event/update" ;
 		}
