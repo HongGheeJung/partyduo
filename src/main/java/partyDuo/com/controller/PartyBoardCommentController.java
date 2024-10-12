@@ -21,49 +21,49 @@ public class PartyBoardCommentController {
 	@Autowired
 	PartyBoardCommentService pbcservice;
 	
-	@GetMapping("/party_board_comment/insert")
+	@GetMapping("/partyboardcomment/insert")
 	public String insert() {
 		log.info("party_board_comment_insert...");
 		return "partyboardcomment/insert";			
 	}
 	
-	@GetMapping("/party_board_comment/update")
+	@GetMapping("/partyboardcomment/update")
 	public String update() {
 		log.info("party_board_comment_update...");
 		return "partyboardcomment/update";			
 	}
-	@GetMapping("/party_board_comment/delete")
+	@GetMapping("/partyboardcomment/delete")
 	public String delete() {
-		log.info("party_board_comment_delete...");
+		log.info("partyboardcomment_delete...");
 		return "partyboardcomment/delete";			
 	}
-	@GetMapping("/party_board_comment/selectOne")
+	@GetMapping("/partyboardcomment/selectOne")
 	public String selectOne() {
-		log.info("party_board_comment_selectOne...");
+		log.info("partyboardcomment_selectOne...");
 		pbcservice.selectOne();
 		return "partyboardcomment/selectOne";			
 	}
 	
-	@GetMapping("/party_board_comment/searchList")
+	@GetMapping("/partyboardcomment/searchList")
 	public String searchList() {
-		log.info("party_board_comment_searchList...");
+		log.info("partyboardcomment_searchList...");
 		pbcservice.searchList();
 		return "partyboardcomment/searchList";			
 	}
-	@PostMapping("/party_board_comment/insertOK")
-	public String insertOK()throws IllegalStateException, IOException {
+	@PostMapping("/partyboardcomment/insertOK")
+	public String insertOK()  {
 		log.info("party_board_comment_insertOK...");
 		int result = pbcservice.insertOK();
 		return "redirect:/party_board_comment/selectOne";			
 	}
-	@PostMapping("/party_board_comment/updateOK")
-	public String updateOK()throws IllegalStateException, IOException {
+	@PostMapping("/partyboardcomment/updateOK")
+	public String updateOK()  {
 		log.info("party_board_comment_updateOK...");
 		int result = pbcservice.updateOK();
 		return "redirect:/party_board_comment/selectOne";			
-	}
-	@PostMapping("/party_board_comment/deleteOK")
-	public String deleteOK()throws IllegalStateException, IOException {
+	} 
+	@PostMapping("/partyboardcomment/deleteOK")
+	public String deleteOK() {
 		log.info("party_board_comment_deleteOK...");
 		int result = pbcservice.deleteOK();
 		return "redirect:/party_board_comment/selectOne";			
