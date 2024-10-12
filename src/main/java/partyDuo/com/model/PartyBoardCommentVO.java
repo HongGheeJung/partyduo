@@ -1,5 +1,6 @@
 package partyDuo.com.model;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 import lombok.Data;
@@ -10,6 +11,6 @@ public class PartyBoardCommentVO {
 	private int party_board_id;
 	private String party_board_comment_content;
 	private String party_board_comment_writer;
-	private Date party_board_comment_wdate;
+	private Timestamp party_board_comment_wdate;
 	
 }
