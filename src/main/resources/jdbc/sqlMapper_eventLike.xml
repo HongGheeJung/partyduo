@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.EventLikeMapper">
+		
+	<insert id="insertOK">
+		insert into eventlike(event_id, character_name)
+		values(#{event_id},#{character_name})
+	</insert>
+	
+	<select id="selectAll"
+		resultType="partyDuo.com.model.EventLikeVO">
+		select * from eventlike order by event_id desc
+	</select>
+	
+	<select id="selectOneLikecheck"
+		resultType="int">
+		select count(*) total_rows
+		from  eventlike 
+		where event_id=#{event_id} and character_name=#{character_name}
+	</select>
+	
+	<delete id="deleteOK">
+		delete from eventlike where event_id=#{event_id} and character_name=#{character_name}
+	</delete>
+	
+
+</mapper>

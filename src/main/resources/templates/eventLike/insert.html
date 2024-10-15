@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="/calendar">캘린더</a>
+	<h1>insert.html</h1>
+
+		<form action="/eventLike/insertOK" method="post">
+			<table id="insertTable">
+				<tr>
+					<td><label for="event_id">event_id</label></td>
+					<td>[[${param.event_id}]]<input type="hidden" id="event_id" name="event_id"
+							th:value="${param.event_id}"></td>
+				</tr>
+				<tr>
+					<td><label for="character_name">character_name</label></td>
+					<td><input type="text" id="character_name" name="character_name" 
+						th:value="off" placeholder="character_name를 입력하세요"></td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="submit" value="좋아요완료"></td>
+				</tr>
+			</table>
+		</form>
+
+</body>
+</html>

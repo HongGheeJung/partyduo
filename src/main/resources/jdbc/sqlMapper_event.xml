@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.EventMapper">
+
+	<insert id="insertOK">
+		insert into event(party_id,event_title,event_content,event_startTime,event_endTime,
+		event_location,event_bosstag,event_character)
+		values(#{party_id},#{event_title},#{event_content},#{event_startTime},#{event_endTime},
+		#{event_location},#{event_bosstag},#{event_character})
+	</insert>
+	
+	<select id="selectAll"
+		resultType="partyDuo.com.model.EventVO">
+		select * from event order by event_id desc
+	</select>
+	
+	<select id="selectOne"
+		resultType="partyDuo.com.model.EventVO">
+		select * from event where event_id=#{event_id}
+	</select>
+	
+	<update id="updateOK">
+		update event set
+		event_title=#{event_title},event_content=#{event_content},
+		event_startTime=#{event_startTime} ,event_endTime=#{event_endTime},
+		event_location=#{event_location} ,event_bosstag=#{event_bosstag},
+		event_character=#{event_character}
+		where event_id=#{event_id}
+	</update>
+	
+	<delete id="deleteOK">
+		delete from event where event_id=#{event_id}
+	</delete>
+
+</mapper>

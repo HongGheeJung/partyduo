@@ -4,8 +4,49 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<h1>event selectOne</h1>
+<body >
+<a href="/calendar">캘린더</a>
+
+	<div >
+		<h1>selectOne.html</h1>
+
+		<div>
+			<table id="insertTable">
+				<thead>
+					<tr>
+						<th>event_id</th>
+						<th>party_id</th>
+						<th>event_title</th>
+						<th>event_content</th>
+						<th>event_startTime</th>
+						<th>event_endTime</th>
+						<th>event_location</th>
+						<th>event_bosstag</th>
+						<th>event_character</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>[[${vo2.event_id}]]</td>
+						<td>[[${vo2.party_id}]]</td>
+						<td>[[${vo2.event_title}]]</td>
+						<td>[[${vo2.event_content}]]</td>
+						<td>[[${vo2.event_startTime}]]</td>
+						<td>[[${vo2.event_endTime}]]</td>
+						<td>[[${vo2.event_location}]]</td>
+						<td>[[${vo2.event_startTime}]]</td>
+						<td>[[${vo2.event_bosstag}]]</td>
+						<td>[[${vo2.event_character}]]</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<a th:href="|/event/update?event_id=${vo2.event_id}|">일정수정</a> <a
+			th:href="|/event/delete?event_id=${vo2.event_id}|">일정삭제</a>
+
+
+	</div>
 
 </body>
 </html>
