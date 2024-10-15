@@ -10,24 +10,17 @@ import partyDuo.com.model.PartyVO;
 
 @Mapper
 public interface PartyMapper {
-	public List<PartyVO> selectAll();
-
+	public int insertOK(PartyVO vo);
+	
+	public int updateOK(PartyVO vo);
+	
+	public int deleteOK(PartyVO vo);
+	
 	public PartyVO selectOne(PartyVO vo);
 	
-	public int insertOK(PartyVO vo);
-	public int updateOK(PartyVO vo);
-	public int deleteOK(PartyVO vo);
-
-	public int getTotalRows();
-
-	public int getSearchTotalRows(String searchWord,String searchKey);
-	
-
 	public List<PartyVO> searchList(String searchWord, String searchKey);
-	public List<PartyVO> searchListPageBlock(String searchWord, String searchKey,int startRow, int endRow);
+	
+	public List<PartyVO> searchListPageBlock( String searchKey,String searchWord,int startRow, int pageBlock);
 
-	
-	
-	
-
+	public List<PartyVO> selectAll(int startRow, int pageBlock);
 }

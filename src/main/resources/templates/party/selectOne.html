@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<div th:fragment="content">
+	<table>
+		<thead>
+			<tr>
+				<th>파티아이디</th>
+				<th>파티 명</th>			
+				<th>파티 장</th>	
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>[[${vo2.party_id}]]</td>
+				<td>[[${vo2.party_name}]]</td>
+				<td>[[${vo2.party_master}]]</td>
+				<td><a th:href="|/party/update?party_id=${vo2.party_id}|">수정</a></td>
+				<td><a th:href="|/party/delete?party_id=${vo2.party_id}|">삭제</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 </body>
 </html>

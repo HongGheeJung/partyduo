@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<hr>
+	<form action="/party/insertOK" method="post">
+		<table>
+			<tr>
+				<td><label for="party_name">파티명</label></td>
+				<td><input type="text" id="party_name" name="party_name" placeholder="파티명을 입력하세요"></td>
+			</tr>
+			<tr>
+				<td><label for="party_master">파티장</label></td>
+				<td><input type="hidden" id="party_master" name="party_master" th:value=${session.user_character} >[[${session.user_character}]]</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="가입완료"></td>
+			</tr>			
+		</table>
+	</form>
 </body>
 </html>

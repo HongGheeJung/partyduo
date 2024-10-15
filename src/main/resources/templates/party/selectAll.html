@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+	<h3>[[${session.user_id}]]</h3>
+	<h3>[[${session.user_character}]]</h3>
+	<hr>
+		<form action="/party/searchList">
+			<select name="searchKey">
+				<option value="party_name">party_name</option>
+				<option value="party_master">party_master</option>
+			</select> 
+			<input type="text" name="searchWord" value="ad"> 
+			<input type="submit" value="검색">
+		</form>
+		<table id="insertTable">
+		<thead>
+			<tr>
+				<th>파티아이디</th>
+				<th>파티 명</th>			
+				<th>파티 장</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="vo : ${list}">
+				<tr>
+					<td><a th:href="|/party/selectOne?party_id=${vo.party_id}|">[[${vo.party_id}]]</a></td>
+					<td>[[${vo.party_name}]]</td>
+					<td>[[${vo.party_master}]]</td>
+				</tr>
+			</th:block>
+	</tbody>	
+</table>
+</div>
 </body>
 </html>

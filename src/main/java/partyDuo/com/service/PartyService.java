@@ -35,9 +35,10 @@ public class PartyService {
 		return pmapper.searchList(searchWord,searchKey);
 	}
 	
-	public List<PartyVO> searchListPageBlock(String searchWord,String searchKey,int startRow, int endRow){
+	public List<PartyVO> searchListPageBlock(String searchWord,String searchKey,int cpage, int pageBlock){
 		log.info("p_service_searchListPageBlock");
-		return pmapper.searchListPageBlock(searchWord, searchKey,startRow,endRow);
+		int startRow=(cpage-1)*pageBlock;
+		return pmapper.searchListPageBlock(searchKey,"%"+searchWord+"%",startRow,pageBlock);
 	}
 	
 	public PartyVO selectOne(PartyVO vo) {
@@ -45,11 +46,9 @@ public class PartyService {
 		return pmapper.selectOne(vo);
 	}
 	
-	public int getTotalRows() {
-		return pmapper.getTotalRows();
-	}
-
-	public int getSearchTotalRows(String searchWord,String searchKey) {
-		return pmapper.getSearchTotalRows(searchWord, searchKey);
+	public List<PartyVO> selectAll(int cpage, int pageBlock){
+		log.info("p_service_selectAll");
+		int startRow=(cpage-1)*pageBlock;
+		return pmapper.selectAll(startRow,pageBlock);
 	}
 }
