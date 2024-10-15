@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>delete</h1>
+<a href="/main">main</a>
+<a href="/member/insert">insert</a>
+<a href="/member/update">update</a>
+<a href="/member/delete">delete</a>
+<a href="/member/selectOne">selectOne</a>
+<a href="/member/selectAll">selectAll</a>
+<a href="/member/login">login</a>
+<a href="/member/loginOK">loginOK</a>
+<a href="/member/findID">findID</a>
+<a href="/member/findPw">findPW</a>
+<a href="/member/findPwCheck">findPWCheck</a>
+<a href="/member/findIDCheck">findIDCheck</a>
+
+<hr>
+<p><h5>정말 [[${vo.id}]]계정을 삭제하시겠습니까?</h5></p>
+<p><a th:href="|/member/deleteOK?member_id=${vo.member_id}|">예</a> <a th:href="|/member/selectOne?member_id=${vo.member_id}|">아니오</a></p>
+
+</body>
+</html>
