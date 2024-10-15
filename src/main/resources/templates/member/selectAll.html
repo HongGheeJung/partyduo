@@ -42,7 +42,7 @@
 	<tbody>
 		<th:block th:each="vo : ${list}">
 				<tr>
-				<td><a th:href="|/member/selectOne?member_id=${vo.member_id}|">[[${vo.member_id}]]</a></td>
+				<td><a th:href="|/member/selectOne?id=${vo.id}|">[[${vo.member_id}]]</a></td>
 				<td>[[${vo.id}]]</td>
 				<td>[[${vo.pw}]]</td>
 				<td>[[${vo.email}]]</td>
@@ -50,7 +50,24 @@
 				<td>[[${vo.character_name}]]</td>
 			</tr>
 		</th:block>
-	</tbody>	
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6">[[${param.searchKey == null}]]
+				<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+					<th:block th:if="${param.searchKey == null}">
+						<a th:href="|/member/selectAll?cpage=${i}|">[[${i}]]</a>
+					</th:block>
+					<th:block th:if="${param.searchKey != null}" >
+						<th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+							<a th:href="|/member/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
+						</th:block>
+					</th:block>
+				</th:block>	
+			</td>
+		</tr>
+	</tfoot>	
 </table>
+
 </body>
 </html>

@@ -63,7 +63,7 @@ public class MemberController {
 //		vo.setCharacter_name("update테스트");
 		int result=service.member_update(vo);
 		log.info("result: {}", result);
-		return "redirect:/member/selectOne?member_id="+vo.getMember_id();
+		return "redirect:/member/selectOne?id="+vo.getId();
 	}
 	@GetMapping("/member/delete")
 	public String member_delete(MemberVO vo, Model model) {
@@ -95,6 +95,23 @@ public class MemberController {
 		List<MemberVO> list=service.member_selectAll(cpage, pageBlock);
 		log.info("list: {}", list);
 		
+		int total_rows = service.getTotalRows();// select count(*) total_rows from member;
+		log.info("total_rows:{}", total_rows);
+		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
+		int totalPageCount = 0;
+
+		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		log.info("totalPageCount:{}", totalPageCount);
+
+		model.addAttribute("totalPageCount", totalPageCount);
+		
 		model.addAttribute("list", list);
 		return "member/selectAll";
 	}
@@ -105,7 +122,26 @@ public class MemberController {
 		log.info("/searchList");
 		List<MemberVO> list=service.member_searchList(searchKey, searchWord, cpage, pageBlock);
 		model.addAttribute("list", list);
+		
+		int total_rows = service.getSearchTotalRows(searchKey, searchWord);// select count(*) total_rows from member;
+		log.info("total_rows:{}", total_rows);
 		log.info("list: {}", list);
+		
+		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
+		int totalPageCount = 0;
+
+		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		log.info("totalPageCount:{}", totalPageCount);
+
+		model.addAttribute("totalPageCount", totalPageCount);
+		
 		return "member/selectAll";
 	}
 	@GetMapping("/member/login")
@@ -123,7 +159,7 @@ public class MemberController {
 		}else {
 			session.setAttribute("user_id", vo2.getId());
 			session.setAttribute("user_character", vo2.getCharacter_name());
-			return "main";
+			return "redirect:/main";
 		}	
 	}
 	@GetMapping("/member/logout")
@@ -136,6 +172,7 @@ public class MemberController {
 	@GetMapping("/member/findPw")
 	public String member_findPw() {
 		log.info("/findPw");
+		
 		return "member/findPw";
 	}
 	@GetMapping("/member/findID")
@@ -144,17 +181,33 @@ public class MemberController {
 		return "member/findID";
 	}
 	@GetMapping("/member/findPwCheck")
-	public String member_findPwCheck() {
+	public String member_findPwCheck(Model model, MemberVO vo) {
 		log.info("/findPwCheck");
-		int result=service.member_findPwCheck(vo);
+//		vo=new MemberVO();
+//		vo.setId("admin");
+		MemberVO vo2=service.member_selectOne(vo);
+		String result=service.member_findPwCheck(vo2);
 		log.info("result: {}", result);
-		return "member/findPwResult";
+		model.addAttribute("vo2", vo2);
+		if(result==null) {
+			return "redirect:/member/findPw";
+		}else {
+			return "member/findPwResult";
+		}
 	}
 	@GetMapping("/member/findIDCheck")
-	public String member_findIDCheck() {
+	public String member_findIDCheck(Model model, MemberVO vo) {
 		log.info("/findIDCheck");
-		int result=service.member_findIDCheck(vo);
+//		vo=new MemberVO();
+//		vo.setEmail("abc@def.com");
+		String result=service.member_findIDCheck(vo);
 		log.info("result: {}", result);
-		return "member/findIDResult";
+		model.addAttribute("result", result);
+		if(result==null) {
+			return "redirect:/member/findId";
+		}else {
+			
+			return "member/findIdResult";
+		}
 	}
 }

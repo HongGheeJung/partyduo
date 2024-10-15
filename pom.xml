@@ -84,6 +84,12 @@
 			<version>3.0.3</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/dev.spiralmoon/maplestory-openapi -->
+		<dependency>
+  			<groupId>dev.spiralmoon</groupId>
+  			<artifactId>maplestory-openapi</artifactId>
+  			<version>2.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
