@@ -23,12 +23,18 @@ public interface MemberMapper {
 
 	public int member_apiCheck(MemberVO vo);
 
-	public int member_findPwCheck(MemberVO vo);
+	public String member_findPwCheck(MemberVO vo);
 
-	public int member_findIdCheck(MemberVO vo);
+	public String member_findIdCheck(MemberVO vo);
 
 	public List<MemberVO> member_searchListById(String searchWord, int startRow, int pageBlock);
 
 	public List<MemberVO> member_searchListByCharacterName(String searchWord, int startRow, int pageBlock);
+
+	public int getTotalRows();
+
+	public int getSearchTotalRowsByCname(String searchWord);
+
+	public int getSearchTotalRowsById(String searchWord);
 	
 }
