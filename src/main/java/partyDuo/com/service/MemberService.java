@@ -1,6 +1,6 @@
 package partyDuo.com.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,42 +15,47 @@ import partyDuo.com.model.MemberVO;
 public class MemberService {
 	@Autowired
 	MemberMapper mapper;
+
 	
 	public int member_insert(MemberVO vo) {
-//		return mapper.member_insert(vo);
 		log.info("member_insert()...");
-		return 0;
+		return mapper.member_insert(vo);
+//		return 0;
 	}
 	public int member_update(MemberVO vo) {
-//		return mapper.member_update(vo);
 		log.info("member_update()...");
-		return 0;
+		return mapper.member_update(vo);
+//		return 0;
 	}
 	public int member_delete(MemberVO vo) {
-//		return mapper.member_delete(vo);
 		log.info("member_delete()...");
-		return 0;
+		return mapper.member_delete(vo);
+//		return 0;
 	}
 	public MemberVO member_selectOne(MemberVO vo) {
 		log.info("member_selectOne()...");
-//		return mapper.member_selectOne(vo);
-		MemberVO vo2=new MemberVO();
-		return vo2;
+		return mapper.member_selectOne(vo);
+//		return vo2;
 	}
-	public List<MemberVO> member_selectAll(){
-//		return mapper.member_selectAll();
+	public List<MemberVO> member_selectAll(int cpage, int pageBlock){
 		log.info("member_selectAll()...");
-		return null;
+		int startRow=(cpage-1)*pageBlock;
+		return mapper.member_selectAll(startRow, pageBlock);
+//		return null;
 	}
-	public List<MemberVO> member_searchList(String searchKey, String searchWord){
-//		return mapper.member_searchList(searchKey, searchWord);
+	public List<MemberVO> member_searchList(String searchKey, String searchWord, int cpage, int pageBlock){
 		log.info("member_searchList()...");
-		return null;
+		int startRow=(cpage-1)*pageBlock;
+		if(searchKey.equals("id")) {
+			return mapper.member_searchListById("%"+searchWord+"%", startRow, pageBlock);
+		}else {
+			return mapper.member_searchListByCharacterName("%"+searchWord+"%", startRow, pageBlock);
+		}
 	}
-	public int member_login(MemberVO vo) {
-//		return mapper.member_login(vo);
+	public MemberVO member_login(MemberVO vo) {
 		log.info("member_login()...");
-		return 0;
+		return mapper.member_login(vo);
+//		return null;
 	}
 	public int member_apiCheck(MemberVO vo) {
 //		return mapper.member_apiCheck(vo);
