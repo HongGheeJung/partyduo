@@ -1,12 +1,20 @@
 package partyDuo.com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.model.PartyBoardVO;
+import partyDuo.com.model.PartyVO;
 import partyDuo.com.service.PartyBoardService;
+import partyDuo.com.service.PartyService;
 
 @Slf4j
 @Controller
@@ -14,56 +22,90 @@ public class PartyBoardController {
 	
 	@Autowired
 	PartyBoardService pbservice;
+	
+	@Autowired
+	PartyService pservice;
+	
+	@Autowired
+	HttpSession session;
+	
 	@GetMapping("/partyboard/insert")
-	public String insert() {
+	public String insert(Model model) {
 		log.info("party_board_insert...");
+		String user_character = (String)session.getAttribute("user_character");
+		List<PartyVO> list = pservice.searchList("party_master",user_character);
+		model.addAttribute("list", list);
 		return "partyboard/insert";			
 	}
 	
+	@PostMapping("/partyboard/insertOK")
+	public String insertOK(PartyBoardVO vo) {
+		log.info("party_board_insertOK...");
+		int result = pbservice.insertOK(vo);
+		return "redirect:/partyboard/selectAll";			
+	}
+	
 	@GetMapping("/partyboard/update")
-	public String update() {
+	public String update(PartyBoardVO vo,Model model) {
 		log.info("party_board_update...");
+		PartyBoardVO vo2 = pbservice.selectOne(vo);
+		log.info("{vo:{}",vo2);
+		model.addAttribute("vo2", vo2);
 		return "partyboard/update";			
 	}
+	
+	@PostMapping("/partyboard/updateOK")
+	public String updateOK(PartyBoardVO vo) {
+		log.info("party_board_updateOK...");
+		int result = pbservice.updateOK(vo);
+		log.info("result:{}", result);
+		return "redirect:/partyboard/selectOne?party_board_id="+vo.getParty_board_id();			
+	}
+	
 	@GetMapping("/partyboard/delete")
-	public String delete() {
+	public String delete(PartyBoardVO vo,Model model) {
 		log.info("party_board_delete...");
+		PartyBoardVO vo2= pbservice.selectOne(vo);
+		model.addAttribute("vo2", vo2);
 		return "partyboard/delete";			
 	}
+	
+	@PostMapping("/partyboard/deleteOK")
+	public String deleteOK(PartyBoardVO vo) {
+		log.info("party_board_deleteOK...");
+		int result = pbservice.deleteOK(vo);
+		log.info("result:{}", result);
+		return "redirect:/partyboard/selectAll";			
+	}
+	
 	@GetMapping("/partyboard/selectOne")
-	public String selectOne() {
+	public String selectOne(PartyBoardVO vo, Model model) {
 		log.info("party_board_selectOne...");
-		pbservice.selectOne();
+		PartyBoardVO vo2=pbservice.selectOne(vo);
+		log.info("vo2:{}", vo2);
+		model.addAttribute("vo2", vo2);
 		return "partyboard/selectOne";			
 	}
+	
 	@GetMapping("/partyboard/selectAll")
-	public String selectAll() {
+	public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("party_board_selectAll...");
-		pbservice.selectAll();
+		List<PartyBoardVO> list = pbservice.selectAllPageBlock(cpage, pageBlock);
+		log.info("list: {}", list);
+		model.addAttribute("list", list);
 		return "partyboard/selectAll";			
 	}
+	
 	@GetMapping("/partyboard/searchList")
-	public String searchList() {
+	public String searchList(Model model, @RequestParam(defaultValue="party_board_writer") String searchKey,
+			@RequestParam(defaultValue="페이커")String searchWord, @RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("party_board_searchList...");
-		pbservice.searchList();
-		return "partyboard/searchList";			
+		List<PartyBoardVO> list = pbservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
+		model.addAttribute("list",list);
+		log.info("list: {}", list);
+		return "partyboard/selectAll";			
 	}
-	@PostMapping("/partyboard/insertOK")
-	public String insertOK() {
-		log.info("party_board_insertOK...");
-		int result = pbservice.insertOK();
-		return "redirect:/party_board/selectAll";			
-	}
-	@PostMapping("/partyboard/updateOK")
-	public String updateOK() {
-		log.info("party_board_updateOK...");
-		int result = pbservice.updateOK();
-		return "redirect:/party_board/selectAll";			
-	}
-	@PostMapping("/partyboard/deleteOK")
-	public String deleteOK() {
-		log.info("party_board_deleteOK...");
-		int result = pbservice.deleteOK();
-		return "redirect:/party_board/selectAll";			
-	}
+
 }

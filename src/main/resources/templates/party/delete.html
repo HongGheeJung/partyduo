@@ -7,7 +7,7 @@
 </head>
 <body th:replace="~{layout::layout}">
 <div th:fragment="content">
-		<div class="gto-main">
+		<div>
 			<form action="/party/deleteOK" method="post">
 				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
 				<table id="insertTable">

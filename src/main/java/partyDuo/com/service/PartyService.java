@@ -30,12 +30,12 @@ public class PartyService {
 		return pmapper.deleteOK(vo);
 	}
 	
-	public List<PartyVO> searchList(String searchWord,String searchKey) {
+	public List<PartyVO> searchList(String searchKey,String searchWord) {
 		log.info("p_service_searchList");
 		return pmapper.searchList(searchWord,searchKey);
 	}
 	
-	public List<PartyVO> searchListPageBlock(String searchWord,String searchKey,int cpage, int pageBlock){
+	public List<PartyVO> searchListPageBlock(String searchKey,String searchWord,int cpage, int pageBlock){
 		log.info("p_service_searchListPageBlock");
 		int startRow=(cpage-1)*pageBlock;
 		return pmapper.searchListPageBlock(searchKey,"%"+searchWord+"%",startRow,pageBlock);

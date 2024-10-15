@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<div th:fragment="content">
+	<table>
+		<thead>
+			<tr>
+				<th>게시글 번호</th>
+				<th>파티 이름</th>			
+				<th>요구 전투력</th>				
+				<th>공략 보스</th>				
+				<th>간단 메모</th>				
+				<th>작성 자</th>				
+				<th>작성 일</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<th:block>
+				<tr><!-- partyid 대신 party name 나오게 하기 -->
+					<td>[[${vo2.party_board_id}]]</td>
+					<td>[[${vo2.party_id}]]</td>
+					<td>[[${vo2.req_pwd}]]</td>
+					<td>[[${vo2.boss}]]</td>
+					<td>[[${vo2.party_board_memo}]]</td>
+					<td>[[${vo2.party_board_content}]]</td>
+					<td>[[${vo2.party_board_writer}]]</td>
+					<td>[[${vo2.party_board_wdate}]]</td>
+					<td><a th:href="|/partyboard/update?party_board_id=${vo2.party_board_id}|">수정</a></td>
+				<td><a th:href="|/partyboard/delete?party_board_id=${vo2.party_board_id}|">삭제</a></td>
+				</tr>
+			</th:block>
+	</tbody>	
+</table>
+</div>
 </body>
 </html>

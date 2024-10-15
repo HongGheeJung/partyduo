@@ -2,6 +2,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="test.com.member.mapper.MemberMapper">
+<mapper namespace="partyDuo.com.mapper.PartyBoardMapper">
+	<insert id="insertOK">
+		insert into partyboard(party_id,req_pwd,boss,party_board_memo,party_board_content,party_board_writer) 
+		values(#{party_id},#{req_pwd},#{boss},#{party_board_memo},#{party_board_content},#{party_board_writer})
+	</insert>
+	
+	<update id="updateOK">
+		update partyboard set req_pwd=#{req_pwd},boss=#{boss},
+				party_board_memo=#{party_board_memo},party_board_content=#{party_board_content}
+				,party_board_writer=#{party_board_writer},party_board_wdate=sysdate
+		where party_board_id=#{party_board_id}
+	</update>
+	
+	<delete id="deleteOK">
+		delete from partyboard where party_board_id=#{party_board_id}
+	</delete>
+	
+	<select id="selectOne" resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where party_board_id=#{party_board_id}
+	</select>
+	
+	<select id="selectAllPageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard order by party_board_id
+	 desc limit #{startRow}, #{pageBlock}
+	</select>
+	
+	<select id="searchListPageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where #{searchKey} like #{searchWord} order by party_board_id
+	 desc limit #{startRow}, #{pageBlock}
+	</select>
+	
+	<select id="getTotalRows" resultType="int">
+		select count(*) total_rows
+		from partyboard
+	</select>
+	
+	<select id="getSearchTotalRows" resultType="int">
+		select count(*) total_rows
+		from partyboard where #{searchKey} like #{searchWord} 
+	</select>
 
 </mapper>

@@ -18,7 +18,7 @@ public interface PartyMapper {
 	
 	public PartyVO selectOne(PartyVO vo);
 	
-	public List<PartyVO> searchList(String searchWord, String searchKey);
+	public List<PartyVO> searchList(String searchKey, String searchWord);
 	
 	public List<PartyVO> searchListPageBlock( String searchKey,String searchWord,int startRow, int pageBlock);
 
