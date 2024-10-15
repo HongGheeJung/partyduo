@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<a href="/calendar">캘린더</a>
+	
+	<div>
+		<h1>delete.html</h1>
+
+		<div>
+			<form action="/event/deleteOK" method="post">
+				<input type="hidden" name="event_id" th:value="${param.event_id}">
+				<table id="insertTable">
+					<tr>
+						<th>[[${param.event_id}]]번일정을 정말 삭제하시겠습니까?<input type="submit"
+							value="삭제완료"></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+
+	</div>
+
+</body>
+</html>

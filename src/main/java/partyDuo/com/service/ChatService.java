@@ -7,37 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import partyDuo.com.mapper.EventMapper;
-import partyDuo.com.model.EventVO;
+import partyDuo.com.mapper.ChatMapper;
+import partyDuo.com.model.ChatVO;
 
 @Slf4j
 @Service
-public class EventService {
+public class ChatService {
 
 	@Autowired
-	EventMapper mapper;
+	ChatMapper mapper;
 	
-	public int insertOK(EventVO vo) {
+	public int insertOK(ChatVO vo) {
 		return mapper.insertOK(vo);
 	}
 
-	public List<EventVO> selectAll() {
+	public List<ChatVO> selectAll() {
 		return mapper.selectAll();
 	}
 
-	public EventVO selectOne(EventVO vo) {
+	public ChatVO selectOne(ChatVO vo) {
 		return mapper.selectOne(vo);
 	}
 
-	public int updateOK(EventVO vo) {
+	public int updateOK(ChatVO vo) {
 		return mapper.updateOK(vo);
 	}
 
-	public int deleteOK(EventVO vo) {
+	public int deleteOK(ChatVO vo) {
 		return mapper.deleteOK(vo);
 	}
 
-	public List<EventVO> searchList(String searchKey, String searchWord) {
+	public List<ChatVO> searchList(String searchKey, String searchWord) {
 		if (searchKey.equals("month")) {
 			int searchWord2 = Integer.parseInt(searchWord);
 			return mapper.searchListMonth( searchWord2 );

@@ -67,43 +67,18 @@ public class EventController {
 	}
 
 	@GetMapping("/event/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
-			@RequestParam(defaultValue = "ad") String searchWord,
-			@RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5") int pageBlock) {
+	public String searchList(Model model, @RequestParam(defaultValue = "month") String searchKey,
+			@RequestParam(defaultValue = "01") String searchWord) {
 		log.info("/event/searchList");
 		log.info("searchKey:{}", searchKey);
 		log.info("searchWord:{}", searchWord);
-		log.info("cpage:{}", cpage);
-		log.info("pageBlock:{}", pageBlock);
 
-//		List<EventVO> list = service.searchList(searchKey, searchWord);
-		List<EventVO> list = service.searchListPageBlock(searchKey, searchWord,cpage,pageBlock);
+
+		List<EventVO> list = service.searchList(searchKey, searchWord);
 		log.info("list.size():{}", list.size());
 
 		model.addAttribute("list", list);
-
-		// 디비로부터 얻은 검색결과의 모든 행수
-//		int total_rows = service.getTotalRows();// select count(*) total_rows from event;
-		// select count(*) total_rows from event where id like '%ad%';
-		// select count(*) total_rows from event where name like '%ki%';
-		int total_rows = service.getSearchTotalRows(searchKey, searchWord);
-		log.info("total_rows:{}", total_rows);
-		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
-		int totalPageCount = 0;
-
-		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
-		if (total_rows / pageBlock == 0) {
-			totalPageCount = 1;
-		} else if (total_rows % pageBlock == 0) {
-			totalPageCount = total_rows / pageBlock;
-		} else {
-			totalPageCount = total_rows / pageBlock + 1;
-		}
-		log.info("totalPageCount:{}", totalPageCount);
-
-		model.addAttribute("totalPageCount", totalPageCount);
-
+		
 		return "event/selectAll";
 	}
 

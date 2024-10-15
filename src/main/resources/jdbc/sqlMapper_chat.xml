@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.ChatMapper">
+
+	<insert id="insertOK">
+		insert into chatting(chat_id,party_id,chat_writer,chat_content)
+		values(#{chat_id},#{party_id},#{chat_writer},#{chat_content})
+	</insert>
+	
+	<select id="selectAll"
+		resultType="partyDuo.com.model.ChatVO">
+		select * from chatting order by chat_id desc
+	</select>
+	
+	<select id="selectOne"
+		resultType="partyDuo.com.model.ChatVO">
+		select * from event where event_id=#{event_id}
+	</select>
+	
+	<update id="updateOK">
+		update chatting set
+		party_id=#{party_id},chat_wdate=#{chat_wdate},
+		chat_writer=#{chat_writer},chat_content=#{chat_content}}
+		where chat_id=#{chat_id}
+	</update>
+	
+	<delete id="deleteOK">
+		delete from chatting where chat_id=#{chat_id}
+	</delete>
+	
+	<select id="searchListTitle"
+		resultType="partyDuo.com.model.ChatVO">
+		select * from event where event_title like #{searchWord} order by
+		event_startTime desc
+	</select>
+	
+	<select id="searchListMonth"
+		resultType="partyDuo.com.model.ChatVO">
+		select * from event where month(event_startTime) = #{searchWord} order by
+		event_startTime desc
+	</select>
+
+</mapper>

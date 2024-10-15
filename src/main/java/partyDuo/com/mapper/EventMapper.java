@@ -19,22 +19,11 @@ public interface EventMapper {
 	public int updateOK(EventVO vo);
 	public int deleteOK(EventVO vo);
 
-	public List<EventVO> searchListId(String searchWord);
+	public List<EventVO> searchListMonth(int searchWord2);
 
-	public List<EventVO> searchListName(String searchWord);
+	public List<EventVO> searchListTitle(String searchWord);
 
 	public int getTotalRows();
 
-	public List<EventVO> selectAllPageBlock(int startRow, int pageBlock);
-
-	public int getSearchTotalRowsId(String searchWord);
-
-	public int getSearchTotalRowsName(String searchWord);
-
-	public List<EventVO> searchListPageBlockId(String searchWord, int startRow, int pageBlock);
-
-	public List<EventVO> searchListPageBlockName(String searchWord, int startRow, int pageBlock);
-	
-	
 
 }
