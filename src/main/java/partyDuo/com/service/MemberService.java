@@ -1,7 +1,5 @@
 package partyDuo.com.service;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,5 +67,4 @@ public class MemberService {
 		log.info("member_findIDCheck()...");
 		return 0;
 	}
-
 }

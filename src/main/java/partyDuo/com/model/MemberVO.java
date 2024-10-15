@@ -1,5 +1,6 @@
 package partyDuo.com.model;
 
+
 import java.sql.Date;
 
 import lombok.Data;
@@ -14,4 +15,3 @@ public class MemberVO {
 	private String apikey;
 	private String character_name;
 }
-
