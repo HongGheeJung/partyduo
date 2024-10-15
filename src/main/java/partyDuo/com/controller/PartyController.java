@@ -1,17 +1,15 @@
 package partyDuo.com.controller;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.model.PartyVO;
 import partyDuo.com.service.PartyService;
@@ -19,6 +17,10 @@ import partyDuo.com.service.PartyService;
 @Slf4j
 @Controller
 public class PartyController {
+	
+	@Autowired
+	HttpSession session;
+	
 	@Autowired
 	PartyService pservice;
 	
@@ -26,6 +28,15 @@ public class PartyController {
 	public String insert() {
 		log.info("party_insert...");
 		return "party/insert";			
+	}
+	
+	@PostMapping("/party/insertOK")
+	public String insertOK(PartyVO vo) {
+		log.info("party_insertOK...");
+		log.info("vo:{}", vo);
+		int result = pservice.insertOK(vo);
+		log.info("result:{}", result);
+		return "redirect:/party/selectAll";	
 	}
 	
 	@GetMapping("/party/update")
@@ -36,52 +47,21 @@ public class PartyController {
 		model.addAttribute("vo2", vo2);
 		return "party/update";			
 	}
-	@GetMapping("/party/delete")
-	public String delete(PartyVO vo) {
-		log.info("party_delete...");
-		return "party/delete";			
-	}
-	@GetMapping("/party/selectOne")
-	public String selectOne(PartyVO vo, Model model) {
-		log.info("party_selectOne...");
-		log.info("vo:{}", vo);
-
-		PartyVO vo2 = pservice.selectOne(vo);
-		log.info("vo2:{}", vo2);
-
-		model.addAttribute("vo2", vo2);
-		return "party/selectOne";			
-	}
 	
-	@GetMapping("/party/searchList")
-	public String searchList(String searchKey,String searchWord) {
-		log.info("party_searchList...");
-		
-		return "party/searchList";			
-	}
-	@PostMapping("/party/insertOK")
-	public String insertOK(PartyVO vo) {
-		log.info("party_insertOK...");
-		log.info("vo:{}", vo);
-		int result = pservice.insertOK(vo);
-		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/party/searchList";
-		} else {
-			return "redirect:/party/insert";
-		}		
-	}
 	@PostMapping("/party/updateOK")
 	public String updateOK(PartyVO vo) {
 		log.info("party_updateOK...");
-	
 		int result = pservice.updateOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/party/selectOne?party_id=" + vo.getParty_id();
-		} else {
-			return "redirect:/party/update?party_id=" + vo.getParty_id();
-		}			
+		return "redirect:/party/selectOne?party_id=" + vo.getParty_id();
+	}
+	
+	@GetMapping("/party/delete")
+	public String delete(PartyVO vo,Model model) {
+		log.info("party_delete...");
+		PartyVO vo2 = pservice.selectOne(vo);
+		model.addAttribute("vo2", vo2);
+		return "party/delete";			
 	}
 	
 	@PostMapping("/party/deleteOK")
@@ -90,11 +70,39 @@ public class PartyController {
 		
 		int result = pservice.deleteOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/party/selectOne?party_id=" + vo.getParty_id();
-		} else {
-			return "redirect:/party/delete?party_id=" + vo.getParty_id();
-		}			
+		
+		return "redirect:/party/selectAll";			
 	}
 	
+	@GetMapping("/party/selectOne")
+	public String selectOne(PartyVO vo, Model model) {
+		log.info("party_selectOne...");
+		log.info("vo:{}", vo);
+		PartyVO vo2 = pservice.selectOne(vo);
+		log.info("vo2:{}", vo2);
+		model.addAttribute("vo2", vo2);
+		return "party/selectOne";			
+	}
+	
+	@GetMapping("/party/selectAll")
+	public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
+		log.info("/party_selectAll");
+		List<PartyVO> list=pservice.selectAll(cpage, pageBlock);
+		log.info("list: {}", list);
+		model.addAttribute("list", list);
+		return "party/selectAll";
+	}
+	
+	@GetMapping("/party/searchList")
+	public String searchList(Model model, @RequestParam(defaultValue="party_name") String searchKey,
+			@RequestParam(defaultValue="파티")String searchWord, @RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
+		log.info("party_searchList...");
+		List<PartyVO> list = pservice.searchListPageBlock( searchKey,searchWord, cpage, pageBlock);
+		model.addAttribute("list",list);
+		log.info("list: {}", list);
+		return "party/selectAll";			
+	}
+
 }

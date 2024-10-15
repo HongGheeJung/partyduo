@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<hr>
+<div th:fragment="content">
+	<form action="/party/updateOK" method="post">
+		<table>
+			<tr>
+				<td><label for="party_board_id">게시글 번호</label></td>
+				<td><input type="hidden" id="party_board_id" name="party_board_id" value=${vo.party_board_id} ></td>
+			</tr>
+			<tr><!-- partyid 대신 party name 나오게 하기 -->
+				<td><label for="party_id">파티 번호</label></td>
+				<td><input type="number" id="party_id" name="party_id" value=50000000 placeholder=50000000></td>
+			</tr>
+			<tr>
+				<td><label for="req_pwd">요구 전투력</label></td>
+				<td><input type="number" id="req_pwd" name="req_pwd" value=50000000 placeholder=50000000></td>
+			</tr>
+			<tr>
+				<td><label for="boss">파티장</label></td>
+				<td><input type="text" id="boss" name="boss"  value="검마" placeholder="검마"></td>
+			</tr>
+			<tr>
+				<td><label for="party_board_memo">간단 메모</label></td>
+				<td><input type="text" id="party_board_memo" name="party_board_memo" value="ㅈ밥검마 개팰사람 구함" placeholder="내용을 입력해 주세요"></td>
+			</tr>
+			<tr>
+				<td><label for="party_board_content">상세 모집글</label></td>
+				<td><input type="text" id="party_board_content" name="party_board_content" value="ㅈ밥검마 개팰사람 구함" placeholder="본문을 입력해주세요"></td>
+			</tr>
+			<tr>
+				<td><label for="party_board_writer">글쓴이</label></td>
+				<td><input type="text" id="party_board_writer" name="party_board_writer" th:value="${session.user_character}">[[${session.user_character}]]</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2"><input type="submit" value="게시글 작성"></td>
+			</tr>
+		</table>
+	</form>
+</div>
 </body>
 </html>
