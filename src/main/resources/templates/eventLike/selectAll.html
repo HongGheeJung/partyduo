@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>selectAll.html</title>
+</head>
+<body >
+	<a href="/calendar">캘린더</a>
+	<div >
+		<h1>eventlike selectAll.html</h1>
+
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>event_id</th>
+					<th>character_name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+					<tr>
+						<td><a th:href="|/eventLike/selectOne?event_id=${vo.event_id} |">[[${vo.event_id}]]</a></td>
+						<td>[[${vo.character_name}]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+
+	</div>
+
+</body>
+</html>

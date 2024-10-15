@@ -5,7 +5,71 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="/calendar">캘린더</a>
 	<h1>event update</h1>
+	<div>
+		<h1>update.html</h1>
+
+		<div>
+
+			<form action="/event/updateOK" method="post">
+				<table id="insertTable">
+					<tr>
+						<td><label for="event_id">event_id</label></td>
+						<td>[[${param.event_id}]]<input type="hidden" id="event_id" name="event_id"
+							th:value="${param.event_id}"></td>
+					</tr>
+					<tr>
+						<td><label for="party_id">party_id</label></td>
+						<td>[[${vo2.party_id}]]<input type="hidden" id="party_id" name="party_id" 
+							th:value="${vo2.party_id}"></td>
+					</tr>
+					<tr>
+						<td><label for="event_title">event_title</label></td>
+						<td><input type="text" id="event_title" name="event_title" 
+							th:value="${vo2.event_title}" placeholder="event_title를 입력하세요"></td>
+					</tr>
+
+					<tr>
+						<td><label for="event_content">event_content</label></td>
+						<td><input type="text" id="event_content" name="event_content" 
+							th:value="${vo2.event_content}" placeholder="event_content를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="event_startTime">event_startTime</label></td>
+						<td><input type="text" id="event_startTime" name="event_startTime"
+							th:value="${vo2.event_startTime}" placeholder="event_startTime를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="event_endTime">event_endTime</label></td>
+						<td><input type="text" id="event_endTime" name="event_endTime"
+							th:value="${vo2.event_endTime}" placeholder="event_endTime를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="event_location">event_location</label></td>
+						<td><input type="text" id="event_location" name="event_location"
+							th:value="${vo2.event_location}" placeholder="event_location를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="event_bosstag">event_bosstag</label></td>
+						<td><input type="text" id="event_bosstag" name="event_bosstag"
+							th:value="${vo2.event_bosstag}" placeholder="event_bosstag를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="event_character">event_character</label></td>
+						<td><input type="text" id="event_character" name="event_character"
+							th:value="${vo2.event_character}" placeholder="event_character를 입력하세요"></td>
+					</tr>
+					
+					<tr>
+						<td colspan="2"><input type="submit" value="수정완료"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+
+	</div>
 
 </body>
 </html>
