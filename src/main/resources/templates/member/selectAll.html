@@ -20,6 +20,8 @@
 <a href="/member/findPw">findPW</a>
 <a href="/member/findPwCheck">findPWCheck</a>
 <a href="/member/findIDCheck">findIDCheck</a>
+<a href="/member/idCheck?id=admin">idCheck(admin)</a>
+<a href="/member/idCheck?id=admon">idCheck(admon)</a>
 <hr>
 <form action="/member/searchList">
 			<select name="searchKey">
@@ -36,7 +38,8 @@
 			<th>pw</th>			
 			<th>email</th>			
 			<th>apikey</th>			
-			<th>character_name</th>			
+			<th>character_name</th>		
+			<th>ocid</th>	
 		</tr>
 	</thead>
 	<tbody>
@@ -48,6 +51,7 @@
 				<td>[[${vo.email}]]</td>
 				<td>[[${vo.apikey}]]</td>
 				<td>[[${vo.character_name}]]</td>
+				<td>[[${vo.ocid}]]</td>
 			</tr>
 		</th:block>
 	</tbody>

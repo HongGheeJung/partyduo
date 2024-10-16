@@ -34,6 +34,7 @@
 				<th>email</th>
 				<th>apikey</th>
 				<th>닉네임</th>
+				<th>ocid</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
@@ -46,6 +47,7 @@
 				<td>[[${vo2.email}]]</td>
 				<td>[[${vo2.apikey}]]</td>
 				<td>[[${vo2.character_name}]]</td>
+				<td>[[${vo2.ocid}]]</td>
 				<td><a th:href="|/member/update?id=${vo2.id}|">수정</a></td>
 				<td><a th:href="|/member/delete?member_id=${vo2.member_id}|">삭제</a></td>
 			</tr>

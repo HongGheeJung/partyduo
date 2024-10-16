@@ -15,4 +15,5 @@ public class MemberVO {
 	private Timestamp regdate;
 	private String apikey;
 	private String character_name;
+	private String ocid;
 }

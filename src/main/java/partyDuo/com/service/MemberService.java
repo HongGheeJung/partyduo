@@ -24,6 +24,7 @@ public class MemberService {
 	public int member_insert(MemberVO vo) {
 		log.info("member_insert()...");
 //		vo.setCharacter_name(service.bonCharacter(vo.getApikey())); api 인증 로직 테스트할때는 주석 풀고 해주세용
+//		vo.setOcid(service.foundOcidByName(vo.getCharacter_name())); api 인증 로직 테스트할 때는 주석 풀기.
 		return mapper.member_insert(vo);
 //		return 0;
 	}
