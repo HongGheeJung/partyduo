@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>selectAll.html</title>
@@ -57,6 +57,65 @@
 				</th:block>
 			</tbody>
 		</table>
+		
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>chat_id</th>
+					<th>party_id</th>
+					<th>chat_wdate</th>
+					<th>chat_writer</th>
+					<th>chat_content</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo2 : ${chat_list}">
+					<tr>
+						<td>[[${vo2.chat_id}]]</td>
+						<td>[[${vo2.party_id}]]</td>
+						<td>[[${vo2.chat_wdate}]]</td>
+						<td>[[${vo2.chat_writer}]]</td>
+						<td>[[${vo2.chat_content}]]</td>		
+						<td>
+							<form action="/chat/deleteOK" method="post">
+								<input type="hidden" name="chat_id" th:value="${vo2.chat_id}">
+								<table id="insertTable">
+									<tr>
+										<th><input type="submit" value="삭제"></th>
+									</tr>
+								</table>
+							</form>
+						
+						</td>			
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		
+		<form action="/chat/insertOK" method="post">
+			<table id="insertTable">
+				<tr>
+					<td><label for="party_id">party_id</label></td>
+					<td>[[${party_id}]]<input type="hidden" id="party_id" name="party_id" th:value=${party_id}
+						placeholder="party_id를 입력하세요"></td>
+				</tr>
+				<tr>
+					<td><label for="chat_writer">chat_writer</label></td>
+					<td>off2<input type="hidden" id="chat_writer" name="chat_writer" value="off2"
+						placeholder="chat_writer를 입력하세요"></td>
+				</tr>
+
+				<tr>
+					<td><label for="chat_content">chat_content</label></td>
+					<td><input type="text" id="chat_content" name="chat_content" value="챗내용"
+						placeholder="chat_content 입력하세요"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="입력"></td>
+				</tr>
+			</table>
+		</form>
 
 
 	</div>

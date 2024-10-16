@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.service.ChatService;
 import partyDuo.com.service.EventLikeService;
 import partyDuo.com.service.EventService;
+import partyDuo.com.model.ChatVO;
 import partyDuo.com.model.EventLikeVO;
 import partyDuo.com.model.EventVO;
 
@@ -29,6 +31,9 @@ public class EventController {
 	
 	@Autowired
 	EventLikeService service_like;
+	
+	@Autowired
+	ChatService service_chat;
 	
 
 	@GetMapping("/event/insert")
@@ -79,10 +84,14 @@ public class EventController {
 		log.info("month:{}", month);
 		int month2 = Integer.parseInt(month);
 		
+		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
+		log.info("chat_list:{}", chat_list);
+		
 		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
 		log.info("list.size():{}", list.size());
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("month", month2);
+		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
 		
 		return "event/calendar";
@@ -99,10 +108,15 @@ public class EventController {
 		log.info("search_party_id:{}", party_id);
 		log.info("month2:{}", month2);
 		
+		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
+		log.info("chat_list:{}", chat_list);
 		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
+		
 		log.info("list.size():{}", list.size());
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("month", month2);
+		
+		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
 		
 		return "event/calendar";

@@ -37,14 +37,13 @@ public class ChatService {
 		return mapper.deleteOK(vo);
 	}
 
-	public List<ChatVO> searchList(String searchKey, String searchWord) {
-		if (searchKey.equals("month")) {
-			int searchWord2 = Integer.parseInt(searchWord);
-			return mapper.searchListMonth( searchWord2 );
-		} else {
-			
-			return mapper.searchListTitle("%" + searchWord + "%");
-		}
+	public List<ChatVO> searchListParty(int party_id) {
+			return mapper.searchListParty( party_id );
+
+	}
+	
+	public List<ChatVO> searchListWriter(String searchWord) {
+			return mapper.searchListWriter("%" + searchWord + "%");
 
 	}
 
