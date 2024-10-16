@@ -21,6 +21,13 @@
 		where event_id=#{event_id} and character_name=#{character_name}
 	</select>
 	
+	<select id="selectOneLikeCount"
+		resultType="int">
+		select count(*) total_rows
+		from  eventlike 
+		where event_id=#{event_id}
+	</select>
+	
 	<delete id="deleteOK">
 		delete from eventlike where event_id=#{event_id} and character_name=#{character_name}
 	</delete>

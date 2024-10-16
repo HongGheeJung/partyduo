@@ -23,6 +23,7 @@
 						<th>event_location</th>
 						<th>event_bosstag</th>
 						<th>event_character</th>
+						<th>event_likecount</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,9 +35,10 @@
 						<td>[[${vo2.event_startTime}]]</td>
 						<td>[[${vo2.event_endTime}]]</td>
 						<td>[[${vo2.event_location}]]</td>
-						<td>[[${vo2.event_startTime}]]</td>
 						<td>[[${vo2.event_bosstag}]]</td>
-						<td>[[${vo2.event_character}]]</td>
+						<td>[[${vo2.event_character}]]</td>				
+						<td>[[${likecount}]]</td>
+						<td><a th:href="|/eventLike/insert?event_id=${vo2.event_id}|">좋아요</a></td>
 					</tr>
 					
 				</tbody>

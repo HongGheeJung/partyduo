@@ -2,6 +2,7 @@ package partyDuo.com.controller;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.service.EventLikeService;
 import partyDuo.com.service.EventService;
-
+import partyDuo.com.model.EventLikeVO;
 import partyDuo.com.model.EventVO;
 
 @Slf4j
@@ -25,12 +27,10 @@ public class EventController {
 	@Autowired
 	EventService service;
 	
-	@GetMapping("/calendar")
-	public String calendar() {
-		log.info("/calendar");
-		return "calendar";
-	}
+	@Autowired
+	EventLikeService service_like;
 	
+
 	@GetMapping("/event/insert")
 	public String insert() {
 		log.info("/event/insert");
@@ -66,21 +66,65 @@ public class EventController {
 		return "event/selectAll";
 	}
 
-	@GetMapping("/event/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue = "month") String searchKey,
-			@RequestParam(defaultValue = "01") String searchWord) {
+	@GetMapping("/event/searchListPartyMonth")
+	public String searchListPartyMonth(Model model, 
+			@RequestParam(defaultValue = "01") int party_id,
+			@RequestParam(defaultValue = "10") String month) {
+		
+		if(month.equals("13")) {
+			month="1";
+		}
 		log.info("/event/searchList");
-		log.info("searchKey:{}", searchKey);
+		log.info("search_party_id:{}", party_id);
+		log.info("month:{}", month);
+		int month2 = Integer.parseInt(month);
+		
+		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
+		log.info("list.size():{}", list.size());
+		model.addAttribute("party_id", party_id);
+		model.addAttribute("month", month2);
+		model.addAttribute("list", list);
+		
+		return "event/calendar";
+	}
+	
+	@GetMapping({"/event/calendar","/calendar"})
+	public String searchListPartyMonthfirst(Model model, 
+			@RequestParam(defaultValue = "01") int party_id,
+			@RequestParam(defaultValue = "01") String month) {
+		 LocalDate now = LocalDate.now();
+		int month2 = now.getMonthValue();
+		log.info("/event/searchList");
+
+		log.info("search_party_id:{}", party_id);
+		log.info("month2:{}", month2);
+		
+		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
+		log.info("list.size():{}", list.size());
+		model.addAttribute("party_id", party_id);
+		model.addAttribute("month", month2);
+		model.addAttribute("list", list);
+		
+		return "event/calendar";
+	}
+	
+	@GetMapping("/event/searchListTitle")
+	public String searchListTitle(Model model,
+			@RequestParam(defaultValue = "01") String searchWord) {
+		
+		log.info("/event/searchListTitle");
 		log.info("searchWord:{}", searchWord);
 
 
-		List<EventVO> list = service.searchList(searchKey, searchWord);
+		List<EventVO> list = service.searchListTitle(searchWord);
 		log.info("list.size():{}", list.size());
 
 		model.addAttribute("list", list);
 		
-		return "event/selectAll";
+		return "event/calendar";
 	}
+	
+	
 
 	@GetMapping("/event/selectOne")
 	public String selectOne(EventVO vo, Model model) {
@@ -89,8 +133,14 @@ public class EventController {
 
 		EventVO vo2 = service.selectOne(vo);
 		log.info("vo2:{}", vo2);
-
+		
+		EventLikeVO vo3 = new EventLikeVO();
+		vo3.setEvent_id(vo2.getEvent_id());
+		
+		int likecount = service_like.selectOneLikeCount(vo3);
+		log.info("likecount:{}", likecount);
 		model.addAttribute("vo2", vo2);
+		model.addAttribute("likecount", likecount);
 
 		return "event/selectOne";
 	}
@@ -103,7 +153,7 @@ public class EventController {
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/selectAll";
+			return "redirect:/event/calendar";
 		} else {
 			return "redirect:/event/insert";
 		}
@@ -119,7 +169,7 @@ public class EventController {
 		int result = service.updateOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/selectAll";
+			return "redirect:/event/calendar";
 		} else {
 			return "redirect:/event/update" ;
 		}
@@ -133,7 +183,7 @@ public class EventController {
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/selectAll";
+			return "redirect:/event/calendar";
 		} else {
 			return "redirect:/event/delete?event_id=" + vo.getEvent_id();
 		}
