@@ -38,12 +38,31 @@ public class PartyBoardService {
 	
 	public List<PartyBoardVO> selectAllPageBlock(int cpage, int pageBlock) {
 		log.info("pb_service_selectAll");
-		return pbmapper.selectAllPageBlock(cpage, pageBlock);
+		int startRow=(cpage-1)*pageBlock;
+		return pbmapper.selectAllPageBlock(startRow, pageBlock);
+	}
+	
+	public List<PartyBoardVO> selectAll() {
+		log.info("pb_service_selectAll");
+		return pbmapper.selectAll();
 	}
 	
 	public List<PartyBoardVO> searchListPageBlock(String searchKey,String searchWord,int cpage,int pageBlock) {
 		log.info("pb_service_searchList");
-		return pbmapper.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
+		int startRow=(cpage-1)*pageBlock;
+		if (searchKey.equals("boss")) {
+			log.info("pb_Boss");
+		return pbmapper.searchListBossPageBlock( "%"+searchWord+"%", cpage, pageBlock);
+		}else if(searchKey.equals("party_board_id")) {
+			log.info("pb_id");
+			return pbmapper.searchListPartyBoardIdPageBlock("%"+searchWord+"%", startRow, pageBlock);
+		}else if(searchKey.equals("party_board_writer")) {
+			log.info("pb_writer");
+			return pbmapper.searchListPartyBoardWriterPageBlock("%"+searchWord+"%", startRow, pageBlock);
+		}else {
+			log.info("pb_wdate");
+			return pbmapper.searchListPartyBoardWdatePageBlock("%"+searchWord+"%", startRow, pageBlock);
+		}
 	}
 	
 	public int getTotalRows() {

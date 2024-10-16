@@ -30,15 +30,16 @@ public class PartyService {
 		return pmapper.deleteOK(vo);
 	}
 	
-	public List<PartyVO> searchList(String searchKey,String searchWord) {
-		log.info("p_service_searchList");
-		return pmapper.searchList(searchWord,searchKey);
-	}
-	
-	public List<PartyVO> searchListPageBlock(String searchKey,String searchWord,int cpage, int pageBlock){
+	public List<PartyVO> searchList(String searchKey,String searchWord){
 		log.info("p_service_searchListPageBlock");
-		int startRow=(cpage-1)*pageBlock;
-		return pmapper.searchListPageBlock(searchKey,"%"+searchWord+"%",startRow,pageBlock);
+		
+		if (searchKey.equals("party_id")) {
+			return pmapper.searchListPartyId("%"+searchWord+"%");
+		}else if(searchKey.equals("party_name")) {
+			return pmapper.searchListPartyName("%"+searchWord+"%");
+		}else {
+			return pmapper.searchListPartyMaster("%"+searchWord+"%");
+		}
 	}
 	
 	public PartyVO selectOne(PartyVO vo) {

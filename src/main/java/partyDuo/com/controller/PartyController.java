@@ -95,11 +95,12 @@ public class PartyController {
 	}
 	
 	@GetMapping("/party/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue="party_name") String searchKey,
-			@RequestParam(defaultValue="파티")String searchWord, @RequestParam(defaultValue = "1") int cpage,
+	public String searchList(Model model, @RequestParam(defaultValue="party_master") String searchKey,
+			@RequestParam(defaultValue="ad")String searchWord,@RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("party_searchList...");
-		List<PartyVO> list = pservice.searchListPageBlock( searchKey,searchWord, cpage, pageBlock);
+		
+		List<PartyVO> list = pservice.searchList(searchKey,searchWord);
 		model.addAttribute("list",list);
 		log.info("list: {}", list);
 		return "party/selectAll";			

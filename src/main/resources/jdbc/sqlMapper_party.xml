@@ -25,11 +25,16 @@
 		resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_id=#{party_id}
 	</select>
-	
-	<select id="searchListPageBlock"
-		resultType="partyDuo.com.model.PartyVO">
-	select * from party where #{searchKey} like #{searchWord} order by party_id
-	 desc limit #{startRow}, #{pageBlock} 
+
+	<select id="searchListPartyId" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_id like #{searchWord} order by party_id 
 	</select>
 	
+	<select id="searchListPartyMaster" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_master like #{searchWord} order by party_id 
+	</select>
+	
+	<select id="searchListPartyName" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_name like #{searchWord}  order by party_id 
+	</select>
 </mapper>

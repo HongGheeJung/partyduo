@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<div th:replace="~{layout::boottemplate}"></div>
 <title>Insert title here</title>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<div th:fragment="content">
+		<div>
+			<form action="/partylist/insertOK" method="post">
+				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
+				<table id="insertTable">
+					<tr>
+						<th>[[${vo3.character_name}]]의 가입신청을 받아들이시겠습니까?
+						<input type="submit" value="가입신청완료"></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+</div>
 </body>
 </html>

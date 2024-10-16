@@ -4,14 +4,14 @@
 
 <mapper namespace="partyDuo.com.mapper.PartyBoardMapper">
 	<insert id="insertOK">
-		insert into partyboard(party_id,req_pwd,boss,party_board_memo,party_board_content,party_board_writer) 
-		values(#{party_id},#{req_pwd},#{boss},#{party_board_memo},#{party_board_content},#{party_board_writer})
+		insert into partyboard(party_id,req_pwr,boss,party_board_memo,party_board_content,party_board_writer) 
+		values(#{party_id},#{req_pwr},#{boss},#{party_board_memo},#{party_board_content},#{party_board_writer})
 	</insert>
 	
 	<update id="updateOK">
-		update partyboard set req_pwd=#{req_pwd},boss=#{boss},
+		update partyboard set req_pwr=#{req_pwr},boss=#{boss},
 				party_board_memo=#{party_board_memo},party_board_content=#{party_board_content}
-				,party_board_writer=#{party_board_writer},party_board_wdate=sysdate
+				,party_board_writer=#{party_board_writer},party_board_wdate=(curtime())
 		where party_board_id=#{party_board_id}
 	</update>
 	
@@ -26,15 +26,36 @@
 	<select id="selectAllPageBlock"
 		resultType="partyDuo.com.model.PartyBoardVO">
 		select * from partyboard order by party_board_id
-	 desc limit #{startRow}, #{pageBlock}
+	 desc 
 	</select>
 	
-	<select id="searchListPageBlock"
+	<select id="selectAll"
 		resultType="partyDuo.com.model.PartyBoardVO">
-		select * from partyboard where #{searchKey} like #{searchWord} order by party_board_id
-	 desc limit #{startRow}, #{pageBlock}
+		select * from partyboard order by party_board_id desc 
 	</select>
 	
+	<select id="searchListBossPageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where boss like #{searchWord} order by party_board_id desc 
+	</select>
+	
+	<select id="searchListPartyBoardIdPageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where party_board-id like #{searchWord} order by party_board_id desc
+	  
+	</select>
+	
+	<select id="searchListPartyBoardWriterPageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where party_board_writer like #{searchWord} order by party_board_id  desc  
+	
+	</select>
+	
+	<select id="searchListPartyBoardWdatePageBlock"
+		resultType="partyDuo.com.model.PartyBoardVO">
+		select * from partyboard where party_board_wdate like #{searchWord} order by party_board_id  desc 
+	 
+	</select>
 	<select id="getTotalRows" resultType="int">
 		select count(*) total_rows
 		from partyboard

@@ -35,6 +35,7 @@ public class PartyBoardController {
 		String user_character = (String)session.getAttribute("user_character");
 		List<PartyVO> list = pservice.searchList("party_master",user_character);
 		model.addAttribute("list", list);
+		log.info("list: {}", list);
 		return "partyboard/insert";			
 	}
 	
@@ -88,20 +89,21 @@ public class PartyBoardController {
 	}
 	
 	@GetMapping("/partyboard/selectAll")
-	public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5")int pageBlock) {
+	public String selectAll(Model model) {
 		log.info("party_board_selectAll...");
-		List<PartyBoardVO> list = pbservice.selectAllPageBlock(cpage, pageBlock);
+		List<PartyBoardVO> list = pbservice.selectAll();
 		log.info("list: {}", list);
 		model.addAttribute("list", list);
 		return "partyboard/selectAll";			
 	}
 	
 	@GetMapping("/partyboard/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue="party_board_writer") String searchKey,
-			@RequestParam(defaultValue="페이커")String searchWord, @RequestParam(defaultValue = "1") int cpage,
+	public String searchList(Model model, String searchKey,
+			String searchWord, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("party_board_searchList...");
+		log.info(searchKey);
+		log.info(searchWord);
 		List<PartyBoardVO> list = pbservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
 		model.addAttribute("list",list);
 		log.info("list: {}", list);

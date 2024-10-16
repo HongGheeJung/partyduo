@@ -16,7 +16,8 @@
 				<th>공략 보스</th>				
 				<th>간단 메모</th>				
 				<th>작성 자</th>				
-				<th>작성 일</th>				
+				<th>작성 일</th>
+				<th><button type="button" th:onclick="|location.href='@{/partylist/insert(party_id=${vo2.party_id}),party_board_id=${vo2.party_board_id})}'|">파티 참가 신청</button></th>				
 			</tr>
 		</thead>
 		<tbody>
@@ -24,7 +25,7 @@
 				<tr><!-- partyid 대신 party name 나오게 하기 -->
 					<td>[[${vo2.party_board_id}]]</td>
 					<td>[[${vo2.party_id}]]</td>
-					<td>[[${vo2.req_pwd}]]</td>
+					<td>[[${vo2.req_pwr}]]</td>
 					<td>[[${vo2.boss}]]</td>
 					<td>[[${vo2.party_board_memo}]]</td>
 					<td>[[${vo2.party_board_content}]]</td>

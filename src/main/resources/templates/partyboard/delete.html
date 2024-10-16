@@ -9,7 +9,7 @@
 <div th:fragment="content">
 		<div>
 			<form action="/partyboard/deleteOK" method="post">
-				<input type="hidden" name="party_board_id" th:value="${vo2.party_id}">
+				<input type="hidden" name="party_board_id" th:value="${vo2.party_board_id}">
 				<table id="insertTable">
 					<tr>
 						<th>[[${vo2.party_board_id}]]번 게시글을 정말 삭제하시겠습니까?
