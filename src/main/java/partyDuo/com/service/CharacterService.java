@@ -8,24 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dev.spiralmoon.maplestory.api.MapleStoryApi;
 import dev.spiralmoon.maplestory.api.MapleStoryApiException;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterAbilityDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterAndroidEquipmentDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterBasicDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterBeautyEquipmentDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterCashItemEquipmentDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterHyperStatDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterHyperStatPresetDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterItemEquipmentDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterLinkSkillDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterListAccountDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterListDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterPetEquipmentDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterPropensityDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterSetEffectDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterSkillDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterStatDTO;
-import dev.spiralmoon.maplestory.api.dto.character.CharacterSymbolEquipmentDTO;
+import dev.spiralmoon.maplestory.api.dto.character.*;
 import dev.spiralmoon.maplestory.api.dto.ranking.UnionRankingResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -221,15 +204,59 @@ public class CharacterService {
 		return response;
 	}
 	//링크 정보 조회
-		public CharacterLinkSkillDTO character_linkSkill(String ocid) {
-			CharacterLinkSkillDTO response;
-			try {
-				response=api.getCharacterLinkSkill(ocid);
-			}catch(Exception e) {
-				log.info("error or not found");
-				return null;
-			}
-			return response;
+	public CharacterLinkSkillDTO character_linkSkill(String ocid) {
+		CharacterLinkSkillDTO response;
+		try {
+			response=api.getCharacterLinkSkill(ocid);
+		}catch(Exception e) {
+			log.info("error or not found");
+			return null;
 		}
+		return response;
+	}
+	//VMatrix(5차 강화) 
+	public CharacterVMatrixDTO character_vmatrix(String ocid) {
+		CharacterVMatrixDTO response;
+		try {
+			response=api.getCharacterVMatrix(ocid);
+		}catch(Exception e) {
+			log.info("error or not found");
+			return null;
+		}
+		return response;
+	}
+	//HexaMatrix(6차 강화) 
+	public CharacterHexaMatrixDTO character_hexamatrix(String ocid) {
+		CharacterHexaMatrixDTO response;
+		try {
+			response=api.getCharacterHexaMatrix(ocid);
+		}catch(Exception e) {
+			log.info("error or not found");
+			return null;
+		}
+		return response;
+	}
+	//HexaMatrixStat(6차 스탯 강화) 
+	public CharacterHexaMatrixStatDTO character_hexamatrixstat(String ocid) {
+		CharacterHexaMatrixStatDTO response;
+		try {
+			response=api.getCharacterHexaMatrixStat(ocid);
+		}catch(Exception e) {
+			log.info("error or not found");
+			return null;
+		}
+		return response;
+	}
+	//Dojang(도장 점수) 
+	public CharacterDojangDTO character_dojang(String ocid) {
+		CharacterDojangDTO response;
+		try {
+			response=api.getCharacterDojang(ocid);
+		}catch(Exception e) {
+			log.info("error or not found");
+			return null;
+		}
+		return response;
+	}
 	
 }

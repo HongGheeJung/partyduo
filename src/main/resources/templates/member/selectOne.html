@@ -2,57 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>selectOne</h1>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/insertOK">insertOK</a>
-<a href="/member/update">update</a>
-<a href="/member/updateOK">updateOK</a>
-<a href="/member/delete">delete</a>
-<a href="/member/deleteOK">deleteOK</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/login">login</a>
-<a href="/member/loginOK">loginOK</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPW</a>
-<a href="/member/findPwCheck">findPWCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<br>
-<a href="/character/info">charcterInfo</a>
-<hr>
-<div>
-	<table>
-		<thead>
-			<tr>
-				<th>member_id</th>
-				<th>id</th>
-				<th>pw></th>
-				<th>email</th>
-				<th>apikey</th>
-				<th>닉네임</th>
-				<th>ocid</th>
-				<th>수정</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>[[${vo2.member_id}]]</td>
-				<td>[[${vo2.id}]]</td>
-				<td>[[${vo2.pw}]]</td>
-				<td>[[${vo2.email}]]</td>
-				<td>[[${vo2.apikey}]]</td>
-				<td>[[${vo2.character_name}]]</td>
-				<td>[[${vo2.ocid}]]</td>
-				<td><a th:href="|/member/update?id=${vo2.id}|">수정</a></td>
-				<td><a th:href="|/member/delete?member_id=${vo2.member_id}|">삭제</a></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>selectOne</h1>
+		<a href="/main">main</a>
+		<a href="/member/insert">insert</a>
+		<a href="/member/insertOK">insertOK</a>
+		<a href="/member/update">update</a>
+		<a href="/member/updateOK">updateOK</a>
+		<a href="/member/delete">delete</a>
+		<a href="/member/deleteOK">deleteOK</a>
+		<a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a>
+		<a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a>
+		<br>
+		<a href="/character/info">charcterInfo</a>
+		<hr>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>member_id</th>
+						<th>id</th>
+						<th>pw></th>
+						<th>email</th>
+						<th>apikey</th>
+						<th>닉네임</th>
+						<th>ocid</th>
+						<th>수정</th>
+						<th>삭제</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>[[${vo2.member_id}]]</td>
+						<td>[[${vo2.id}]]</td>
+						<td>[[${vo2.pw}]]</td>
+						<td>[[${vo2.email}]]</td>
+						<td>[[${vo2.apikey}]]</td>
+						<td>[[${vo2.character_name}]]</td>
+						<td>[[${vo2.ocid}]]</td>
+						<td><a th:href="|/member/update?id=${vo2.id}|">수정</a></td>
+						<td><a th:href="|/member/delete?member_id=${vo2.member_id}|">삭제</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

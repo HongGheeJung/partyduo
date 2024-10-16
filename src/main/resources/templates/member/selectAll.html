@@ -2,76 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원목록</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>selectAll</h1>
-<h3>[[${session.user_id}]]</h3>
-<h3>[[${session.user_character}]]</h3>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/update">update</a>
-<a href="/member/delete">delete</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/login">login</a>
-<a href="/member/logout">logout</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPW</a>
-<a href="/member/findPwCheck">findPWCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<a href="/member/idCheck?id=admin">idCheck(admin)</a>
-<a href="/member/idCheck?id=admon">idCheck(admon)</a>
-<hr>
-<form action="/member/searchList">
-			<select name="searchKey">
-				<option value="id">id</option>
-				<option value="character_name">character_name</option>
-			</select> <input type="text" name="searchWord" value="ad"> <input
-				type="submit" value="검색">
-		</form>
-<table id="insertTable">
-	<thead>
-		<tr>
-			<th>member_id</th>
-			<th>id</th>			
-			<th>pw</th>			
-			<th>email</th>			
-			<th>apikey</th>			
-			<th>character_name</th>		
-			<th>ocid</th>	
-		</tr>
-	</thead>
-	<tbody>
-		<th:block th:each="vo : ${list}">
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>selectAll</h1>
+		<h3>[[${session.user_id}]]</h3>
+		<h3>[[${session.user_character}]]</h3>
+		<a href="/main">main</a>
+		<a href="/member/insert">insert</a>
+		<a href="/member/update">update</a>
+		<a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a>
+		<a href="/member/logout">logout</a>
+		<a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a>
+		<a href="/member/idCheck?id=admin">idCheck(admin)</a>
+		<a href="/member/idCheck?id=admon">idCheck(admon)</a>
+		<hr>
+		<form action="/member/searchList">
+					<select name="searchKey">
+						<option value="id">id</option>
+						<option value="character_name">character_name</option>
+					</select> <input type="text" name="searchWord" value="ad"> <input
+						type="submit" value="검색">
+				</form>
+		<table id="insertTable">
+			<thead>
 				<tr>
-				<td><a th:href="|/member/selectOne?id=${vo.id}|">[[${vo.member_id}]]</a></td>
-				<td>[[${vo.id}]]</td>
-				<td>[[${vo.pw}]]</td>
-				<td>[[${vo.email}]]</td>
-				<td>[[${vo.apikey}]]</td>
-				<td>[[${vo.character_name}]]</td>
-				<td>[[${vo.ocid}]]</td>
-			</tr>
-		</th:block>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="6">[[${param.searchKey == null}]]
-				<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
-					<th:block th:if="${param.searchKey == null}">
-						<a th:href="|/member/selectAll?cpage=${i}|">[[${i}]]</a>
-					</th:block>
-					<th:block th:if="${param.searchKey != null}" >
-						<th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
-							<a th:href="|/member/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
-						</th:block>
-					</th:block>
-				</th:block>	
-			</td>
-		</tr>
-	</tfoot>	
-</table>
-
+					<th>member_id</th>
+					<th>id</th>			
+					<th>pw</th>			
+					<th>email</th>			
+					<th>apikey</th>			
+					<th>character_name</th>		
+					<th>ocid</th>	
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+						<tr>
+						<td><a th:href="|/member/selectOne?id=${vo.id}|">[[${vo.member_id}]]</a></td>
+						<td>[[${vo.id}]]</td>
+						<td>[[${vo.pw}]]</td>
+						<td>[[${vo.email}]]</td>
+						<td>[[${vo.apikey}]]</td>
+						<td>[[${vo.character_name}]]</td>
+						<td>[[${vo.ocid}]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6">[[${param.searchKey == null}]]
+						<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+							<th:block th:if="${param.searchKey == null}">
+								<a th:href="|/member/selectAll?cpage=${i}|">[[${i}]]</a>
+							</th:block>
+							<th:block th:if="${param.searchKey != null}" >
+								<th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+									<a th:href="|/member/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
+								</th:block>
+							</th:block>
+						</th:block>	
+					</td>
+				</tr>
+			</tfoot>	
+		</table>
+	</div>
 </body>
 </html>

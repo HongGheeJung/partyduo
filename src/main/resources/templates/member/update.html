@@ -2,52 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보 수정</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>update</h1>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/update">update</a>
-<a href="/member/delete">delete</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/login">login</a>
-<a href="/member/loginOK">loginOK</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPW</a>
-<a href="/member/findPwCheck">findPWCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<hr>
-
-	<form action="/member/updateOK" method="get">
-		<table>
-			<tr>
-				<td>ID<input type="hidden" id="member_id" name="member_id" th:value="${vo2.member_id}"></td>
-				<td><input type="hidden" id="id" name="id" th:value="${vo2.id}" placeholder="ID를 입력하세요">[[${vo2.id}]]</td>
-			</tr>
-			<tr>
-				<td>pw</td>
-				<td><input type="password" id="pw" name="pw" th:value="${vo2.pw}" placeholder="비밀번호를 입력하세요"></td>
-			</tr>
-			<tr>
-				<td>email</td>
-				<td><input type="text" id="email" name="email" th:value="${vo2.email}" placeholder="이메일을 입력하세요"></td>
-			</tr>
-			<tr>
-				<td>apikey</td>
-				<td><input type="hidden" id="apikey" name="apikey" th:value="${vo2.apikey}" placeholder="apikey 입력">[[${vo2.apikey}]]</td>
-			</tr>
-			<tr>
-				<td>charcter_name</td>
-				<td><input type="hidden" id="character_name" name="character_name" th:value="${vo2.apikey}">[[${vo2.character_name}]]</td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="가입완료"></td>
-			</tr>
-			
-		</table>
-	</form>
-
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>update</h1>
+		<a href="/main">main</a>
+		<a href="/member/insert">insert</a>
+		<a href="/member/update">update</a>
+		<a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a>
+		<a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a>
+		<hr>
+		
+			<form action="/member/updateOK" method="get">
+				<table>
+					<tr>
+						<td>ID<input type="hidden" id="member_id" name="member_id" th:value="${vo2.member_id}"></td>
+						<td><input type="hidden" id="id" name="id" th:value="${vo2.id}" placeholder="ID를 입력하세요">[[${vo2.id}]]</td>
+					</tr>
+					<tr>
+						<td>pw</td>
+						<td><input type="password" id="pw" name="pw" th:value="${vo2.pw}" placeholder="비밀번호를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td>email</td>
+						<td><input type="text" id="email" name="email" th:value="${vo2.email}" placeholder="이메일을 입력하세요"></td>
+					</tr>
+					<tr>
+						<td>apikey</td>
+						<td><input type="hidden" id="apikey" name="apikey" th:value="${vo2.apikey}" placeholder="apikey 입력">[[${vo2.apikey}]]</td>
+					</tr>
+					<tr>
+						<td>charcter_name</td>
+						<td><input type="hidden" id="character_name" name="character_name" th:value="${vo2.apikey}">[[${vo2.character_name}]]</td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="submit" value="수정완료"></td>
+					</tr>
+					
+				</table>
+			</form>
+	</div>
 </body>
 </html>

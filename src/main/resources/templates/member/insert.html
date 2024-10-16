@@ -1,57 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입 입력</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>insert</h1>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/update">update</a>
-<a href="/member/delete">delete</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/login">login</a>
-<a href="/member/loginOK">loginOK</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPW</a>
-<a href="/member/findPwCheck">findPWCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<hr>
-<a href="/member/idCheck">idCheck</a>
-<a href="/member/apiCheck">apiCheck</a>
-<hr>
-	<form action="/member/insertOK" method="get">
-		<table>
-			<tr>
-				<td><label for="id">ID</label></td>
-				<td><input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요"></td>
-			</tr>
-			<tr>
-				<td><label for="pw">pw</label></td>
-				<td><input type="text" id="pw" name="pw" value="hi1234" placeholder="비밀번호를 입력하세요"></td>
-			</tr>
-			<tr>
-				<td><label for="email">email</label></td>
-				<td><input type="text" id="email" name="email" value="abc@def.com" placeholder="이메일을 입력하세요"></td>
-			</tr>
-			<tr>
-				<td><label for="apikey">apikey</label></td>
-				<td><input type="text" id="apikey" name="apikey" value="0123456789abcdefg" placeholder="apikey 입력"></td>
-			</tr>
-			<tr> <!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
-				<td><label for="character_name">character_name</label></td>
-				<td><input type="text" id="character_name" name="character_name" value="테스트" placeholder="캐릭터 이름 입력"></td>
-			</tr>
-			<tr> <!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
-				<td><label for="ocid">ocid</label></td>
-				<td><input type="text" id="ocid" name="ocid" value="0001010101010" placeholder="ocid입력"></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="가입완료"></td>
-			</tr>			
-		</table>
-	</form>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>insert</h1>
+		<a href="/main">main</a>
+		<a href="/member/insert">insert</a>
+		<a href="/member/update">update</a>
+		<a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a>
+		<a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a>
+		<hr>
+		<a href="/member/idCheck">idCheck</a>
+		<a href="/member/apiCheck">apiCheck</a>
+		<hr>
+			<form action="/member/insertOK" method="get">
+				<table>
+					<tr>
+						<td><label for="id">ID</label></td>
+						<td><input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="pw">pw</label></td>
+						<td><input type="text" id="pw" name="pw" value="hi1234" placeholder="비밀번호를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="email">email</label></td>
+						<td><input type="text" id="email" name="email" value="abc@def.com" placeholder="이메일을 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><label for="apikey">apikey</label></td>
+						<td><input type="text" id="apikey" name="apikey" value="0123456789abcdefg" placeholder="apikey 입력"></td>
+					</tr>
+					<tr> <!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
+						<td><label for="character_name">character_name</label></td>
+						<td><input type="text" id="character_name" name="character_name" value="테스트" placeholder="캐릭터 이름 입력"></td>
+					</tr>
+					<tr> <!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
+						<td><label for="ocid">ocid</label></td>
+						<td><input type="text" id="ocid" name="ocid" value="0001010101010" placeholder="ocid입력"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="submit" value="가입완료"></td>
+					</tr>			
+				</table>
+			</form>
+		</div>
 </body>
 </html>
