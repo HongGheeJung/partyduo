@@ -155,10 +155,10 @@ public class PartyListController {
 		//partylist search 수정
 		List<PartyVO> list=pservice.searchListPM("party_master",character_name);
 		List<PartyListVO> list2 = plservice.searchList("member_id",Integer.toString(member_id));
-		
 		log.info("list: {}", list);
 		log.info("list2: {}", list2);
 		
+	
 		model.addAttribute("list",list);
 		model.addAttribute("list2",list2);
 		model.addAttribute("member_id",member_id);
