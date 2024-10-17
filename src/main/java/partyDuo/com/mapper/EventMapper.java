@@ -19,7 +19,7 @@ public interface EventMapper {
 	public int updateOK(EventVO vo);
 	public int deleteOK(EventVO vo);
 
-	public List<EventVO> searchListPartyMonth(int party_id, int searchWord);
+	public List<EventVO> searchListPartyMonth(int party_id, int month, int year);
 
 	public List<EventVO> searchListTitle(String searchWord);
 

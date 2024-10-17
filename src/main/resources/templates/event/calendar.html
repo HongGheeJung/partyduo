@@ -13,15 +13,14 @@
 	<a th:href="|/event/calendar?party_id=${1}|">1파티 캘린더</a>
 	<a th:href="|/event/calendar?party_id=${2}|">2파티 캘린더</a>
 	<div >
-		<h1>[[${month}]]</h1>
-		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month-1}|">이전달</a>
-		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month+1}|">다음달</a>
+		<h1>[[${year}]]년 [[${month}]]월</h1>
+		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month-1}&year=${year}|">이전달</a>
+		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month+1}&year=${year}|">다음달</a>
 
 		<form action="/event/searchList">
 			<select name="searchKey">
-				<option value="event_title">event_title</option>
-				<option value="month">month</option>
-			</select> <input type="text" name="searchWord" value="09"> <input
+				<input type="hidden" name="event_title" value="event_title">
+			</select> <input type="text" name="searchWord" value="일정이름"> <input
 				type="submit" value="검색">
 		</form>
 		<table id="insertTable">
@@ -102,7 +101,7 @@
 				</tr>
 				<tr>
 					<td><label for="chat_writer">chat_writer</label></td>
-					<td>off2<input type="hidden" id="chat_writer" name="chat_writer" value="off2"
+					<td>[[${session.user_character}]]<input type="hidden" id="chat_writer" name="chat_writer" th:value=${session.user_character}
 						placeholder="chat_writer를 입력하세요"></td>
 				</tr>
 

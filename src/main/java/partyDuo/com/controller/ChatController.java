@@ -95,11 +95,9 @@ public class ChatController {
 
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/chat/selectAll";
-		} else {
-			return "redirect:/chat/insert";
-		}
+
+			return "redirect:/eveny/calendar";
+
 	}
 
 	@PostMapping("/chat/updateOK")
