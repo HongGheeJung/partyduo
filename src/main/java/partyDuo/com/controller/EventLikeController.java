@@ -83,9 +83,9 @@ public class EventLikeController {
 			int result = service.insertOK(vo);
 			log.info("result:{}", result);
 			if (result == 1) {
-				return "redirect:/eventLike/selectAll";
+				return "redirect:/event/calendar";
 			} else {
-				return "redirect:/event/selectAll";
+				return "redirect:/event/calendar";
 			}
 			
 		}
