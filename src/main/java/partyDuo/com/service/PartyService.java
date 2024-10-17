@@ -42,6 +42,13 @@ public class PartyService {
 		}
 	}
 	
+	public List<PartyVO> searchListPM(String searchKey,String searchWord){
+		log.info("p_service_searchListPageBlock");
+		
+		return pmapper.searchListPartyMaster(searchWord);
+		
+	}
+	
 	public PartyVO selectOne(PartyVO vo) {
 		log.info("p_service_selectOne");
 		return pmapper.selectOne(vo);

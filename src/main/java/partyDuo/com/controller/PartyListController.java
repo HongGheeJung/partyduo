@@ -39,81 +39,109 @@ public class PartyListController {
 	@Autowired
 	PartyListService plservice;
 	
-	@GetMapping("/partylist/insert")
-	public String insert(PartyListVO vo,Model model,int party_board_id) {
-		log.info("party_list_insert...");
+	@GetMapping("/partylist/application")
+	public String insert(PartyListVO vo,Model model) {
+		log.info("party_list_application...");
 		log.info("vo:{}", vo);
-		
-		//vo2가 partylist가 아니라 partyboard 가 되어야할듯?
-		
-		return "partylist/insert";			
+		PartyVO vo2 = new PartyVO();
+		vo2.setParty_id(vo.getParty_id());
+		vo2=pservice.selectOne(vo2);
+		model.addAttribute("vo2", vo2);
+		return "partylist/application";			
 	}
 	
-	@PostMapping("/partylist/insertOK")
-	public String insertOK(PartyListVO vo) {
-		log.info("party_list_insertOK...");
+	@PostMapping("/partylist/applicationOK")
+	public String insertOK(PartyVO vo) {
+		log.info("party_list_applicationOK...");
 		log.info("vo:{}", vo);
-		int result=plservice.insertOK(vo);
+		PartyListVO vo2= new PartyListVO();
+		
+		MemberVO vo3 = new MemberVO();
+		vo3.setId((String)session.getAttribute("user_id"));
+		vo3=mservice.member_selectOne(vo3);
+		log.info("vo3:{}", vo3);
+		vo2.setMember_id(vo3.getMember_id());
+		vo2.setParty_id(vo.getParty_id());
+		int result=plservice.insertOK(vo2);
 		log.info("result:{}", result);
-		return "redirect:/partylist/searchList";			
+		return "redirect:/partylist/myparty";			
 	}
 	
-	@GetMapping("/partylist/update")
-	public String update(PartyListVO vo,Model model) {
+	@GetMapping("/partylist/accept")
+	public String accept(PartyListVO vo,Model model) {
 		log.info("party_list_update...");
 		PartyListVO vo2 = plservice.selectOne(vo);
-		
 		model.addAttribute("vo2", vo2);
-		
-		return "partylist/update";			
+		return "partylist/accept";			
 	}
 	
-	@PostMapping("/partylist/updateOK")
-	public String updateOK(PartyListVO vo) {
+	@PostMapping("/partylist/acceptOK")
+	public String acceptOK(PartyListVO vo) {
 		log.info("party_list_updateOK...");
 		int result=plservice.updateOK(vo);
-		return "redirect:/partylist/searchList";			
+		return "redirect:/partylist/myparty";			
 	}
 	
-	@GetMapping("/partylist/delete")
+	@GetMapping("/partylist/deny")
 	public String delete(PartyListVO vo,Model model) {
-		log.info("party_list_delete...");
+		log.info("party_list_deny...");
 		PartyListVO vo2 = plservice.selectOne(vo);
 		model.addAttribute("vo2", vo2);
-		return "partylist/delete";			
+		return "partylist/deny";			
 	}
 	
-	@PostMapping("/partylist/deleteOK")
+	@PostMapping("/partylist/denyOK")
 	public String deleteOK(PartyListVO vo) {
 		log.info("party_list_deleteOK...");
 		int result=plservice.deleteOK(vo);
-		return "redirect:/partylist/searchList";			
+		return "redirect:/partylist/myparty";			
 	}
 	
-	@GetMapping("/partylist/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue="party_id") String searchKey,
-			@RequestParam(defaultValue="13")String searchWord) {
-		log.info("party_list_searchList...");
-		List<PartyListVO> list = plservice.searchList(searchKey,searchWord);
-		model.addAttribute("list",list);
-		log.info("list: {}", list);
-		return "partylist/selectAll";			
+	@GetMapping("/partylist/selectOne")
+	public String selectOne(int party_id,Model model) {
+		log.info("party_list_selectOne...");
+		PartyVO vo= new PartyVO();
+		vo.setParty_id(party_id);
+		vo=pservice.selectOne(vo);
+		//파티 아이디, 파티 이름, 파티장
+		List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(party_id));
+		for (PartyListVO vo2 : list) {
+			if (vo2.getParty_join()==true) {
+				vo2.getMember_id();
+				//listmember
+				//셀렉트 원 해서 추가
+			}else {
+				//셀렉트 원 해서 리스트 추가
+				//listqueue
+			}
+		}
+		
+//		파티장 
+//		파티원 리스트 
+//		파티원 캐릭터 명
+//		파티 신청 리스트
+//		vo랑 리스트 멤버랑 리스트 큐 추가해서 보내주고
+//		파티 아이디랑 멤버 아이디 넣어서 수락 거절 버튼 만들기
+		return "partylist/selectOne";			
 	}
 	
 	@GetMapping("partylist/myparty")
-	public String myparty(String searchKey,String searchWord,@RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5")int pageBlock,Model model) {
-		MemberVO vo = null;
+	public String myparty(Model model) {
+		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		String character_name=(String) session.getAttribute("user_character");
-		MemberVO vo2=mservice.member_selectOne(vo);
-		int member_id=vo2.getMember_id();
+		vo=mservice.member_selectOne(vo);
+		int member_id=vo.getMember_id();
+		//partylist search 수정
+		List<PartyVO> list=pservice.searchListPM("party_master",character_name);
+		List<PartyListVO> list2 = plservice.searchList("member_id",Integer.toString(member_id));
 		
-		List<PartyListVO> list = plservice.searchListPageBlock("member_id",Integer.toString(member_id), cpage, pageBlock);
-		List<PartyVO> list2=pservice.searchList("party_master",character_name);
+		log.info("list: {}", list);
+		log.info("list2: {}", list2);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("list2",list2);
+		model.addAttribute("member_id",member_id);
 		return "partylist/myparty";
 	}
 	

@@ -17,7 +17,9 @@ public interface PartyListMapper {
 	public int getTotalRows();
 	public int getSearchTotalRows(String searchKey,String searchWord);
 	public List<PartyListVO> searchListPageBlock(String searchKey,String searchWord, int startRow, int pageBlock);
-	public List<PartyListVO> searchList(String searchKey,String searchWord);
+	
+	public List<PartyListVO> searchListPartyId(String searchWord);
+	public List<PartyListVO> searchListMemberId(String searchWord);
 
 
 	

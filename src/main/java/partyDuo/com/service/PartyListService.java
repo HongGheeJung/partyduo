@@ -48,8 +48,12 @@ public class PartyListService {
 	
 	public List<PartyListVO> searchList(String searchKey,String searchWord){
 		log.info("pl_service_searchList()");
-		return plmapper.searchList(searchKey, searchWord);	
-	};
+			if (searchKey.equals("party_id")) {
+				return plmapper.searchListPartyId(searchWord);
+					}else{
+				return plmapper.searchListMemberId(searchWord);				
+			}
+		};
 	
 	public int getSearchTotalRows(String searchKey,String searchWord) {
 		log.info("pl_service_getSearchTotalRows");
