@@ -42,9 +42,10 @@ public class PartyBoardService {
 		return pbmapper.selectAllPageBlock(startRow, pageBlock);
 	}
 	
-	public List<PartyBoardVO> selectAll() {
+	public List<PartyBoardVO> selectAll(int cpage, int pageBlock) {
 		log.info("pb_service_selectAll");
-		return pbmapper.selectAll();
+		int startRow=(cpage-1)*pageBlock;
+		return pbmapper.selectAll(startRow, pageBlock);
 	}
 	
 	public List<PartyBoardVO> searchListPageBlock(String searchKey,String searchWord,int cpage,int pageBlock) {
@@ -52,7 +53,7 @@ public class PartyBoardService {
 		int startRow=(cpage-1)*pageBlock;
 		if (searchKey.equals("boss")) {
 			log.info("pb_Boss");
-		return pbmapper.searchListBossPageBlock( "%"+searchWord+"%", cpage, pageBlock);
+		return pbmapper.searchListBossPageBlock( "%"+searchWord+"%", startRow, pageBlock);
 		}else if(searchKey.equals("party_board_id")) {
 			log.info("pb_id");
 			return pbmapper.searchListPartyBoardIdPageBlock("%"+searchWord+"%", startRow, pageBlock);
@@ -72,6 +73,13 @@ public class PartyBoardService {
 	
 	public int getSearchTotalRows(String searchKey,String searchWord) {
 		log.info("pb_service_getSearchTotalRows");
-		return pbmapper.getSearchTotalRows(searchKey, searchWord);
+		if(searchKey.equals("party_board_id")) {
+			return pbmapper.getSearchTotalRowsBoardId(searchWord);
+		}else if(searchKey.equals("party_board_writer")) {
+			return pbmapper.getSearchTotalRowsBoardWriter("%"+searchWord+"%");
+		}else {
+			return pbmapper.getSearchTotalRowsBoardWdate("%"+searchWord+"%"); 
+		}
+		
 	}
 }

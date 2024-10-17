@@ -6,17 +6,41 @@
 <title>Insert title here</title>
 </head>
 <body th:replace="~{layout::layout}">
-	<div th:fagment="content">
-		<
-		
-		
-		
-		파티장
-		해당 파티 파티원 목록 - 캐릭터 명 ->  
-		
-		파티장이면 신청 목록 보이고
-		수락 거절 버튼 누르게 하기
-		
+	<div th:fragment="content">
+	[[${session.user_character}]]
+	<table>
+		<thead>
+		<tr>
+			<td>직급</td>
+			<td>캐릭터명</td>
+		</tr>
+		</thead>
+		<tr>
+			<td>파티장</td>
+			<td><a th:href="|/character/info?character_name=${vo.party_master}|">[[${vo.party_master}]]</a></td>
+		</tr>
+		<th:block th:each="partymember:${listmember}">
+		<tr>
+		 <td >파티원</td>
+		 <td><a th:href="|/character/info?character_name=${partymember.character_name}|">[[${partymember.character_name}]]</a></td>
+		 <td><a th:if="${partymember.character_name}==${session.user_character}" th:href="|/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}|">파티 탈퇴하기</a>
+		</tr>
+		</th:block>
+	</table>
+	<table>
+		<tr>
+			<td>파티 신청 대기자 명단</td>
+			<td>캐릭터 명</td>
+		</tr>
+		<th:block th:each ="partyqueue:${listqueue}">
+		<tr>
+			<td>파티 신청 대기자</td>
+			<td><a th:href="|/character/info?character_name=${partyqueue.character_name}|">[[${partyqueue.character_name}]]</a></td>
+			<td><a th:if="${vo.party_master}==${session.user_character}" th:href="|/partylist/accept?member_id=${partyqueue.member_id}&party_id=${vo.party_id}|">수락</a></td>
+			<td><a th:if="${vo.party_master}==${session.user_character}" th:href="|/partylist/deny?member_id=${partyqueue.member_id}&party_id=${vo.party_id}|">거절</a></td>
+		</tr>
+		</th:block>
+	</table>
 	</div>
 </body>
 </html>

@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<div th:replace="~{layout::boottemplate}"></div>
 <title>Insert title here</title>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<div th:fragment="content">
+		<div>
+			<form action="/partyboardcomment/updateOK" method="post">
+				<input type="hidden" name="party_board_comment_id" th:value="${vo2.party_board_comment_id}">
+				<table id="insertTable">
+			<tr>
+				<td><label for="party_board_comment_content">댓글내용</label></td>
+				<td><input type="text" id="party_board_comment_content" name="party_board_comment_content" th:value="${vo2.party_board_comment_content}" placeholder="댓글을 입력해주세요"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="게시글 수정"></td>
+			</tr>
+				</table>
+			</form>
+		</div>
+</div>
 </body>
 </html>

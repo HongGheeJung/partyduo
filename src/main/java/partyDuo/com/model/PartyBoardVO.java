@@ -1,7 +1,8 @@
 package partyDuo.com.model;
 
-import java.security.Timestamp;
-import java.util.Date;
+
+
+import java.sql.Timestamp;
 
 import lombok.Data;
 

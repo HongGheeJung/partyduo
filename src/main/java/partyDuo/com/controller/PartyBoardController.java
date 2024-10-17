@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.model.PartyBoardCommentVO;
 import partyDuo.com.model.PartyBoardVO;
 import partyDuo.com.model.PartyVO;
+import partyDuo.com.service.PartyBoardCommentService;
 import partyDuo.com.service.PartyBoardService;
 import partyDuo.com.service.PartyService;
 
@@ -25,6 +27,9 @@ public class PartyBoardController {
 	
 	@Autowired
 	PartyService pservice;
+	
+	@Autowired
+	PartyBoardCommentService pbcservice;
 	
 	@Autowired
 	HttpSession session;
@@ -85,14 +90,33 @@ public class PartyBoardController {
 		PartyBoardVO vo2=pbservice.selectOne(vo);
 		log.info("vo2:{}", vo2);
 		model.addAttribute("vo2", vo2);
+		List<PartyBoardCommentVO> list = pbcservice.searchListPartyBoardId(Integer.toString(vo.getParty_board_id()));
+		model.addAttribute("list",list);
 		return "partyboard/selectOne";			
 	}
 	
 	@GetMapping("/partyboard/selectAll")
-	public String selectAll(Model model) {
+	public String selectAll(Model model,@RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("party_board_selectAll...");
-		List<PartyBoardVO> list = pbservice.selectAll();
+		List<PartyBoardVO> list = pbservice.selectAll(cpage,pageBlock);
 		log.info("list: {}", list);
+		int total_rows = pbservice.getTotalRows();// select count(*) total_rows from member;
+		log.info("total_rows:{}", total_rows);
+		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
+		int totalPageCount = 0;
+
+		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		log.info("totalPageCount:{}", totalPageCount);
+
+		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("list", list);
 		return "partyboard/selectAll";			
 	}
@@ -107,6 +131,23 @@ public class PartyBoardController {
 		List<PartyBoardVO> list = pbservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
 		model.addAttribute("list",list);
 		log.info("list: {}", list);
+		int total_rows = pbservice.getSearchTotalRows(searchKey, searchWord);// select count(*) total_rows from member;
+		log.info("total_rows:{}", total_rows);
+		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
+		int totalPageCount = 0;
+
+		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		log.info("totalPageCount:{}", totalPageCount);
+
+		model.addAttribute("totalPageCount", totalPageCount);
+		
 		return "partyboard/selectAll";			
 	}
 

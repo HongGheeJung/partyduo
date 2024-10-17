@@ -8,13 +8,13 @@
 <body th:replace="~{layout::layout}">
 <div th:fragment="content">
 		<div>
-			<form action="/partylist/deleteOK" method="post">
+			<form action="/partylist/denyOK" method="post">
 				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
 				<input type="hidden" name="member_id" th:value="${vo2.member_id}">
 				<table id="insertTable">
 					<tr>
-						<th>[[${vo2.party_id}]]파티에서 탈퇴하시겠습니까?
-						<input type="submit" value="탈퇴완료"></th>
+						<th>[[${vo3.character_name}]]의 파티가입을 거부 하시겠습니까?
+						<input type="submit" value="거부완료"></th>
 					</tr>
 				</table>
 			</form>

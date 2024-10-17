@@ -42,7 +42,21 @@
 			</th:block>
 	</tbody>
 	<tfoot>
-		<tr><a href="/partyboard/insert">게시글 작성하기</a></tr>
+		<tr>
+			<td colspan="6">
+				<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+					<th:block th:if="${param.searchKey == null}">
+						<a th:href="|/partyboard/selectAll?cpage=${i}|">[[${i}]]</a>
+					</th:block>
+					<th:block th:if="${param.searchKey != null}" >
+						<th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+							<a th:href="|/partyboard/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
+						</th:block>
+					</th:block>
+				</th:block>	
+			</td>
+			<td><a href="/partyboard/insert">게시글 작성하기</a></td>
+		</tr>
 	</tfoot>	
 </table>
 </div>

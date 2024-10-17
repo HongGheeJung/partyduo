@@ -61,9 +61,18 @@
 		from partyboard
 	</select>
 	
-	<select id="getSearchTotalRows" resultType="int">
+	<select id="getSearchTotalRowsBoardId" resultType="int">
 		select count(*) total_rows
-		from partyboard where #{searchKey} like #{searchWord} 
+		from partyboard where paraty_board_id like #{searchWord} 
 	</select>
-
+	
+	<select id="getSearchTotalRowsBoardWriter" resultType="int">
+		select count(*) total_rows
+		from partyboard where paraty_board_writer like #{searchWord} 
+	</select>
+	
+	<select id="getSearchTotalRowsBoardWdate" resultType="int">
+		select count(*) total_rows
+		from partyboard where paraty_board_wdate like #{searchWord} 
+	</select>
 </mapper>

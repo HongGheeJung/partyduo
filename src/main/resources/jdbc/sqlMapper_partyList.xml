@@ -9,7 +9,7 @@
 	</insert>
 	
 	<update id="updateOK">
-		update partylist set member_id=#{member_id},party_join=#{party_join} where party_id=#{party_id}
+		update partylist set party_join=true where party_id=#{party_id} and member_id=${member_id}
 	</update>
 	
 	<delete id="deleteOK">
@@ -33,15 +33,10 @@
 	
 	<select id="selectOne"
 		resultType="partyDuo.com.model.PartyListVO">
-		select * from partylist where party_id=#{party_id}
+		select * from partylist where party_id=#{party_id} and member_id=#{member_id}
 	</select>
 	
-	<select id="getTotalRows" resultType="int">
-		select count(*) total_rows
-		from partylist
-	</select>
-	
-	<select id="getSearchTotalRows" resultType="int">
+	<select id="getTotalPartyListRows" resultType="int">
 		select count(*) total_rows
 		from partylist where #{searchKey} like #{searchWord} 
 	</select>
