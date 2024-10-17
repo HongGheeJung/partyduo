@@ -6,6 +6,29 @@
 <title>Insert title here</title>
 </head>
 <body th:replace="~{layout::layout}">
-
+	<div th:fragment="content">
+		<h1>내가 파티장인 파티</h1>
+		<hr>
+		<table>
+			<thead>
+			<tr>
+				<th>파티 이름</th> 
+				<th>파티 장 </th>			
+				<th>파티 원</th>			
+				<th>파티 신청 수락 대기</th> 	 						
+			</tr>
+			</thead>
+			<th:block th:each="vo : ${list}">
+				<tr >
+					<td><a th:href="|/partylist/selectOne?party_id=${vo.party_id}|">[[${vo.party_name}]]</a></td>
+					<td th:if="${vo.party_master}==${session.user_character}">v</td>
+					<th:block th:each="vo2 : ${list2}" >
+					<td th:if="${vo2.member_id}==${member_id},${vo2.party_join}==true">v</td>
+					<td th:if="${vo2.member_id}==${member_id},${vo2.party_join}==false">v</td>
+					</th:block>
+				</tr>
+			</th:block>
+		</table>
+	</div>
 </body>
 </html>
