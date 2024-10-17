@@ -36,16 +36,18 @@ public class EventService {
 	public int deleteOK(EventVO vo) {
 		return mapper.deleteOK(vo);
 	}
+	
+	public List<EventVO> searchListTitle(String searchWord) {
+		return mapper.searchListTitle("%" + searchWord + "%");
+	}
+	
+	
+	public List<EventVO> searchListPartyMonth(int party_id, int searchWord) {		
 
-	public List<EventVO> searchList(String searchKey, String searchWord) {
-		if (searchKey.equals("month")) {
-			int searchWord2 = Integer.parseInt(searchWord);
-			return mapper.searchListMonth( searchWord2 );
-		} else {
-			
-			return mapper.searchListTitle("%" + searchWord + "%");
-		}
-
+		log.info("search_party_id:{}", party_id);
+		log.info("month:{}", searchWord);
+		
+		return mapper.searchListPartyMonth(party_id, searchWord);
 	}
 
 	public int getTotalRows() {

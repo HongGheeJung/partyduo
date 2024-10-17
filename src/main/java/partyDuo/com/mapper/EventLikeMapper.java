@@ -19,6 +19,9 @@ public interface EventLikeMapper {
 	public int selectOneLikecheck(EventLikeVO vo);
 
 	public int deleteOK(EventLikeVO vo);
+	
+	public int selectOneLikeCount(EventLikeVO vo);
+	
 
 
 	

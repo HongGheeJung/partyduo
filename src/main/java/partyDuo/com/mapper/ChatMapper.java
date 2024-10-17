@@ -19,9 +19,9 @@ public interface ChatMapper {
 	public int updateOK(ChatVO vo);
 	public int deleteOK(ChatVO vo);
 
-	public List<ChatVO> searchListMonth(int searchWord2);
+	public List<ChatVO> searchListWriter(String searchWord);
 
-	public List<ChatVO> searchListTitle(String searchWord);
+	public List<ChatVO> searchListParty(int party_id);
 
 	public int getTotalRows();
 

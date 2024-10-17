@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>selectAll.html</title>
+</head>
+<body >
+
+	<a href="/event/insert">일정추가</a>
+	<a href="/eventLike/selectAll">전체좋아요</a>
+	<a href="/chat/selectAll">챗팅</a>
+	<hr>
+	<a th:href="|/event/calendar?party_id=${1}|">1파티 캘린더</a>
+	<a th:href="|/event/calendar?party_id=${2}|">2파티 캘린더</a>
+	<div >
+		<h1>[[${month}]]</h1>
+		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month-1}|">이전달</a>
+		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month+1}|">다음달</a>
+
+		<form action="/event/searchList">
+			<select name="searchKey">
+				<option value="event_title">event_title</option>
+				<option value="month">month</option>
+			</select> <input type="text" name="searchWord" value="09"> <input
+				type="submit" value="검색">
+		</form>
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>event_id</th>
+					<th>party_id</th>
+					<th>event_title</th>
+					<th>event_content</th>
+					<th>event_startTime</th>
+					<th>event_endTime</th>
+					<th>event_location</th>
+					<th>event_bosstag</th>
+					<th>event_character</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+					<tr>
+						<td><a th:href="|/event/selectOne?event_id=${vo.event_id}|">[[${vo.event_id}]]</a></td>
+						<td>[[${vo.party_id}]]</td>
+						<td>[[${vo.event_title}]]</td>
+						<td>[[${vo.event_content}]]</td>
+						<td>[[${vo.event_startTime}]]</td>
+						<td>[[${vo.event_endTime}]]</td>
+						<td>[[${vo.event_location}]]</td>
+						<td>[[${vo.event_bosstag}]]</td>
+						<td>[[${vo.event_character}]]</td>
+						
+						
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>chat_id</th>
+					<th>party_id</th>
+					<th>chat_wdate</th>
+					<th>chat_writer</th>
+					<th>chat_content</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo2 : ${chat_list}">
+					<tr>
+						<td>[[${vo2.chat_id}]]</td>
+						<td>[[${vo2.party_id}]]</td>
+						<td>[[${vo2.chat_wdate}]]</td>
+						<td>[[${vo2.chat_writer}]]</td>
+						<td>[[${vo2.chat_content}]]</td>		
+						<td>
+							<form action="/chat/deleteOK" method="post">
+								<input type="hidden" name="chat_id" th:value="${vo2.chat_id}">
+								<table id="insertTable">
+									<tr>
+										<th><input type="submit" value="삭제"></th>
+									</tr>
+								</table>
+							</form>
+						
+						</td>			
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		
+		<form action="/chat/insertOK" method="post">
+			<table id="insertTable">
+				<tr>
+					<td><label for="party_id">party_id</label></td>
+					<td>[[${party_id}]]<input type="hidden" id="party_id" name="party_id" th:value=${party_id}
+						placeholder="party_id를 입력하세요"></td>
+				</tr>
+				<tr>
+					<td><label for="chat_writer">chat_writer</label></td>
+					<td>off2<input type="hidden" id="chat_writer" name="chat_writer" value="off2"
+						placeholder="chat_writer를 입력하세요"></td>
+				</tr>
+
+				<tr>
+					<td><label for="chat_content">chat_content</label></td>
+					<td><input type="text" id="chat_content" name="chat_content" value="챗내용"
+						placeholder="chat_content 입력하세요"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="입력"></td>
+				</tr>
+			</table>
+		</form>
+
+
+	</div>
+
+</body>
+</html>

@@ -33,6 +33,10 @@ public class EventLikeService {
 	public int selectOneLikecheck(EventLikeVO vo) {
 		return mapper.selectOneLikecheck(vo);
 	}
+	
+	public int selectOneLikeCount(EventLikeVO vo) {
+		return mapper.selectOneLikeCount(vo);
+	}
 
 
 	public int deleteOK(EventLikeVO vo) {

@@ -60,15 +60,14 @@ public class ChatController {
 		return "chat/selectAll";
 	}
 
-	@GetMapping("/chat/searchList")
-	public String searchList(Model model, @RequestParam(defaultValue = "month") String searchKey,
-			@RequestParam(defaultValue = "01") String searchWord) {
-		log.info("/chat/searchList");
-		log.info("searchKey:{}", searchKey);
-		log.info("searchWord:{}", searchWord);
+	@GetMapping("/chat/searchListParty")
+	public String searchListParty(Model model, 
+			@RequestParam(defaultValue = "01") int party_id) {
+		log.info("/chat/searchListParty");
+		log.info("searchWord:{}", party_id);
 
 
-		List<ChatVO> list = service.searchList(searchKey, searchWord);
+		List<ChatVO> list = service.searchListParty(party_id);
 		log.info("list.size():{}", list.size());
 
 		model.addAttribute("list", list);
