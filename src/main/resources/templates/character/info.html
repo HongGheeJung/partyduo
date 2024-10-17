@@ -64,9 +64,9 @@
 			
 
 			<hr>
-			<!-- <div style="width:10%;float:left">
+			<div style="width:10%;float:left">
 				<img th:src="|${basicDTO.getCharacterImage()}|">
-			</div> -->
+			</div>
 			<div style="width:10%;float:left;">
 				<table border="1">
 				<thead>
@@ -104,20 +104,28 @@
 				</tbody>
 			</table>
 			</div>
-			<div style="width:50%;float:left">
+			<div style="float:left">
 				<table border="1">
 				<thead>
-					<th colspan="2">스탯정보</th>
+					<th colspan="12">스탯정보</th>
 				</thead>
 				<tbody>
-					<tr>
-						<th:block th:each="finalStat : ${statDTO.getFinalStat()}">
-							<td>[[${finalStat.getStatName()}]]</td>
-							<td>[[${finalStat.getStatValue()}]]</td>
-						</th:block>
-					</tr>
+					<th:block th:each="j: ${#numbers.sequence(0, 3)}">
+						<tr>
+							<th:block th:each=" i: ${#numbers.sequence(j*11+0, j*11+10)}">
+								<td>[[${statDTO.getFinalStat.get(i).getStatName()}]]</td>
+								<td>[[${statDTO.getFinalStat.get(i).getStatValue()}]]</td>
+							</th:block>	
+						</tr>
+					</th:block>
 				</tbody>
 				</table>
+			</div>
+			<div>
+					[[${user_id}]]
+				<a th:href="|/favorite/insert?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 추가</a>
+				<a th:href="|/favorite/delete?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 해제</a>
+				<a th:href="|/favorite/selectOne?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 되어있는지 여부</a>
 			</div>
 		</div>
 	</body>

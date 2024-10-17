@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.model.FavoriteVO;
 import partyDuo.com.model.MemberVO;
+import partyDuo.com.service.FavoriteService;
 import partyDuo.com.service.MemberService;
 
 @Slf4j
@@ -22,6 +24,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	FavoriteService fservice;
 	
 	MemberVO vo;
 	
@@ -97,7 +102,9 @@ public class MemberController {
 	public String member_selectOne(Model model,MemberVO vo) {
 		log.info("/selectOne");
 		MemberVO vo2=service.member_selectOne(vo);
+		List<FavoriteVO> flist=fservice.favorite_searchList("member_id", vo2.getMember_id());
 		model.addAttribute("vo2", vo2);
+		model.addAttribute("flist",flist);
 		log.info("vo2: {}",vo2);
 		return "member/selectOne";
 	}

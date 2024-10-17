@@ -2,11 +2,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="partyDuo.com.mapper.EventMapper">
+<mapper namespace="partyDuo.com.mapper.FavoriteMapper">
 	<insert id="favorite_insert">
 		insert into favorite(member_id, character_name) values(#{member_id},#{character_name})
 	</insert>
 	<delete id="favorite_delete">
 		delete from favorite where character_name=#{character_name} and member_id=#{member_id}
 	</delete>
+	<select id="favorite_selectOne" resultType="partyDuo.com.model.FavoriteVO">
+		select * from favorite where character_name=#{character_name} and member_id=#{member_id}
+	</select>
+	<select id="favorite_searchListByMember_id" resultType="partyDuo.com.model.FavoriteVO">
+		select * from favorite where member_id=#{searchNum}
+	</select>
+	<select id="favorite_searchListByCharacter_name" resultType="partyDuo.com.model.FavoriteVO">
+		select * from favorite where character_name=#{searchNum}
+	</select>
 </mapper>
