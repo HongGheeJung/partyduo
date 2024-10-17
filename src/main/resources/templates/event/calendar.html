@@ -21,9 +21,7 @@
 		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month-1}&year=${year}|">이전달</a>
 		<a th:href="|/event/searchListPartyMonth?party_id=${party_id}&month=${month+1}&year=${year}|">다음달</a>
 
-		<form action="/event/searchList">
-			<select name="searchKey">
-				<input type="hidden" name="event_title" value="event_title">
+		<form action="/event/searchListTitle">
 			</select> <input type="text" name="searchWord" value="일정이름"> <input
 				type="submit" value="검색">
 		</form>

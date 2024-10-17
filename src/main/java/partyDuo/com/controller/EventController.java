@@ -150,7 +150,7 @@ public class EventController {
 
 		model.addAttribute("list", list);
 		
-		return "event/calendar";
+		return "event/searchlist";
 	}
 	
 	
