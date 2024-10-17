@@ -43,6 +43,12 @@ public class MemberService {
 		return mapper.member_selectOne(vo);
 //		return vo2;
 	}
+	
+	public MemberVO member_selectOneByMember_id(MemberVO vo) {
+		log.info("member_selectOneByMember_id()...");
+		return mapper.member_selectOne(vo);
+	}
+	
 	public List<MemberVO> member_selectAll(int cpage, int pageBlock){
 		log.info("member_selectAll()...");
 		int startRow=(cpage-1)*pageBlock;

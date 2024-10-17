@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.EventMapper">
+	<insert id="favorite_insert">
+		insert into favorite(member_id, character_name) values(#{member_id},#{character_name})
+	</insert>
+	<delete id="favorite_delete">
+		delete from favorite where character_name=#{character_name} and member_id=#{member_id}
+	</delete>
+</mapper>
