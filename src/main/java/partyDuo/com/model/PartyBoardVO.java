@@ -9,7 +9,7 @@ import lombok.Data;
 public class PartyBoardVO {
 	private int party_board_id;
 	private int party_id;
-	private int req_pwd;
+	private int req_pwr;
 	private String boss;
 	private String party_board_memo;
 	private String party_board_content;

@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<div th:replace="~{layout::boottemplate}"></div>
 <title>Insert title here</title>
 </head>
-<body>
-
+<body th:replace="~{layout::layout}">
+<div th:fragment="content">
+		<div>
+			<form action="/partylist/deleteOK" method="post">
+				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
+				<input type="hidden" name="member_id" th:value="${vo2.member_id}">
+				<table id="insertTable">
+					<tr>
+						<th>[[${vo2.party_id}]]파티에서 탈퇴하시겠습니까?
+						<input type="submit" value="탈퇴완료"></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+</div>
 </body>
 </html>

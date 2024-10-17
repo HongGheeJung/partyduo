@@ -8,19 +8,19 @@
 <body th:replace="~{layout::layout}">
 <hr>
 <div th:fragment="content">
-	<form action="/party/updateOK" method="post">
+	<form action="/partyboard/updateOK" method="post">
 		<table>
 			<tr>
 				<td><label for="party_board_id">게시글 번호</label></td>
-				<td><input type="hidden" id="party_board_id" name="party_board_id" value=${vo.party_board_id} ></td>
+				<td><input type="hidden" id="party_board_id" name="party_board_id" th:value=${vo2.party_board_id} ></td>
 			</tr>
 			<tr><!-- partyid 대신 party name 나오게 하기 -->
 				<td><label for="party_id">파티 번호</label></td>
-				<td><input type="number" id="party_id" name="party_id" value=50000000 placeholder=50000000></td>
+				<td><input type="hidden" id="party_id" name="party_id" th:value=${vo2.party_id} ></td>
 			</tr>
 			<tr>
-				<td><label for="req_pwd">요구 전투력</label></td>
-				<td><input type="number" id="req_pwd" name="req_pwd" value=50000000 placeholder=50000000></td>
+				<td><label for="req_pwr">요구 전투력</label></td>
+				<td><input type="number" id="req_pwr" name="req_pwr" value=50000000 placeholder=50000000></td>
 			</tr>
 			<tr>
 				<td><label for="boss">파티장</label></td>

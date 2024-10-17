@@ -33,15 +33,17 @@
 				<tr><!-- partyid 대신 party name 나오게 하기 -->
 					<td><a th:href="|/partyboard/selectOne?party_board_id=${vo.party_board_id}|">[[${vo.party_board_id}]]</a></td>
 					<td>[[${vo.party_id}]]</td>
-					<td>[[${vo.req_pwd}]]</td>
+					<td>[[${vo.req_pwr}]]</td>
 					<td>[[${vo.boss}]]</td>
 					<td>[[${vo.party_board_memo}]]</td>
-					<td>[[${vo.party_board_content}]]</td>
 					<td>[[${vo.party_board_writer}]]</td>
 					<td>[[${vo.party_board_wdate}]]</td>
 				</tr>
 			</th:block>
-	</tbody>	
+	</tbody>
+	<tfoot>
+		<tr><a href="/partyboard/insert">게시글 작성하기</a></tr>
+	</tfoot>	
 </table>
 </div>
 </body>
