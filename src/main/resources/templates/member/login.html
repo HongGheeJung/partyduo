@@ -1,38 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>login</h1>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/update">update</a>
-<a href="/member/delete">delete</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/login">login</a>
-<a href="/member/loginOK">loginOK</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPW</a>
-<a href="/member/findPwCheck">findPWCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<hr>
-<form action="/member/loginOK">
-	<table>
-		<tr>
-			<td><label for="id">ID</label>
-			<td><input type="text" id="id" name="id" value="admin"></td>
-		</tr>
-		<tr>
-			<td><label for="pw">비밀번호</label></td>
-			<td><input type="password" id="pw" name="pw" value="hi1234"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="submit" value="로그인"></td>
-		</tr>
-	</table>
-</form>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>login</h1>
+		<a href="/main">main</a>
+		<a href="/member/insert">insert</a>
+		<a href="/member/update">update</a>
+		<a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a>
+		<a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a>
+		<hr>
+		<form action="/member/loginOK">
+			<table>
+				<tr>
+					<td><label for="id">ID</label>
+					<td><input type="text" id="id" name="id" value="admin"></td>
+				</tr>
+				<tr>
+					<td><label for="pw">비밀번호</label></td>
+					<td><input type="password" id="pw" name="pw" value="hi1234"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="로그인"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </body>
 </html>

@@ -13,27 +13,37 @@ import dev.spiralmoon.maplestory.api.dto.character.CharacterDTO;
 import dev.spiralmoon.maplestory.api.dto.character.CharacterListDTO;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.controller.CharacterController;
+import partyDuo.com.model.MemberVO;
 import partyDuo.com.service.CharacterService;
+import partyDuo.com.service.MemberService;
 
 @Slf4j
 @RestController
 public class MemberRestController {
 
 	@Autowired
-	CharacterService service;
+	CharacterService cservice;
+	@Autowired
+	MemberService mservice;
 	
 	@GetMapping("/member/idCheck")
-	public String member_idCheck() {
-		
-		Map map=new HashMap<>();
-		map.put("apiCheck","OK");
+	public Map<String, String> member_idCheck(MemberVO vo) {
 		log.info("/idCheck");
-		return null;
+		Map map=new HashMap<>();
+		MemberVO vo2=mservice.member_selectOne(vo);
+		if(vo2==null) {
+			map.put("result","OK");
+		}else {
+			map.put("result","NotOK");
+		}	
+		return map;
 	}
 	@GetMapping("/member/apiCheck")
-	public String member_apiCheck(String apikey) {
-		String character=service.bonCharacter(service.foundOcid(apikey));	
+	public Map<String, String> member_apiCheck(String apikey) {
+		String character=cservice.bonCharacter(cservice.foundOcid(apikey));	
+		Map map=new HashMap<>();
+		map.put("character_name", character);
 		log.info("/apiCheck");
-		return character;
+		return map;
 	}
 }

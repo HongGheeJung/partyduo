@@ -1,27 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-	<h1>Info</h1>
-<a href="/main">main</a>
-<a href="/member/insert">insert</a>
-<a href="/member/insertOK">insertOK</a>
-<a href="/member/update">update</a>
-<a href="/member/updateOK">updateOK</a>
-<a href="/member/delete">delete</a>
-<a href="/member/deleteOK">deleteOK</a>
-<a href="/member/selectOne">selectOne</a>
-<a href="/member/selectAll">selectAll</a>
-<a href="/member/searchList">searchList</a>
-<a href="/member/login">login</a>
-<a href="/member/logout">logout</a>
-<a href="/member/findID">findID</a>
-<a href="/member/findPw">findPw</a>
-<a href="/member/findPwCheck">findPwCheck</a>
-<a href="/member/findIDCheck">findIDCheck</a>
-<a href="/member/apiCheck">apiCheck</a>
-</body>
+	<body th:replace="~{layout::layout}">
+		<div th:fragment="content">
+			<h1>Info</h1>
+			<h4>[[${user_id}]]</h4>
+			<div>
+				<a href="/main">main</a>
+				<a href="/member/insert">insert</a>
+				<a href="/member/insertOK">insertOK</a>
+				<a th:href="|/member/update?id=${user_id}|">update</a>
+				<a href="/member/updateOK">updateOK</a>
+				<a href="/member/delete">delete</a>
+				<a href="/member/deleteOK">deleteOK</a>
+				<a href="/member/selectOne">selectOne</a>
+				<a href="/member/selectAll">selectAll</a>
+				<a href="/member/searchList">searchList</a>
+				<a href="/member/login">login</a>
+				<a href="/member/logout">logout</a>
+				<a href="/member/findID">findID</a>
+				<a href="/member/findPw">findPw</a>
+				<a href="/member/findPwCheck">findPwCheck</a>
+				<a href="/member/findIDCheck">findIDCheck</a>
+				<a href="/member/apiCheck">apiCheck</a>
+			</div>
+			<hr>
+			<form action="/character/info" method="get">
+				<table>
+					<tr>
+						<td><label for="character_name">닉네임 입력</label></td>
+						<td><input type="text" id="character_name" name="character_name" value="나로티아사"></td>
+						<td><input type="submit" value="검색">
+					</tr>
+				</table>
+			</form>
+			<hr>
+			<h3>아래 API정보조회 Default 캐릭터는 "나로티아사"라는 캐릭터입니다. 다른 api사이트에서 직접 검색해서 비교하셔도 됩니다.</h3>
+			<hr>
+			<div>
+				<a href="/character/infoTestBasic">기본정보</a>
+				<a href="/character/infoTestStat">스탯</a>
+				<a href="/character/infoTestHyperStat">하이퍼스탯</a>
+				<a href="/character/infoTestPropensity">성향</a>
+				<a href="/character/infoTestAbility">어빌리티</a>
+				<a href="/character/infoTestItemEquipment">아이템정보</a>
+				<a href="/character/infoTestCashItemEquipment">캐시아이템정보</a>
+				<a href="/character/infoTestSymbolEquipment">심볼 장착 정보</a>
+				<a href="/character/infoTestSetEffect">세트 효과 정보</a>
+				<a href="/character/infoTestBeautyEquipment">외형정보</a>
+				<a href="/character/infoTestAndroidEquipment">안드로이드 정보</a>
+				<a href="/character/infoTestPetEquipment">펫 정보</a>
+				<a href="/character/infoTestSkill">스킬 정보</a>
+				<a href="/character/infoTestLinkSkill">링크 스킬 정보</a>
+				<a href="/character/infoTestVMatrix">5차강화정보</a>
+				<a href="/character/infoTestHexaMatrix">6차강화정보</a>
+				<a href="/character/infoTestHexaMatrixStat">헥사스탯정보</a>
+				<a href="/character/infoTestDojang">도장</a>
+			</div>
+			<hr>
+			<div style="width:10%;float:left">
+				<img th:src="|${basicDTO.getCharacterImage()}|">
+			</div>
+			<div style="width:10%;float:left;">
+				<table border="1">
+				<thead>
+					<th colspan="2">기본정보</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>닉네임</td>
+						<td>[[${basicDTO.getCharacterName()}]]</td>
+					</tr>
+					<tr>
+						<td>월드</td>
+						<td>[[${basicDTO.getWorldName()}]]</td>
+					</tr>
+					<tr>
+						<td>직업</td>
+						<td>[[${basicDTO.getCharacterClass()}]]</td>
+					</tr>
+					<tr>
+						<td>전직</td>
+						<td>[[${basicDTO.getCharacterClassLevel}]]차</td>
+					</tr>
+					<tr>
+						<td>레벨</td>
+						<td>[[${basicDTO.getCharacterLevel}]]</td>
+					</tr>
+					<tr>
+						<td>Exp</td>
+						<td>[[${basicDTO.getCharacterExpRate}]]%</td>
+					</tr>
+					<tr>
+						<td>길드</td>
+						<td>[[${basicDTO.getCharacterGuildName}]]</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<div style="width:50%;float:left">
+				<table border="1">
+				<thead>
+					<th colspan="2">스탯정보</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th:block th:each="finalStat : ${statDTO.getFinalStat()}">
+							<td>[[${finalStat.getStatName()}]]</td>
+							<td>[[${finalStat.getStatValue()}]]</td>
+						</th:block>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
 </html>

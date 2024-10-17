@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입완료</title>
+<div th:replace="~{layout::boottemplate}"></div>
 </head>
-<body>
-<h1>selectLogin</h1>
-<a href="/main">main</a>
-<a href="/member/login">login</a>
-
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>selectLogin</h1>
+		<a href="/main">main</a>
+		<a href="/member/login">login</a>
+	</div>
 </body>
 </html>
