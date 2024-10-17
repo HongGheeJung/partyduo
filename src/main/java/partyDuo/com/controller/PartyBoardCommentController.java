@@ -4,14 +4,20 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.mapper.PartyBoardCommentMapper;
+import partyDuo.com.model.PartyBoardCommentVO;
+import partyDuo.com.model.PartyBoardVO;
 import partyDuo.com.service.PartyBoardCommentService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 @Slf4j
@@ -21,51 +27,41 @@ public class PartyBoardCommentController {
 	@Autowired
 	PartyBoardCommentService pbcservice;
 	
-	@GetMapping("/partyboardcomment/insert")
-	public String insert() {
-		log.info("party_board_comment_insert...");
-		return "partyboardcomment/insert";			
+	@PostMapping("/partyboardcomment/insertOK")
+	public String insertOK(PartyBoardCommentVO vo)  {
+		log.info("party_board_comment_insertOK...");
+		int result = pbcservice.insertOK(vo);
+		return "redirect:/partyboard/selectOne?party_board_id="+vo.getParty_board_id();			
 	}
 	
 	@GetMapping("/partyboardcomment/update")
-	public String update() {
+	public String update(PartyBoardCommentVO vo,Model model) {
 		log.info("party_board_comment_update...");
+		PartyBoardCommentVO vo2=pbcservice.selectOne(vo);
+		model.addAttribute("vo2", vo2);
 		return "partyboardcomment/update";			
 	}
-	@GetMapping("/partyboardcomment/delete")
-	public String delete() {
-		log.info("partyboardcomment_delete...");
-		return "partyboardcomment/delete";			
-	}
-	@GetMapping("/partyboardcomment/selectOne")
-	public String selectOne() {
-		log.info("partyboardcomment_selectOne...");
-		pbcservice.selectOne();
-		return "partyboardcomment/selectOne";			
-	}
 	
-	@GetMapping("/partyboardcomment/searchList")
-	public String searchList() {
-		log.info("partyboardcomment_searchList...");
-		pbcservice.searchList();
-		return "partyboardcomment/searchList";			
-	}
-	@PostMapping("/partyboardcomment/insertOK")
-	public String insertOK()  {
-		log.info("party_board_comment_insertOK...");
-		int result = pbcservice.insertOK();
-		return "redirect:/party_board_comment/selectOne";			
-	}
 	@PostMapping("/partyboardcomment/updateOK")
-	public String updateOK()  {
+	public String updateOK(PartyBoardCommentVO vo)  {
 		log.info("party_board_comment_updateOK...");
-		int result = pbcservice.updateOK();
+		int result = pbcservice.updateOK(vo);
 		return "redirect:/party_board_comment/selectOne";			
 	} 
-	@PostMapping("/partyboardcomment/deleteOK")
-	public String deleteOK() {
-		log.info("party_board_comment_deleteOK...");
-		int result = pbcservice.deleteOK();
-		return "redirect:/party_board_comment/selectOne";			
+	
+	@GetMapping("/partyboardcomment/delete")
+	public String delete(PartyBoardCommentVO vo,Model model) {
+		log.info("partyboardcomment_delete...");
+		PartyBoardCommentVO vo2=pbcservice.selectOne(vo);
+		model.addAttribute("vo2", vo2);
+		return "partyboardcomment/delete";			
 	}
+	
+	@PostMapping("/partyboardcomment/deleteOK")
+	public String deleteOK(PartyBoardCommentVO vo) {
+		log.info("party_board_comment_deleteOK...");
+		int result = pbcservice.deleteOK(vo);
+		return "redirect:/partyboard/selectOne?party_board_id="+vo.getParty_board_id();			
+	}
+	
 }

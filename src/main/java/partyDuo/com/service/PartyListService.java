@@ -35,17 +35,6 @@ public class PartyListService {
 		return plmapper.selectOne(vo);
 	}
 	
-	public int getTotalRows() {
-		log.info("pl_service_getTotalRows()");
-		return plmapper.getTotalRows();		
-	};
-
-	public List<PartyListVO> searchListPageBlock(String searchKey,String searchWord, int startRow, int pageBlock){
-		log.info("pl_service_searchListPageBlock()");
-		return plmapper.searchListPageBlock(searchKey, searchWord, startRow, pageBlock);
-		
-	};
-	
 	public List<PartyListVO> searchList(String searchKey,String searchWord){
 		log.info("pl_service_searchList()");
 			if (searchKey.equals("party_id")) {
@@ -55,9 +44,9 @@ public class PartyListService {
 			}
 		};
 	
-	public int getSearchTotalRows(String searchKey,String searchWord) {
+	public int getTotalPartyListRows(String searchKey,String searchWord) {
 		log.info("pl_service_getSearchTotalRows");
-		return plmapper.getSearchTotalRows(searchKey, searchWord);
+		return plmapper.getTotalPartyListRows(searchWord);
 		
 	};
 }

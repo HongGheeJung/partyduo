@@ -72,7 +72,12 @@ public class PartyListController {
 	public String accept(PartyListVO vo,Model model) {
 		log.info("party_list_update...");
 		PartyListVO vo2 = plservice.selectOne(vo);
+		MemberVO vo3= new MemberVO();
+		vo3.setMember_id(vo.getMember_id());
+		vo3=mservice.member_selectOneByMember_id(vo3);
+		
 		model.addAttribute("vo2", vo2);
+		model.addAttribute("vo3", vo3);
 		return "partylist/accept";			
 	}
 	
@@ -80,14 +85,19 @@ public class PartyListController {
 	public String acceptOK(PartyListVO vo) {
 		log.info("party_list_updateOK...");
 		int result=plservice.updateOK(vo);
-		return "redirect:/partylist/myparty";			
+		return "redirect:/partylist/selectOne?party_id="+vo.getParty_id();			
 	}
 	
 	@GetMapping("/partylist/deny")
 	public String delete(PartyListVO vo,Model model) {
 		log.info("party_list_deny...");
 		PartyListVO vo2 = plservice.selectOne(vo);
+		MemberVO vo3= new MemberVO();
+		vo3.setMember_id(vo.getMember_id());
+		vo3=mservice.member_selectOneByMember_id(vo3);
+		
 		model.addAttribute("vo2", vo2);
+		model.addAttribute("vo3", vo3);
 		return "partylist/deny";			
 	}
 	
@@ -95,7 +105,7 @@ public class PartyListController {
 	public String deleteOK(PartyListVO vo) {
 		log.info("party_list_deleteOK...");
 		int result=plservice.deleteOK(vo);
-		return "redirect:/partylist/myparty";			
+		return "redirect:/partylist/selectOne?party_id="+vo.getParty_id();			
 	}
 	
 	@GetMapping("/partylist/selectOne")
@@ -122,7 +132,6 @@ public class PartyListController {
 				log.info("vo3{}", vo3);
 				vo3=mservice.member_selectOneByMember_id(vo3);
 				log.info("vo3{}", vo3);
-				
 				listqueue.add(vo3);
 			}
 		}
@@ -130,13 +139,9 @@ public class PartyListController {
 		log.info("vo{}", vo);
 		log.info("listmember{}",listmember);
 		log.info("listqueue{}",listqueue);
-		
-//		파티장 
-//		파티원 리스트 
-//		파티원 캐릭터 명
-//		파티 신청 리스트
-//		vo랑 리스트 멤버랑 리스트 큐 추가해서 보내주고
-//		파티 아이디랑 멤버 아이디 넣어서 수락 거절 버튼 만들기
+		model.addAttribute("vo", vo);
+		model.addAttribute("listmember", listmember);
+		model.addAttribute("listqueue", listqueue);
 		return "partylist/selectOne";			
 	}
 	

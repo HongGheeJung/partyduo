@@ -2,6 +2,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="test.com.member.mapper.MemberMapper">
-
+<mapper namespace="partyDuo.com.mapper.PartyBoardCommentMapper">
+	<insert id="insertOK">
+		insert into partyboardcomment(party_board_id,party_board_comment_content,party_board_comment_writer) 
+		values(#{party_board_id},#{party_board_comment_content},#{party_board_comment_writer})
+	</insert>
+	
+	<update id="updateOK">
+		update party set party_board_comment_content=#{party_board_comment_content} ,party_board_comment_wdate=(curtime())
+		where party_board_comment_id=#{party_board_comment_id} 
+	</update>
+	
+	<delete id="deleteOK">
+		delete from partyboardcomment where party_board_comment_id=#{party_board_comment_id}
+	</delete>
+	
+	<select id="searchListPartyBoardId"
+		resultType="partyDuo.com.model.PartyBoardCommentVO">
+		select * from partyboardcomment where party_board_id like #{searchWord} order by party_board_comment_id desc 
+	</select>
+	
+	<select id="selectOne"
+		resultType="partyDuo.com.model.PartyBoardCommentVO">
+		select * from partyboardcomment where party_board_comment_id=#{party_board_comment_id}
+	</select>
 </mapper>
