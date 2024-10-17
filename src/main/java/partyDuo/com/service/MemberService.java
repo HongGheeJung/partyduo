@@ -46,7 +46,7 @@ public class MemberService {
 	
 	public MemberVO member_selectOneByMember_id(MemberVO vo) {
 		log.info("member_selectOneByMember_id()...");
-		return mapper.member_selectOne(vo);
+		return mapper.member_selectOneByMember_id(vo);
 	}
 	
 	public List<MemberVO> member_selectAll(int cpage, int pageBlock){
