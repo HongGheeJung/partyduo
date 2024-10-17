@@ -16,6 +16,8 @@ public interface MemberMapper {
 	public int member_delete(MemberVO vo);
 
 	public MemberVO member_selectOne(MemberVO vo);
+	
+	public MemberVO member_selectOneByMember_id(MemberVO vo);
 
 	public List<MemberVO> member_selectAll(int startRow, int pageBlock);
 
