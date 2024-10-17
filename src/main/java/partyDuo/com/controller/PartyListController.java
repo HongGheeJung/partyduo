@@ -1,5 +1,6 @@
 package partyDuo.com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,20 +102,34 @@ public class PartyListController {
 	public String selectOne(int party_id,Model model) {
 		log.info("party_list_selectOne...");
 		PartyVO vo= new PartyVO();
+		MemberVO vo3= new MemberVO();
+		List<MemberVO> listmember= new ArrayList<>();
+		List<MemberVO> listqueue= new ArrayList<>();
 		vo.setParty_id(party_id);
 		vo=pservice.selectOne(vo);
-		//파티 아이디, 파티 이름, 파티장
+		//파티 아이디, 파티 이름, 파티 장
 		List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(party_id));
+		log.info("list{}",list);
+		
 		for (PartyListVO vo2 : list) {
 			if (vo2.getParty_join()==true) {
-				vo2.getMember_id();
-				//listmember
-				//셀렉트 원 해서 추가
-			}else {
-				//셀렉트 원 해서 리스트 추가
-				//listqueue
+				vo3.setMember_id(vo2.getMember_id());
+				vo3=mservice.member_selectOneByMember_id(vo3);
+				log.info("vo3{}", vo3);
+				listmember.add(vo3);
+			}else if(vo2.getParty_join()==false) {
+				vo3.setMember_id(vo2.getMember_id());
+				log.info("vo3{}", vo3);
+				vo3=mservice.member_selectOneByMember_id(vo3);
+				log.info("vo3{}", vo3);
+				
+				listqueue.add(vo3);
 			}
 		}
+		
+		log.info("vo{}", vo);
+		log.info("listmember{}",listmember);
+		log.info("listqueue{}",listqueue);
 		
 //		파티장 
 //		파티원 리스트 
