@@ -32,6 +32,7 @@ public class CharacterController {
 
 		//ocid 찾기
 		String ocid=service.foundOcidByName(character_name);
+		log.info("ocid: {}", ocid);
 		//캐릭터 기본정보
 		CharacterBasicDTO basicDTO=service.character_basic(ocid);
 		model.addAttribute("basicDTO", basicDTO);

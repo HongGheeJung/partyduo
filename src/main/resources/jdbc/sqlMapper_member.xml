@@ -26,6 +26,9 @@
 	<select id="member_selectOne" resultType="partyDuo.com.model.MemberVO">
 		select * from member where id=#{id}
 	</select>
+	<select id="member_selectOneByMember_id" resultType="partyDuo.com.model.MemberVO">
+		select * from member where member_id=#{member_id}
+	</select>
 	<select id="member_login" resultType="partyDuo.com.model.MemberVO">
 		select * from member where id=#{id} and pw=#{pw}
 	</select>

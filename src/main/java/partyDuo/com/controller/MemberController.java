@@ -42,7 +42,12 @@ public class MemberController {
 		log.info("vo: {}", vo);
 		int result=service.member_insert(vo);
 		log.info("result: {}", result);
-		return "member/selectLogin";
+		if (result==1) {
+			return "member/selectLogin";
+		}else {
+			return "redirect:/member/insert";
+		}
+		
 	}
 	@GetMapping("/member/update")
 	public String member_update(MemberVO vo, Model model) {
@@ -63,7 +68,11 @@ public class MemberController {
 //		vo.setCharacter_name("update테스트");
 		int result=service.member_update(vo);
 		log.info("result: {}", result);
-		return "redirect:/member/selectOne?id="+vo.getId();
+		if(result !=0) {
+			return "redirect:/member/selectOne?id="+vo.getId();			
+		}else {
+			return "redirect:/member/update?id="+vo.getId();
+		}
 	}
 	@GetMapping("/member/delete")
 	public String member_delete(MemberVO vo, Model model) {
@@ -78,7 +87,11 @@ public class MemberController {
 //		vo.setMember_id(1);
 		int result=service.member_delete(vo);
 		log.info("result: {}", result);
-		return "redirect:/member/selectAll";
+		if (result!=0) {			
+			return "redirect:/member/selectAll";
+		}else {
+			return "/member/delete?member_id="+vo.getMember_id();
+		}
 	}
 	@GetMapping("/member/selectOne")
 	public String member_selectOne(Model model,MemberVO vo) {
