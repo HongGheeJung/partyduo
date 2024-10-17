@@ -74,23 +74,35 @@ public class EventController {
 	@GetMapping("/event/searchListPartyMonth")
 	public String searchListPartyMonth(Model model, 
 			@RequestParam(defaultValue = "01") int party_id,
-			@RequestParam(defaultValue = "10") String month) {
+			@RequestParam(defaultValue = "10") String month,
+			@RequestParam(defaultValue = "2024") String year) {
 		
-		if(month.equals("13")) {
-			month="1";
+		int month2 = Integer.parseInt(month);
+		int year2 = Integer.parseInt(year);
+		
+		if(month2==13) {
+			month2=1;
+			year2 += 1;
+		}else if(month2==0) {
+			month2=12;
+			year2 -= 1;
 		}
 		log.info("/event/searchList");
 		log.info("search_party_id:{}", party_id);
-		log.info("month:{}", month);
-		int month2 = Integer.parseInt(month);
+		log.info("month2:{}", month2);
+		log.info("year2:{}", year2);
+		
 		
 		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
 		log.info("chat_list:{}", chat_list);
 		
-		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
+		List<EventVO> list = service.searchListPartyMonth(party_id, month2,year2);
 		log.info("list.size():{}", list.size());
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("month", month2);
+		model.addAttribute("year", year2);
+		
+		
 		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
 		
@@ -100,9 +112,11 @@ public class EventController {
 	@GetMapping({"/event/calendar","/calendar"})
 	public String searchListPartyMonthfirst(Model model, 
 			@RequestParam(defaultValue = "01") int party_id,
-			@RequestParam(defaultValue = "01") String month) {
+			@RequestParam(defaultValue = "01") String month,
+			@RequestParam(defaultValue = "2024") String year) {
 		 LocalDate now = LocalDate.now();
 		int month2 = now.getMonthValue();
+		int year2 = now.getYear();
 		log.info("/event/searchList");
 
 		log.info("search_party_id:{}", party_id);
@@ -110,11 +124,12 @@ public class EventController {
 		
 		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
 		log.info("chat_list:{}", chat_list);
-		List<EventVO> list = service.searchListPartyMonth(party_id, month2);
+		List<EventVO> list = service.searchListPartyMonth(party_id, month2, year2);
 		
 		log.info("list.size():{}", list.size());
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("month", month2);
+		model.addAttribute("year", year2);
 		
 		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
@@ -135,7 +150,7 @@ public class EventController {
 
 		model.addAttribute("list", list);
 		
-		return "event/calendar";
+		return "event/searchlist";
 	}
 	
 	

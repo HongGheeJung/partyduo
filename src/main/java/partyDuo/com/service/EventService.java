@@ -42,12 +42,13 @@ public class EventService {
 	}
 	
 	
-	public List<EventVO> searchListPartyMonth(int party_id, int searchWord) {		
+	public List<EventVO> searchListPartyMonth(int party_id, int month, int year) {		
 
 		log.info("search_party_id:{}", party_id);
-		log.info("month:{}", searchWord);
+		log.info("month:{}", month);
+		log.info("year:{}", year);
 		
-		return mapper.searchListPartyMonth(party_id, searchWord);
+		return mapper.searchListPartyMonth(party_id, month, year);
 	}
 
 	public int getTotalRows() {
