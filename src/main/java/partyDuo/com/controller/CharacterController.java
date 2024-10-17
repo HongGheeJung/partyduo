@@ -29,7 +29,7 @@ public class CharacterController {
 	public String character_info(@RequestParam(defaultValue="나로티아사") String character_name, Model model) {
 		log.info("character_info()...");
 		//test:캐릭터 이름 아무거나 넣어도 됩니다;
-
+//		character_name="나로티아사";
 		//ocid 찾기
 		String ocid=service.foundOcidByName(character_name);
 		log.info("ocid: {}", ocid);
@@ -39,6 +39,7 @@ public class CharacterController {
 		//캐릭터 스탯 정보
 		CharacterStatDTO statDTO=service.character_stat(ocid);
 		model.addAttribute("statDTO", statDTO);
+		log.info("{}", statDTO.getFinalStat().size());
 		//캐릭터 하이퍼스탯 정보
 		CharacterHyperStatDTO hyperstatDTO=service.character_hyperstat(ocid);
 		model.addAttribute("hyperstatDTO", hyperstatDTO);

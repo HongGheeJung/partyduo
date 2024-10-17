@@ -56,6 +56,16 @@
 				</tbody>
 			</table>
 		</div>
+		<div>
+			<table border="1">
+				<tr>
+					<td>즐겨찾기</td>
+					<th:block th:each="fvo:${flist}">
+						<td><a th:href="|/character/info?character_name=${fvo.character_name}|">[[${fvo.character_name}]]</a></td>
+					</th:block>
+				</tr>
+			</table>
+		</div>
 	</div>
 </body>
 </html>

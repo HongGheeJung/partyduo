@@ -18,4 +18,5 @@ public class FavoriteController {
 	@Autowired
 	FavoriteService service;
 	
+	
 }

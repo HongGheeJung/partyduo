@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class FavoriteVO {
 	private int member_id;
-	String character_name;
+	private String character_name;
+	
 }
