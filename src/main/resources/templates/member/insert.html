@@ -4,6 +4,38 @@
 <meta charset="UTF-8">
 <title>회원가입 입력</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	$(function() {
+		console.log("ready....");
+		$("#btn_idCheck").click(function() {
+			console.log("click....");
+			let url2 = "http://localhost:8820/member/idCheck";
+			$.ajax({
+				url : url2,
+				type : "get",
+				data : {
+					id : $("#id").val()
+				},
+				dataType : "json",
+				success : function(response) {
+					console.log(response);
+					let message = '';
+					if (response.result === 'OK') {
+						message = '사용가능';
+					} else {
+						message = '중복된 아이디';
+					}
+					$("#result").html(message);
+				},
+				error : function(ex) {
+					console.log(ex);
+				}
+			});
+		});
+	});
+</script>
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
@@ -28,7 +60,10 @@
 				<table>
 					<tr>
 						<td><label for="id">ID</label></td>
-						<td><input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요"></td>
+						<td><input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요">
+						<input type="button"id="btn_idCheck" value="idCheck"> <span id="result">사용가능
+							or 중복된 아이디</span></td>
+		
 					</tr>
 					<tr>
 						<td><label for="pw">pw</label></td>
@@ -40,7 +75,10 @@
 					</tr>
 					<tr>
 						<td><label for="apikey">apikey</label></td>
-						<td><input type="text" id="apikey" name="apikey" value="0123456789abcdefg" placeholder="apikey 입력"></td>
+						<td><input type="text" id="apikey" name="apikey" value="0123456789abcdefg" placeholder="apikey 입력">
+						<input type="button"id="btn_apiCheck" value="apiCheck"> <span id="result">사용가능
+							or 중복된 아이디</span></td>
+						
 					</tr>
 					<tr> <!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
 						<td><label for="character_name">character_name</label></td>
