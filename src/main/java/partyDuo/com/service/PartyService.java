@@ -59,4 +59,9 @@ public class PartyService {
 		int startRow=(cpage-1)*pageBlock;
 		return pmapper.selectAll(startRow,pageBlock);
 	}
+
+	public PartyVO selectOnePM(PartyVO vo) {
+		
+		return pmapper.selectOnePM(vo);
+	}
 }

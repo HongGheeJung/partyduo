@@ -7,8 +7,6 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>내가 파티장인 파티</h1>
-		<hr>
 		<table>
 			<thead>
 			<tr>
@@ -21,15 +19,22 @@
 			<th:block th:each="vo : ${list}">
 				<tr >
 					<td><a th:href="|/partylist/selectOne?party_id=${vo.party_id}|">[[${vo.party_name}]]</a></td>
-					<td th:if="${vo.party_master}==${session.user_character}">v</td>
-					<th:block th:each="vo2 : ${list2}" >
-					<td th:if="${vo2.member_id}==${member_id},${vo2.party_join}==true">v</td>
-					<td th:if="${vo2.member_id}==${member_id},${vo2.party_join}==false">v</td>
-					</th:block>
+					<td th:if="${vo.party_master==session.user_character}">vm</td>
+					<td th:if="${vo.party_join==true} and ${vo.party_master!=session.user_character}">vt</td>
+					<td th:if="${vo.party_join==false}">vf</td>
 				</tr>
 			</th:block>
+			<tfoot>
+		<tr>
+			<td colspan="6">
+				<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+						<a th:href="|/partylist/myparty?cpage=${i}|">[[${i}]]</a>
+				</th:block>	
+			</td>
+		</tr>
+	</tfoot>
 		</table>
 	</div>
-	<!-- 파티 만들기 넣기 -->
+	
 </body>
 </html>

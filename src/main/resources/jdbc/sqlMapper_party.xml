@@ -25,7 +25,12 @@
 		resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_id=#{party_id}
 	</select>
-
+	
+	<select id="selectOnePM"
+		resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_name=#{party_name} and party_master=#{party_master}
+	</select>
+	
 	<select id="searchListPartyId" resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_id like #{searchWord} order by party_id 
 	</select>

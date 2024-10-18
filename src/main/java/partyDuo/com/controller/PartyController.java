@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.model.MemberVO;
+import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;
+import partyDuo.com.service.MemberService;
+import partyDuo.com.service.PartyListService;
 import partyDuo.com.service.PartyService;
 
 @Slf4j
@@ -23,6 +27,12 @@ public class PartyController {
 	
 	@Autowired
 	PartyService pservice;
+	
+	@Autowired
+	PartyListService plservice;
+	
+	@Autowired
+	MemberService mservice;
 	
 	@GetMapping("/party/insert")
 	public String insert() {
@@ -36,7 +46,19 @@ public class PartyController {
 		log.info("vo:{}", vo);
 		int result = pservice.insertOK(vo);
 		log.info("result:{}", result);
-		return "redirect:/party/selectAll";	
+		
+		PartyListVO vo2 = new PartyListVO();
+		MemberVO vo3 = new MemberVO();
+		vo3.setId((String)session.getAttribute("user_id"));
+		vo3=mservice.member_selectOne(vo3);
+		int member_id = vo3.getMember_id();
+		vo= pservice.selectOnePM(vo);
+		vo2.setParty_id(vo.getParty_id());
+		vo2.setMember_id(member_id);
+		vo2.setParty_join(true);
+		int result2=plservice.insertOKPartyMaster(vo2);
+		log.info("result2:{}", result2);
+		return "redirect:/partylist/myparty";	
 	}
 	
 	@GetMapping("/party/update")
@@ -71,7 +93,7 @@ public class PartyController {
 		int result = pservice.deleteOK(vo);
 		log.info("result:{}", result);
 		
-		return "redirect:/party/selectAll";			
+		return "redirect:/partylist/myparty";			
 	}
 	
 	@GetMapping("/party/selectOne")
@@ -96,8 +118,7 @@ public class PartyController {
 	
 	@GetMapping("/party/searchList")
 	public String searchList(Model model, @RequestParam(defaultValue="party_master") String searchKey,
-			@RequestParam(defaultValue="ad")String searchWord,@RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5")int pageBlock) {
+			@RequestParam(defaultValue="ad")String searchWord) {
 		log.info("party_searchList...");
 		
 		List<PartyVO> list = pservice.searchList(searchKey,searchWord);

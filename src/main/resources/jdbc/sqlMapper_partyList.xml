@@ -8,6 +8,11 @@
 		values(#{party_id},#{member_id})
 	</insert>
 	
+	<insert id="insertOKPartyMaster">
+		insert into partylist(party_id,member_id,party_join) 
+		values(#{party_id},#{member_id},#{party_join})
+	</insert>
+	
 	<update id="updateOK">
 		update partylist set party_join=true where party_id=#{party_id} and member_id=${member_id}
 	</update>
@@ -26,9 +31,22 @@
 		resultType="partyDuo.com.model.PartyListVO">
 		select * from partylist where party_id like #{searchWord} order by party_id desc 
 	</select>
+	
 	<select id="searchListMemberId"
 		resultType="partyDuo.com.model.PartyListVO">
 		select * from partylist where member_id like #{searchWord} order by party_id desc 
+	</select>
+	
+	<select id="searchListJoinMemberId"
+		resultType="partyDuo.com.model.PartyListVO">
+		select * from partylist where member_id like #{searchWord} and party_join=true order by party_id asc 
+	</select>
+	
+	<select id="searchMyParty"
+		resultType="partyDuo.com.model.MyPartyVO">
+		select p.party_id,p.party_name,p.party_master,pl.member_id,pl.party_join 
+		from party p inner join partylist pl on p.party_id = pl.party_id where member_id=#{searchWord} limit #{startRow}, #{pageBlock}
+
 	</select>
 	
 	<select id="selectOne"
@@ -38,6 +56,6 @@
 	
 	<select id="getTotalPartyListRows" resultType="int">
 		select count(*) total_rows
-		from partylist where #{searchKey} like #{searchWord} 
+		from party inner join partylist on party.party_id = partylist.party_id where member_id=#{searchWord}
 	</select>
 </mapper>
