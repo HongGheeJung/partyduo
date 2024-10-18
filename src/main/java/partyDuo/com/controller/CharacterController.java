@@ -26,7 +26,10 @@ public class CharacterController {
 	
 	
 	@GetMapping("/character/info")
-	public String character_info(@RequestParam(defaultValue="나로티아사") String character_name, Model model) {
+	public String character_info(String character_name, Model model) {
+		if(character_name==null) {
+			return "character/infoDefault";
+		}
 		log.info("character_info()...");
 		//test:캐릭터 이름 아무거나 넣어도 됩니다;
 //		character_name="나로티아사";
@@ -43,6 +46,7 @@ public class CharacterController {
 		//캐릭터 하이퍼스탯 정보
 		CharacterHyperStatDTO hyperstatDTO=service.character_hyperstat(ocid);
 		model.addAttribute("hyperstatDTO", hyperstatDTO);
+		hyperstatDTO.getHyperStatPreset1().get(0).getStatType();
 		//캐릭터 성향 정보
 		CharacterPropensityDTO propensityDTO=service.character_propensity(ocid);
 		model.addAttribute("propensityDTO", propensityDTO);		

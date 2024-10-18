@@ -47,4 +47,7 @@
 	<select id="getSearchTotalRowsById" resultType="int">
 		select Count(*) from member where id like #{searchWord}
 	</select>
+	<select id="apiCheck" resultType="partyDuo.com.model.MemberVO">
+		select * from member where character_name=#{character_name}
+	</select>
 </mapper>
