@@ -96,7 +96,7 @@ public class ChatController {
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
 
-			return "redirect:/eveny/calendar";
+			return "redirect:/event/calendar";
 
 	}
 

@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.service.ChatService;
 import partyDuo.com.service.EventLikeService;
 import partyDuo.com.service.EventService;
+import partyDuo.com.service.MemberService;
+import partyDuo.com.service.PartyListService;
 import partyDuo.com.model.ChatVO;
 import partyDuo.com.model.EventLikeVO;
 import partyDuo.com.model.EventVO;
+import partyDuo.com.model.MemberVO;
+import partyDuo.com.model.PartyListVO;
 
 @Slf4j
 @Controller
@@ -30,10 +35,19 @@ public class EventController {
 	EventService service;
 	
 	@Autowired
+	HttpSession session;
+	
+	@Autowired
 	EventLikeService service_like;
 	
 	@Autowired
 	ChatService service_chat;
+	
+	@Autowired
+	MemberService mservice;
+	
+	@Autowired
+	PartyListService plservice;
 	
 
 	@GetMapping("/event/insert")
@@ -93,16 +107,21 @@ public class EventController {
 		log.info("year2:{}", year2);
 		
 		
-		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
-		log.info("chat_list:{}", chat_list);
+		MemberVO vo = new MemberVO();
+		vo.setId((String)session.getAttribute("user_id"));
+		vo=mservice.member_selectOne(vo);
+		int member_id=vo.getMember_id();
+		List<PartyListVO> plist = plservice.searchList("member_id",Integer.toString(member_id));
 		
+		
+		
+		List<ChatVO> chat_list =service_chat.searchListParty(party_id);		
 		List<EventVO> list = service.searchListPartyMonth(party_id, month2,year2);
-		log.info("list.size():{}", list.size());
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("month", month2);
 		model.addAttribute("year", year2);
 		
-		
+		model.addAttribute("plist", plist);
 		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
 		
@@ -110,8 +129,7 @@ public class EventController {
 	}
 	
 	@GetMapping({"/event/calendar","/calendar"})
-	public String searchListPartyMonthfirst(Model model, 
-			@RequestParam(defaultValue = "01") int party_id,
+	public String searchListPartyMonthfirst(Model model,
 			@RequestParam(defaultValue = "01") String month,
 			@RequestParam(defaultValue = "2024") String year) {
 		 LocalDate now = LocalDate.now();
@@ -119,8 +137,15 @@ public class EventController {
 		int year2 = now.getYear();
 		log.info("/event/searchList");
 
-		log.info("search_party_id:{}", party_id);
 		log.info("month2:{}", month2);
+		
+		MemberVO vo = new MemberVO();
+		vo.setId((String)session.getAttribute("user_id"));
+		vo=mservice.member_selectOne(vo);
+		int member_id=vo.getMember_id();
+		List<PartyListVO> plist = plservice.searchList("member_id",Integer.toString(member_id));
+		log.info("plist:{}", plist);
+		int party_id = plist.get(0).getParty_id();
 		
 		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
 		log.info("chat_list:{}", chat_list);
@@ -131,6 +156,7 @@ public class EventController {
 		model.addAttribute("month", month2);
 		model.addAttribute("year", year2);
 		
+		model.addAttribute("plist", plist);
 		model.addAttribute("chat_list", chat_list);
 		model.addAttribute("list", list);
 		
