@@ -77,6 +77,8 @@ public class PartyBoardService {
 			return pbmapper.getSearchTotalRowsBoardId(searchWord);
 		}else if(searchKey.equals("party_board_writer")) {
 			return pbmapper.getSearchTotalRowsBoardWriter("%"+searchWord+"%");
+		}else if(searchKey.equals("boss")) {
+			return pbmapper.getSearchTotalRowsBoss("%"+searchWord+"%");
 		}else {
 			return pbmapper.getSearchTotalRowsBoardWdate("%"+searchWord+"%"); 
 		}

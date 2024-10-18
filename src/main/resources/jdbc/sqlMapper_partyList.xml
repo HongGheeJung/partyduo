@@ -14,7 +14,7 @@
 	</insert>
 	
 	<update id="updateOK">
-		update partylist set party_join=true where party_id=#{party_id} and member_id=${member_id}
+		update partylist set party_join=true where party_id=#{party_id} and member_id=#{member_id}
 	</update>
 	
 	<delete id="deleteOK">

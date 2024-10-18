@@ -113,7 +113,7 @@ public class PartyListController {
 	public String selectOne(int party_id,Model model) {
 		log.info("party_list_selectOne...");
 		PartyVO vo= new PartyVO();
-		MemberVO vo3= new MemberVO();
+		
 		List<MemberVO> listmember= new ArrayList<>();
 		List<MemberVO> listqueue= new ArrayList<>();
 		vo.setParty_id(party_id);
@@ -124,11 +124,13 @@ public class PartyListController {
 		
 		for (PartyListVO vo2 : list) {
 			if (vo2.getParty_join()==true) {
+				MemberVO vo3= new MemberVO();
 				vo3.setMember_id(vo2.getMember_id());
 				vo3=mservice.member_selectOneByMember_id(vo3);
 				log.info("vo3{}", vo3);
 				listmember.add(vo3);
 			}else if(vo2.getParty_join()==false) {
+				MemberVO vo3= new MemberVO();
 				vo3.setMember_id(vo2.getMember_id());
 				log.info("vo3{}", vo3);
 				vo3=mservice.member_selectOneByMember_id(vo3);

@@ -9,7 +9,7 @@
 	</insert>
 	
 	<update id="updateOK">
-		update party set party_board_comment_content=#{party_board_comment_content} ,party_board_comment_wdate=(curtime())
+		update partyboardcomment set party_board_comment_content=#{party_board_comment_content} ,party_board_comment_wdate=(curtime())
 		where party_board_comment_id=#{party_board_comment_id} 
 	</update>
 	
