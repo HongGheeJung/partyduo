@@ -45,19 +45,37 @@ public class PartyListController {
 	public String insert(PartyListVO vo,Model model) {
 		log.info("party_list_application...");
 		log.info("vo:{}", vo);
+		
 		PartyVO vo2 = new PartyVO();
 		vo2.setParty_id(vo.getParty_id());
 		vo2=pservice.selectOne(vo2);
+		
+		MemberVO vo3 = new MemberVO();
+		vo3.setId((String)session.getAttribute("user_id"));
+		vo3=mservice.member_selectOne(vo3);
+		int member_id=vo3.getMember_id();
+		log.info("vo3:{}", vo3);
+		vo.setMember_id(member_id);
+		PartyListVO vo4=plservice.selectOne(vo);
+		String status=new String();
+		if(vo4==null) {
+			status="noapplication";
+		}else if(vo4.getParty_join()==true) {
+			status="accepted";
+		}else if(vo4.getParty_join()==false) {
+			status="application";
+		}
+		model.addAttribute("status", status);
 		model.addAttribute("vo2", vo2);
-		return "partylist/application";			
+		return "partylist/application";
 	}
 	
 	@PostMapping("/partylist/applicationOK")
 	public String insertOK(PartyVO vo) {
 		log.info("party_list_applicationOK...");
 		log.info("vo:{}", vo);
-		PartyListVO vo2= new PartyListVO();
 		
+		PartyListVO vo2= new PartyListVO();
 		MemberVO vo3 = new MemberVO();
 		vo3.setId((String)session.getAttribute("user_id"));
 		vo3=mservice.member_selectOne(vo3);

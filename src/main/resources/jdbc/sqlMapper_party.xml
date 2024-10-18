@@ -26,6 +26,11 @@
 		select * from party where party_id=#{party_id}
 	</select>
 	
+	<select id="selectOnePname"
+		resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_name=#{party_name}
+	</select>
+	
 	<select id="selectOnePM"
 		resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_name=#{party_name} and party_master=#{party_master}

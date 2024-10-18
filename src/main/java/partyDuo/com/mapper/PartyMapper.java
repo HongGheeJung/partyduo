@@ -17,6 +17,7 @@ public interface PartyMapper {
 	public int deleteOK(PartyVO vo);
 	
 	public PartyVO selectOne(PartyVO vo);
+	public PartyVO selectOnePname(PartyVO vo);
 	
 	public List<PartyVO> searchListPartyId(String searchWord);
 	public List<PartyVO> searchListPartyMaster(String searchWord);

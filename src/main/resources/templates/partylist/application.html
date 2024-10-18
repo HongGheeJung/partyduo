@@ -7,6 +7,10 @@
 </head>
 <body th:replace="~{layout::layout}">
 <div th:fragment="content">
+		<th:block th:switch="${status}">
+			<h1 th:case="accepted">이미 가입된 파티입니다.</h1>
+			<h1 th:case="application">이미 지원한 파티입니다.</h1>
+			<th:block th:case="noapplication">
 		<div>
 			<form action="/partylist/applicationOK" method="post">
 				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
@@ -18,6 +22,8 @@
 				</table>
 			</form>
 		</div>
+		</th:block>
+	</th:block>	
 </div>
 </body>
 </html>
