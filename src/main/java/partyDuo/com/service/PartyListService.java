@@ -58,7 +58,7 @@ public class PartyListService {
 		log.info("pageBlock:{}",pageBlock);
 		return plmapper.searchMyParty(searchWord,startRow,pageBlock);
 	}
-		public List<PartyListVO> searchListJoinMember(String searchKey,String searchWord){
+		public List<PartyListVO> searchListJoinMember(String searchWord){
 			log.info("pl_service_searchListJoinMember()");
 		return plmapper.searchListJoinMemberId(searchWord);
 		};

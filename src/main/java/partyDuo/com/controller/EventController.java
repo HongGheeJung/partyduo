@@ -143,7 +143,7 @@ public class EventController {
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
 		int member_id=vo.getMember_id();
-		List<PartyListVO> plist = plservice.searchList("member_id",Integer.toString(member_id));
+		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));
 		log.info("plist:{}", plist);
 		int party_id = plist.get(0).getParty_id();
 		
