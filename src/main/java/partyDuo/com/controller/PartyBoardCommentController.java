@@ -38,6 +38,7 @@ public class PartyBoardCommentController {
 	public String update(PartyBoardCommentVO vo,Model model) {
 		log.info("party_board_comment_update...");
 		PartyBoardCommentVO vo2=pbcservice.selectOne(vo);
+		log.info("vo:{}",vo2);
 		model.addAttribute("vo2", vo2);
 		return "partyboardcomment/update";			
 	}
@@ -45,8 +46,9 @@ public class PartyBoardCommentController {
 	@PostMapping("/partyboardcomment/updateOK")
 	public String updateOK(PartyBoardCommentVO vo)  {
 		log.info("party_board_comment_updateOK...");
+		log.info("vo:{}",vo);
 		int result = pbcservice.updateOK(vo);
-		return "redirect:/party_board_comment/selectOne";			
+		return "redirect:/partyboard/selectOne?party_board_id="+vo.getParty_board_id();
 	} 
 	
 	@GetMapping("/partyboardcomment/delete")

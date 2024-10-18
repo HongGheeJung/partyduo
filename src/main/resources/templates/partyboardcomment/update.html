@@ -10,6 +10,7 @@
 		<div>
 			<form action="/partyboardcomment/updateOK" method="post">
 				<input type="hidden" name="party_board_comment_id" th:value="${vo2.party_board_comment_id}">
+				<input type="hidden" name="party_board_id" th:value="${vo2.party_board_id}">
 				<table id="insertTable">
 			<tr>
 				<td><label for="party_board_comment_content">댓글내용</label></td>

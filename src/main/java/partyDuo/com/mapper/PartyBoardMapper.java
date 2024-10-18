@@ -30,6 +30,7 @@ public interface PartyBoardMapper {
 	public int getSearchTotalRowsBoardId(String searchWord);
 	public int getSearchTotalRowsBoardWriter(String searchWord);
 	public int getSearchTotalRowsBoardWdate(String searchWord);
+	public int getSearchTotalRowsBoss(String searchWord);
 	
 
 	
