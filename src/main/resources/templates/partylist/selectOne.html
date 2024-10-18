@@ -22,8 +22,8 @@
 		<th:block th:each="partymember:${listmember}">
 		<tr>
 		 <td >파티원</td>
-		 <td><a th:href="|/character/info?character_name=${partymember.character_name}|">[[${partymember.character_name}]]</a></td>
-		 <td><a th:if="${partymember.character_name}==${session.user_character}" th:href="|/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}|">파티 탈퇴하기</a>
+		 <td><a th:if="${partymember.character_name != vo.party_master}" th:href="|/character/info?character_name=${partymember.character_name}|">[[${partymember.character_name}]]</a></td>
+		 <td><a th:if="${partymember.character_name == session.user_character and partymember.character_name!=vo.party_master}" th:href="|/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}|">파티 탈퇴하기</a>
 		</tr>
 		</th:block>
 	</table>

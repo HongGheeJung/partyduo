@@ -23,4 +23,6 @@ public interface PartyMapper {
 	public List<PartyVO> searchListPartyName(String searchWord);
 
 	public List<PartyVO> selectAll(int startRow, int pageBlock);
+
+	public PartyVO selectOnePM(PartyVO vo);
 }

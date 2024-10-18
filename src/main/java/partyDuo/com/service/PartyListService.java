@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.mapper.PartyListMapper;
+import partyDuo.com.model.MyPartyVO;
 import partyDuo.com.model.PartyListVO;
 
 @Slf4j
@@ -19,6 +20,11 @@ public class PartyListService {
 		log.info("pl_service_insertOK");
 		return plmapper.insertOK(vo);
 		}
+	
+	public int insertOKPartyMaster(PartyListVO vo) {
+		log.info("pl_service_insertOKPartyMaster");
+		return plmapper.insertOKPartyMaster(vo);
+	}
 	
 	public int updateOK(PartyListVO vo) {
 		log.info("pl_service_updateOK");
@@ -43,8 +49,21 @@ public class PartyListService {
 				return plmapper.searchListMemberId(searchWord);				
 			}
 		};
-	
-	public int getTotalPartyListRows(String searchKey,String searchWord) {
+		
+	public List<MyPartyVO> searchMyParty(String searchWord,int cpage, int pageBlock){
+		log.info("pl_service_searchMyParty()");
+		log.info("searchWord:{}",searchWord);
+		int startRow=(cpage-1)*pageBlock;
+		log.info("startRow:{}",startRow);
+		log.info("pageBlock:{}",pageBlock);
+		return plmapper.searchMyParty(searchWord,startRow,pageBlock);
+	}
+		public List<PartyListVO> searchListJoinMember(String searchKey,String searchWord){
+			log.info("pl_service_searchListJoinMember()");
+		return plmapper.searchListJoinMemberId(searchWord);
+		};
+			
+	public int getTotalPartyListRows(String searchWord) {
 		log.info("pl_service_getSearchTotalRows");
 		return plmapper.getTotalPartyListRows(searchWord);
 		

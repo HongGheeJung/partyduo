@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.model.MemberVO;
+import partyDuo.com.model.MyPartyVO;
 import partyDuo.com.model.PartyBoardVO;
 import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;
@@ -146,22 +147,35 @@ public class PartyListController {
 	}
 	
 	@GetMapping("partylist/myparty")
-	public String myparty(Model model) {
+	public String myparty(Model model,@RequestParam(defaultValue = "1") int cpage,
+			@RequestParam(defaultValue = "5")int pageBlock) {
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		String character_name=(String) session.getAttribute("user_character");
 		vo=mservice.member_selectOne(vo);
-		int member_id=vo.getMember_id();
+		int member_id=vo.getMember_id();//현재 로그인유저의 멤버아이디
+		log.info("member_id:{}",member_id);
 		//partylist search 수정
-		List<PartyVO> list=pservice.searchListPM("party_master",character_name);
-		List<PartyListVO> list2 = plservice.searchList("member_id",Integer.toString(member_id));
-		log.info("list: {}", list);
-		log.info("list2: {}", list2);
+		List<MyPartyVO> list = plservice.searchMyParty(Integer.toString(member_id),cpage,pageBlock);
+		log.info("list:{}", list);
+		model.addAttribute("list", list);
 		
-	
-		model.addAttribute("list",list);
-		model.addAttribute("list2",list2);
-		model.addAttribute("member_id",member_id);
+		int total_rows = plservice.getTotalPartyListRows(Integer.toString(member_id));
+		log.info("total_rows:{}", total_rows);
+		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
+		int totalPageCount = 0;
+
+		// 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가기
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		log.info("totalPageCount:{}", totalPageCount);
+
+		model.addAttribute("totalPageCount", totalPageCount);
 		return "partylist/myparty";
 	}
 	
