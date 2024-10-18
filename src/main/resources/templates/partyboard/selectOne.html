@@ -31,8 +31,8 @@
 					<td>[[${vo2.party_board_content}]]</td>
 					<td>[[${vo2.party_board_writer}]]</td>
 					<td>[[${vo2.party_board_wdate}]]</td>
-					<td><a th:href="|/partyboard/update?party_board_id=${vo2.party_board_id}|">수정</a></td>
-				<td><a th:href="|/partyboard/delete?party_board_id=${vo2.party_board_id}|">삭제</a></td>
+					<td th:if="${vo2.party_board_writer==session.user_character}"><a th:href="|/partyboard/update?party_board_id=${vo2.party_board_id}|">수정</a></td>
+					<td th:if="${vo2.party_board_writer==session.user_character}"><a th:href="|/partyboard/delete?party_board_id=${vo2.party_board_id}|">삭제</a></td>
 				</tr>
 			</th:block>
 	</tbody>	

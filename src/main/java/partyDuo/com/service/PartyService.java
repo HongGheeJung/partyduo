@@ -38,7 +38,7 @@ public class PartyService {
 		}else if(searchKey.equals("party_name")) {
 			return pmapper.searchListPartyName("%"+searchWord+"%");
 		}else {
-			return pmapper.searchListPartyMaster("%"+searchWord+"%");
+			return pmapper.searchListPartyMaster(searchWord);
 		}
 	}
 	
@@ -52,6 +52,11 @@ public class PartyService {
 	public PartyVO selectOne(PartyVO vo) {
 		log.info("p_service_selectOne");
 		return pmapper.selectOne(vo);
+	}
+	
+	public PartyVO selectOnePname(PartyVO vo) {
+		log.info("p_service_selectOnePname");
+		return pmapper.selectOnePname(vo);
 	}
 	
 	public List<PartyVO> selectAll(int cpage, int pageBlock){
