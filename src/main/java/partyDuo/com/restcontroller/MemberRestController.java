@@ -39,11 +39,28 @@ public class MemberRestController {
 		return map;
 	}
 	@GetMapping("/member/apiCheck")
-	public Map<String, String> member_apiCheck(String apikey) {
-		String character=cservice.bonCharacter(cservice.foundOcid(apikey));	
+	public Map<String, String> member_apiCheck(MemberVO vo) {
+		
+		log.info("/apiCheck");
+		Map map=new HashMap<>();
+		log.info("vo:{}", vo);
+		MemberVO vo2=mservice.apiCheck(vo);
+		if(vo2==null) {
+			map.put("result","OK");
+		}else {
+			map.put("result","NotOK");
+		}	
+		return map;
+	}
+	@GetMapping("/member/apiToCharacter")
+	public Map<String, String> member_apiToCharacter(String apikey) {
+		log.info("/apiToCharacter");
+		String ocid=cservice.foundOcid(apikey);
+		log.info("ocid:{}", ocid);
+		String character=cservice.bonCharacter(ocid);	
 		Map map=new HashMap<>();
 		map.put("character_name", character);
-		log.info("/apiCheck");
+		map.put("ocid", ocid);
 		return map;
 	}
 }

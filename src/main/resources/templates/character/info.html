@@ -127,6 +127,27 @@
 				<a th:href="|/favorite/delete?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 해제</a>
 				<a th:href="|/favorite/selectOne?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 되어있는지 여부</a>
 			</div>
+			<div>
+				<table border="1">
+					<thead>
+						<th>스탯명</th>
+						<th>프리셋 1</th>
+						<th>프리셋 2</th>
+						<th>프리셋 3</th>
+					</thead>
+					<tbody>
+						<th:block th:each="i : ${#numbers.sequence(0, 16)}">
+						<tr>
+							<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatType()}]]</td>
+							<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatLevel()}]]</td>
+							<td>[[${hyperstatDTO.getHyperStatPreset2().get(i).getStatLevel()}]]</td>
+							<td>[[${hyperstatDTO.getHyperStatPreset3().get(i).getStatLevel()}]]</td>
+						</tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+			
 		</div>
 	</body>
 </html>

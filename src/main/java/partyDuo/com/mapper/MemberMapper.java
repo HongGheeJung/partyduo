@@ -38,5 +38,7 @@ public interface MemberMapper {
 	public int getSearchTotalRowsByCname(String searchWord);
 
 	public int getSearchTotalRowsById(String searchWord);
+
+	public MemberVO apiCheck(MemberVO vo);
 	
 }

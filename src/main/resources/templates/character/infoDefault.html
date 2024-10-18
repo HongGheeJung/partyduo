@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<div th:replace="~{layout::boottemplate}"></div>
+</head>
+	<body th:replace="~{layout::layout}">
+		<div th:fragment="content">
+			<h1>Info</h1>
+			<h4>[[${user_id}]]</h4>
+			<div>
+				<a href="/main">main</a>
+				<a href="/member/insert">insert</a>
+				<a href="/member/insertOK">insertOK</a>
+				<a th:href="|/member/update?id=${user_id}|">update</a>
+				<a href="/member/updateOK">updateOK</a>
+				<a href="/member/delete">delete</a>
+				<a href="/member/deleteOK">deleteOK</a>
+				<a href="/member/selectOne">selectOne</a>
+				<a href="/member/selectAll">selectAll</a>
+				<a href="/member/searchList">searchList</a>
+				<a href="/member/login">login</a>
+				<a href="/member/logout">logout</a>
+				<a href="/member/findID">findID</a>
+				<a href="/member/findPw">findPw</a>
+				<a href="/member/findPwCheck">findPwCheck</a>
+				<a href="/member/findIDCheck">findIDCheck</a>
+				<a href="/member/apiCheck">apiCheck</a>
+			</div>
+			<hr>
+			<form action="/character/info" method="get">
+				<table>
+					<tr>
+						<td><label for="character_name">닉네임 입력</label></td>
+						<td><input type="text" id="character_name" name="character_name" value="나로티아사"></td>
+						<td><input type="submit" value="검색">
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>

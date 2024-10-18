@@ -104,4 +104,8 @@ public class MemberService {
 		}
 		
 	}
+	public MemberVO apiCheck(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.apiCheck(vo);
+	}
 }
