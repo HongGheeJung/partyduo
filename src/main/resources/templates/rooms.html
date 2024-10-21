@@ -1,0 +1,110 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>채팅</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+</head>
+<body>
+
+...생략
+
+<!-- 채팅방 -->
+<div>
+	<div class="table-responsive">
+		<table class="table table-lg">
+			<c:if test="${not empty chatRoomDatas}">
+				<c:forEach items="${chatRoomDatas}" var="data">
+					<tr id="chat-room-area" class="chat-room" onclick="enterRoom('${data.chatRoomNo}');">
+						<td class="chat-room-profile">
+							<div class="avatar bg-warning me-3">
+								<span class="avatar-content">AS</span>
+							</div>
+						</td>
+						<td>
+							<div class="chat-room-title">
+								${data.chatTitle}
+							</div>
+							<div class="chat-room-content">
+								임시내용
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
+			</c:if>
+		</table>
+		<i class="bi bi-plus-circle-fill chat-plus-icon" onclick="chatRoomAddModal()"></i>
+	</div>
+</div>
+
+
+<!-- 채팅창 -->
+<div class="chat-center-layout">
+	<section class="section">
+		<div class="card">
+			<div class="card-header">
+				<div class="media d-flex align-items-center">
+					<div class="avatar me-3">
+						<img src="static/images/faces/1.jpg" alt="" srcset="">
+						<span class="avatar-status bg-success"></span>
+					</div>
+					<div class="name flex-grow-1">
+						<h6 class="mb-0">Fred</h6>
+						<span class="text-xs">Online</span>
+					</div>
+					<button class="btn btn-sm">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body pt-4 bg-grey" id="id_chat">
+				<div id="chat-content">
+					<c:forEach items="${message}" var="data">
+						<c:choose>
+							<c:when test="${empDto.empNm == data.chatWriter}">
+								<div class="chat">
+									<div class="chat-body">
+										<div class="chat-message">${data.chatWriter} : ${data.chatMessage}</div>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="chat chat-left">
+									<div class="chat-body">
+										<div class="chat-message">${data.chatWriter} : ${data.chatMessage}</div>
+									</div>
+								</div>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="message-form d-flex flex-direction-column align-items-center">
+					<a href="http://" class="black"><i data-feather="smile"></i></a>
+					<div class="d-flex flex-grow-1 ml-4">
+						<input type="text" class="form-control" id="msg" name="context" placeholder="Type your message..">
+						<button type="submit" class="submit-btn" id="button-send">전송</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script type="text/javascript">
+    function enterRoom(roomId) {
+		location.href = "${chatUrl}/room?roomId="+roomId
+	}
+</script>
+</html>

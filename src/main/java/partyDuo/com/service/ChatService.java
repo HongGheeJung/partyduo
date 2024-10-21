@@ -3,6 +3,7 @@ package partyDuo.com.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,29 @@ public class ChatService {
 
 	@Autowired
 	ChatMapper mapper;
+	
+	@Autowired
+    private SqlSession session;
+
+    public boolean insertRoomDatas(ChatVO message) {
+        mapper = session.getMapper(ChatMapper.class);
+        int result = mapper.insertOK(message);
+        
+        return result == 1 ? true : false;
+    }
+    
+    public List<ChatVO> findMessageById(String roomId) {
+        mapper = session.getMapper((ChatMapper.class));
+        int roomId2 = Integer.parseInt(roomId);
+        List<ChatVO> ChatVO = mapper.searchListParty(roomId2);
+
+        return ChatVO;
+    }
+    
+    public List<ChatVO> searchListParty(int party_id) {
+		return mapper.searchListParty( party_id );
+
+}
 	
 	public int insertOK(ChatVO vo) {
 		return mapper.insertOK(vo);
@@ -37,10 +61,7 @@ public class ChatService {
 		return mapper.deleteOK(vo);
 	}
 
-	public List<ChatVO> searchListParty(int party_id) {
-			return mapper.searchListParty( party_id );
-
-	}
+	
 	
 	public List<ChatVO> searchListWriter(String searchWord) {
 			return mapper.searchListWriter("%" + searchWord + "%");

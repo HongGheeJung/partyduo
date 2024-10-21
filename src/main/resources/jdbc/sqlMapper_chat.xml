@@ -16,7 +16,7 @@
 	
 	<select id="selectOne"
 		resultType="partyDuo.com.model.ChatVO">
-		select * from event where event_id=#{event_id}
+		select * from event where chat_id=#{chat_id}
 	</select>
 	
 	<update id="updateOK">
