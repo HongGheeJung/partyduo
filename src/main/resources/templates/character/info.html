@@ -4,6 +4,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	function showHyperStat(presetNum){
+		document.querySelectorAll('.hyperStat-table').forEach(function(table) {
+            table.style.display = 'none';
+        });
+		document.getElementById('hyperStatPreset'+presetNum).style.display="table";
+	}
+	function showItemEquipment(presetNum){
+		document.querySelectorAll('.item-table').forEach(function(table){
+			table.style.display='none';
+		});
+		document.getElementById('itemPreset'+presetNum).style.display="table";
+	}
+	function showCashItemEquipment(presetNum){
+		document.querySelectorAll('.cashItem-table').forEach(function(table){
+			table.style.display='none';
+		});
+		document.getElementById('cashItemPreset'+presetNum).style.display="table";
+	}
+	function showAbility(presetNum){
+		document.querySelectorAll('.ability-table').forEach(function(table){
+			table.style.display='none';
+		});
+		document.getElementById('abilityPreset'+presetNum).style.display="table";
+	}
+	function showSkill(presetNum){
+		document.querySelectorAll('.skill-table').forEach(function(table){
+			table.style.display='none';
+		});
+		document.getElementById('skill'+presetNum).style.display="table";
+	}
+</script>
 </head>
 	<body th:replace="~{layout::layout}">
 		<div th:fragment="content">
@@ -62,12 +96,12 @@
 				<a href="/character/infoTestDojang">도장</a>
 			</div>
 			
-
 			<hr>
-			<div style="width:10%;float:left">
+			
+			<div style="float:left">
 				<img th:src="|${basicDTO.getCharacterImage()}|">
 			</div>
-			<div style="width:10%;float:left;">
+			<div id="basic" style="float:left;">
 				<table border="1">
 				<thead>
 					<th colspan="2">기본정보</th>
@@ -104,50 +138,453 @@
 				</tbody>
 			</table>
 			</div>
-			<div style="float:left">
+			<div id="stat" style="float:left">
 				<table border="1">
 				<thead>
 					<th colspan="12">스탯정보</th>
 				</thead>
 				<tbody>
-					<th:block th:each="j: ${#numbers.sequence(0, 3)}">
+					<th:block th:each=" i: ${#numbers.sequence(0, 43)}">
+						<tr>		
+							<td>[[${statDTO.getFinalStat.get(i).getStatName()}]]</td>
+							<td>[[${statDTO.getFinalStat.get(i).getStatValue()}]]</td>	
 						<tr>
-							<th:block th:each=" i: ${#numbers.sequence(j*11+0, j*11+10)}">
-								<td>[[${statDTO.getFinalStat.get(i).getStatName()}]]</td>
-								<td>[[${statDTO.getFinalStat.get(i).getStatValue()}]]</td>
-							</th:block>	
-						</tr>
-					</th:block>
+					</th:block>	
 				</tbody>
 				</table>
 			</div>
-			<div>
+			<div id="favorite">
 					[[${user_id}]]
 				<a th:href="|/favorite/insert?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 추가</a>
 				<a th:href="|/favorite/delete?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 해제</a>
 				<a th:href="|/favorite/selectOne?character_name=${basicDTO.getCharacterName}&user_id=${user_id}|">즐겨찾기 되어있는지 여부</a>
 			</div>
-			<div>
-				<table border="1">
-					<thead>
-						<th>스탯명</th>
-						<th>프리셋 1</th>
-						<th>프리셋 2</th>
-						<th>프리셋 3</th>
-					</thead>
-					<tbody>
-						<th:block th:each="i : ${#numbers.sequence(0, 16)}">
-						<tr>
-							<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatType()}]]</td>
-							<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatLevel()}]]</td>
-							<td>[[${hyperstatDTO.getHyperStatPreset2().get(i).getStatLevel()}]]</td>
-							<td>[[${hyperstatDTO.getHyperStatPreset3().get(i).getStatLevel()}]]</td>
-						</tr>
-						</th:block>
-					</tbody>
+			<div id="hyperStat" style="float:left">
+				<table>
+					<tr>
+						<td>
+							<button type=button onclick="showHyperStat(1)">하이퍼스탯 프리셋1</button>
+							<button type=button onclick="showHyperStat(2)">하이퍼스탯 프리셋2</button>
+							<button type=button onclick="showHyperStat(3)">하이퍼스탯 프리셋3</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table border="1" id="hyperStatPreset1" class="hyperStat-table" style="display: table;">
+								<thead>
+									<th>스탯명</th>
+									<th>값</th>
+									<th>증가량</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 16)}">
+									<tr>
+										<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatType()}]]</td>
+										<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatLevel()}]]</td>
+										<td>[[${hyperstatDTO.getHyperStatPreset1().get(i).getStatIncrease()}]]</td>
+									</tr>
+									</th:block>
+								</tbody>
+							</table>		
+							<table border="1" id="hyperStatPreset2" class="hyperStat-table" style="display: none;">
+								<thead>
+									<th>스탯명</th>
+									<th>값</th>
+									<th>증가량</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 16)}">
+										<tr>
+											<td>[[${hyperstatDTO.getHyperStatPreset2().get(i).getStatType()}]]</td>
+											<td>[[${hyperstatDTO.getHyperStatPreset2().get(i).getStatLevel()}]]</td>
+											<td>[[${hyperstatDTO.getHyperStatPreset2().get(i).getStatIncrease()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>	
+							<table border="1" id="hyperStatPreset3" class="hyperStat-table" style="display: none;">
+								<thead>
+									<th>스탯명</th>
+									<th>값</th>
+									<th>증가량</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 16)}">
+									<tr>
+										<td>[[${hyperstatDTO.getHyperStatPreset3().get(i).getStatType()}]]</td>
+										<td>[[${hyperstatDTO.getHyperStatPreset3().get(i).getStatLevel()}]]</td>
+										<td>[[${hyperstatDTO.getHyperStatPreset3().get(i).getStatIncrease()}]]</td>
+									</tr>
+								</th:block>
+								</tbody>
+							</table>		
+						</td>	
+					</tr>
+				</table>	
+			</div>
+			<div id="ability">
+				<table>
+					<tr>
+						<td>
+							<button type=button onclick="showAbility(1)">어빌리티 프리셋1</button>
+							<button type=button onclick="showAbility(2)">어빌리티 프리셋2</button>
+							<button type=button onclick="showAbility(3)">어빌리티 프리셋3</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table id="abilityPreset1" class="ability-table" style="display: table">
+								<thead>
+									<th>능력번호</th>
+									<th>능력정보</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i: ${#numbers.sequence(0,2)}">								
+										<tr>
+											<td>[[${abilityDTO.getAbilityPreset1().getAbilityInfo().get(i).getAbilityNo()}]]</td>
+											<td>[[${abilityDTO.getAbilityPreset1().getAbilityInfo().get(i).getAbilityValue()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="abilityPreset2" class="ability-table" style="display: none">
+								<thead>
+									<th>능력번호</th>
+									<th>능력정보</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i: ${#numbers.sequence(0,2)}">								
+										<tr>
+											<td>[[${abilityDTO.getAbilityPreset2().getAbilityInfo().get(i).getAbilityNo()}]]</td>
+											<td>[[${abilityDTO.getAbilityPreset2().getAbilityInfo().get(i).getAbilityValue()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="abilityPreset3" class="ability-table" style="display: none">
+								<thead>
+									<th>능력번호</th>
+									<th>능력정보</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i: ${#numbers.sequence(0,2)}">								
+										<tr>
+											<td>[[${abilityDTO.getAbilityPreset3().getAbilityInfo().get(i).getAbilityNo()}]]</td>
+											<td>[[${abilityDTO.getAbilityPreset3().getAbilityInfo().get(i).getAbilityValue()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+						</td>
+					</tr>
 				</table>
 			</div>
-			
+			<div id="itemEquip">
+				<table>
+					<tr>
+						<td>
+						<button type=button onclick="showItemEquipment(1)">아이템 프리셋1</button>
+						<button type=button onclick="showItemEquipment(2)">아이템 프리셋2</button>
+						<button type=button onclick="showItemEquipment(3)">아이템 프리셋3</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table id="itemPreset1" class="item-table" style="display: table">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 23)}">
+										<tr>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset1().get(i).getItemEquipmentPart()}]]</td>
+											<td><img th:src="|${itemEquipDTO.getItemEquipmentPreset1().get(i).getItemIcon()}|"></td>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset1().get(i).getItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="itemPreset2" class="item-table" style="display: none">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 23)}">
+										<tr>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset2().get(i).getItemEquipmentPart()}]]</td>
+											<td><img th:src="|${itemEquipDTO.getItemEquipmentPreset2().get(i).getItemIcon()}|"></td>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset1().get(i).getItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="itemPreset3" class="item-table" style="display: none">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 23)}">
+										<tr>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset3().get(i).getItemEquipmentPart()}]]</td>
+											<td><img th:src="|${itemEquipDTO.getItemEquipmentPreset3().get(i).getItemIcon()}|"></td>
+											<td>[[${itemEquipDTO.getItemEquipmentPreset3().get(i).getItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>							
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="cashItemEquip">
+				<table>
+					<tr>
+						<td>
+						<button type=button onclick="showCashItemEquipment(0)">캐시아이템 기본정보</button>
+						<button type=button onclick="showCashItemEquipment(1)">캐시아이템 프리셋1</button>
+						<button type=button onclick="showCashItemEquipment(2)">캐시아이템 프리셋2</button>
+						<button type=button onclick="showCashItemEquipment(3)">캐시아이템 프리셋3</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table id="cashItemPreset0" class="cashItem-table" style="display: table">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 12)}">
+										<tr>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemEquipmentPart()}]]</td>
+											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemIcon()}|"></td>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="cashItemPreset1" class="cashItem-table" style="display: none">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+										<tr>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemEquipmentPart()}]]</td>
+											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemIcon()}|"></td>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="cashItemPreset2" class="cashItem-table" style="display: none">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+										<tr>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset2().get(i).getCashItemEquipmentPart()}]]</td>
+											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset2().get(i).getCashItemIcon()}|"></td>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="cashItemPreset3" class="cashItem-table" style="display: none">
+								<thead>
+									<th>부위</th>
+									<th>장비</th>
+									<th>장비명</th>
+								</thead>
+								<tbody>
+									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+										<tr>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemEquipmentPart()}]]</td>
+											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemIcon()}|"></td>
+											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemName()}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>							
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="skill">
+				<table>
+					<tr>
+						<td><button type="button" onclick="showSkill(0)">0차</button></td>
+						<td><button type="button" onclick="showSkill(1)">1차</button></td>
+						<td><button type="button" onclick="showSkill(2)">2차</button></td>
+						<td><button type="button" onclick="showSkill(3)">3차</button></td>
+						<td><button type="button" onclick="showSkill(4)">4차</button></td>
+						<td><button type="button" onclick="showSkill(5)">5차</button></td>
+						<td><button type="button" onclick="showSkill(6)">6차</button></td>
+						<td><button type="button" onclick="showSkill(7)">하이퍼(패시브)</button></td>
+						<td><button type="button" onclick="showSkill(8)">하이퍼(스킬)</button></td>
+					</tr>
+					<tr>
+						<td>
+							<table id="skill0" class="skill-table" style="display: table">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillzeroDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon	}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill1" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skilloneDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill2" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skilltwoDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill3" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillthreeDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill4" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillfourDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill5" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillfiveDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.SkillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill6" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillsixDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table> 
+							<table id="skill7" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillhyperpassiveDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+							<table id="skill8" class="skill-table" style="display: none">
+								<thead>
+									<th>스킬명</th>
+									<th>스킬</th>									
+									<th>레벨</th>
+								</thead>
+								<tbody>
+									<th:block th:each="s: ${skillhyperactiveDTO.characterSkill}">
+										<tr>
+											<td>[[${s.skillName}]]</td>
+											<td><img th:src="|${s.skillIcon}|"></td>
+											<td>[[${s.skillLevel}]]</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>
