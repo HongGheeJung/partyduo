@@ -4,43 +4,144 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script th:inline="javascript">
+function handlePartySelection() {
+    var selectedValue = document.getElementById("partySelect").value;
+
+    if (selectedValue === 'create') {
+        // 새로운 팝업 창으로 URL을 띄움
+        openCenteredPopup();
+    }
+}
+function openCenteredPopup() {
+    var width = 600;
+    var height = 400;
+    var left = (window.screen.width / 2) - (width / 2);
+    var top = (window.screen.height / 2) - (height / 2);
+    window.open('/party/insert', '파티 만들기', `width=${width},height=${height},left=${left},top=${top}`);
+}
+var formSubmitted = false;
+function closePopupAndRedirect() {
+    // 부모 창이 특정 링크로 이동하도록 설정
+    
+    if(formSubmitted) {
+    if (window.opener) {
+        window.opener.location.href = '/partyboard/selectAll';  // 원하는 URL로 리다이렉트
+    }
+    // 팝업 창을 닫음
+    window.close();
+    }
+}
+
+</script>
 </head>
-<body th:replace="~{layout::layout}">
-<hr>
-<div th:fragment="content">	
-<form action="/partyboard/insertOK" method="post">
-		<table>
-			<tr>
-				<select name="party_id">
-				<option th:each="vo : ${list}" th:value=${vo.party_id} th:utext="${vo.party_name}"></option>
-				</select> 
-			</tr>
-			<tr>
-				<td><label for="req_pwr">요구 전투력</label></td>
-				<td><input type="number" id="req_pwr" name="req_pwr" value=50000000 placeholder=50000000></td>
-			</tr>
-			<tr>
-				<td><label for="boss">잡으러갈 보스</label></td>
-				<td><input type="text" id="boss" name="boss"  value="검마" placeholder="검마"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_memo">간단 메모</label></td>
-				<td><input type="text" id="party_board_memo" name="party_board_memo" value="ㅈ밥검마 개팰사람 구함" placeholder="내용을 입력해 주세요"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_content">상세 모집글</label></td>
-				<td><input type="text" id="party_board_content" name="party_board_content" value="ㅈ밥검마 개팰사람 구함" placeholder="본문을 입력해주세요"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_writer">글쓴이</label></td>
-				<td><input type="hiddden" id="party_board_writer" name="party_board_writer" th:value="${session.user_character}">[[${session.user_character}]]</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2"><input type="submit" value="게시글 작성"></td>
-			</tr>			
-		</table>
-	</form>
-</div>
+<body>
+<th:block th:fragment="partyBoardInsert">	
+			<div class="gtco-container">
+				<div class="row">
+					<div class="col-md-12 col-md-offset-0">
+						<div class="row row-mt-15em">
+							<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+								<div class="form-wrap">
+									<div class="tab">
+										<div class="tab-content">
+											<div class="tab-content-inner active" data-content="signup">
+												<h3>파티 게시판 게시글 작성</h3>
+												<form action="/partyboard/insertOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="fullname">파티 선택</label>
+															<select id="partySelect" name="party_id" th:onchange="handlePartySelection()" class="form-control">
+																<option selected disabled hidden>파티선택</option>
+																<option value="create">파티 만들기</option> 
+																<option th:each="vo : ${list}" th:value="${vo.party_id}" th:utext="${vo.party_name}"></option>
+															</select> 
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="req_pwr">요구 전투력</label>
+															<input type="number" id="req_pwr" name="req_pwr" value=50000000 step=10000000 min=0 class="form-control">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="boss">잡으러갈 보스</label>
+															<select id="boss_level" name="boss_level" class="form-control">
+																<option selected disabled hidden>난이도 선택</option>
+																<option value="이지">이지</option> 
+																<option value="노멀">노멀</option> 
+																<option value="하드">하드</option> 
+																<option value="카오스">카오스</option> 
+																<option value="익스트림">익스트림</option> 
+															</select> 
+															<select id="boss_name" name="boss_name" class="form-control">
+																<option value="발록">발록</option>
+																<option value="자쿰">자쿰</option> 
+																<option value="매그너스">매그너스</option> 
+																<option value="힐라">힐라</option> 
+																<option value="카웅">카웅</option> 
+															</select> 
+														</div>
+													</div>
+													
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="party_board_memo">간단 메모</label>
+															<input type="text" id="party_board_memo" name="party_board_memo" placeholder="간단한 내용을 입력해 주세요" class="form-control">
+														</div>
+													</div>
+													
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="party_board_content">상세 모집글</label>
+															<textarea name="party_board_content" id="party_board_content" cols="30" rows="10" class="form-control" placeholder="모집 상세 내용을 작성해주세요"></textarea>
+														</div>
+													</div>
+													
+							
+													<input type="hidden" id="party_board_writer" name="party_board_writer" th:value="${session.user_character}">
+												
+
+													<div class="row form-group">
+														<div class="col-md-12">
+															<input type="submit" class="btn btn-primary btn-block" value="게시글 작성">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
+		</th:block>
+
+<!-- jQuery -->
+	<script src="/js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="/js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="/js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="/js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="/js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="/js/jquery.countTo.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="/js/jquery.stellar.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/magnific-popup-options.js"></script>
+	<!-- Datepicker -->
+	<script src="/js/bootstrap-datepicker.min.js"></script>
+	<!-- Main -->
+	<script src="/js/main.js"></script>
 </body>
 </html>
