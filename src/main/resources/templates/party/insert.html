@@ -6,7 +6,7 @@
 <div th:replace="~{layout::boottemplate}"></div>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
+<script th:inline="javascript">
 	$(function() {
 		console.log("ready....");
 		$("#btn_partyNameCheck").click(function() {
@@ -35,12 +35,27 @@
 			});
 		});
 	});
+	var formSubmitted = false;
+
+	function closePopupAndRedirect() {
+	    // 부모 창이 특정 링크로 이동하도록 설정
+	    
+	    if(formSubmitted) {
+	    if (window.opener) {
+	        window.opener.location.href = '/partyboard/insert';  // 원하는 URL로 리다이렉트
+	    }
+	    // 팝업 창을 닫음
+	    window.close();
+	    }
+	}	
+	
 </script>
 </head>
 <body th:replace="~{layout::layout}">
 <hr>
 <div th:fragment="content">	
-<form action="/party/insertOK" method="post">
+<th:block>
+<form action="/party/insertOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
 		<table>
 			<tr>
 				<td><label for="party_name">파티명</label></td>
@@ -57,6 +72,8 @@
 			</tr>			
 		</table>
 	</form>
+	<iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
+	<th:block>
 </div>
 </body>
 </html>

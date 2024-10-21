@@ -45,8 +45,9 @@ public class PartyBoardController {
 	}
 	
 	@PostMapping("/partyboard/insertOK")
-	public String insertOK(PartyBoardVO vo) {
+	public String insertOK(PartyBoardVO vo,String boss_level,String boss_name) {
 		log.info("party_board_insertOK...");
+		vo.setBoss(boss_level+" "+boss_name);
 		int result = pbservice.insertOK(vo);
 		return "redirect:/partyboard/selectAll";			
 	}
@@ -90,6 +91,11 @@ public class PartyBoardController {
 		PartyBoardVO vo2=pbservice.selectOne(vo);
 		log.info("vo2:{}", vo2);
 		model.addAttribute("vo2", vo2);
+		PartyVO vo3= new PartyVO();
+		vo3.setParty_id(vo2.getParty_id());
+		vo3=pservice.selectOne(vo3);
+		model.addAttribute("vo3", vo3);
+		log.info("vo3:{}", vo3);
 		List<PartyBoardCommentVO> list = pbcservice.searchListPartyBoardId(Integer.toString(vo.getParty_board_id()));
 		model.addAttribute("list",list);
 		return "partyboard/selectOne";			
@@ -97,9 +103,9 @@ public class PartyBoardController {
 	
 	@GetMapping("/partyboard/selectAll")
 	public String selectAll(Model model,@RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5")int pageBlock) {
+			@RequestParam(defaultValue = "20")int pageBlock) {
 		log.info("party_board_selectAll...");
-		List<PartyBoardVO> list = pbservice.selectAll(cpage,pageBlock);
+		List<PartyBoardVO> list = pbservice.selectAllPageBlock(cpage,pageBlock);
 		log.info("list: {}", list);
 		int total_rows = pbservice.getTotalRows();// select count(*) total_rows from member;
 		log.info("total_rows:{}", total_rows);
@@ -117,6 +123,7 @@ public class PartyBoardController {
 		log.info("totalPageCount:{}", totalPageCount);
 
 		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("currentPage",cpage);
 		model.addAttribute("list", list);
 		return "partyboard/selectAll";			
 	}

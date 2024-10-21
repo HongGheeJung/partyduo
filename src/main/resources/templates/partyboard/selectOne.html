@@ -4,43 +4,165 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script th:inline="javascript">
+function showUpdate(partyBoardId) { 
+	
+	    var width = 600;
+	    var height = 900;
+	    var left = (window.screen.width / 2) - (width / 2);
+	    var top = (window.screen.height / 2) - (height / 2);
+
+	window.open(`/partyboard/update?party_board_id=${partyBoardId}`,"updateparty",`width=${width},height=${height},left=${left},top=${top}`); 
+
+}
+
+function showDelete(partyBoardId) { 
+	
+    var width = 600;
+    var height = 900;
+    var left = (window.screen.width / 2) - (width / 2);
+    var top = (window.screen.height / 2) - (height / 2);
+
+window.open(`/partyboard/delete?party_board_id=${partyBoardId}`,"deleteparty",`width=${width},height=${height},left=${left},top=${top}`); 
+
+}
+
+</script>
+<style>
+    th, td {
+        text-align: center; /* 가로 중앙 정렬 */
+        vertical-align: middle; /* 세로 중앙 정렬 */
+    }
+    
+   .content-cell {
+        vertical-align: top; /* 위쪽 정렬 */
+        padding-top: 20px; /* 위쪽 여백 */
+        padding-bottom: 20px; /* 아래쪽 여백 */
+        min-height: 150px; /* 기본 높이 설정 */
+        word-break: break-word; /* 긴 텍스트 줄바꿈 */
+    }
+     header .party_boardview_head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .party_board_writer {
+        display: flex;
+        align-items: center;
+    }
+
+    .party_board_writer .nickname {
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    .party_board_writer .party_board_date {
+        color: #888;
+        font-size: 12px;
+    }
+
+    .party_boardview_head .fr span {
+        margin-left: 10px;
+    }
+
+    .content {
+        padding: 20px;
+        line-height: 1.6;
+        word-break: break-word;
+    }
+    
+    .writing_view_box {
+        width: 100%;  /* 부모 컨테이너에 맞게 너비 100% */
+        min-height: 300px; /* 최소 높이 설정 */
+        padding: 10px;
+        border: 1px solid #ddd; /* 테두리 추가 */
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        white-space: pre-wrap; /* 텍스트 줄바꿈 */
+        word-break: break-word; /* 단어가 길 때 줄바꿈 */
+        overflow: hidden; /* 스크롤 숨김 */
+    }
+    .boss-easy {
+        color: rgb(195, 195, 215); /* 이지 */
+        font-weight: bold;
+    }
+    .boss-normal {
+        color: rgb(51, 170, 197); /* 노멀 */
+        font-weight: bold;
+    }
+    .boss-hard {
+        color: rgb(194, 58, 62); /* 하드 */
+        font-weight: bold;
+    }
+    .boss-chaos {
+        color: rgb(255, 221, 187); /* 카오스 */
+        font-weight: bold;
+    }
+    .boss-extreme {
+        color: rgb(238, 68, 85); /* 익스트림 */
+        font-weight: bold;
+    }
+</style>
 </head>
 <body th:replace="~{layout::layout}">
 <div th:fragment="content">
-	<table>
-		<thead>
-			<tr>
-				<th>게시글 번호</th>
-				<th>파티 이름</th>			
-				<th>요구 전투력</th>				
-				<th>공략 보스</th>				
-				<th>간단 메모</th>				
-				<th>작성 자</th>				
-				<th>작성 일</th>
-				<th><button type="button" th:onclick="|location.href='@{/partylist/application(party_id=${vo2.party_id})}'|">파티 참가 신청</button></th>				
-			</tr>
-		</thead>
-		<tbody>
-			<th:block>
-				<tr><!-- partyid 대신 party name 나오게 하기 -->
-					<td>[[${vo2.party_board_id}]]</td>
-					<td>[[${vo2.party_id}]]</td>
-					<td>[[${vo2.req_pwr}]]</td>
-					<td>[[${vo2.boss}]]</td>
-					<td>[[${vo2.party_board_memo}]]</td>
-					<td>[[${vo2.party_board_content}]]</td>
-					<td>[[${vo2.party_board_writer}]]</td>
-					<td>[[${vo2.party_board_wdate}]]</td>
-					<td th:if="${vo2.party_board_writer==session.user_character}"><a th:href="|/partyboard/update?party_board_id=${vo2.party_board_id}|">수정</a></td>
-					<td th:if="${vo2.party_board_writer==session.user_character}"><a th:href="|/partyboard/delete?party_board_id=${vo2.party_board_id}|">삭제</a></td>
-				</tr>
-			</th:block>
-	</tbody>	
-</table>
-<div th:replace="~{partyboardcomment/insert::commentinsert}">
-</div>
-<div th:replace="~{partyboardcomment/selectAll::commentselectAll}">
-</div>
+	
+	  <div class="gtco-container">
+	  
+	 <header>
+        <div class="party_boardview_head clear ub-content">
+            <h3 class="title ub-word">
+                <span class="title_subject" th:text="${vo3.party_name}"></span>
+            </h3>
+            <div class="party_board_writer ub-writer">
+                <div class="fl" style="margin-right: 10px;">
+                    <span class="nickname in" th:text="${vo2.party_board_writer}">작성자</span>
+                    <span class="party_board_date" th:text="${vo2.party_board_wdate}">작성일</span>
+                </div>
+                    <!-- 참가 버튼 -->
+    			<div class="btn-container" style="margin-left: 20px;">
+       				 <button type="button" class="btn btn-primary btn-block"
+               			th:onclick="|location.href='@{/partylist/application(party_id=${vo2.party_id})}'|">
+            			파티 참가 신청
+        			</button>
+    			</div>
+                
+            </div>
+        </div>
+    </header>
+	<hr>
+    <!-- 본문 내용 -->
+    <div class="content">
+        <p><strong>요구 전투력:</strong> <span th:text="${vo2.req_pwr}"></span></p>
+        <p><strong>공략 보스:</strong> <span th:text="${vo2.boss}" th:classappend="
+					    ${vo2.boss.contains('이지')} ? 'boss-easy' : 
+					    (${vo2.boss.contains('노멀')} ? 'boss-normal' : 
+					    (${vo2.boss.contains('하드')} ? 'boss-hard' : 
+					    (${vo2.boss.contains('카오스')} ? 'boss-chaos' : 
+					    (${vo2.boss.contains('익스트림')} ? 'boss-extreme' : ''))))">
+					    </span></p>
+        <p><strong>세부 내용:</strong></p>
+        <div class="writing_view_box">
+            <p th:text="${vo2.party_board_content}"></p>
+        </div>
+    </div>
+
+    <!-- 수정, 삭제 버튼 -->
+    <div class="btn-container" th:if="${vo2.party_board_writer == session.user_character}">
+        <input type="button" class="btn btn-warning " value="게시글수정" th:onclick="|showUpdate(${vo2.party_board_id});|">
+        <input type="button" class="btn btn-danger" value="게시글삭제" th:onclick="|showDelete(${vo2.party_board_id});|">
+    </div>
+
+    <!-- 댓글 기능 -->
+    <div th:replace="~{partyboardcomment/insert::commentinsert}"></div>
+    <div th:replace="~{partyboardcomment/selectAll::commentselectAll}"></div>
 </div>
 </body>
 </html>
