@@ -78,7 +78,7 @@ public class PartyController {
 		List<MemberVO> listmember= new ArrayList<>();
 		List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(vo.getParty_id()));
 		for (PartyListVO vo3 : list) {
-			if (vo3.getParty_join()==true) {
+			if (vo3.getParty_join()) {
 				MemberVO vo4= new MemberVO();
 				vo4.setMember_id(vo3.getMember_id());
 				vo4=mservice.member_selectOneByMember_id(vo4);

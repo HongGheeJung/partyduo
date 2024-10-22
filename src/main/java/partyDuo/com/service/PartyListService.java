@@ -48,9 +48,9 @@ public class PartyListService {
 					}else{
 				return plmapper.searchListMemberId(searchWord);				
 			}
-		};
-		
-	public List<MyPartyVO> searchMyParty(String searchWord,int cpage, int pageBlock){
+		}
+
+    public List<MyPartyVO> searchMyParty(String searchWord,int cpage, int pageBlock){
 		log.info("pl_service_searchMyParty()");
 		log.info("searchWord:{}",searchWord);
 		int startRow=(cpage-1)*pageBlock;
@@ -61,11 +61,11 @@ public class PartyListService {
 		public List<PartyListVO> searchListJoinMember(String searchWord){
 			log.info("pl_service_searchListJoinMember()");
 		return plmapper.searchListJoinMemberId(searchWord);
-		};
-			
-	public int getTotalPartyListRows(String searchWord) {
+		}
+
+    public int getTotalPartyListRows(String searchWord) {
 		log.info("pl_service_getSearchTotalRows");
 		return plmapper.getTotalPartyListRows(searchWord);
 		
-	};
+	}
 }

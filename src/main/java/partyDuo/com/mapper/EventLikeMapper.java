@@ -10,17 +10,17 @@ import partyDuo.com.model.EventLikeVO;
 public interface EventLikeMapper {
 
 	//추상메소드명(예:insertOK)이 sqlMapper_*.xml 문서의 id와 같아야한다.
-	public int insertOK(EventLikeVO vo);
+    int insertOK(EventLikeVO vo);
 	
-	public List<EventLikeVO> selectAll();
+	List<EventLikeVO> selectAll();
 
-	public EventLikeVO selectOne(EventLikeVO vo);
+	EventLikeVO selectOne(EventLikeVO vo);
 	
-	public int selectOneLikecheck(EventLikeVO vo);
+	int selectOneLikecheck(EventLikeVO vo);
 
-	public int deleteOK(EventLikeVO vo);
+	int deleteOK(EventLikeVO vo);
 	
-	public int selectOneLikeCount(EventLikeVO vo);
+	int selectOneLikeCount(EventLikeVO vo);
 	
 
 

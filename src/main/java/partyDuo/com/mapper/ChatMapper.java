@@ -10,20 +10,20 @@ import partyDuo.com.model.ChatVO;
 public interface ChatMapper {
 
 	//추상메소드명(예:insertOK)이 sqlMapper_*.xml 문서의 id와 같아야한다.
-	public int insertOK(ChatVO vo);
+    int insertOK(ChatVO vo);
 	
-	public List<ChatVO> selectAll();
+	List<ChatVO> selectAll();
 
-	public ChatVO selectOne(ChatVO vo);
+	ChatVO selectOne(ChatVO vo);
 
-	public int updateOK(ChatVO vo);
-	public int deleteOK(ChatVO vo);
+	int updateOK(ChatVO vo);
+	int deleteOK(ChatVO vo);
 
-	public List<ChatVO> searchListWriter(String searchWord);
+	List<ChatVO> searchListWriter(String searchWord);
 
-	public List<ChatVO> searchListParty(int party_id);
+	List<ChatVO> searchListParty(int party_id);
 
-	public int getTotalRows();
+	int getTotalRows();
 
 
 }
