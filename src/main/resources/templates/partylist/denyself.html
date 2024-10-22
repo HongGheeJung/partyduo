@@ -2,38 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>PartyDelete</title>
+    <title>PartyJoinDeny</title>
     <div th:replace="~{layout::boottemplate}"></div>
-
     <script th:inline="javascript">
     var formSubmitted = false;
-    var partyName = [[${vo2.party_name}]]; // 파티 이름을 자바스크립트 변수로 설정
 
     function closePopupAndRedirect() {
         if (formSubmitted) {
             if (window.opener) {
-                window.opener.location.href = `/partylist/myparty`; // 부모 창 리다이렉트
+                window.opener.location.href = '/partylist/myparty'; // 원하는 URL로 리다이렉트
             }
             window.close(); // 팝업 창 닫기
         }
     }
-
-    function validateText() {
-        const inputText = document.getElementById('confirmationText').value.trim();
-        const submitButton = document.getElementById('submitButton');
-
-        // 입력값이 예상된 텍스트와 정확히 일치하는지 확인
-        const expectedText = (partyName + '삭제하겠습니다.').replace(/\s+/g, '');
-        const normalizedInputText = inputText.replace(/\s+/g, '');
-        
-        console.log("Expected Text: ", expectedText); // 로그 출력
-        submitButton.disabled = normalizedInputText !== expectedText;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('confirmationText').addEventListener('input', validateText);
-        validateText();  // 초기화 시 버튼 비활성화
-    });
     </script>
 </head>
 <body>
@@ -46,35 +27,26 @@
                         <div class="tab">
                             <div class="tab-content">
                                 <div class="tab-content-inner active" data-content="signup">
-                                    <h3 class="text-center">파티 삭제</h3>
-                                    <form action="/party/deleteOK" method="post" 
-                                          th:target="submitFrame" th:onsubmit="formSubmitted = true;">
-                                        
+                                    <h3 class="text-center">파티 가입 신청 취소</h3> <!-- 제목 가운데 정렬 -->
+                                    <form action="/partylist/denyOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
                                         <div class="row form-group">
                                             <div class="col-md-12 d-flex flex-column align-items-center">
                                                 <input type="hidden" name="party_id" th:value="${vo2.party_id}">
+                                                <input type="hidden" name="member_id" th:value="${vo2.member_id}">
                                                 <p class="text-center mt-3">
-                                                    [[${vo2.party_name}]] 파티를 정말 삭제하시겠습니까?
+                                                    [[${vo4.party_name}]]  파티 가입신청을 취소하시겠습니까?
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div class="row form-group">
-                                            <div class="col-md-12">
-                                                <input type="text" id="confirmationText" class="form-control"
-                                                       th:placeholder="|${vo2.party_name}삭제하겠습니다.를 입력하세요.(공백 무시)|">
-                                            </div>
-                                        </div>
-
-                                        <div class="row form-group">
                                             <div class="col-md-12 text-center">
-                                                <input type="submit" id="submitButton" class="btn btn-danger" value="삭제완료" disabled>
+                                                <input type="submit" class="btn btn-danger" value="가입 신청 취소">
                                             </div>
                                         </div>
                                     </form>
 
-                                    <iframe name="submitFrame" style="display:none;"
-                                            th:onload="closePopupAndRedirect()"></iframe>
+                                    <iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
                                 </div>
                             </div>
                         </div>

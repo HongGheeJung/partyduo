@@ -1,5 +1,6 @@
 package partyDuo.com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,27 @@ public class PartyController {
 		log.info("{vo:{}",vo2);
 		model.addAttribute("vo2", vo2);
 		return "party/update";			
+	}
+	
+	@GetMapping("/party/delegate")
+	public String delegate(PartyVO vo,Model model) {
+		log.info("party_delegate...");
+		PartyVO vo2 = pservice.selectOne(vo);
+		List<MemberVO> listmember= new ArrayList<>();
+		List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(vo.getParty_id()));
+		for (PartyListVO vo3 : list) {
+			if (vo3.getParty_join()==true) {
+				MemberVO vo4= new MemberVO();
+				vo4.setMember_id(vo3.getMember_id());
+				vo4=mservice.member_selectOneByMember_id(vo4);
+				log.info("vo3{}", vo4);
+				listmember.add(vo4);
+			}
+		}
+		log.info("{vo:{}",vo2);
+		model.addAttribute("vo2", vo2);
+		model.addAttribute("listmember", listmember);
+		return "party/delegate";			
 	}
 	
 	@PostMapping("/party/updateOK")

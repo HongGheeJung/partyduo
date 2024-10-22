@@ -1,6 +1,7 @@
 package partyDuo.com.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,9 @@ public class PartyBoardController {
 	}
 	
 	@PostMapping("/partyboard/updateOK")
-	public String updateOK(PartyBoardVO vo) {
+	public String updateOK(PartyBoardVO vo,String boss_level,String boss_name) {
 		log.info("party_board_updateOK...");
+		vo.setBoss(boss_level+" "+boss_name);
 		int result = pbservice.updateOK(vo);
 		log.info("result:{}", result);
 		return "redirect:/partyboard/selectOne?party_board_id="+vo.getParty_board_id();			
@@ -106,6 +108,22 @@ public class PartyBoardController {
 			@RequestParam(defaultValue = "20")int pageBlock) {
 		log.info("party_board_selectAll...");
 		List<PartyBoardVO> list = pbservice.selectAllPageBlock(cpage,pageBlock);
+		List<PartyVO> list2= pservice.selectAll(cpage, pageBlock);
+		
+		List<PartyBoardNameDTO> list3 = list.stream()
+			    .map((PartyBoardVO vo) -> {
+			        // party_id가 일치하는 파티의 이름을 찾음
+			        String partyName = list2.stream()
+			            .filter(party -> party.getParty_id() == vo.getParty_id()) // int 비교는 == 사용
+			            .map(PartyVO::getParty_name)
+			            .findFirst()
+			            .orElseThrow(() -> new IllegalStateException("파티 이름을 찾을 수 없습니다."));
+
+			        // DTO 객체 생성
+			        return new PartyBoardNameDTO(vo, partyName);
+			    })
+			    .collect(Collectors.toList());
+		
 		log.info("list: {}", list);
 		int total_rows = pbservice.getTotalRows();// select count(*) total_rows from member;
 		log.info("total_rows:{}", total_rows);
@@ -121,10 +139,10 @@ public class PartyBoardController {
 			totalPageCount = total_rows / pageBlock + 1;
 		}
 		log.info("totalPageCount:{}", totalPageCount);
-
+		
 		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("currentPage",cpage);
-		model.addAttribute("list", list);
+		model.addAttribute("list3", list3);
 		return "partyboard/selectAll";			
 	}
 	
