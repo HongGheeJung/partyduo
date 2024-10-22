@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
 <script th:inline="javascript">
+
 function showPopup() { 
 	
 	    var width = 600;
@@ -29,8 +30,9 @@ function showPopup() {
  .searchbar {
             width: 100%; 
             display: flex;
-            justify-content: center; /* 가로 중앙 정렬 /
+            justify-content: center; 
         }
+        
 .boss-easy {
         color: rgb(195, 195, 215); /* 이지 */
         font-weight: bold;
@@ -51,6 +53,9 @@ function showPopup() {
         color: rgb(238, 68, 85); /* 익스트림 */
         font-weight: bold;
     }        
+    
+    
+}
 </style>
 </head>
 <body th:replace="~{layout::layout}">
@@ -72,22 +77,22 @@ function showPopup() {
 			</tr>
 		</thead>
 		<tbody>
-			<th:block th:each="vo : ${list}">
-				<tr><!-- partyid 대신 party name 나오게 하기 -->
-					<th  scope="row"><a th:href="|/partyboard/selectOne?party_board_id=${vo.party_board_id}|">[[${vo.party_board_id}]]</a></th>
-					<td>[[${vo.party_id}]]</td>
-					<td>[[${vo.req_pwr}]]</td>
+			<th:block th:each="vo : ${list3}">
+				<tr>
+					<th  scope="row"><a th:href="|/partyboard/selectOne?party_board_id=${vo.vo.party_board_id}|">[[${vo.vo.party_board_id}]]</a></th>
+					<td>[[${vo.party_name}]]</td>
+					<td>[[${vo.vo.req_pwr}]]</td>
 					<td th:classappend="
-					    ${vo.boss.contains('이지')} ? 'boss-easy' : 
-					    (${vo.boss.contains('노멀')} ? 'boss-normal' : 
-					    (${vo.boss.contains('하드')} ? 'boss-hard' : 
-					    (${vo.boss.contains('카오스')} ? 'boss-chaos' : 
-					    (${vo.boss.contains('익스트림')} ? 'boss-extreme' : ''))))">
-					    [[${vo.boss}]]
+					    ${vo.vo.boss.contains('이지')} ? 'boss-easy' : 
+					    (${vo.vo.boss.contains('노멀')} ? 'boss-normal' : 
+					    (${vo.vo.boss.contains('하드')} ? 'boss-hard' : 
+					    (${vo.vo.boss.contains('카오스')} ? 'boss-chaos' : 
+					    (${vo.vo.boss.contains('익스트림')} ? 'boss-extreme' : ''))))">
+					    [[${vo.vo.boss}]]
 					</td>
-					<td>[[${vo.party_board_memo}]]</td>
-					<td>[[${vo.party_board_writer}]]</td>
-					<td>[[${vo.party_board_wdate}]]</td>
+					<td>[[${vo.vo.party_board_memo}]]</td>
+					<td>[[${vo.vo.party_board_writer}]]</td>
+					<td>[[${vo.vo.party_board_wdate}]]</td>
 				</tr>
 			</th:block>
 	</tbody>

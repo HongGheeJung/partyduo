@@ -5,31 +5,39 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div th:fragment="commentselectAll"> 
- 	<table>
-		<thead>
-			<tr>
-				<th>댓글 번호</th>
-				<th>게시글 번호</th>			
-				<th>댓글 내용</th>				
-				<th>댓글 작성자</th>				
-				<th>댓글 작성일</th>								
-			</tr>
-		</thead>
-		<tbody>
-			<th:block th:each="vo:${list}">
-				<tr>
-					<td>[[${vo.party_board_comment_id}]]</td>
-					<td>[[${vo.party_board_id}]]</td>
-					<td>[[${vo.party_board_comment_content}]]</td>
-					<td>[[${vo.party_board_comment_writer}]]</td>
-					<td>[[${vo.party_board_comment_wdate}]]</td>
-					<td><a th:if="${vo.party_board_comment_writer}==${session.user_character}" th:href="|/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}|">수정</a></td>
-					<td><a th:if="${vo.party_board_comment_writer}==${session.user_character}" th:href="|/partyboardcomment/delete?party_board_comment_id=${vo.party_board_comment_id}|">삭제</a></td>
-				</tr>
-			</th:block>
-	</tbody>	
-</table>
+<div th:fragment="commentselectAll">
+<hr>
+    <div th:if="${list.size() > 0}">
+        <th:block th:each="vo : ${list}">
+            <div class="comment-row">
+                <div class="comment-author">
+                    [[${vo.party_board_comment_writer}]]
+                </div>
+                <div class="comment-content">
+                    [[${vo.party_board_comment_content}]]
+                </div>
+                <div class="comment-date">
+                    [[${vo.party_board_comment_wdate}]]
+                </div>
+                <div class="comment-actions" th:if="${vo.party_board_comment_writer} == ${session.user_character}">
+                    <input 
+                        class="btn btn-primary" 
+                        type="button" 
+                        th:onclick="|openPopup('/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}')|"
+                        value="수정">
+                      
+                    
+                    <input
+                        class="btn btn-danger"   
+                        type="button" 
+                        th:onclick="|openPopup('/partyboardcomment/delete?party_board_comment_id=${vo.party_board_comment_id}')|"
+                        value=삭제>
+                       
+                    
+                </div>
+            </div>
+        </th:block>
+    </div>
 </div>
 </body>
 </html>

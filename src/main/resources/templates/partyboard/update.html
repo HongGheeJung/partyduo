@@ -20,49 +20,194 @@ function closePopupAndRedirect() {
     }
 }
 
+function validateForm() {
+    const partySelect = document.getElementById('partySelect').value;
+    const reqPwr = document.getElementById('req_pwr').value;
+    const bossLevel = document.getElementById('boss_level').value;
+    const bossName = document.getElementById('boss_name').value;
+    const memo = document.getElementById('party_board_memo').value;
+    const content = document.getElementById('party_board_content').value;
+    const submitButton = document.getElementById('submitButton');
+
+    // 모든 필드가 유효할 경우에만 버튼 활성화
+    if (
+        partySelect !== '' && 
+        reqPwr > 0 && 
+        bossLevel !== '' && 
+        bossName !== '' && 
+        memo.trim() !== '' && 
+        content.trim() !== ''
+    ) {
+        submitButton.disabled = false;  // 버튼 활성화
+    } else {
+        submitButton.disabled = true;  // 버튼 비활성화
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const inputs = document.querySelectorAll(
+        '#partySelect, #req_pwr, #boss_level, #boss_name, #party_board_memo, #party_board_content'
+    );
+    inputs.forEach(input => input.addEventListener('input', validateForm));
+    const bossOptions = {
+            "발록": ["이지"],
+            "자쿰": ["이지", "노멀", "카오스"],
+            "매그너스": ["이지", "노멀", "하드"],
+            "힐라": ["노멀", "하드"],
+            "카웅": ["노멀"],
+            "파풀라투스": ["이지", "노멀", "카오스"],
+            "반반": ["노멀", "카오스"],
+            "피에르": ["노멀", "카오스"],
+            "블러디 퀸": ["노멀", "카오스"],
+            "벨룸": ["노멀", "카오스"],
+            "반레온": ["이지", "노멀", "하드"],
+            "혼테일": ["이지", "노멀", "카오스"],
+            "아카이럼": ["이지", "노멀"],
+            "핑크빈": ["노멀", "카오스"],
+            "시그너스": ["이지", "노멀"],
+            "스우": ["노멀", "하드", "익스트림"],
+            "데미안": ["노멀", "하드"],
+            "가디언 엔젤": ["노멀", "카오스"],
+            "루시드": ["이지", "노멀", "하드"],
+            "윌": ["이지", "노멀", "하드"],
+            "더스크": ["노멀", "카오스"],
+            "진 힐라": ["노멀", "하드"],
+            "듄켈": ["노멀", "하드"],
+            "검은 마법사": ["하드", "익스트림"],
+            "선택받은 세렌": ["노멀", "하드", "익스트림"],
+            "감시자 칼로스": ["이지", "노멀", "카오스", "익스트림"],
+            "카림": ["이지", "노멀", "하드", "익스트림"],
+            "림보": ["노멀", "하드"]
+        };
+
+        const bossNameSelect = document.getElementById("boss_name");
+        const bossLevelSelect = document.getElementById("boss_level");
+
+        bossNameSelect.addEventListener("change", () => {
+            const selectedBoss = bossNameSelect.value;
+            bossLevelSelect.innerHTML = '<option selected disabled hidden>난이도 선택</option>';
+
+            if (bossOptions[selectedBoss]) {
+                bossOptions[selectedBoss].forEach(level => {
+                    const option = document.createElement("option");
+                    option.value = level;
+                    option.textContent = level;
+                    bossLevelSelect.appendChild(option);
+                });
+            }
+        });
+    // 페이지 로드 시 초기 상태로 버튼 비활성화
+    validateForm();
+});
+
+
+
+
 </script>
 
 </head>
 <body>
-<hr>
-<div>
-	<form action="/partyboard/updateOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
-		<table>
-			<tr>
-				<td><label for="party_board_id">게시글 번호</label></td>
-				<td><input type="hidden" id="party_board_id" name="party_board_id" th:value=${vo2.party_board_id} ></td>
-			</tr>
-			<tr><!-- partyid 대신 party name 나오게 하기 -->
-				<td><label for="party_id">파티 번호</label></td>
-				<td><input type="hidden" id="party_id" name="party_id" th:value=${vo2.party_id} ></td>
-			</tr>
-			<tr>
-				<td><label for="req_pwr">요구 전투력</label></td>
-				<td><input type="number" id="req_pwr" name="req_pwr" th:value=${vo2.req_pwr}></td>
-			</tr>
-			<tr>
-				<td><label for="boss">공략 보스</label></td>
-				<td><input type="text" id="boss" name="boss"  th:value="${vo2.boss}"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_memo">간단 메모</label></td>
-				<td><input type="text" id="party_board_memo" name="party_board_memo" th:value="${vo2.party_board_memo}"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_content">상세 모집글</label></td>
-				<td><input type="text" id="party_board_content" name="party_board_content" th:value="${vo2.party_board_content}"></td>
-			</tr>
-			<tr>
-				<td><label for="party_board_writer">글쓴이</label></td>
-				<td>[[${session.user_character}]]</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2"><input type="submit" value="게시글 작성"></td>
-			</tr>
-		</table>
-	</form>
-	<iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
+<div class="gtco-container">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0">
+            <div class="row row-mt-15em">
+                <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
+                    <div class="form-wrap">
+                        <div class="tab">
+                            <div class="tab-content">
+                                <div class="tab-content-inner active" data-content="signup">
+                                    <h3>파티 게시판 게시글 수정</h3>
+                                    <form action="/partyboard/updateOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <input type="hidden" id="party_board_id" name="party_board_id" th:value="${vo2.party_board_id}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <input type="hidden" id="party_id" name="party_id" th:value="${vo2.party_id}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <label for="req_pwr">요구 전투력</label>
+                                                <input type="number" id="req_pwr" name="req_pwr" th:value="${vo2.req_pwr}" class="form-control" step=10000000 min=0 >
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+        <label for="boss">공략 보스</label>
+        <select id="boss_name" name="boss_name" class="form-control">
+            <option selected disabled hidden>보스 선택</option>
+			<option value="림보">림보</option>
+			<option value="카림">카림</option>
+			<option value="감시자 칼로스">감시자 칼로스</option>
+			<option value="선택받은 세렌">선택받은 세렌</option>
+			<option value="검은 마법사">검은 마법사</option>
+			<option value="듄켈">듄켈</option>
+			<option value="진 힐라">진 힐라</option>
+			<option value="더스크">더스크</option>
+			<option value="윌">윌</option>
+			<option value="루시드">루시드</option>
+			<option value="가디언 엔젤">가디언 엔젤</option>
+			<option value="데미안">데미안</option>
+			<option value="스우">스우</option>
+			<option value="시그너스">시그너스</option>
+			<option value="핑크빈">핑크빈</option>
+			<option value="아카이럼">아카이럼</option>
+			<option value="혼테일">혼테일</option>
+			<option value="반레온">반레온</option>
+			<option value="벨룸">벨룸</option>
+			<option value="블러디 퀸">블러디 퀸</option>
+			<option value="피에르">피에르</option>
+			<option value="반반">반반</option>
+			<option value="파풀라투스">파풀라투스</option>
+			<option value="카웅">카웅</option>
+			<option value="힐라">힐라</option>
+			<option value="매그너스">매그너스</option>
+			<option value="자쿰">자쿰</option>
+			<option value="발록">발록</option>
+        </select>
+        
+        <select id="boss_level" name="boss_level" class="form-control mt-2">
+            <option selected disabled hidden>난이도 선택</option>
+        </select>
+    </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <label for="party_board_memo">간단 메모</label>
+                                                <input type="text" id="party_board_memo" name="party_board_memo" th:value="${vo2.party_board_memo}" class="form-control" maxlength="100" oninput="updateInputCharCount(this)" placeholder="최대 100자까지 입력 가능합니다.">
+                                            	<small id="inputCharCount" class="form-text text-muted text-right">0 / 100</smal>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <label for="party_board_content">상세 모집글</label>
+                                                <textarea id="party_board_content" name="party_board_content" cols="30" rows="10" class="form-control" th:text="${vo2.party_board_content}" placeholder="최대 500자까지 입력 가능합니다."  maxlength="500" oninput="updateCharCount(this)"></textarea>
+                                            	<small id="charCount" class="form-text text-muted text-right">0 / 500</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <input type="submit" class="btn btn-primary btn-block" value="게시글 수정" disabled data-toggle="tooltip" data-placement="top" title="내용을 작성하세요.">
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- jQuery -->
@@ -86,5 +231,21 @@ function closePopupAndRedirect() {
 	<script src="/js/bootstrap-datepicker.min.js"></script>
 	<!-- Main -->
 	<script src="/js/main.js"></script>
+	
+	<script th:inline="javascript">
+	function updateCharCount(textarea) {
+    const maxLength = textarea.maxLength;
+    const currentLength = textarea.value.length;
+    const charCountElement = document.getElementById('charCount');
+    charCountElement.textContent = `${currentLength} / ${maxLength}자`;
+}
+	
+	function updateInputCharCount(input) {
+	    const maxLength = input.maxLength;
+	    const currentLength = input.value.length;
+	    const charCountElement = document.getElementById('inputCharCount');
+	    charCountElement.textContent = `${currentLength} / ${maxLength}자`;
+	}
+</script>
 </body>
 </html>

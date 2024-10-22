@@ -4,37 +4,142 @@
 <meta charset="UTF-8">
 <div th:replace="~{layout::boottemplate}"></div>
 <title>Insert title here</title>
+<script th:inline="javascript">
+
+function showDeny(partyId,memberId) { 
+	
+    var width = 600;
+    var height = 400;
+    var left = (window.screen.width / 2) - (width / 2);
+    var top = (window.screen.height / 2) - (height / 2);
+
+    const url = `/partylist/denyself?party_id=${encodeURIComponent(partyId)}&member_id=${encodeURIComponent(memberId)}`;
+
+window.open(url,"denyparty",`width=${width},height=${height},left=${left},top=${top}`); 
+
+}
+
+let popupWindow;
+
+function showPopup(url, from) {
+    const width = 600;
+    const height = 900;
+    const left = (window.screen.width / 2) - (width / 2);
+    const top = (window.screen.height / 2) - (height / 2);
+
+    popupWindow = window.open(`${url}?from=${from}`, 'insertparty', 
+        `width=${width},height=${height},left=${left},top=${top}`);
+
+    // 팝업이 차단된 경우 알림
+    if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
+        alert('팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.');
+    }
+}
+
+</script>
+<style>
+    th, td {
+        text-align: center; /* 가로 중앙 정렬 */
+        vertical-align: middle; /* 세로 중앙 정렬 */
+        padding: 10px; /* 내부 여백 */
+    }
+    .circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%; /* 동그라미 모양 */
+        display: flex;
+        align-items: center; /* 수직 가운데 정렬 */
+        justify-content: center; /* 가로 가운데 정렬 */
+        font-weight: bold;
+        color: white;
+        margin: 0 auto; 
+    }
+
+    .circle.vm {
+        background-color: #4CAF50; /* 초록색 - 파티장 */
+    }
+
+    .circle.vt {
+        background-color: #2196F3; /* 파란색 - 파티원 */
+    }
+
+    .circle.vf {
+        background-color: #FF5722; /* 빨간색 - 신청 대기 */
+    }
+</style>
 </head>
 <body th:replace="~{layout::layout}">
-	<div th:fragment="content">
-		<table>
-			<thead>
-			<tr>
-				<th>파티 이름</th> 
-				<th>파티 장 </th>			
-				<th>파티 원</th>			
-				<th>파티 신청 수락 대기</th> 	 						
-			</tr>
-			</thead>
-			<th:block th:each="vo : ${list}">
-				<tr >
-					<td><a th:href="|/partylist/selectOne?party_id=${vo.party_id}|">[[${vo.party_name}]]</a></td>
-					<td th:if="${vo.party_master==session.user_character}">vm</td>
-					<td th:if="${vo.party_join==true} and ${vo.party_master!=session.user_character}">vt</td>
-					<td th:if="${vo.party_join==false}">vf</td>
-				</tr>
-			</th:block>
-			<tfoot>
-		<tr>
-			<td colspan="6">
-				<th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
-						<a th:href="|/partylist/myparty?cpage=${i}|">[[${i}]]</a>
-				</th:block>	
-			</td>
-		</tr>
-	</tfoot>
-		</table>
-	</div>
-	
+    <div th:fragment="content">
+        <div class="gtco-section">
+            <div class="gtco-container">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">파티 이름</th>
+                                    <th scope="col">파티 장</th>
+                                    <th scope="col">파티 원</th>
+                                    <th scope="col">파티 신청 수락 대기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="vo : ${list}">
+							        <tr>
+							            <td>
+							                <a th:href="|/partylist/selectOne?party_id=${vo.party_id}|">[[${vo.party_name}]]</a>
+							            </td>
+							             <td>
+							                <span class="circle vm" 
+							                      th:if="${vo.party_master == session.user_character}">✔</span>
+							            </td>
+							            <td>
+							                <span class="circle vt" 
+							                      th:if="${vo.party_join && vo.party_master != session.user_character}"></span>
+							            </td>
+							            <td>
+							                <span class="circle vf" 
+							                      th:if="${!vo.party_join}">       
+							               </span>
+							            </td>
+							            <td>
+							             <div th:if="${!vo.party_join && session.user_character == vo1.character_name}" class="btn-container">
+							                <input type="button" class="btn btn-danger"
+							                    th:onclick="showDeny([[${vo.party_id}]],[[${vo1.member_id}]])" value="신청 취소">
+						                </div>
+							            </td>
+				      			    </tr>
+							    </th:block>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">
+                                        <ul class="pagination pagination-sm justify-content-center">
+                                            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                                                <a class="page-link" th:href="|/partylist/myparty?cpage=${currentPage - 1}|">«</a>
+                                            </li>
+                                            <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+                                                <li class="page-item" th:classappend="${i == currentPage} ? 'active' : ''">
+                                                    <a class="page-link" th:href="|/partylist/myparty?cpage=${i}|">[[${i}]]</a>
+                                                </li>
+                                            </th:block>
+                                            <li class="page-item" th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+                                                <a class="page-link" th:href="|/partylist/myparty?cpage=${currentPage + 1}|">»</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+            <input type="button" class="btn btn-primary"  value="파티 생성" onclick="showPopup('/party/insert', 'myparty');">
+
+        </td>
+                                </tr>
+                            </tfoot>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

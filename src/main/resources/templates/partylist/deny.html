@@ -1,24 +1,124 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<div th:replace="~{layout::boottemplate}"></div>
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>PartyJoinDeny</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+    <script th:inline="javascript">
+    var formSubmitted = false;
+
+    var partyId = [[${vo2.party_id}]]; // `party_id`를 JavaScript 변수로 설정
+    var isMaster = [[${vo4.party_master == session.user_character}]]; // 파티장이면 true
+    var isJoining = [[${vo2.party_join != false}]]; // 강퇴인지 가입 거절인지 구분
+
+    function closePopupAndRedirect() {
+        if (formSubmitted) {
+            if (window.opener) {
+                let redirectUrl;
+                if (!isMaster) {
+                    // 파티 탈퇴 시 마이 파티 목록으로 리다이렉트
+                    redirectUrl = `/partylist/myparty`;
+                } else {
+                    // 강퇴나 가입 거절 시 해당 파티 상세 페이지로 리다이렉트
+                    redirectUrl = `/partylist/selectOne?party_id=${partyId}`;
+                }
+                window.opener.location.href = redirectUrl;
+            }
+            window.close(); // 팝업 창 닫기
+        }
+    }
+    </script>
 </head>
-<body th:replace="~{layout::layout}">
-<div th:fragment="content">
-		<div>
-			<form action="/partylist/denyOK" method="post">
-				<input type="hidden" name="party_id" th:value="${vo2.party_id}">
-				<input type="hidden" name="member_id" th:value="${vo2.member_id}">
-				<table id="insertTable" >
-					<tr>
-						<th>[[${vo3.character_name}]]의 파티가입을 거부 하시겠습니까?
-						<input type="submit" value="거부완료"></th>
-					</tr>
-				</table>
-			</form>
-		</div>
+<body>
+<div class="gtco-container">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0">
+            <div class="row row-mt-15em">
+                <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
+                    <div class="form-wrap">
+                        <div class="tab">
+                            <div class="tab-content">
+                                <div class="tab-content-inner active" data-content="signup">
+                                    <h3 class="text-center">
+                                       <th:block th:if="${vo4.party_master == session.user_character}">
+                                            <th:block th:if="${vo2.party_join == false}">
+                                                거절하기
+                                            </th:block>
+                                            <th:block th:if="${vo2.party_join != false}">
+                                                강퇴하기
+                                            </th:block>
+                                        </th:block>
+                                        
+                                        <th:block th:if="${vo4.party_master != session.user_character}">
+                                            파티 탈퇴
+                                        </th:block>
+                                    </h3>
+
+                                    <form action="/partylist/denyOK" method="post" 
+                                          th:target="submitFrame" th:onsubmit="formSubmitted = true;">
+                                        <div class="row form-group">
+                                            <div class="col-md-12 d-flex flex-column align-items-center">
+                                                <input type="hidden" name="party_id" th:value="${vo2.party_id}">
+                                                <input type="hidden" name="member_id" th:value="${vo2.member_id}">
+                                                
+                                                <p class="text-center mt-3">
+                                                    <th:block th:if="${vo4.party_master == session.user_character}">
+                                                        <th:block th:if="${vo2.party_join == false}">
+                                                            [[${vo3.character_name}]] 님의 파티 가입을 거절하시겠습니까?
+                                                        </th:block>
+                                                        <th:block th:if="${vo2.party_join != false}">
+                                                            [[${vo3.character_name}]] 님을 강퇴하시겠습니까?
+                                                        </th:block>
+                                                    </th:block>
+                                                    
+                                                    <th:block th:if="${vo4.party_master != session.user_character}">
+                                                        [[${vo4.party_name}]] 파티를 탈퇴하시겠습니까?
+                                                    </th:block>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-12 text-center">
+                                                <th:block th:if="${vo4.party_master == session.user_character}">
+                                                    <th:block th:if="${vo2.party_join == false}">
+                                                        <input type="submit" class="btn btn-danger" value="거절">
+                                                    </th:block>
+                                                    <th:block th:if="${vo2.party_join != false}">
+                                                        <input type="submit" class="btn btn-danger" value="강퇴">
+                                                    </th:block>
+                                                </th:block>
+                                                
+                                                <th:block th:if="${vo4.party_master != session.user_character}">
+                                                    <input type="submit" class="btn btn-danger" value="탈퇴 완료">
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <iframe name="submitFrame" style="display:none;" 
+                                            th:onload="closePopupAndRedirect()"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.easing.1.3.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.countTo.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/magnific-popup-options.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

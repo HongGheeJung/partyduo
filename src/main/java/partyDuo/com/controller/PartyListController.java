@@ -52,6 +52,8 @@ public class PartyListController {
 		
 		MemberVO vo3 = new MemberVO();
 		vo3.setId((String)session.getAttribute("user_id"));
+		log.info((String)session.getAttribute("user_id"));
+		log.info("vo:{}",vo3);
 		vo3=mservice.member_selectOne(vo3);
 		int member_id=vo3.getMember_id();
 		log.info("vo3:{}", vo3);
@@ -114,10 +116,32 @@ public class PartyListController {
 		MemberVO vo3= new MemberVO();
 		vo3.setMember_id(vo.getMember_id());
 		vo3=mservice.member_selectOneByMember_id(vo3);
+		log.info("vo3:{}",vo3);
+		PartyVO vo4= new PartyVO();
+		vo4.setParty_id(vo2.getParty_id());
+		vo4=pservice.selectOne(vo4);
 		
 		model.addAttribute("vo2", vo2);
 		model.addAttribute("vo3", vo3);
+		model.addAttribute("vo4", vo4);
 		return "partylist/deny";			
+	}
+	
+	@GetMapping("/partylist/denyself")
+	public String deleteself(PartyListVO vo,Model model) {
+		log.info("party_list_denyself...");
+		PartyListVO vo2 = plservice.selectOne(vo);
+		MemberVO vo3= new MemberVO();
+		vo3.setMember_id(vo.getMember_id());
+		vo3=mservice.member_selectOneByMember_id(vo3);
+		PartyVO vo4= new PartyVO();
+		vo4.setParty_id(vo2.getParty_id());
+		vo4=pservice.selectOne(vo4);
+		
+		model.addAttribute("vo2", vo2);
+		model.addAttribute("vo3", vo3);
+		model.addAttribute("vo4", vo4);		
+		return "partylist/denyself";			
 	}
 	
 	@PostMapping("/partylist/denyOK")
@@ -168,7 +192,7 @@ public class PartyListController {
 	
 	@GetMapping("partylist/myparty")
 	public String myparty(Model model,@RequestParam(defaultValue = "1") int cpage,
-			@RequestParam(defaultValue = "5")int pageBlock) {
+			@RequestParam(defaultValue = "10")int pageBlock) {
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		String character_name=(String) session.getAttribute("user_character");
@@ -179,7 +203,7 @@ public class PartyListController {
 		List<MyPartyVO> list = plservice.searchMyParty(Integer.toString(member_id),cpage,pageBlock);
 		log.info("list:{}", list);
 		model.addAttribute("list", list);
-		
+		model.addAttribute("vo1", vo);		
 		int total_rows = plservice.getTotalPartyListRows(Integer.toString(member_id));
 		log.info("total_rows:{}", total_rows);
 		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
@@ -196,6 +220,7 @@ public class PartyListController {
 		log.info("totalPageCount:{}", totalPageCount);
 
 		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("currentPage",cpage);
 		return "partylist/myparty";
 	}
 	

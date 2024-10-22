@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<div th:replace="~{layout::boottemplate}"></div>
-<script th:inline="javascript">
-function showUpdate(partyBoardId) { 
-	
-	    var width = 600;
-	    var height = 900;
-	    var left = (window.screen.width / 2) - (width / 2);
-	    var top = (window.screen.height / 2) - (height / 2);
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <div th:replace="~{layout::boottemplate}"></div>
 
-	window.open(`/partyboard/update?party_board_id=${partyBoardId}`,"updateparty",`width=${width},height=${height},left=${left},top=${top}`); 
+    <script th:inline="javascript">
+    // 팝업 열기 함수
+    function openPopup(url, name, width = 600, height = 400) {
+        const left = (window.screen.width / 2) - (width / 2);
+        const top = (window.screen.height / 2) - (height / 2);
+        window.open(url, name, `width=${width},height=${height},left=${left},top=${top}`);
+    }
 
-}
+    // 버튼 클릭 시 팝업 열기 처리 함수
+    function handlePopup(action, id) {
+        let url;
+        let name;
 
-function showDelete(partyBoardId) { 
-	
-    var width = 600;
-    var height = 900;
-    var left = (window.screen.width / 2) - (width / 2);
-    var top = (window.screen.height / 2) - (height / 2);
+        switch (action) {
+            case 'update':
+                url = `/partyboard/update?party_board_id=${id}`;
+                name = 'updateparty';
+                openPopup(url, name, 600, 900);
+                break;
+            case 'delete':
+                url = `/partyboard/delete?party_board_id=${id}`;
+                name = 'deleteparty';
+                openPopup(url, name);
+                break;
+            case 'apply':
+                url = `/partylist/application?party_id=${id}`;
+                name = 'Applicationparty';
+                openPopup(url, name, 600, 150);
+                break;
+            default:
+                console.error('Unknown action:', action);
+        }
+    }
+    </script>
 
-window.open(`/partyboard/delete?party_board_id=${partyBoardId}`,"deleteparty",`width=${width},height=${height},left=${left},top=${top}`); 
-
-}
-
-</script>
-<style>
+   <style>
     th, td {
         text-align: center; /* 가로 중앙 정렬 */
         vertical-align: middle; /* 세로 중앙 정렬 */
@@ -68,6 +80,7 @@ window.open(`/partyboard/delete?party_board_id=${partyBoardId}`,"deleteparty",`w
     .party_board_writer .party_board_date {
         color: #888;
         font-size: 12px;
+        margin-right:10px;
     }
 
     .party_boardview_head .fr span {
@@ -111,60 +124,95 @@ window.open(`/partyboard/delete?party_board_id=${partyBoardId}`,"deleteparty",`w
         color: rgb(238, 68, 85); /* 익스트림 */
         font-weight: bold;
     }
+    
+    .button-comment{
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    }
+     .comment-row {
+            display: flex;
+            justify-content: space-between; /* 작성자 왼쪽, 본문 가운데, 작성일 오른쪽 정렬 */
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd; /* 각 댓글 구분선 */
+        }
+
+        .comment-author {
+            flex: 1;
+            text-align: left;
+        }
+
+        .comment-content {
+            flex: 3;
+            text-align: center;
+            word-break: break-word; /* 본문이 길 경우 자동 줄바꿈 */
+        }
+
+        .comment-date {
+            flex: 1;
+            text-align: right;
+        }
+
+        .comment-actions {
+              display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px; /* 버튼 사이 간격 */
+            
+        }
 </style>
 </head>
+
 <body th:replace="~{layout::layout}">
-<div th:fragment="content">
-	
-	  <div class="gtco-container">
-	  
-	 <header>
+<div th:fragment="content" class="gtco-container">
+    <header>
         <div class="party_boardview_head clear ub-content">
             <h3 class="title ub-word">
                 <span class="title_subject" th:text="${vo3.party_name}"></span>
             </h3>
-            <div class="party_board_writer ub-writer">
-                <div class="fl" style="margin-right: 10px;">
+            <div class="party_board_writer">
+                <div class="fl">
                     <span class="nickname in" th:text="${vo2.party_board_writer}">작성자</span>
                     <span class="party_board_date" th:text="${vo2.party_board_wdate}">작성일</span>
                 </div>
-                    <!-- 참가 버튼 -->
-    			<div class="btn-container" style="margin-left: 20px;">
-       				 <button type="button" class="btn btn-primary btn-block"
-               			th:onclick="|location.href='@{/partylist/application(party_id=${vo2.party_id})}'|">
-            			파티 참가 신청
-        			</button>
-    			</div>
-                
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary"
+                        th:onclick="|handlePopup('apply', ${vo2.party_id})|">
+                        파티 참가 신청
+                    </button>
+                </div>
             </div>
         </div>
     </header>
-	<hr>
-    <!-- 본문 내용 -->
+
+    <hr>
+
     <div class="content">
         <p><strong>요구 전투력:</strong> <span th:text="${vo2.req_pwr}"></span></p>
-        <p><strong>공략 보스:</strong> <span th:text="${vo2.boss}" th:classappend="
-					    ${vo2.boss.contains('이지')} ? 'boss-easy' : 
-					    (${vo2.boss.contains('노멀')} ? 'boss-normal' : 
-					    (${vo2.boss.contains('하드')} ? 'boss-hard' : 
-					    (${vo2.boss.contains('카오스')} ? 'boss-chaos' : 
-					    (${vo2.boss.contains('익스트림')} ? 'boss-extreme' : ''))))">
-					    </span></p>
+        <p><strong>공략 보스:</strong>
+            <span th:text="${vo2.boss}" th:classappend="
+                ${vo2.boss.contains('이지')} ? 'boss-easy' : 
+                (${vo2.boss.contains('노멀')} ? 'boss-normal' : 
+                (${vo2.boss.contains('하드')} ? 'boss-hard' : 
+                (${vo2.boss.contains('카오스')} ? 'boss-chaos' : 
+                (${vo2.boss.contains('익스트림')} ? 'boss-extreme' : ''))))"></span>
+        </p>
         <p><strong>세부 내용:</strong></p>
         <div class="writing_view_box">
             <p th:text="${vo2.party_board_content}"></p>
         </div>
     </div>
 
-    <!-- 수정, 삭제 버튼 -->
     <div class="btn-container" th:if="${vo2.party_board_writer == session.user_character}">
-        <input type="button" class="btn btn-warning " value="게시글수정" th:onclick="|showUpdate(${vo2.party_board_id});|">
-        <input type="button" class="btn btn-danger" value="게시글삭제" th:onclick="|showDelete(${vo2.party_board_id});|">
+        <button type="button" class="btn btn-warning"
+            th:onclick="|handlePopup('update', ${vo2.party_board_id})|">게시글 수정</button>
+        <button type="button" class="btn btn-danger"
+            th:onclick="|handlePopup('delete', ${vo2.party_board_id})|">게시글 삭제</button>
     </div>
 
-    <!-- 댓글 기능 -->
     <div th:replace="~{partyboardcomment/insert::commentinsert}"></div>
     <div th:replace="~{partyboardcomment/selectAll::commentselectAll}"></div>
 </div>
+
 </body>
 </html>
