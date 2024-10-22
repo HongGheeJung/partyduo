@@ -119,8 +119,8 @@
 														<div class="col-md-12">
 															<label for="id">ID</label> <input type="text" id="id"
 																name="id" value="admin" placeholder="ID를 입력하세요">
-															<input type="button" id="btn_idCheck" value="idCheck">
-															<span id="resultId">사용가능 or 중복된 아이디</span>
+															<input type="button" id="btn_idCheck" class="btn-primary" value="idCheck">
+															<span id="resultId"></span>
 														</div>
 													</div>
 													<div class="row form-group">
@@ -138,19 +138,19 @@
 													</div>
 													<div class="row form-group">
 														<div class="col-md-12">
-															<label for="apikey">apikey</label> <input type="text"
+															<label for="apikey">api</label> <input type="text"
 																id="apikey" name="apikey" value="0123456789abcdefg"
 																placeholder="apikey 입력"> <input type="button"
-																id="btn_apiToCharacter" value="캐릭터닉네임추출">
+																id="btn_apiToCharacter" class="btn-primary" value="닉네임변환">
 														</div>
 													</div>
 													<div class="row form-group">
 														<div class="col-md-12">
-															<label for="character_name">character_name</label> <input
+															<label for="character_name">닉네임</label> <input
 																type="text" id="character_name" name="character_name"
 																value="테스트" placeholder="캐릭터 이름 입력"> <input
-																type="button" id="btn_apiCheck" value="apiCheck"><span
-																id="resultApi">등록여부</span>
+																type="button" id="btn_apiCheck" class="btn-primary" value="api">
+																<span id="resultApi"></span>
 														</div>
 													</div>
 													<div class="row form-group">
@@ -162,7 +162,7 @@
 													</div>
 													<div class="row form-group">
 														<div class="col-md-12">
-															<input type="submit" value="가입완료">
+															<input type="submit" class="btn btn-primary btn-block" value="가입완료">
 														</div>
 													</div>
 												</form>
