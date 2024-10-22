@@ -17,18 +17,15 @@ public class StompChatController {
 	
 	private final SimpMessagingTemplate template;
 	
-	@Autowired
-	private ChatService chatService;
-	
-	@MessageMapping(value = "/chat/message")
-    public void message(ChatVO message) {
-        System.out.println("message connection");
-        
-        chatService.insertRoomDatas(message);
+	@MessageMapping(value = "/chat/enter")
+    public void enter(ChatVO message){
+        message.setChat_content(message.getChat_writer() + "님이 채팅방에 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getParty_id(), message);
     }
-	
-	
-	
+
+    @MessageMapping(value = "/chat/message")
+    public void message(ChatVO message){
+        template.convertAndSend("/sub/chat/room/" + message.getParty_id(), message);
+    }
 
 }

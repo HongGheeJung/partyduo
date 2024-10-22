@@ -3,20 +3,22 @@ package partyDuo.com.controller;
 
 import java.io.IOException;
 import java.util.List;
-
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.service.ChatService;
-
+import partyDuo.com.service.PartyService;
 import partyDuo.com.model.ChatVO;
+import partyDuo.com.model.PartyVO;
 
 @Slf4j
 @Controller
@@ -24,7 +26,10 @@ public class ChatController {
 	
 	@Autowired
 	ChatService service;
-
+	
+	@Autowired
+	PartyService pservice;
+	
 	@GetMapping("/chat/insert")
 	public String insert() {
 		log.info("/chat/insert");
@@ -129,6 +134,16 @@ public class ChatController {
 			return "redirect:/chat/delete?chat_id=" + vo.getChat_id();
 		}
 	}
+	
+	@GetMapping("/chat/chatroom")
+    public String room(Model model,
+    		@RequestParam(defaultValue = "01") String id) {
+		log.info("/chat/chatroom : {}", id);
+        PartyVO room = (pservice.searchList("party_id", id)).get(0);
+        model.addAttribute("room", room);
+
+        return "room";
+    }
 	
 	
 
