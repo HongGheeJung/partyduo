@@ -94,7 +94,7 @@ public class CharacterController {
 		log.info("2차:{}", skilltwoDTO.getCharacterSkill().size());
 		//캐릭터 스킬(3차) 정보
 		CharacterSkillDTO skillthreeDTO=service.character_skill(ocid, "3");
-		model.addAttribute("skillthreeDTO", skilltwoDTO);		
+		model.addAttribute("skillthreeDTO", skillthreeDTO);		
 		log.info("3차:{}", skillthreeDTO.getCharacterSkill().size());
 		//캐릭터 스킬(4차) 정보
 		CharacterSkillDTO skillfourDTO=service.character_skill(ocid, "4");
@@ -128,7 +128,7 @@ public class CharacterController {
 		//hexa스탯 정보
 		CharacterHexaMatrixStatDTO hexaMatrixStatDTO=service.character_hexamatrixstat(ocid);
 		model.addAttribute("hexaMatrixStatDTO", hexaMatrixStatDTO);		
-		//무릉도장 ㅈ어보
+		//무릉도장 정보
 		CharacterDojangDTO dojangDTO=service.character_dojang(ocid);
 		model.addAttribute("dojangDTO", dojangDTO);		
 		
