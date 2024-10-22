@@ -135,13 +135,13 @@ public class ChatController {
 		}
 	}
 	
-	@GetMapping("/chat/chatroom")
-    public String room(Model model,
-    		@RequestParam(defaultValue = "01") String id) {
+	@GetMapping("/chat/room2/{id}")
+    public String room(@PathVariable String id,
+    		Model model) {
 		log.info("/chat/chatroom : {}", id);
         PartyVO room = (pservice.searchList("party_id", id)).get(0);
         model.addAttribute("room", room);
-
+        log.info("/chat/chatroom : {}", id);
         return "room";
     }
 	

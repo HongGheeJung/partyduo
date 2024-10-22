@@ -32,11 +32,15 @@ public class RoomController {
 	PartyService pservice;
 	
 	@GetMapping("/rooms")
-    public String rooms(Model model){
+    public String rooms(Model model,
+    		@RequestParam(defaultValue = "01") int party_id){
 		log.info("/rooms");
-		String roomId= "1";
+		
+		
+		String roomId = Integer.toString(party_id);
+		log.info("party_id :{}", roomId);
         model.addAttribute("list", pservice.searchList("party_id", roomId));
-
+        log.info("/rooms :{} ", pservice.searchList("party_id", roomId));
         return "rooms";
     }
 	

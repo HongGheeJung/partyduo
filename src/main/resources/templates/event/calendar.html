@@ -11,7 +11,7 @@
 	
 	<div th:fragment="content">
 		<a href="/event/insert">일정추가</a>
-		<a href="/chat/rooms">방목록</a>
+		
 		<a href="/main">메인</a>
 		
 		<!-- <a href="/eventLike/selectAll">전체좋아요</a>
@@ -22,6 +22,19 @@
 
 					<th:block th:each="pvo : ${plist}">
 					<tr><a th:href="|/event/searchListPartyMonth?party_id=${pvo.party_id}&month=${month}&year=${year}|">[[${pvo.party_id}]] 파티</a></tr>
+					<tr><a th:href="|/chat/room2/${pvo.party_id}|">[[${pvo.party_id}]]파티채팅방</a></tr>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					</th:block>
 
 			</thead>
@@ -71,6 +84,25 @@
 				</th:block>
 			</tbody>
 		</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		<table id="insertTable">
 			<thead>

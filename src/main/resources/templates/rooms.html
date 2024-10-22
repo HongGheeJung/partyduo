@@ -6,7 +6,7 @@
         <div class="container">
             <div>
                 <ul th:each="room : ${list}">
-                    <li><a th:href="|/chat/chatroom?id=${room.party_id}|">[[${room.party_name}]]</a></li>
+                    <li><a th:href="|/chat/room2/${room.party_id}|">[[${room.party_name}]]</a></li>
                 </ul>
             </div>
         </div>
