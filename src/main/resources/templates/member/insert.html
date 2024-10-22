@@ -103,51 +103,79 @@
 		<hr>
 		<a href="/member/idCheck">idCheck</a> <a href="/member/apiCheck">apiCheck</a>
 		<hr>
-		<form action="/member/insertOK" method="post">
-			<table>
-				<tr>
-					<td><label for="id">ID</label></td>
-					<td><input type="text" id="id" name="id" value="admin"
-						placeholder="ID를 입력하세요"> <input type="button"
-						id="btn_idCheck" value="idCheck"> <span id="resultId">사용가능
-							or 중복된 아이디</span></td>
-
-				</tr>
-				<tr>
-					<td><label for="pw">pw</label></td>
-					<td><input type="text" id="pw" name="pw" value="hi1234"
-						placeholder="비밀번호를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="email">email</label></td>
-					<td><input type="text" id="email" name="email"
-						value="abc@def.com" placeholder="이메일을 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="apikey">apikey</label></td>
-					<td><input type="text" id="apikey" name="apikey"
-						value="0123456789abcdefg" placeholder="apikey 입력"> <input
-						type="button" id="btn_apiToCharacter" value="캐릭터닉네임추출"></td>
-
-				</tr>
-				<tr>
-					<!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
-					<td><label for="character_name">character_name</label></td>
-					<td><input type="text" id="character_name"
-						name="character_name" value="테스트" placeholder="캐릭터 이름 입력">
-						<input type="button" id="btn_apiCheck" value="apiCheck"><span
-						id="resultApi">등록여부</span></td>
-				</tr>
-				<tr>
-					<!--api인증 로직으로 캐릭터 닉네임 찾을 때는 이 tr을 삭제하거나 주석처리해주세요. -->
-					<td><label for="ocid">ocid</label></td>
-					<td><input type="text" id="ocid" name="ocid"
-						value="0001010101010" placeholder="ocid입력"></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="submit" value="가입완료"></td>
-				</tr>
-			</table>
-		</form>
+		<th:block>
+			<div class="gtco-container">
+				<div class="row">
+					<div class="col-md-12 col-md-offset-0">
+						<div class="row row-mt-15em">
+							<div class="col-md-4 col-md-push-1 animate-box"
+								data-animate-effect="fadeInRight">
+								<div class="form-wrap">
+									<div class="tab">
+										<div class="tab-content">
+											<div class="tab-content-inner active" data-content="signup">
+												<form action="/member/insertOK" method="get">
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="id">ID</label> <input type="text" id="id"
+																name="id" value="admin" placeholder="ID를 입력하세요">
+															<input type="button" id="btn_idCheck" value="idCheck">
+															<span id="resultId">사용가능 or 중복된 아이디</span>
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="pw">pw</label> <input type="text" id="pw"
+																name="pw" value="hi1234" placeholder="비밀번호를 입력하세요">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="email">email</label> <input type="text"
+																id="email" name="email" value="abc@def.com"
+																placeholder="이메일을 입력하세요">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="apikey">apikey</label> <input type="text"
+																id="apikey" name="apikey" value="0123456789abcdefg"
+																placeholder="apikey 입력"> <input type="button"
+																id="btn_apiToCharacter" value="캐릭터닉네임추출">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="character_name">character_name</label> <input
+																type="text" id="character_name" name="character_name"
+																value="테스트" placeholder="캐릭터 이름 입력"> <input
+																type="button" id="btn_apiCheck" value="apiCheck"><span
+																id="resultApi">등록여부</span>
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="ocid">ocid</label> <input type="text"
+																id="ocid" name="ocid" value="0001010101010"
+																placeholder="ocid입력">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<input type="submit" value="가입완료">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
+	</div>
 </body>
 </html>
