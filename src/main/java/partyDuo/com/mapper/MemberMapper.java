@@ -9,36 +9,36 @@ import partyDuo.com.model.MemberVO;
 @Mapper
 public interface MemberMapper {
 
-	int member_insert(MemberVO vo);
+	public int member_insert(MemberVO vo);
 
-	int member_update(MemberVO vo);
+	public int member_update(MemberVO vo);
 
-	int member_delete(MemberVO vo);
+	public int member_delete(MemberVO vo);
 
-	MemberVO member_selectOne(MemberVO vo);
+	public MemberVO member_selectOne(MemberVO vo);
 	
-	MemberVO member_selectOneByMember_id(MemberVO vo);
+	public MemberVO member_selectOneByMember_id(MemberVO vo);
 
-	List<MemberVO> member_selectAll(int startRow, int pageBlock);
+	public List<MemberVO> member_selectAll(int startRow, int pageBlock);
 
-	MemberVO member_login(MemberVO vo);
+	public MemberVO member_login(MemberVO vo);
 
-	int member_apiCheck(MemberVO vo);
+	public int member_apiCheck(MemberVO vo);
 
-	String member_findPwCheck(MemberVO vo);
+	public String member_findPwCheck(MemberVO vo);
 
-	String member_findIdCheck(MemberVO vo);
+	public String member_findIdCheck(MemberVO vo);
 
-	List<MemberVO> member_searchListById(String searchWord, int startRow, int pageBlock);
+	public List<MemberVO> member_searchListById(String searchWord, int startRow, int pageBlock);
 
-	List<MemberVO> member_searchListByCharacterName(String searchWord, int startRow, int pageBlock);
+	public List<MemberVO> member_searchListByCharacterName(String searchWord, int startRow, int pageBlock);
 
-	int getTotalRows();
+	public int getTotalRows();
 
-	int getSearchTotalRowsByCname(String searchWord);
+	public int getSearchTotalRowsByCname(String searchWord);
 
-	int getSearchTotalRowsById(String searchWord);
+	public int getSearchTotalRowsById(String searchWord);
 
-	MemberVO apiCheck(MemberVO vo);
+	public MemberVO apiCheck(MemberVO vo);
 	
 }

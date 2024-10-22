@@ -10,20 +10,20 @@ import partyDuo.com.model.EventVO;
 public interface EventMapper {
 
 	//추상메소드명(예:insertOK)이 sqlMapper_*.xml 문서의 id와 같아야한다.
-    int insertOK(EventVO vo);
+	public int insertOK(EventVO vo);
 	
-	List<EventVO> selectAll();
+	public List<EventVO> selectAll();
 
-	EventVO selectOne(EventVO vo);
+	public EventVO selectOne(EventVO vo);
 
-	int updateOK(EventVO vo);
-	int deleteOK(EventVO vo);
+	public int updateOK(EventVO vo);
+	public int deleteOK(EventVO vo);
 
-	List<EventVO> searchListPartyMonth(int party_id, int month, int year);
+	public List<EventVO> searchListPartyMonth(int party_id, int month, int year);
 
-	List<EventVO> searchListTitle(String searchWord);
+	public List<EventVO> searchListTitle(String searchWord);
 
-	int getTotalRows();
+	public int getTotalRows();
 
 
 }

@@ -25,7 +25,7 @@ public class ChatService {
         mapper = session.getMapper(ChatMapper.class);
         int result = mapper.insertOK(message);
         
-        return result == 1;
+        return result == 1 ? true : false;
     }
     
     public List<ChatVO> findMessageById(String roomId) {
