@@ -585,6 +585,60 @@
 					</tr>
 				</table>
 			</div>
+			<div id="symbol">
+				<table id="symbols" class="symbol-table">
+					<thead>
+						<th>심볼명</th>
+						<th>심볼</th>
+						<th>심볼 레벨</th>
+						<th>포스 수치</th>
+					</thead>
+					<tbody>
+						<th:block th:each="s: ${symbolEquipDTO.symbol}">
+							<tr>
+								<td>[[${s.symbolName}]]</td>
+								<td><img th:src="|${s.symbolIcon}|"></td>
+								<td>[[${s.symbolLevel}]]</td>
+								<td>[[${s.symbolForce}]]</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+			<div id="propensity">
+				<table id=propensities>
+					<thead>
+						<th>성향</th>
+						<th>레벨</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>카리스마</td>
+							<td>[[${propensityDTO.charismaLevel}]]</td>
+						</tr>
+						<tr>
+							<td>감성</td>
+							<td>[[${propensityDTO.sensibilityLevel}]]</td>
+						</tr>
+						<tr>
+							<td>통찰력</td>
+							<td>[[${propensityDTO.insightLevel}]]</td>
+						</tr>
+						<tr>
+							<td>의지</td>
+							<td>[[${propensityDTO.willingnessLevel}]]</td>
+						</tr>
+						<tr>
+							<td>손재주</td>
+							<td>[[${propensityDTO.handicraftLevel}]]</td>
+						</tr>
+						<tr>
+							<td>매력</td>
+							<td>[[${propensityDTO.charmLevel}]]</td>
+						</tr>
+					</tbody>	
+				</table>
+			</div>
 		</div>
 	</body>
 </html>
