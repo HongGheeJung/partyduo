@@ -10,27 +10,27 @@ import partyDuo.com.model.PartyBoardVO;
 
 @Mapper
 public interface PartyBoardMapper {
-	int insertOK(PartyBoardVO vo);
+	public int insertOK(PartyBoardVO vo);
 	
-	int updateOK(PartyBoardVO vo);
+	public int updateOK(PartyBoardVO vo);
 	
-	int deleteOK(PartyBoardVO vo);
+	public int deleteOK(PartyBoardVO vo);
 
-	PartyBoardVO selectOne(PartyBoardVO vo);
+	public PartyBoardVO selectOne(PartyBoardVO vo);
 	
-	List<PartyBoardVO> selectAllPageBlock(int startRow, int pageBlock);
-	List<PartyBoardVO> selectAll(int startRow, int pageBlock);
+	public List<PartyBoardVO> selectAllPageBlock(int startRow, int pageBlock);
+	public List<PartyBoardVO> selectAll(int startRow, int pageBlock);
 
-	List<PartyBoardVO> searchListBossPageBlock(String searchWord, int startRow, int pageBlock);
-	List<PartyBoardVO> searchListPartyBoardIdPageBlock(String searchWord, int startRow, int pageBlock);
-	List<PartyBoardVO> searchListPartyBoardWriterPageBlock(String searchWord, int startRow, int pageBlock);
-	List<PartyBoardVO> searchListPartyBoardWdatePageBlock(String searchWord, int startRow, int pageBlock);
+	public List<PartyBoardVO> searchListBossPageBlock(String searchWord, int startRow, int pageBlock);
+	public List<PartyBoardVO> searchListPartyBoardIdPageBlock(String searchWord, int startRow, int pageBlock);
+	public List<PartyBoardVO> searchListPartyBoardWriterPageBlock(String searchWord, int startRow, int pageBlock);
+	public List<PartyBoardVO> searchListPartyBoardWdatePageBlock(String searchWord, int startRow, int pageBlock);
 	
-	int getTotalRows();
-	int getSearchTotalRowsBoardId(String searchWord);
-	int getSearchTotalRowsBoardWriter(String searchWord);
-	int getSearchTotalRowsBoardWdate(String searchWord);
-	int getSearchTotalRowsBoss(String searchWord);
+	public int getTotalRows();
+	public int getSearchTotalRowsBoardId(String searchWord);
+	public int getSearchTotalRowsBoardWriter(String searchWord);
+	public int getSearchTotalRowsBoardWdate(String searchWord);
+	public int getSearchTotalRowsBoss(String searchWord);
 	
 
 	

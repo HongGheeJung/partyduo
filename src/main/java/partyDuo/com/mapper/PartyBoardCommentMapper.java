@@ -8,13 +8,13 @@ import partyDuo.com.model.PartyBoardCommentVO;
 
 @Mapper
 public interface PartyBoardCommentMapper {
-	int insertOK(PartyBoardCommentVO vo);
+	public int insertOK(PartyBoardCommentVO vo);
 	
-	int updateOK(PartyBoardCommentVO vo);
+	public int updateOK(PartyBoardCommentVO vo);
 	
-	int deleteOK(PartyBoardCommentVO vo);
+	public int deleteOK(PartyBoardCommentVO vo);
 	
-	PartyBoardCommentVO selectOne(PartyBoardCommentVO vo);
+	public PartyBoardCommentVO selectOne(PartyBoardCommentVO vo);
 
-	List<PartyBoardCommentVO> searchListPartyBoardId(String searchWord);
+	public List<PartyBoardCommentVO> searchListPartyBoardId(String searchWord);
 }

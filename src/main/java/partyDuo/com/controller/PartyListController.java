@@ -59,12 +59,12 @@ public class PartyListController {
 		log.info("vo3:{}", vo3);
 		vo.setMember_id(member_id);
 		PartyListVO vo4=plservice.selectOne(vo);
-		String status= "";
+		String status=new String();
 		if(vo4==null) {
 			status="noapplication";
-		}else if(vo4.getParty_join()) {
+		}else if(vo4.getParty_join()==true) {
 			status="accepted";
-		}else if(!vo4.getParty_join()) {
+		}else if(vo4.getParty_join()==false) {
 			status="application";
 		}
 		model.addAttribute("status", status);
@@ -165,13 +165,13 @@ public class PartyListController {
 		log.info("list{}",list);
 		
 		for (PartyListVO vo2 : list) {
-			if (vo2.getParty_join()) {
+			if (vo2.getParty_join()==true) {
 				MemberVO vo3= new MemberVO();
 				vo3.setMember_id(vo2.getMember_id());
 				vo3=mservice.member_selectOneByMember_id(vo3);
 				log.info("vo3{}", vo3);
 				listmember.add(vo3);
-			}else if(!vo2.getParty_join()) {
+			}else if(vo2.getParty_join()==false) {
 				MemberVO vo3= new MemberVO();
 				vo3.setMember_id(vo2.getMember_id());
 				log.info("vo3{}", vo3);
