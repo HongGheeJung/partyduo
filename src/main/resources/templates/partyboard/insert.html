@@ -13,6 +13,7 @@ function handlePartySelection() {
         openCenteredPopup();
     }
 }
+
 function openCenteredPopup() {
     var width = 600;
     var height = 400;
@@ -20,7 +21,9 @@ function openCenteredPopup() {
     var top = (window.screen.height / 2) - (height / 2);
     window.open('/party/insert', '파티 만들기', `width=${width},height=${height},left=${left},top=${top}`);
 }
+
 var formSubmitted = false;
+
 function closePopupAndRedirect() {
     // 부모 창이 특정 링크로 이동하도록 설정
     
@@ -33,10 +36,19 @@ function closePopupAndRedirect() {
     }
 }
 
+
 </script>
+
+    <style> 
+        .create-option {
+            color: white;
+            background-color: #09C6AB; 
+        }
+    </style>
+    
 </head>
 <body>
-<th:block th:fragment="partyBoardInsert">	
+<th:block>	
 			<div class="gtco-container">
 				<div class="row">
 					<div class="col-md-12 col-md-offset-0">
@@ -53,7 +65,7 @@ function closePopupAndRedirect() {
 															<label for="fullname">파티 선택</label>
 															<select id="partySelect" name="party_id" th:onchange="handlePartySelection()" class="form-control">
 																<option selected disabled hidden>파티선택</option>
-																<option value="create">파티 만들기</option> 
+																<option value="create" class="create-option">파티 만들기</option> 
 																<option th:each="vo : ${list}" th:value="${vo.party_id}" th:utext="${vo.party_name}"></option>
 															</select> 
 														</div>

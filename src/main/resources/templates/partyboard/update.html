@@ -4,11 +4,29 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script th:inline="javascript">
+var formSubmitted = false;
+var partyBoardId = [[${vo2.party_board_id}]];
+
+function closePopupAndRedirect() {
+    // 부모 창이 특정 링크로 이동하도록 설정
+    
+    if(formSubmitted) {
+    if (window.opener) {
+        window.opener.location.href = '/partyboard/selectOne?party_board_id=' + encodeURIComponent(partyBoardId); // 원하는 URL로 리다이렉트
+    }
+    // 팝업 창을 닫음
+    window.close();
+    }
+}
+
+</script>
+
 </head>
-<body th:replace="~{layout::layout}">
+<body>
 <hr>
-<div th:fragment="content">
-	<form action="/partyboard/updateOK" method="post">
+<div>
+	<form action="/partyboard/updateOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
 		<table>
 			<tr>
 				<td><label for="party_board_id">게시글 번호</label></td>
@@ -20,19 +38,19 @@
 			</tr>
 			<tr>
 				<td><label for="req_pwr">요구 전투력</label></td>
-				<td><input type="number" id="req_pwr" name="req_pwr" th:placeholder=${vo2.req_pwr}></td>
+				<td><input type="number" id="req_pwr" name="req_pwr" th:value=${vo2.req_pwr}></td>
 			</tr>
 			<tr>
 				<td><label for="boss">공략 보스</label></td>
-				<td><input type="text" id="boss" name="boss"  th:placeholder="${vo2.boss}"></td>
+				<td><input type="text" id="boss" name="boss"  th:value="${vo2.boss}"></td>
 			</tr>
 			<tr>
 				<td><label for="party_board_memo">간단 메모</label></td>
-				<td><input type="text" id="party_board_memo" name="party_board_memo" th:placeholder="${vo2.party_board_memo}"></td>
+				<td><input type="text" id="party_board_memo" name="party_board_memo" th:value="${vo2.party_board_memo}"></td>
 			</tr>
 			<tr>
 				<td><label for="party_board_content">상세 모집글</label></td>
-				<td><input type="text" id="party_board_content" name="party_board_content" th:placeholder="${vo2.party_board_content}"></td>
+				<td><input type="text" id="party_board_content" name="party_board_content" th:value="${vo2.party_board_content}"></td>
 			</tr>
 			<tr>
 				<td><label for="party_board_writer">글쓴이</label></td>
@@ -44,6 +62,29 @@
 			</tr>
 		</table>
 	</form>
+	<iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
 </div>
+
+<!-- jQuery -->
+	<script src="/js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="/js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="/js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="/js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="/js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="/js/jquery.countTo.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="/js/jquery.stellar.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/magnific-popup-options.js"></script>
+	<!-- Datepicker -->
+	<script src="/js/bootstrap-datepicker.min.js"></script>
+	<!-- Main -->
+	<script src="/js/main.js"></script>
 </body>
 </html>
