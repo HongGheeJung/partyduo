@@ -24,7 +24,10 @@
 		<a href="/member/findPw">findPW</a>
 		<a href="/member/findPwCheck">findPWCheck</a>
 		<a href="/member/findIDCheck">findIDCheck</a>
-		<h3>해당 이메일로 되어있는 ID는 [[${result}]]입니다</h3>
+		<h3>해당 이메일로 되어있는 ID</h3>
+		<th:block th:each="id, idStat: ${list}">
+			<p>[[${idStat.index+1}]]  [[${id}]]</p>
+		</th:block>
 	</div>
 </body>
 </html>

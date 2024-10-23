@@ -47,7 +47,7 @@
 			<tbody>
 				<th:block th:each="vo : ${list}">
 						<tr>
-						<td><a th:href="|/member/selectOne?id=${vo.id}|">[[${vo.member_id}]]</a></td>
+						<td><a th:href="|/member/update?id=${vo.id}|">[[${vo.member_id}]]</a></td>
 						<td>[[${vo.id}]]</td>
 						<td>[[${vo.pw}]]</td>
 						<td>[[${vo.email}]]</td>

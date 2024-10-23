@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>비밀번호 변경</title>
+<div th:replace="~{layout::boottemplate}"></div>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		function comparePw() {
+			let pw = $("#pw").val();
+			let pwcheck = $("#pwcheck").val();
+
+			if (pw === pwcheck) {
+				$("#result").html("비밀번호가 일치합니다.");
+			} else {
+				$("#result").text("비밀번호가 일치하지 않습니다.");
+			}
+		}
+
+		// Attach input event to both inputs to check for changes in real-time
+		$("#pw, #pwcheck").on("input", function() {
+			comparePw();
+		});
+	});
+</script>
+
+</head>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>pwChange</h1>
+		<th:block>
+			<div class="overlay"></div>
+			<div class="gtco-container">
+				<div class="row">
+					<div id="gtco-header" role="banner">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="row row-mt-15em">
+								<div class="col-md-4 col-md-push-1 animate-box"
+									data-animate-effect="fadeInRight">
+									<div class="form-wrap">
+										<div class="tab">
+											<div class="tab-content">
+												<div class="tab-content-inner active">
+													<form action="/member/pwChangeOK" method="get">
+														<input type="hidden" name="id"
+															th:value="${vo2.id}">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="oldpw">현재 비밀번호</label> <input
+																	type="password" class="form-control" id="oldpw" name="oldpw">
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="pw">새 비밀번호</label> <input type="password"
+																	class="form-control" id="pw" name="pw">
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="pwcheck">비밀번호 확인</label> <input
+																	type="password" class="form-control" id="pwcheck">
+																<span id="result"></span>
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<input type="submit" class="btn btn-primary btn-block"
+																	value="비밀번호 수정">
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
+	</div>
+</body>
+</html>

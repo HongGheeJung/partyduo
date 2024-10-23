@@ -361,11 +361,11 @@
 									<th>장비명</th>
 								</thead>
 								<tbody>
-									<th:block th:each="i : ${#numbers.sequence(0, 12)}">
+									<th:block th:each="c : ${cashItemEquipDTO.cashItemEquipmentBase}">
 										<tr>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemEquipmentPart()}]]</td>
-											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemIcon()}|"></td>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentBase().get(i).getCashItemName()}]]</td>
+											<td>[[${c.cashItemEquipmentPart}]]</td>
+											<td><img th:src="|${c.cashItemIcon}|"></td>
+											<td>[[${c.cashItemName}]]</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -377,11 +377,11 @@
 									<th>장비명</th>
 								</thead>
 								<tbody>
-									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+									<th:block th:each="c : ${cashItemEquipDTO.cashItemEquipmentPreset1}">
 										<tr>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemEquipmentPart()}]]</td>
-											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemIcon()}|"></td>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemName()}]]</td>
+											<td>[[${c.cashItemEquipmentPart}]]</td>
+											<td><img th:src="|${c.cashItemIcon}|"></td>
+											<td>[[${c.cashItemName}]]</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -393,11 +393,11 @@
 									<th>장비명</th>
 								</thead>
 								<tbody>
-									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+									<th:block th:each="c : ${cashItemEquipDTO.cashItemEquipmentPreset2}">
 										<tr>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset2().get(i).getCashItemEquipmentPart()}]]</td>
-											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset2().get(i).getCashItemIcon()}|"></td>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset1().get(i).getCashItemName()}]]</td>
+											<td>[[${c.cashItemEquipmentPart}]]</td>
+											<td><img th:src="|${c.cashItemIcon}|"></td>
+											<td>[[${c.cashItemName}]]</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -409,11 +409,11 @@
 									<th>장비명</th>
 								</thead>
 								<tbody>
-									<th:block th:each="i : ${#numbers.sequence(0, 4)}">
+									<th:block th:each="c : ${cashItemEquipDTO.cashItemEquipmentPreset3}">
 										<tr>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemEquipmentPart()}]]</td>
-											<td><img th:src="|${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemIcon()}|"></td>
-											<td>[[${cashItemEquipDTO.getCashItemEquipmentPreset3().get(i).getCashItemName()}]]</td>
+											<td>[[${c.cashItemEquipmentPart}]]</td>
+											<td><img th:src="|${c.cashItemIcon}|"></td>
+											<td>[[${c.cashItemName}]]</td>
 										</tr>
 									</th:block>
 								</tbody>

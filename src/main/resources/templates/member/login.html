@@ -8,34 +8,58 @@
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
 		<h1>login</h1>
-		<a href="/main">main</a>
-		<a href="/member/insert">insert</a>
-		<a href="/member/update">update</a>
-		<a href="/member/delete">delete</a>
-		<a href="/member/selectOne">selectOne</a>
-		<a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a>
-		<a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a>
-		<a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a>
-		<a href="/member/findIDCheck">findIDCheck</a>
+		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
+			href="/member/update">update</a> <a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a> <a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a> <a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a> <a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a> <a
+			href="/member/findIDCheck">findIDCheck</a>
 		<hr>
-		<form action="/member/loginOK">
-			<table>
-				<tr>
-					<td><label for="id">ID</label>
-					<td><input type="text" id="id" name="id" value="admin"></td>
-				</tr>
-				<tr>
-					<td><label for="pw">비밀번호</label></td>
-					<td><input type="password" id="pw" name="pw" value="hi1234"></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="submit" value="로그인"></td>
-				</tr>
-			</table>
-		</form>
+		<th:block>
+			<div class="overlay"></div>
+			<div class="gtco-container">
+				<div class="row">
+					<div id="gtco-header" role="banner">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="row row-mt-15em">
+								<div class="col-md-4 col-md-push-1 animate-box"
+									data-animate-effect="fadeInRight">
+									<div class="form-wrap">
+										<div class="tab">
+											<div class="tab-content">
+												<div class="tab-content-inner active">
+													<form action="/member/loginOK" method="get">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="id">ID</label> <input type="text" id="id"
+																	class="form-control" name="id" value="admin">
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="pw">비밀번호</label> <input type="password"
+																	id="pw" class="form-control" name="pw" value="hi1234">
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<input type="submit" value="로그인"
+																	class="btn btn-primary btn-block">
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
 	</div>
 </body>
 </html>

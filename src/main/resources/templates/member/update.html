@@ -4,52 +4,100 @@
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script>
+	
+</script>
+<style>
+.pform {
+	border-style: solid;
+	padding: 10px 10px;
+	border-width: 3px;
+	border-radius: 5px;
+	border-color: #eaeaea;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>update</h1>
-		<a href="/main">main</a>
-		<a href="/member/insert">insert</a>
-		<a href="/member/update">update</a>
-		<a href="/member/delete">delete</a>
-		<a href="/member/selectOne">selectOne</a>
-		<a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a>
-		<a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a>
-		<a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a>
-		<a href="/member/findIDCheck">findIDCheck</a>
+		<h1>update(SelectOne)</h1>
+		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
+			href="/member/update">update</a> <a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a> <a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a> <a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a> <a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a> <a
+			href="/member/findIDCheck">findIDCheck</a>
 		<hr>
-		
-			<form action="/member/updateOK" method="get">
-				<table>
-					<tr>
-						<td>ID<input type="hidden" id="member_id" name="member_id" th:value="${vo2.member_id}"></td>
-						<td><input type="hidden" id="id" name="id" th:value="${vo2.id}" placeholder="ID를 입력하세요">[[${vo2.id}]]</td>
-					</tr>
-					<tr>
-						<td>pw</td>
-						<td><input type="password" id="pw" name="pw" th:value="${vo2.pw}" placeholder="비밀번호를 입력하세요"></td>
-					</tr>
-					<tr>
-						<td>email</td>
-						<td><input type="text" id="email" name="email" th:value="${vo2.email}" placeholder="이메일을 입력하세요"></td>
-					</tr>
-					<tr>
-						<td>apikey</td>
-						<td><input type="hidden" id="apikey" name="apikey" th:value="${vo2.apikey}" placeholder="apikey 입력">[[${vo2.apikey}]]</td>
-					</tr>
-					<tr>
-						<td>charcter_name</td>
-						<td><input type="hidden" id="character_name" name="character_name" th:value="${vo2.apikey}">[[${vo2.character_name}]]</td>
-					</tr>
-					<tr>
-						<td colspan="2"><input type="submit" value="수정완료"></td>
-					</tr>
-					
-				</table>
-			</form>
+		<th:block>
+			<div class="overlay"></div>
+			<div class="gtco-container">
+				<div class="row">
+					<div id="gtco-header" role="banner">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="row row-mt-15em">
+								<div class="col-md-4 col-md-push-1 animate-box"
+									data-animate-effect="fadeInRight">
+									<div class="form-wrap">
+										<div class="tab">
+											<div class="tab-content">
+												<div class="tab-content-inner active"></div>
+												<form action="/member/updateOK" method="get">
+													<input type="hidden" id="member_id" name="member_id"
+														th:value="${vo2.member_id}">
+													<div class="row form-group">
+														<div class="col-md-12">
+															<input type="hidden" id="pw" name="pw" th:value="${vo2.pw}">
+															<label for="id">ID</label> <input type="hidden" id="id"
+																name="id" th:value="${vo2.id}" placeholder="ID를 입력하세요">
+															<p class="pform">[[${vo2.id}]]</p>
+															<button type="button" th:onclick="|location.href='@{/member/pwChange(id=${vo2.id})}'|" class="btn btn-primary">비밀번호
+																변경</button>
+														</div>
+													</div>
+
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="email">이메일주소</label> <input type="text"
+																id="email" name="email" th:value="${vo2.email}"
+																class="form-control" placeholder="이메일을 입력하세요">
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="apikey">api</label> <input type="hidden"
+																id="apikey" name="apikey" th:value="${vo2.apikey}"
+																placeholder="apikey 입력">
+															<p class="pform">[[${vo2.apikey}]]</p>
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="character_name">닉네임</label> <input
+																type="hidden" id="character_name" name="character_name"
+																th:value="${vo2.character_name}">
+															<p class="pform">[[${vo2.character_name}]]</p>
+														</div>
+													</div>
+													<div class="row form-group">
+														<div class="col-md-12">
+															<input type="submit" class="btn btn-primary btn-block"
+																value="수정완료">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
+
 	</div>
 </body>
 </html>

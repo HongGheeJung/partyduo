@@ -8,24 +8,47 @@
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
 		<h1>selectOne</h1>
-		<a href="/main">main</a>
-		<a href="/member/insert">insert</a>
-		<a href="/member/insertOK">insertOK</a>
-		<a href="/member/update">update</a>
-		<a href="/member/updateOK">updateOK</a>
-		<a href="/member/delete">delete</a>
-		<a href="/member/deleteOK">deleteOK</a>
-		<a href="/member/selectOne">selectOne</a>
-		<a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a>
-		<a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a>
-		<a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a>
-		<a href="/member/findIDCheck">findIDCheck</a>
-		<br>
-		<a href="/character/info">charcterInfo</a>
+		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
+			href="/member/insertOK">insertOK</a> <a href="/member/update">update</a>
+		<a href="/member/updateOK">updateOK</a> <a href="/member/delete">delete</a>
+		<a href="/member/deleteOK">deleteOK</a> <a href="/member/selectOne">selectOne</a>
+		<a href="/member/selectAll">selectAll</a> <a href="/member/login">login</a>
+		<a href="/member/loginOK">loginOK</a> <a href="/member/findID">findID</a>
+		<a href="/member/findPw">findPW</a> <a href="/member/findPwCheck">findPWCheck</a>
+		<a href="/member/findIDCheck">findIDCheck</a> <br> <a
+			href="/character/info">charcterInfo</a>
 		<hr>
+		<div>
+			<th:block>
+				<div class="overlay"></div>
+				<div class="gtco-container">
+					<div class="row">
+						<div id="gtco-header" role="banner">
+							<div class="col-md-12 col-md-offset-0">
+								<div class="row row-mt-15em">
+									<div class="col-md-4 col-md-push-1 animate-box"
+										data-animate-effect="fadeInRight">
+										<div class="form-wrap">
+											<div class="tab">
+												<div class="tab-content">
+													<div class="tab-content-inner active">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label>id</label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
 		<div>
 			<table>
 				<thead>
@@ -55,13 +78,12 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div>
 			<table border="1">
 				<tr>
 					<td>즐겨찾기</td>
 					<th:block th:each="fvo:${flist}">
-						<td><a th:href="|/character/info?character_name=${fvo.character_name}|">[[${fvo.character_name}]]</a></td>
+						<td><a
+							th:href="|/character/info?character_name=${fvo.character_name}|">[[${fvo.character_name}]]</a></td>
 					</th:block>
 				</tr>
 			</table>
