@@ -81,7 +81,7 @@ public class MemberService {
 		}
 //		return vo.getPw();
 	}
-	public String member_findIDCheck(MemberVO vo){
+	public List<String> member_findIDCheck(MemberVO vo){
 		log.info("member_findIDCheck()...");
 		return mapper.member_findIdCheck(vo);
 //		return null;
@@ -102,5 +102,11 @@ public class MemberService {
 	public MemberVO apiCheck(MemberVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.apiCheck(vo);
+	}
+	public int member_pwChange(MemberVO vo, String oldpw, String oldpwCheck) {
+		if(!oldpw.equals(oldpwCheck)) {
+			return 0;
+		}
+		return mapper.member_pwChange(vo);
 	}
 }

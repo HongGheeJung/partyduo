@@ -25,7 +25,7 @@ public interface MemberMapper {
 
 	public String member_findPwCheck(MemberVO vo);
 
-	public String member_findIdCheck(MemberVO vo);
+	public List<String> member_findIdCheck(MemberVO vo);
 
 	public List<MemberVO> member_searchListById(String searchWord, int startRow, int pageBlock);
 
@@ -38,5 +38,7 @@ public interface MemberMapper {
 	public int getSearchTotalRowsById(String searchWord);
 
 	public MemberVO apiCheck(MemberVO vo);
+
+	public int member_pwChange(MemberVO vo);
 	
 }

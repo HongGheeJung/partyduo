@@ -173,6 +173,7 @@ public class MemberController {
 	public String member_loginOK(MemberVO vo) {
 		log.info("/loginOK");
 		MemberVO vo2=service.member_login(vo);
+		
 		log.info("vo2: {}", vo2);
 		if(vo2==null) {
 			return "member/login";
@@ -220,14 +221,36 @@ public class MemberController {
 		log.info("/findIDCheck");
 //		vo=new MemberVO();
 //		vo.setEmail("abc@def.com");
-		String result=service.member_findIDCheck(vo);
-		log.info("result: {}", result);
-		model.addAttribute("result", result);
-		if(result==null) {
+		List<String> list=service.member_findIDCheck(vo);
+		log.info("list: {}", list);
+		model.addAttribute("list", list);
+		if(list==null) {
 			return "redirect:/member/findId";
 		}else {
 			
 			return "member/findIdResult";
 		}
+	}
+	@GetMapping("/member/pwChange")
+	public String member_pwChange(Model model,MemberVO vo) {
+		log.info("/selectOne");
+		MemberVO vo2=service.member_selectOne(vo);
+		model.addAttribute("vo2", vo2);
+		log.info("pw Change vo2: {}",vo2);
+		return "member/pwChange";
+	}
+	@GetMapping("/member/pwChangeOK")
+	public String member_pwChange(Model model, MemberVO vo, String oldpw) {
+		log.info("vo: {}",vo);
+		log.info("oldpw: {}", oldpw);
+		MemberVO vo2=service.member_selectOne(vo);
+		String oldpwCheck=vo2.getPw();
+		int result=service.member_pwChange(vo, oldpw, oldpwCheck);
+		if(result==0) {
+			log.info("youfailed...");
+			model.addAttribute("vo2", vo2);
+			return "member/pwChange";
+		}
+		return "redirect:/member/update?id="+vo.getId();
 	}
 }
