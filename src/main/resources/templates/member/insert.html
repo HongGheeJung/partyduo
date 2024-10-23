@@ -77,8 +77,10 @@
 											let character_name = response.character_name;
 											let ocid = response.ocid;
 
-											document
-													.getElementById("character_name").value = character_name;
+											if(ocid==null){
+												$("#apiResult").html("유효하지 않은 api");
+											}
+											document.getElementById("character_name").value = character_name;
 											document.getElementById("ocid").value = ocid;
 										},
 										error : function(ex) {
@@ -88,21 +90,15 @@
 						});
 	});
 </script>
-
+<style>
+	.borderLine{
+		border: 2px solid #09C6AB;
+	}
+</style>
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>insert</h1>
-		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
-			href="/member/update">update</a> <a href="/member/delete">delete</a>
-		<a href="/member/selectOne">selectOne</a> <a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a> <a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a> <a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a> <a
-			href="/member/findIDCheck">findIDCheck</a>
-		<hr>
-		<a href="/member/idCheck">idCheck</a> <a href="/member/apiCheck">apiCheck</a>
-		<hr>
+		<h1>회원가입</h1>
 		<th:block>
 			<div class="gtco-container">
 				<div class="row">
@@ -113,13 +109,14 @@
 								<div class="form-wrap">
 									<div class="tab">
 										<div class="tab-content">
-											<div class="tab-content-inner active" data-content="signup">
+											<div class="tab-content-inner active borderLine" data-content="signup">
 												<form action="/member/insertOK" method="get">
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="id">ID</label> <input type="text" id="id"
 																name="id" value="admin" placeholder="ID를 입력하세요">
 															<input type="button" id="btn_idCheck" class="btn-primary" value="idCheck">
+															<br>
 															<span id="resultId"></span>
 														</div>
 													</div>
@@ -142,6 +139,8 @@
 																id="apikey" name="apikey" value="0123456789abcdefg"
 																placeholder="apikey 입력"> <input type="button"
 																id="btn_apiToCharacter" class="btn-primary" value="닉네임변환">
+																<br>
+																<span id="apiResult"></span>
 														</div>
 													</div>
 													<div class="row form-group">
@@ -150,6 +149,7 @@
 																type="text" id="character_name" name="character_name"
 																value="테스트" placeholder="캐릭터 이름 입력"> <input
 																type="button" id="btn_apiCheck" class="btn-primary" value="api">
+																<br>
 																<span id="resultApi"></span>
 														</div>
 													</div>

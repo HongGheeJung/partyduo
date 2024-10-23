@@ -69,11 +69,6 @@ public class MemberService {
 		return mapper.member_login(vo);
 //		return null;
 	}
-	public int member_apiCheck(MemberVO vo) {
-//		return mapper.member_apiCheck(vo);
-		log.info("member_apiCheck()...");
-		return 0;
-	}
 	public String member_findPwCheck(MemberVO vo) {
 		log.info("member_findPwCheck()...");
 		vo.setPw(RandomAuth.authGenerate(10));

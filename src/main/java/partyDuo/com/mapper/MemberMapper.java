@@ -23,8 +23,6 @@ public interface MemberMapper {
 
 	public MemberVO member_login(MemberVO vo);
 
-	public int member_apiCheck(MemberVO vo);
-
 	public String member_findPwCheck(MemberVO vo);
 
 	public String member_findIdCheck(MemberVO vo);
