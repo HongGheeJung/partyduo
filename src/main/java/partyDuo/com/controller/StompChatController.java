@@ -15,18 +15,25 @@ import partyDuo.com.service.ChatService;
 @RequiredArgsConstructor
 public class StompChatController {
 	
+	@Autowired
+	ChatService service;
+	
 	private final SimpMessagingTemplate template;
 	
 	@MessageMapping(value = "/chat/enter")
     public void enter(ChatVO message){
 		log.info("/chat/enter message");
-        message.setChat_content(message.getChat_writer() + "님이 채팅방에 참여하였습니다.");
+        //message.setChat_content(message.getChat_writer() + "님이 채팅방에 참여하였습니다.");
+        
         template.convertAndSend("/sub/chat/room2/" + message.getParty_id(), message);
     }
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatVO message){
     	log.info("/chat/message :{}", message);
+    	int result = service.insertOK(message);
+    	message.setChat_id(service.selectMax());
+		log.info("result:{}", message.getChat_id());
         template.convertAndSend("/sub/chat/room2/" + message.getParty_id(), message);
     }
 

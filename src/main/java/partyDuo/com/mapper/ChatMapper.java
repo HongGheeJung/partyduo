@@ -15,6 +15,8 @@ public interface ChatMapper {
 	public List<ChatVO> selectAll();
 
 	public ChatVO selectOne(ChatVO vo);
+	public int selectMax();
+	
 
 	public int updateOK(ChatVO vo);
 	public int deleteOK(ChatVO vo);

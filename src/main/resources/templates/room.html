@@ -1,24 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
+
 <head>
+	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
-
 </head>
 
-<body>
+<body >
 <th:block >
-    <th:block th:fragment="content">
+    <div >
 
         <div class="container">
             <div class="col-6">
                 <h1>[[${room.party_name}]]</h1>
             </div>
-            <div>
-                <div id="msgArea" class="col"></div>
-                <div class="col-6">
+            	<div>
+						<table id="insertTable">
+							<tbody>
+								<th:block th:each="vo2 : ${chat_list}">
+									<tr>
+										<td>
+										<div class='col-6'>
+											<div class='alert alert-secondary'>
+												<b>[[${vo2.chat_writer}]]  :  [[${vo2.chat_content}]] </b>
+											</div>
+										</div>
+										</td>
+										
+										
+										<td th:if="${vo2.chat_writer==session.user_character}">
+											<form action="/chat/deleteOK" method="post">
+												<input type="hidden" name="chat_id"
+													th:value="${vo2.chat_id}">
+												<table id="insertTable">
+													<tr>
+														<th><input type="submit" value="삭제"></th>
+													</tr>
+												</table>
+											</form>
+
+										</td>
+									</tr>
+		
+										
+
+								</th:block>
+							</tbody>
+						</table>         
+                
+            </div>
+            <div id="msgArea" class="col"></div>
+            <div class="col-6">
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
@@ -26,12 +60,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            
+            
             <div class="col-6"></div>
         </div>
 
 		
-    </th:block>
+    </div>
 </th:block>
 
 <script th:inline="javascript">
@@ -57,13 +92,19 @@
 
                        var writer = username;
                        var str = '';
-                       console.log(writer + ", " + content.chat_writer + ", " );
+                       console.log(writer + ", " + content.chat_id + ", " );
+                       if(content.chat_content != null){
                        if(writer === content.chat_writer){
-                           str = "<div class='col-6'>";
+                           str = "<tr><th:block><td><div class='col-6'>";
                            str += "<div class='alert alert-secondary'>";
                            str += "<b>" + writer + " : " + content.chat_content + "</b>";
-                           str += "</div></div>";
-                           $("#msgArea").append(str);
+                           str += "</div></div></td>";
+                           str += '<td><form action="/chat/deleteOK" method="post">';
+                           str += '<input type="hidden" id="chat_id" name="chat_id" value="' + content.chat_id + '">';
+                           str += '<table id="insertTable"><tr>';
+                           str += '<th><input type="submit" value="삭제"></th></tr>';
+                           str += '</tr></table></form></td></tr>';
+             $("#msgArea").append(str);
                        }
                        else{
                            str = "<div class='col-6'>";
@@ -72,19 +113,20 @@
                            str += "</div></div>";
                            $("#msgArea").append(str);
                        }
+                       }
 
                        
                    });
 
                    //3. send(path, header, message)로 메세지를 보낼 수 있음
-                   stomp.send('/pub/chat/enter', {}, JSON.stringify({party_id: roomId, chat_writer: username}))
+                   stomp.send('/pub/chat/enter', {}, JSON.stringify({chat_id: 0, party_id: roomId, chat_writer: username}))
                 });
 
                 $("#button-send").on("click", function(e){
                     var msg = document.getElementById("msg");
 
                     console.log(username + ":" + msg.value);
-                    stomp.send('/pub/chat/message', {}, JSON.stringify({party_id: roomId, chat_content: msg.value, chat_writer: username}));
+                    stomp.send('/pub/chat/message', {}, JSON.stringify({chat_id: 0, party_id: roomId, chat_content: msg.value, chat_writer: username}));
                     msg.value = '';
                 });
             });
