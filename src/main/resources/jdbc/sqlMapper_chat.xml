@@ -16,7 +16,12 @@
 	
 	<select id="selectOne"
 		resultType="partyDuo.com.model.ChatVO">
-		select * from event where chat_id=#{chat_id}
+		select * from chatting where chat_id=#{chat_id}
+	</select>
+	
+	<select id="selectMax"
+		resultType="int">
+		select max(chat_id) from chatting
 	</select>
 	
 	<update id="updateOK">
@@ -34,7 +39,7 @@
 		resultType="partyDuo.com.model.ChatVO">
 		select * from chatting 
 		where party_id = #{party_id} 
-		order by chat_id desc
+		order by chat_id asc
 	</select>
 	
 

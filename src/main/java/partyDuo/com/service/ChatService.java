@@ -53,6 +53,10 @@ public class ChatService {
 		return mapper.selectOne(vo);
 	}
 
+	public int selectMax() {
+		return mapper.selectMax();
+	}
+
 	public int updateOK(ChatVO vo) {
 		return mapper.updateOK(vo);
 	}

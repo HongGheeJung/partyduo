@@ -122,17 +122,27 @@ public class ChatController {
 	}
 
 	@PostMapping("/chat/deleteOK")
-	public String deleteOK(ChatVO vo) {
+	public String deleteOK(ChatVO vo, Model model) {
 		log.info("/chat/deleteOK");
-		log.info("vo:{}", vo);
-
+		log.info("1vo:{}", vo);
+		vo = service.selectOne(vo);
+		log.info("2vo:{}", vo);
+		int party_id = vo.getParty_id();
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/chat/selectAll";
-		} else {
-			return "redirect:/chat/delete?chat_id=" + vo.getChat_id();
-		}
+		
+		
+		PartyVO room = (pservice.searchList("party_id", Integer.toString(party_id))).get(0);
+        
+        List<ChatVO> list = service.searchListParty(party_id);
+		log.info("list.size():{}", list.size());
+
+		model.addAttribute("chat_list", list);   
+        model.addAttribute("room", room);
+        log.info("/chat/chatroom : {}", party_id);
+        return "room";
+		
+		
 	}
 	
 	@GetMapping("/chat/room2/{id}")
@@ -140,6 +150,11 @@ public class ChatController {
     		Model model) {
 		log.info("/chat/chatroom : {}", id);
         PartyVO room = (pservice.searchList("party_id", id)).get(0);
+        int party_id = Integer.parseInt(id);
+        List<ChatVO> list = service.searchListParty(party_id);
+		log.info("list.size():{}", list.size());
+
+		model.addAttribute("chat_list", list);   
         model.addAttribute("room", room);
         log.info("/chat/chatroom : {}", id);
         return "room";
