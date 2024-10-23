@@ -1,146 +1,176 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<div th:replace="~{layout::boottemplate}"></div>
-<script th:inline="javascript">
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+    <script th:inline="javascript">
 
-function showPopup() { 
-	
-	    var width = 600;
-	    var height = 900;
-	    var left = (window.screen.width / 2) - (width / 2);
-	    var top = (window.screen.height / 2) - (height / 2);
+        function showPopup() {
 
-	window.open("/partyboard/insert","makeparty",`width=${width},height=${height},left=${left},top=${top}`); 
+            var width = 600;
+            var height = 900;
+            var left = (window.screen.width / 2) - (width / 2);
+            var top = (window.screen.height / 2) - (height / 2);
 
-}
+            window.open("/partyboard/insert", "makeparty", `width=${width},height=${height},left=${left},top=${top}`);
+
+        }
 
 
-</script>
+    </script>
 
-<style>
-.search-form {
+    <style>
+        .search-form {
             width: 400px;
             padding: 20px;
             border-radius: 8px;
-           
+
         }
- .searchbar {
-            width: 100%; 
+
+        .searchbar {
+            width: 100%;
             display: flex;
-            justify-content: center; 
+            justify-content: center;
         }
+
+        .boss-easy {
+            color: rgb(195, 195, 215);
+            /* 이지 */
+            font-weight: bold;
+        }
+
+        .boss-normal {
+            color: rgb(51, 170, 197);
+            /* 노멀 */
+            font-weight: bold;
+        }
+
+        .boss-hard {
+            color: rgb(194, 58, 62);
+            /* 하드 */
+            font-weight: bold;
+        }
+
+        .boss-chaos {
+            color: rgb(255, 221, 187);
+            /* 카오스 */
+            font-weight: bold;
+        }
+
+        .boss-extreme {
+            color: rgb(238, 68, 85);
+            /* 익스트림 */
+            font-weight: bold;
+        }
+
+
         
-.boss-easy {
-        color: rgb(195, 195, 215); /* 이지 */
-        font-weight: bold;
-    }
-    .boss-normal {
-        color: rgb(51, 170, 197); /* 노멀 */
-        font-weight: bold;
-    }
-    .boss-hard {
-        color: rgb(194, 58, 62); /* 하드 */
-        font-weight: bold;
-    }
-    .boss-chaos {
-        color: rgb(255, 221, 187); /* 카오스 */
-        font-weight: bold;
-    }
-    .boss-extreme {
-        color: rgb(238, 68, 85); /* 익스트림 */
-        font-weight: bold;
-    }        
-    
-    
-}
-</style>
+    </style>
 </head>
+
 <body th:replace="~{layout::layout}">
-	<div th:fragment="content">
-		<div class="gtco-section">
-		<div class="gtco-container">
-		<div class=row>
-		<div class="table-responsive">
-		<table class="table" >
-		<thead>
-			<tr>
-				<th scope="col">게시글 번호</th>
-				<th scope="col">파티 이름</th>			
-				<th scope="col">요구 전투력</th>				
-				<th scope="col">공략 보스</th>				
-				<th scope="col">간단 메모</th>				
-				<th scope="col">작성 자</th>				
-				<th scope="col">작성 일</th>				
-			</tr>
-		</thead>
-		<tbody>
-			<th:block th:each="vo : ${list3}">
-				<tr>
-					<th  scope="row"><a th:href="|/partyboard/selectOne?party_board_id=${vo.vo.party_board_id}|">[[${vo.vo.party_board_id}]]</a></th>
-					<td>[[${vo.party_name}]]</td>
-					<td>[[${vo.vo.req_pwr}]]</td>
-					<td th:classappend="
+    <div th:fragment="content">
+        <div class="gtco-section">
+            <div class="gtco-container">
+                <div class=row>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">게시글 번호</th>
+                                    <th scope="col">파티 명</th>
+                                    <th scope="col">월드</th>
+                                    <th scope="col">요구 전투력</th>
+                                    <th scope="col">공략 보스</th>
+                                    <th scope="col">간단 메모</th>
+                                    <th scope="col">작성 자</th>
+                                    <th scope="col">작성 일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="vo : ${list3}">
+                                    <tr>
+                                        <th scope="row"><a
+                                                th:href="|/partyboard/selectOne?party_board_id=${vo.vo.party_board_id}|">[[${vo.vo.party_board_id}]]</a>
+                                        </th>
+                                        <td>[[${vo.party_name}]]</td>
+                                        <td>
+                                         <img th:src="@{/world_icon/{world}.png(world=${vo.party_world})}"  alt="월드 이미지" style="width: 25px; height: 25px; border-radius: 4px;"/>
+                                         [[${vo.party_world}]]</td>
+                                        <td>[[${vo.vo.req_pwr}]]</td>
+                                        <td>
+                                         <img th:src="${vo.bossImagePath}" alt="보스 이미지" style="width: 50px; height: 50px; border-radius: 8px;"/>
+                                        <span th:text="${vo.vo.boss}" th:classappend="
 					    ${vo.vo.boss.contains('이지')} ? 'boss-easy' : 
 					    (${vo.vo.boss.contains('노멀')} ? 'boss-normal' : 
 					    (${vo.vo.boss.contains('하드')} ? 'boss-hard' : 
 					    (${vo.vo.boss.contains('카오스')} ? 'boss-chaos' : 
 					    (${vo.vo.boss.contains('익스트림')} ? 'boss-extreme' : ''))))">
-					    [[${vo.vo.boss}]]
-					</td>
-					<td>[[${vo.vo.party_board_memo}]]</td>
-					<td>[[${vo.vo.party_board_writer}]]</td>
-					<td>[[${vo.vo.party_board_wdate}]]</td>
-				</tr>
-			</th:block>
-	</tbody>
-	<tfoot>
-    <tr>
-        <td colspan="7" style="text-align: center;"> <!-- 가운데 정렬 -->
-            <ul class="pagination pagination-sm justify-content-center"> <!-- 부트스트랩 스타일 적용 -->
-                <!-- 이전 페이지 버튼 -->
-                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="|/partyboard/selectAll?cpage=${currentPage - 1}|">«</a>
-                </li>
+                                          
+                                        </span>
+                                        </td>
+                                        <td>[[${vo.vo.party_board_memo}]]</td>
+                                        <td><a th:href="|/character/info?character_name=${vo.vo.party_board_writer}|">[[${vo.vo.party_board_writer}]]</a></td>
+                                        <td>[[${vo.vo.party_board_wdate}]]</td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" style="text-align: center;"> <!-- 가운데 정렬 -->
+                                        <ul class="pagination pagination-sm justify-content-center">
+                                            <!-- 부트스트랩 스타일 적용 -->
+                                            <!-- 이전 페이지 버튼 -->
+                                            <li class="page-item"
+                                                th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                                                <a class="page-link"
+                                                    th:href="|/partyboard/selectAll?cpage=${currentPage - 1}|">«</a>
+                                            </li>
 
-                <!-- 페이지 번호 반복 -->
-                <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-                    <li class="page-item" th:classappend="${i == currentPage} ? 'active' : ''">
-                        <a class="page-link" 
-                           th:href="|/partyboard/selectAll?cpage=${i}|">[[${i}]]</a>
-                    </li>
-                </th:block>
+                                            <!-- 페이지 번호 반복 -->
+                                            <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+                                                <li class="page-item"
+                                                    th:classappend="${i == currentPage} ? 'active' : ''">
+                                                    <a class="page-link"
+                                                        th:href="|/partyboard/selectAll?cpage=${i}|">[[${i}]]</a>
+                                                </li>
+                                            </th:block>
 
-                <!-- 다음 페이지 버튼 -->
-                <li class="page-item" th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
-                    <a class="page-link" th:href="|/partyboard/selectAll?cpage=${currentPage + 1}|">»</a>
-                </li>
-            </ul>
-        </td>
+                                            <!-- 다음 페이지 버튼 -->
+                                            <li class="page-item"
+                                                th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+                                                <a class="page-link"
+                                                    th:href="|/partyboard/selectAll?cpage=${currentPage + 1}|">»</a>
+                                            </li>
+                                        </ul>
+                                    </td>
 
-        <!-- 게시글 작성 버튼 -->
-        <td>
-            <input type="button" class="btn btn-primary btn-block" value="게시글작성" onclick="showPopup();">
-        </td>
-    </tr>
-</tfoot>	
-</table>
-<div class="form">
-		<form action="/partyboard/searchList" >
-			<select name="searchKey" class="input-sm" >
-				<option value="boss">보스</option>
-				<option value="party_board_writer">게시글 작성자</option>
-			</select> 
-			<input class="input-sm" type="text" name="searchWord" placeholder="검색어를 입력하세요"> 
-			<input type="submit" class="btn-primary" value="검색">
-		</form>
-</div>		
-</div>
-</div>
-</div>
-</div>
-</div>
+                                    <!-- 게시글 작성 버튼 -->
+                                    <td>
+                                        <input type="button" class="btn btn-primary btn-block" value="게시글작성"
+                                            onclick="showPopup();">
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="form">
+                            <form action="/partyboard/searchList">
+                                <select name="searchKey" class="input-sm">
+                                	<option value="world">월드</option>
+                                    <option value="boss">보스</option>
+                                    <option value="party_board_writer">게시글 작성자</option>
+                                </select>
+                                <input class="input-sm" type="text" name="searchWord" placeholder="검색어를 입력하세요">
+                                <input type="submit" class="btn-primary" value="검색">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
