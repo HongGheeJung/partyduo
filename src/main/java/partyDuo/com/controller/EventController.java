@@ -56,6 +56,12 @@ public class EventController {
 		return "event/insert";
 	}
 	
+	@GetMapping("/cindex")
+	public String cinsert() {
+		log.info("/cindex");
+		return "cindex";
+	}
+	
 	@GetMapping("/event/update")
 	public String update(EventVO vo, Model model) {
 		log.info("/event/update");		
