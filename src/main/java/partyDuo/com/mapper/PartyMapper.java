@@ -18,12 +18,16 @@ public interface PartyMapper {
 	
 	public PartyVO selectOne(PartyVO vo);
 	public PartyVO selectOnePname(PartyVO vo);
-	
-	public List<PartyVO> searchListPartyId(String searchWord);
+
 	public List<PartyVO> searchListPartyMaster(String searchWord);
+	public List<PartyVO> searchListPartyId(String searchWord);
 	public List<PartyVO> searchListPartyName(String searchWord);
 
 	public List<PartyVO> selectAll(int startRow, int pageBlock);
 
 	public PartyVO selectOnePM(PartyVO vo);
+
+	public List<PartyVO> searchListWorld(String searchWord, int startRow, int pageBlock);
+
+	public List<PartyVO> searchListPartyIdPageBlock(String searchWord, int startRow, int pageBlock);
 }

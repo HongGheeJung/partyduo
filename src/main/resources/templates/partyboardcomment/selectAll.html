@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
 </head>
+
 <body>
-<div th:fragment="commentselectAll">
-<hr>
-    <div th:if="${list.size() > 0}">
-        <th:block th:each="vo : ${list}">
-            <div class="comment-row">
-                <div class="comment-author">
-                    [[${vo.party_board_comment_writer}]]
+    <div th:fragment="commentselectAll">
+        <hr>
+        <div th:if="${list.size() > 0}">
+            <th:block th:each="vo : ${list}">
+                <div class="comment-row">
+                    <div class="comment-author">
+                    <a th:href="|/character/info?character_name=${vo.party_board_comment_writer}|">
+                        [[${vo.party_board_comment_writer}]]
+                    </a>	
+                    </div>
+                    <div class="comment-content">
+                        [[${vo.party_board_comment_content}]]
+                    </div>
+                    <div class="comment-date">
+                        [[${vo.party_board_comment_wdate}]]
+                    </div>
+                    <div class="comment-actions" th:if="${vo.party_board_comment_writer} == ${session.user_character}">
+                        <input class="btn btn-primary" type="button"
+                            th:onclick="|openPopup('/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}')|"
+                            value="수정">
+
+
+                        <input class="btn btn-danger" type="button"
+                            th:onclick="|openPopup('/partyboardcomment/delete?party_board_comment_id=${vo.party_board_comment_id}')|"
+                            value=삭제>
+
+
+                    </div>
                 </div>
-                <div class="comment-content">
-                    [[${vo.party_board_comment_content}]]
-                </div>
-                <div class="comment-date">
-                    [[${vo.party_board_comment_wdate}]]
-                </div>
-                <div class="comment-actions" th:if="${vo.party_board_comment_writer} == ${session.user_character}">
-                    <input 
-                        class="btn btn-primary" 
-                        type="button" 
-                        th:onclick="|openPopup('/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}')|"
-                        value="수정">
-                      
-                    
-                    <input
-                        class="btn btn-danger"   
-                        type="button" 
-                        th:onclick="|openPopup('/partyboardcomment/delete?party_board_comment_id=${vo.party_board_comment_id}')|"
-                        value=삭제>
-                       
-                    
-                </div>
-            </div>
-        </th:block>
+            </th:block>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

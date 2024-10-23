@@ -4,8 +4,8 @@
 
 <mapper namespace="partyDuo.com.mapper.PartyMapper">
 	<insert id="insertOK">
-		insert into party(party_name,party_master)
-		values(#{party_name},#{party_master})
+		insert into party(party_name,party_master,party_world)
+		values(#{party_name},#{party_master},#{party_world})
 	</insert>
 	
 	<update id="updateOK">
@@ -37,7 +37,15 @@
 	</select>
 	
 	<select id="searchListPartyId" resultType="partyDuo.com.model.PartyVO">
-		select * from party where party_id like #{searchWord} order by party_id 
+		select * from party where party_id like #{searchWord} order by party_id  
+	</select>
+	
+	<select id="searchListPartyIdPageBlock" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_id like #{searchWord} order by party_id desc limit #{startRow}, #{pageBlock} 
+	</select>
+	
+	<select id="searchListWorld" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_world like #{searchWord} order by party_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
 	<select id="searchListPartyMaster" resultType="partyDuo.com.model.PartyVO">
@@ -47,4 +55,5 @@
 	<select id="searchListPartyName" resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_name like #{searchWord}  order by party_id 
 	</select>
+
 </mapper>

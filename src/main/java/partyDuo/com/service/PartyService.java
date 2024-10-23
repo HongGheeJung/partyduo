@@ -69,4 +69,12 @@ public class PartyService {
 		
 		return pmapper.selectOnePM(vo);
 	}
-}
+
+	public List<PartyVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
+		int startRow=(cpage-1)*pageBlock;
+		if(searchKey.equals("world")) {
+		return pmapper.searchListWorld("%"+searchWord+"%",startRow,pageBlock);}
+	else { 
+		return pmapper.searchListPartyIdPageBlock(searchWord,startRow,pageBlock);}
+	}}
+
