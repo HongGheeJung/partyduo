@@ -42,10 +42,10 @@ public class PartyBoardService {
 		return pbmapper.selectAllPageBlock(startRow, pageBlock);
 	}
 	
-	public List<PartyBoardVO> selectAll(int cpage, int pageBlock) {
+	public List<PartyBoardVO> selectAll() {
 		log.info("pb_service_selectAll");
-		int startRow=(cpage-1)*pageBlock;
-		return pbmapper.selectAll(startRow, pageBlock);
+		
+		return pbmapper.selectAll();
 	}
 	
 	public List<PartyBoardVO> searchListPageBlock(String searchKey,String searchWord,int cpage,int pageBlock) {

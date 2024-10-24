@@ -10,8 +10,7 @@
 	
 	<update id="updateOK">
 		update reporttroll set character_name=#{character_name},report_troll_content=#{report_troll_content},
-				
-				,report_troll_wdate=(curtime())
+report_troll_wdate=(curtime())
 		where report_troll_id=#{report_troll_id}
 	</update>
 	

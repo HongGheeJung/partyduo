@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class ReportTrollVO {
-	private int party_board_id;
+	private int report_troll_id;
 	private String character_name;
 	private String report_troll_content;
 	private String report_troll_writer;

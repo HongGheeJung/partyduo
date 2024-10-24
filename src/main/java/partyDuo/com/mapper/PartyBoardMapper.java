@@ -19,7 +19,7 @@ public interface PartyBoardMapper {
 	public PartyBoardVO selectOne(PartyBoardVO vo);
 	
 	public List<PartyBoardVO> selectAllPageBlock(int startRow, int pageBlock);
-	public List<PartyBoardVO> selectAll(int startRow, int pageBlock);
+	public List<PartyBoardVO> selectAll();
 
 	public List<PartyBoardVO> searchListBossPageBlock(String searchWord, int startRow, int pageBlock);
 	public List<PartyBoardVO> searchListPartyBoardIdPageBlock(String searchWord, int startRow, int pageBlock);

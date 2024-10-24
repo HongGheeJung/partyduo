@@ -205,7 +205,7 @@ public class PartyBoardController {
 		
 		// searchKey에 따라 로직 분기
 	    if (searchKey.equals("world")) {
-	        list = pbservice.selectAll(cpage, pageBlock); // 모든 파티 게시판 조회
+	        list = pbservice.selectAllPageBlock(cpage, pageBlock); // 모든 파티 게시판 조회
 	        list2 = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock); // 월드 검색된 파티 목록
 	        log.info("PartyBoard List: {}", list);
 	        log.info("Party List: {}", list2);
