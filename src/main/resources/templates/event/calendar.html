@@ -22,24 +22,10 @@
 
 					<th:block th:each="pvo : ${plist}">
 					<tr><a th:href="|/event/searchListPartyMonth?party_id=${pvo.party_id}&month=${month}&year=${year}|">[[${pvo.party_id}]] 파티</a></tr>
-					<tr><a th:href="|/chat/room2/${pvo.party_id}|">[[${pvo.party_id}]]파티채팅방</a></tr>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					<tr><a th:href="|/chat/room2/${pvo.party_id}|">[[${pvo.party_id}]]파티채팅방</a></tr>				
 					</th:block>
-
 			</thead>
-			<tbody>
-				
+			<tbody>				
 			</tbody>
 		</table>	
 		<hr>	
@@ -84,26 +70,7 @@
 				</th:block>
 			</tbody>
 		</table>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		<table id="insertTable">
 			<tbody>
 				<th:block th:each="vo2 : ${chat_list}">
