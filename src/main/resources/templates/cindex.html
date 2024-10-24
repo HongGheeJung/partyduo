@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
   
+  
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,17 +25,24 @@
 
     <title>Calendar #10</title>
   </head>
-  <body>
-  
-
+ 
+  <body >
+   
+ 
   <div id='calendar-container'>
-	<a href="/member/insert">회원가입</a>
+ <div>
+ 	<a href="/event/insert">일정추가</a>
 	<a href="/partyboard/insert">파티게시판작성</a>
 	<a href="/partyboardcomment/insert">파티게시글댓글작성</a>
 	<a href="/party/insert">파티 생성</a>
 	<a href="/partylist/insert">파티 신청</a>
+	</div>
+	
+	
     <div id='calendar'></div>
   </div>
+  
+  
     
     
 
@@ -53,6 +61,8 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    
+    var today = new Date();
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
@@ -63,65 +73,28 @@
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
       defaultView: 'dayGridMonth',
-      defaultDate: '2020-02-12',
+      defaultDate: today,
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
-        {
-          title: 'All Day Event',
-          start: '2020-02-01',
-        },
-        {
-          title: 'Long Event',
-          start: '2020-02-07',
-          end: '2020-02-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-02-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-02-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2020-02-11',
-          end: '2020-02-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-02-12T10:30:00',
-          end: '2020-02-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2020-02-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-02-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2020-02-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2020-02-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-02-13T07:00:00'
-        },
-        {
-          title: 'Click for main',
-          url: '/main',
-          start: '2020-02-28'
-        }
+          $.ajax({
+              type: "get",
+              url: "/EventList",
+              success: function (data) {
+                  if (data != null) {
+                      for (let i = 0; i < data.length; i++) {
+                          calendar.addEvent({
+                        	  id: data[i].event_id,
+                        	  url: '/event/selectOne?event_id=' + data[i].event_id,
+                              title: data[i].event_title,
+                              start: data[i].event_startTime,
+                              end: data[i].event_endTime
+                          })
+                      }
+                  }
+              }
+          })
       ]
     });
 

@@ -57,8 +57,10 @@ public class EventController {
 	}
 	
 	@GetMapping("/cindex")
-	public String cinsert() {
+	public String cinsert(Model model) {
 		log.info("/cindex");
+		String data = "[{groupId: 999, title: 'Repeating Event', start: '2020-02-09T16:00:00'}]";
+		model.addAttribute("data", data);
 		return "cindex";
 	}
 	
@@ -214,7 +216,7 @@ public class EventController {
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/calendar";
+			return "redirect:/cindex";
 		} else {
 			return "redirect:/event/insert";
 		}
@@ -230,7 +232,7 @@ public class EventController {
 		int result = service.updateOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/calendar";
+			return "redirect:/cindex";
 		} else {
 			return "redirect:/event/update" ;
 		}
@@ -244,7 +246,7 @@ public class EventController {
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
-			return "redirect:/event/calendar";
+			return "redirect:/cindex";
 		} else {
 			return "redirect:/event/delete?event_id=" + vo.getEvent_id();
 		}
