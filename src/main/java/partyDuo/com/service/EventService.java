@@ -40,7 +40,10 @@ public class EventService {
 	public List<EventVO> searchListTitle(String searchWord) {
 		return mapper.searchListTitle("%" + searchWord + "%");
 	}
-	
+	public List<EventVO> searchListParty(int party_id){
+		
+		return mapper.searchListParty(party_id);
+	}
 	
 	public List<EventVO> searchListPartyMonth(int party_id, int month, int year) {		
 
