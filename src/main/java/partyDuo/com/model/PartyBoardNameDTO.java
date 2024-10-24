@@ -1,8 +1,7 @@
-package partyDuo.com.controller;
+package partyDuo.com.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import partyDuo.com.model.PartyBoardVO;
 
 @Data
 @AllArgsConstructor

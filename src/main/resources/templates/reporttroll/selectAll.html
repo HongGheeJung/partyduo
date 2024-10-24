@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardSelectAll</title>
+    <title>Insert title here</title>
     <div th:replace="~{layout::boottemplate}"></div>
     <script th:inline="javascript">
 
@@ -75,13 +75,7 @@
             font-weight: bold;
         }
 
-		.memo-content,.name-content {
-    white-space: nowrap;  /* 줄바꿈 방지 */
-    overflow: hidden;     /* 넘치는 텍스트 숨김 */
-    text-overflow: ellipsis; /* 넘칠 경우 ... 표시 */
-    max-width: 200px;     /* 원하는 너비 설정 */
-    display: block;
-}
+
         
     </style>
 </head>
@@ -111,7 +105,7 @@
                                         <th scope="row"><a
                                                 th:href="|/partyboard/selectOne?party_board_id=${vo.vo.party_board_id}|">[[${vo.vo.party_board_id}]]</a>
                                         </th>
-                                        <td class="name-content">[[${vo.party_name}]]</td>
+                                        <td>[[${vo.party_name}]]</td>
                                         <td>
                                          <img th:src="@{/world_icon/{world}.png(world=${vo.party_world})}"  alt="월드 이미지" style="width: 25px; height: 25px; border-radius: 4px;"/>
                                          [[${vo.party_world}]]</td>
@@ -127,7 +121,7 @@
                                           
                                         </span>
                                         </td>
-                                        <td class="memo-content">[[${vo.vo.party_board_memo}]]</td>
+                                        <td>[[${vo.vo.party_board_memo}]]</td>
                                         <td><a th:href="|/character/info?character_name=${vo.vo.party_board_writer}|">[[${vo.vo.party_board_writer}]]</a></td>
                                         <td>[[${vo.vo.party_board_wdate}]]</td>
                                     </tr>

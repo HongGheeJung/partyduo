@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>PartyBoardCommentInsert</title>
 </head>
 
 <body>
 
     <div class="gtco-container" th:fragment="commentinsert">
-        <form action="/partyboardcomment/insertOK" method="post">
+        <form action="/partyboardcomment/insertOK" method="post" onsubmit="event.preventDefault(); checkLoginBeforeComment(this);">
             <!-- 숨겨진 필드 -->
             <input type="hidden" name="party_board_id" th:value="${vo2.party_board_id}">
             <input type="hidden" name="party_board_comment_writer" th:value="${session.user_character}">

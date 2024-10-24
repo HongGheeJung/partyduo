@@ -1,0 +1,63 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.ReportTrollMapper">
+	<insert id="insertOK">
+		insert into reporttroll(character_name,report_troll_content,report_troll_writer) 
+		values(#{character_name},#{report_troll_content},#{report_troll_writer})
+	</insert>
+	
+	<update id="updateOK">
+		update reporttroll set character_name=#{character_name},report_troll_content=#{report_troll_content},
+				
+				,report_troll_wdate=(curtime())
+		where report_troll_id=#{report_troll_id}
+	</update>
+	
+	<delete id="deleteOK">
+		delete from reporttroll where report_troll_id=#{report_troll_id}
+	</delete>
+	
+	<select id="selectOne" resultType="partyDuo.com.model.ReportTrollVO">
+		select * from reporttroll where report_troll_id=#{report_troll_id}
+	</select>
+	
+	<select id="selectAllPageBlock"
+		resultType="partyDuo.com.model.ReportTrollVO">
+		select * from reporttroll order by report_troll_id desc limit #{startRow}, #{pageBlock} 
+	</select>
+	
+	<select id="selectAll"
+		resultType="partyDuo.com.model.ReportTrollVO">
+		select * from reporttroll order by report_troll_id desc 
+	</select>
+	
+	<select id="searchListReportTrollCharacterPageBlock"
+		resultType="partyDuo.com.model.ReportTrollVO">
+		select * from reporttroll where character_name like #{searchWord} order by report_troll_id  desc  limit #{startRow}, #{pageBlock} 
+	
+	</select>
+	
+	<select id="searchListReportTrollWdatePageBlock"
+		resultType="partyDuo.com.model.ReportTrollVO">
+		select * from reporttroll where report_troll_wdate like #{searchWord} order by report_troll_id  desc limit #{startRow}, #{pageBlock} 
+	</select>
+	
+	<select id="getTotalRows" resultType="int">
+		select count(*) total_rows
+		from reporttroll
+	</select>
+	
+	
+	<select id="getSearchTotalRowsReportTrollCharacter" resultType="int">
+		select count(*) total_rows
+		from reporttroll where character_name like #{searchWord} 
+	</select>
+	
+	<select id="getSearchTotalRowsReportTrollWdate" resultType="int">
+		select count(*) total_rows
+		from reporttroll where report_troll_wdate like #{searchWord} 
+	</select>
+	
+</mapper>

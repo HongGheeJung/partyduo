@@ -14,12 +14,12 @@
 					<ul>
 						<li><a href="/notice/selectAll">공지사항</a></li>
 						<li><a href="/character/info">캐릭터 검색</a></li>
-						<li><a href="/calendar">캘린더</a></li>
+						<li><a href="#" onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
 						<li class="has-dropdown">
 							<a href="#">파티</a>
 							<ul class="dropdown">
-								<li><a href="/calendar">캘린더</a></li>
-								<li><a href="/partylist/myparty">내 파티</a></li>
+								<li><a href="#" onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
+								<li><a href="#" onclick="checkLoginAndRedirect('/partylist/myparty')">내 파티</a></li>
 								<li><a href="/partyboard/selectAll">파티게시판</a></li>
 							</ul>
 						</li>
@@ -43,6 +43,24 @@
 	<header id="gtco-header" class="gtco-cover gtco-cover-xsm" role="banner" style="background-image: url(/images/img_bg_2.jpg)">
 		<div class="overlay"></div>
 	</header>
+	<script th:inline="javascript">
+	 function checkLoginAndRedirect(url) {
+	        fetch('/checkLogin')
+	            .then(response => response.json())
+	            .then(data => {
+	                if (data.loggedIn) {
+	                    // 로그인 상태일 경우 해당 페이지로 이동
+	                    window.location.href = url;
+	                } else {
+	                    // 로그인되지 않은 경우 알림 후 로그인 페이지로 이동
+	                    alert('로그인을 진행해주세요.');
+	                    window.location.href = '/member/login';
+	                }
+	            })
+	            .catch(error => console.error('Error:', error));
+	    }
+	</script>
+	
 </div>
 	
 	</body>
