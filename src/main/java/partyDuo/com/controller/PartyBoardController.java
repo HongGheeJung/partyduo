@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.model.MemberVO;
 import partyDuo.com.model.PartyBoardCommentVO;
+import partyDuo.com.model.PartyBoardNameDTO;
 import partyDuo.com.model.PartyBoardVO;
 import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;

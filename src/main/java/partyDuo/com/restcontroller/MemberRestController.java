@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.spiralmoon.maplestory.api.MapleStoryApi;
 import dev.spiralmoon.maplestory.api.MapleStoryApiException;
 import dev.spiralmoon.maplestory.api.dto.character.CharacterDTO;
 import dev.spiralmoon.maplestory.api.dto.character.CharacterListDTO;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.controller.CharacterController;
 import partyDuo.com.model.MemberVO;
@@ -62,5 +64,15 @@ public class MemberRestController {
 		map.put("character_name", character);
 		map.put("ocid", ocid);
 		return map;
+	}
+	
+	@GetMapping("/checkLogin")
+	@ResponseBody
+	public Map<String, Boolean> checkLogin(HttpSession session) {
+	    Map<String, Boolean> response = new HashMap<>();
+	    Object user = session.getAttribute("user_character");
+	    
+	    response.put("loggedIn", user != null); // 로그인 여부 체크
+	    return response;
 	}
 }
