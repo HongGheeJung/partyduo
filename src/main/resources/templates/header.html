@@ -1,49 +1,57 @@
 <!DOCTYPE HTML>
 
 <html xmlns:th="http://www.thymeleaf.org">
-	<body>	
-<div id="page" th:fragment="header" style="height:200px;">
-	<!-- <div class="page-inner"> -->
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">			
-			<div class="row">
-				<div class="col-sm-4 col-xs-12">
-					<div id="gtco-logo"><a href="/main">partyDuo <em>.</em></a></div>
+<body>
+	<div id="page" th:fragment="header" style="height: 200px;">
+		<!-- <div class="page-inner"> -->
+		<nav class="gtco-nav" role="navigation">
+			<div class="gtco-container">
+				<div class="row">
+					<div class="col-sm-4 col-xs-12">
+						<div id="gtco-logo">
+							<a href="/main">partyDuo <em>.</em></a>
+						</div>
+					</div>
+					<div class="col-xs-8 text-right menu-1">
+						<ul>
+							<li><a href="/notice/selectAll">공지사항</a></li>
+							<li><a href="/character/info">캐릭터 검색</a></li>
+							<li><a href="#" onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
+							<li class="has-dropdown"><a href="#">파티</a>
+								<ul class="dropdown">
+									<li><a href="#"
+										onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
+									<li><a href="#"
+										onclick="checkLoginAndRedirect('/partylist/myparty')">내 파티</a></li>
+									<li><a href="/partyboard/selectAll">파티게시판</a></li>
+								</ul></li>
+							<li><a href="/reporttroll/selectAll">박제게시판</a></li>
+							<li class="has-dropdown"><a href="#">고객센터</a>
+								<ul class="dropdown">
+									<li><a href="/reportboard/selectAll">신고게시판</a></li>
+									<li><a href="/guide/guide">이용가이드</a></li>
+								</ul></li>
+							<li th:if="${session.user_id==null}"><a href="/member/login">로그인</a></li>
+							<li th:if="${session.user_id!=null}" class="has-dropdown"><a th:href="@{/character/info(character_name=${session.user_character})}">내정보</a>
+								<ul class="dropdown">
+									<li><a th:href="@{/character/info(character_name=${session.user_character})}">내 캐릭터</a></li>
+									<li><a th:href="@{/member/update(id=${session.user_id})}">계정 정보</a></li>
+									<li><a href="/member/logout">로그아웃</a></li>
+								</ul>
+							</li>
+							<li><a href="/member/insert">회원가입</a></li>
+						</ul>
+					</div>
 				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li><a href="/notice/selectAll">공지사항</a></li>
-						<li><a href="/character/info">캐릭터 검색</a></li>
-						<li><a href="#" onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
-						<li class="has-dropdown">
-							<a href="#">파티</a>
-							<ul class="dropdown">
-								<li><a href="#" onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
-								<li><a href="#" onclick="checkLoginAndRedirect('/partylist/myparty')">내 파티</a></li>
-								<li><a href="/partyboard/selectAll">파티게시판</a></li>
-							</ul>
-						</li>
-						<li><a href="/reporttroll/selectAll">박제게시판</a></li>
-						<li class="has-dropdown">
-							<a href="#">고객센터</a>
-							<ul class="dropdown">
-								<li><a href="/reportboard/selectAll">신고게시판</a></li>
-								<li><a href="/guide/guide">이용가이드</a></li>
-							</ul>
-						</li>
-						<li><a href="/member/login">로그인</a></li>
-						<li><a href="/member/insert">회원가입</a></li>
-					</ul>	
-				</div>
+
 			</div>
-			
-		</div>
-	</nav>
-		
-	<header id="gtco-header" class="gtco-cover gtco-cover-xsm" role="banner" style="background-image: url(/images/img_bg_2.jpg)">
-		<div class="overlay"></div>
-	</header>
-	<script th:inline="javascript">
+		</nav>
+
+		<header id="gtco-header" class="gtco-cover gtco-cover-xsm"
+			role="banner" style="background-image: url(/images/img_bg_2.jpg)">
+			<div class="overlay"></div>
+		</header>
+		<script th:inline="javascript">
 	 function checkLoginAndRedirect(url) {
 	        fetch('/checkLogin')
 	            .then(response => response.json())
@@ -58,11 +66,11 @@
 	                }
 	            })
 	            .catch(error => console.error('Error:', error));
-	    }
+	   }
 	</script>
-	
-</div>
-	
-	</body>
+
+	</div>
+
+</body>
 </html>
 
