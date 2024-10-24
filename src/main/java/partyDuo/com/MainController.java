@@ -19,8 +19,10 @@ public class MainController {
 	public String home() {
 		
 		
-//		session.setAttribute("user_id","admin");
-//		session.setAttribute("user_character","페이커");
+
+		session.setAttribute("user_id","admin");
+		session.setAttribute("user_character","페이커");
+
 		
 		log.info("/main");
 		return "main";

@@ -42,19 +42,19 @@ public class ReportTrollService {
 		return rtmapper.selectAllPageBlock(startRow, pageBlock);
 	}
 	
-	public List<ReportTrollVO> selectAll(int cpage, int pageBlock) {
+	public List<ReportTrollVO> selectAll() {
 		log.info("rt_service_selectAll");
-		int startRow=(cpage-1)*pageBlock;
-		return rtmapper.selectAll(startRow, pageBlock);
+		
+		return rtmapper.selectAll();
 	}
 	
 	public List<ReportTrollVO> searchListPageBlock(String searchKey,String searchWord,int cpage,int pageBlock) {
 		log.info("rt_service_searchList");
 		int startRow=(cpage-1)*pageBlock;
 		if(searchKey.equals("character_name")) {
-			return rtmapper.searchListReportTrollCharacterPageBlock(searchWord, startRow, pageBlock);
+			return rtmapper.searchListReportTrollCharacterPageBlock("%"+searchWord+"%", startRow, pageBlock);
 		}else {
-			return rtmapper.searchListReportTrollWdatePageBlock(searchWord, startRow, pageBlock);
+			return rtmapper.searchListReportTrollWdatePageBlock("%"+searchWord+"%", startRow, pageBlock);
 		}
 	}
 	
@@ -67,9 +67,9 @@ public class ReportTrollService {
 		log.info("rt_service_getSearchTotalRows");
 	
 		if(searchKey.equals("character_name")) {
-			return rtmapper.getSearchTotalRowsReportTrollCharacter(searchWord);
+			return rtmapper.getSearchTotalRowsReportTrollCharacter("%"+searchWord+"%");
 		}else {
-			return rtmapper.getSearchTotalRowsReportTrollWdate(searchWord);
+			return rtmapper.getSearchTotalRowsReportTrollWdate("%"+searchWord+"%");
 		}
 		
 	}

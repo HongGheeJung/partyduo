@@ -3,23 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardDelete</title>
+    <title>reporttrollDelete</title>
     <div th:replace="~{layout::boottemplate}"></div>
     <script th:inline="javascript">
         var formSubmitted = false;
 
         function closePopupAndRedirect() {
             // 부모 창이 특정 링크로 이동하도록 설정
-
             if (formSubmitted) {
-                if (window.opener) {
-                    window.opener.location.href = '/partyboard/selectAll'; // 원하는 URL로 리다이렉트
+                if (window.opener && window.opener.opener) {
+                    // 부모 팝업의 부모 창으로 리다이렉트
+                    window.opener.opener.location.href = '/reporttroll/selectAll';
+                    // 부모 팝업 창을 닫음
+                    window.opener.close();
                 }
-                // 팝업 창을 닫음
+                // 현재 팝업 창을 닫음
                 window.close();
             }
         }
-
     </script>
 </head>
 
@@ -33,15 +34,15 @@
                             <div class="tab">
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
-                                        <h3 class="text-center">게시글 삭제</h3> <!-- 제목도 가운데 정렬 -->
-                                        <form action="/partyboard/deleteOK" method="post" th:target="submitFrame"
+                                        <h3 class="text-center">게시글 삭제</h3>
+                                        <form action="/reporttroll/deleteOK" method="post" th:target="submitFrame"
                                             th:onsubmit="formSubmitted = true;">
                                             <div class="row form-group">
                                                 <div class="col-md-12 d-flex flex-column align-items-center">
-                                                    <input type="hidden" name="party_board_id"
-                                                        th:value="${vo2.party_board_id}">
+                                                    <input type="hidden" name="report_troll_id"
+                                                        th:value="${vo2.report_troll_id}">
                                                     <p class="text-center mt-3">
-                                                        [[${vo2.party_board_id}]]번 게시글을 정말 삭제하시겠습니까?
+                                                        [[${vo2.report_troll_id}]]번 게시글을 정말 삭제하시겠습니까?
                                                     </p>
                                                 </div>
                                             </div>
