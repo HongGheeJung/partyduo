@@ -36,7 +36,7 @@
 				<div class="row">
 					<div id="gtco-header" role="banner">
 						<div class="col-md-12 col-md-offset-0">
-							<div class="row row-mt-15em">
+							<div class="row row-mt-16em">
 								<div class="col-md-4 col-md-push-1 animate-box"
 									data-animate-effect="fadeInRight">
 									<div class="form-wrap">
@@ -48,12 +48,14 @@
 														th:value="${vo2.member_id}">
 													<div class="row form-group">
 														<div class="col-md-12">
-															<input type="hidden" id="pw" name="pw" th:value="${vo2.pw}">
-															<label for="id">ID</label> <input type="hidden" id="id"
-																name="id" th:value="${vo2.id}" placeholder="ID를 입력하세요">
+															<input type="hidden" id="pw" name="pw"
+																th:value="${vo2.pw}"> <label for="id">ID</label>
+															<input type="hidden" id="id" name="id"
+																th:value="${vo2.id}" placeholder="ID를 입력하세요">
 															<p class="pform">[[${vo2.id}]]</p>
-															<button type="button" th:onclick="|location.href='@{/member/pwChange(id=${vo2.id})}'|" class="btn btn-primary">비밀번호
-																변경</button>
+															<button type="button"
+																th:onclick="|location.href='@{/member/pwChange(id=${vo2.id})}'|"
+																class="btn btn-primary">비밀번호 변경</button>
 														</div>
 													</div>
 
@@ -87,6 +89,12 @@
 														</div>
 													</div>
 												</form>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<button type="button" class="btn btn-primary btn-block"
+															th:onclick="|location.href='@{/member/delete(member_id=${vo2.member_id})}'|">탈퇴</button>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>

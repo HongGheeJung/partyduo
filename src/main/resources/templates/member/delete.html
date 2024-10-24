@@ -8,22 +8,49 @@
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
 		<h1>delete</h1>
-		<a href="/main">main</a>
-		<a href="/member/insert">insert</a>
-		<a href="/member/update">update</a>
-		<a href="/member/delete">delete</a>
-		<a href="/member/selectOne">selectOne</a>
-		<a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a>
-		<a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a>
-		<a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a>
-		<a href="/member/findIDCheck">findIDCheck</a>
+		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
+			href="/member/update">update</a> <a href="/member/delete">delete</a>
+		<a href="/member/selectOne">selectOne</a> <a href="/member/selectAll">selectAll</a>
+		<a href="/member/login">login</a> <a href="/member/loginOK">loginOK</a>
+		<a href="/member/findID">findID</a> <a href="/member/findPw">findPW</a>
+		<a href="/member/findPwCheck">findPWCheck</a> <a
+			href="/member/findIDCheck">findIDCheck</a>
 		<hr>
-		<p><h5>정말 [[${vo.id}]]계정을 삭제하시겠습니까?</h5></p>
-		<p><a th:href="|/member/deleteOK?member_id=${vo.member_id}|">예</a> <a th:href="|/member/selectOne?member_id=${vo.member_id}|">아니오</a></p>
+
+		<th:block>
+			<div class="overlay"></div>
+			<div class="gtco-container">
+				<div class="row">
+					<div id="gtco-header" role="banner">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="row row-mt-15em">
+								<div class="col-md-4 col-md-push-1 animate-box"
+									data-animate-effect="fadeInRight">
+									<div class="form-wrap">
+										<div class="tab">
+											<div class="tab-content">
+												<div class="tab-content-inner active">
+													<p>
+													<h5>정말 [[${vo.id}]]계정을 삭제하시겠습니까?</h5>
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary"
+															th:onclick="|location.href='@{/member/deleteOK(member_id=${vo.member_id})}'|">예</button>
+														<button type="button" class="btn btn-primary"
+															th:onclick="|location.href='@{/member/update(id=${vo.id})}'|">아니오</button>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
 	</div>
-	
+
 </body>
 </html>

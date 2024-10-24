@@ -74,7 +74,7 @@ public class MemberController {
 		int result=service.member_update(vo);
 		log.info("result: {}", result);
 		if(result !=0) {
-			return "redirect:/member/selectOne?id="+vo.getId();			
+			return "redirect:/main";			
 		}else {
 			return "redirect:/member/update?id="+vo.getId();
 		}
