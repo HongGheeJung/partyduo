@@ -56,13 +56,7 @@ public class EventController {
 		return "event/insert";
 	}
 	
-	@GetMapping("/cindex")
-	public String cinsert(Model model) {
-		log.info("/cindex");
-		String data = "[{groupId: 999, title: 'Repeating Event', start: '2020-02-09T16:00:00'}]";
-		model.addAttribute("data", data);
-		return "cindex";
-	}
+	
 	
 	@GetMapping("/event/update")
 	public String update(EventVO vo, Model model) {
@@ -93,59 +87,28 @@ public class EventController {
 		return "event/selectAll";
 	}
 
-	@GetMapping("/event/searchListPartyMonth")
-	public String searchListPartyMonth(Model model, 
-			@RequestParam(defaultValue = "01") int party_id,
-			@RequestParam(defaultValue = "10") String month,
-			@RequestParam(defaultValue = "2024") String year) {
+	@GetMapping("/event/searchListParty")
+	public String searchListParty(Model model, 
+			@RequestParam(defaultValue = "01") int party_id) {
 		
-		int month2 = Integer.parseInt(month);
-		int year2 = Integer.parseInt(year);
-		
-		if(month2==13) {
-			month2=1;
-			year2 += 1;
-		}else if(month2==0) {
-			month2=12;
-			year2 -= 1;
-		}
-		log.info("/event/searchList");
-		log.info("search_party_id:{}", party_id);
-		log.info("month2:{}", month2);
-		log.info("year2:{}", year2);
-		
-		
+		log.info("event/searchListParty");
+		log.info("party_id:{}", party_id);
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
 		int member_id=vo.getMember_id();
-		List<PartyListVO> plist = plservice.searchList("member_id",Integer.toString(member_id));
-		
-		
-		
-		List<ChatVO> chat_list =service_chat.searchListParty(party_id);		
-		List<EventVO> list = service.searchListPartyMonth(party_id, month2,year2);
+		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));
+		log.info("plist:{}", plist);	
 		model.addAttribute("party_id", party_id);
-		model.addAttribute("month", month2);
-		model.addAttribute("year", year2);
-		
 		model.addAttribute("plist", plist);
-		model.addAttribute("chat_list", chat_list);
-		model.addAttribute("list", list);
 		
-		return "event/calendar";
+		return "cindex";
 	}
-	
-	@GetMapping({"/event/calendar","/calendar"})
-	public String searchListPartyMonthfirst(Model model,
-			@RequestParam(defaultValue = "01") String month,
-			@RequestParam(defaultValue = "2024") String year) {
-		 LocalDate now = LocalDate.now();
-		int month2 = now.getMonthValue();
-		int year2 = now.getYear();
-		log.info("/event/searchList");
 
-		log.info("month2:{}", month2);
+	@GetMapping("/cindex")
+	public String searchListfirst(Model model, 
+			@RequestParam(defaultValue = "0") int party_id) {
+		log.info("/cindex");
 		
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
@@ -153,22 +116,15 @@ public class EventController {
 		int member_id=vo.getMember_id();
 		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));
 		log.info("plist:{}", plist);
-		int party_id = plist.get(0).getParty_id();
+		if(party_id==0) {
+			party_id = plist.get(0).getParty_id();
+		}
 		
-		List<ChatVO> chat_list =service_chat.searchListParty(party_id);
-		log.info("chat_list:{}", chat_list);
-		List<EventVO> list = service.searchListPartyMonth(party_id, month2, year2);
-		
-		log.info("list.size():{}", list.size());
+		log.info("party_id:{}", party_id);
 		model.addAttribute("party_id", party_id);
-		model.addAttribute("month", month2);
-		model.addAttribute("year", year2);
-		
 		model.addAttribute("plist", plist);
-		model.addAttribute("chat_list", chat_list);
-		model.addAttribute("list", list);
 		
-		return "event/calendar";
+		return "cindex";
 	}
 	
 	@GetMapping("/event/searchListTitle")

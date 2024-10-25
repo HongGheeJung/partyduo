@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,9 +34,12 @@ public class CalenderRestController {
 
 	
 	@RequestMapping("/EventList")
-	public List<EventVO> EventList() throws Exception{
+	public List<EventVO> EventList(Model model,
+			@RequestParam(defaultValue = "01") int party_id) throws Exception{
 		log.info("/EventList");
-		List<EventVO> vo = service.searchListParty(1);
+		log.info("party_id:{}", party_id);
+		List<EventVO> vo = service.searchListParty(party_id);
+		log.info("vo:{}", vo);
 		return vo;
 	}
 	

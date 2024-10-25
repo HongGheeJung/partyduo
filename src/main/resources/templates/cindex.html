@@ -31,11 +31,20 @@
  
   <div id='calendar-container'>
  <div>
- 	<a href="/event/insert">일정추가</a>
-	<a href="/partyboard/insert">파티게시판작성</a>
-	<a href="/partyboardcomment/insert">파티게시글댓글작성</a>
-	<a href="/party/insert">파티 생성</a>
-	<a href="/partylist/insert">파티 신청</a>
+ 	<a href="/main">메인</a>
+ 	<a th:href="|/event/insert?party_id=${party_id}|">일정추가</a>
+	<hr>
+	<table id="insertTable">
+			<thead>
+
+					<th:block th:each="pvo : ${plist}">
+					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|">[[${pvo.party_id}]]파티 </a></tr>
+					<tr><a th:href="|/chat/room2/${pvo.party_id}|">[[${pvo.party_id}]]파티채팅방 </a></tr>				
+					</th:block>
+			</thead>
+			<tbody>				
+			</tbody>
+		</table>
 	</div>
 	
 	
@@ -80,13 +89,13 @@
       events: [
           $.ajax({
               type: "get",
-              url: "/EventList",
+              url: '/EventList?party_id='+ [[${party_id}]],
               success: function (data) {
                   if (data != null) {
                       for (let i = 0; i < data.length; i++) {
                           calendar.addEvent({
                         	  id: data[i].event_id,
-                        	  url: '/event/selectOne?event_id=' + data[i].event_id,
+                        	  url: '/event/update?event_id=' + data[i].event_id,
                               title: data[i].event_title,
                               start: data[i].event_startTime,
                               end: data[i].event_endTime
