@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notice Write</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script th:inline="javascript">
+        var formSubmitted = false;
+
+        function closePopupAndRedirect() {
+            if (formSubmitted) {
+                if (window.opener) {
+                    // 부모 창에서 /notice/selectAll 페이지로 리다이렉트
+                    window.opener.location.href = '/notice/selectAll';
+                }
+                window.close();  // 팝업 창 닫기
+            }
+        }
+
+        $(document).ready(function () {
+            $('#notice_title, #notice_content').on('input', function () {
+                validateForm();
+            });
+
+            // 페이지 로드 시 초기 상태로 버튼 비활성화
+            validateForm();
+        });
+
+        function validateForm() {
+            const noticeTitle = $('#notice_title').val().trim();
+            const noticeContent = $('#notice_content').val().trim();
+            const submitButton = $('#submitButton');
+
+            // 모든 필드가 유효할 경우에만 버튼 활성화
+            if (noticeTitle !== '' && noticeContent !== '') {
+                submitButton.prop('disabled', false); // 버튼 활성화
+            } else {
+                submitButton.prop('disabled', true); // 버튼 비활성화
+            }
+        }
+    </script>
+
+    <style>
+        #result {
+            font-size: 1.2rem;
+            position: absolute;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <th:block>
+        <div class="gtco-container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="row row-mt-15em">
+                        <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
+                            <div class="form-wrap">
+                                <div class="tab">
+                                    <div class="tab-content">
+                                        <div class="tab-content-inner active" data-content="signup">
+                                            <h3 class="text-center">공지사항 작성</h3>
+                                            <form action="/notice/insertOK" method="post" th:target="submitFrame"
+                                                th:onsubmit="formSubmitted = true;">
+                                                <div class="row form-group position-relative">
+                                                    <div class="col-md-12">
+                                                        <label for="notice_title">공지사항 제목</label>
+                                                        <input type="text" id="notice_title" name="notice_title"
+                                                            class="form-control" placeholder="제목을 입력하세요(최대40자)" maxlength="40">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="notice_content">공지사항 내용</label>
+                                                        <textarea id="notice_content" name="notice_content"
+                                                            cols="30" rows="10" class="form-control"
+                                                            placeholder="내용을 입력하세요(최대 300자)" maxlength="300"
+                                                            oninput="updateCharCount(this)"></textarea>
+                                                        <small id="charCount" class="form-text text-muted text-right">0
+                                                            / 300</small>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" id="notice_writer" name="notice_writer"
+                                                    th:value="${session.admin_name}">
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12 text-center">
+                                                        <input type="submit" id="submitButton"
+                                                            class="btn btn-primary btn-block" value="공지사항 등록" disabled>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <iframe name="submitFrame" style="display:none;"
+                                                th:onload="closePopupAndRedirect()"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+    <!-- jQuery and other scripts -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.countTo.js"></script>
+    <script src="/js/jquery.stellar.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <!-- 글자수 제한 -->
+    <script th:inline="javascript">
+        function updateCharCount(textarea) {
+            const maxLength = textarea.maxLength;
+            const currentLength = textarea.value.length;
+            const charCountElement = document.getElementById('charCount');
+            charCountElement.textContent = `${currentLength} / ${maxLength}자`;
+        }
+    </script>
+</body>
+
+</html>
