@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import partyDuo.com.model.AdminVO;
 import partyDuo.com.model.FavoriteVO;
 import partyDuo.com.model.MemberVO;
+import partyDuo.com.service.AdminService;
 import partyDuo.com.service.FavoriteService;
 import partyDuo.com.service.MemberService;
 
@@ -27,6 +29,9 @@ public class MemberController {
 	
 	@Autowired
 	FavoriteService fservice;
+	
+	@Autowired
+	AdminService adservice;
 	
 	MemberVO vo;
 	
@@ -173,15 +178,29 @@ public class MemberController {
 	public String member_loginOK(MemberVO vo) {
 		log.info("/loginOK");
 		MemberVO vo2=service.member_login(vo);
-		
+		AdminVO vo3=new AdminVO();
+		vo3.setId(vo2.getId());
+		log.info("vo3: {}", vo3);
+		vo3=adservice.selectOne(vo3);
 		log.info("vo2: {}", vo2);
+		log.info("vo3: {}", vo3);
 		if(vo2==null) {
 			return "member/login";
-		}else {
+		}else if(vo3 !=null && vo2.getId().equals(vo3.getId())){
+			session.setAttribute("user_id", vo2.getId());
+			session.setAttribute("user_character", vo2.getCharacter_name());
+			session.setAttribute("admin_name", vo3.getName());
+			return "redirect:/main";
+		}
+		else {
 			session.setAttribute("user_id", vo2.getId());
 			session.setAttribute("user_character", vo2.getCharacter_name());
 			return "redirect:/main";
-		}	
+		}
+		
+		
+		
+		
 	}
 	@GetMapping("/member/logout")
 	public String member_logout() {

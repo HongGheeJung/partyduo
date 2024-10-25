@@ -1,0 +1,62 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partyDuo.com.mapper.NoticeMapper">
+	<insert id="insertOK">
+		insert into notice(notice_title,notice_content,notice_writer) 
+		values(#{notice_title},#{notice_content},#{notice_writer})
+	</insert>
+	
+	<update id="updateOK">
+		update notice set notice_title=#{notice_title},notice_content=#{notice_content},
+		notice_writer=#{notice_writer},notice_wdate=(curtime())
+		where notice_id=#{notice_id}
+	</update>
+	
+	<delete id="deleteOK">
+		delete from notice where notice_id=#{notice_id}
+	</delete>
+	
+	<select id="selectOne" resultType="partyDuo.com.model.NoticeVO">
+		select * from notice where notice_id=#{notice_id}
+	</select>
+	
+	<select id="selectAllPageBlock"
+		resultType="partyDuo.com.model.NoticeVO">
+		select * from notice order by notice_id desc limit #{startRow}, #{pageBlock} 
+	</select>
+	
+	<select id="selectAll"
+		resultType="partyDuo.com.model.NoticeVO">
+		select * from notice order by notice_id desc 
+	</select>
+	
+	<select id="searchListNoticeTitle"
+		resultType="partyDuo.com.model.NoticeVO">
+		select * from notice where notice_title like #{searchWord} order by notice_id  desc  limit #{startRow}, #{pageBlock} 
+	
+	</select>
+	
+	<select id="searchListNoticeWriter"
+		resultType="partyDuo.com.model.NoticeVO">
+		select * from notice where notice_wdate like #{searchWord} order by notice_id  desc limit #{startRow}, #{pageBlock} 
+	</select>
+	
+	<select id="getTotalRows" resultType="int">
+		select count(*) total_rows
+		from notice
+	</select>
+	
+	
+	<select id="getSearchTotalRowsNoticeTitle" resultType="int">
+		select count(*) total_rows
+		from notice where notice_title like #{searchWord} 
+	</select>
+	
+	<select id="getSearchTotalRowsNoticeWriter" resultType="int">
+		select count(*) total_rows
+		from notice where notice_wdate like #{searchWord} 
+	</select>
+	
+</mapper>
