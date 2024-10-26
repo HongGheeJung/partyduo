@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notice View</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script th:inline="javascript">
+        function openPopup(url, name, width = 600, height = 400) {
+            const left = (window.screen.width / 2) - (width / 2);
+            const top = (window.screen.height / 2) - (height / 2);
+            window.open(url, name, `width=${width},height=${height},left=${left},top=${top}`);
+        }
+
+        function handleAction(action) {
+            // 공지사항 ID를 가져옴
+            const noticeId = [[${vo2.notice_id}]];
+
+            if (action === 'edit') {
+                // 수정 버튼 클릭 시 처리 로직
+                openPopup(`/notice/update?notice_id=${noticeId}`, 'editNotice', 600, 400);
+            } else if (action === 'delete') {
+                // 삭제 버튼 클릭 시 처리 로직
+                openPopup(`/notice/delete?notice_id=${noticeId}`, 'deleteNotice', 600, 400);
+            } else {
+                console.error('Unknown action:', action);
+            }
+        }
+    </script>
+
+    <style>
+        .content {
+            padding: 20px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .writing_view_box {
+            width: 100%;
+            min-height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body th:replace="~{layout::layout}">
+    <div th:fragment="content" class="gtco-container">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: left; margin-top: 20px;">
+                    <h3>
+                        <span th:text="${vo2.notice_title}"></span>
+                    </h3>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 20px;">
+                    <span th:text="${vo2.notice_writer}">작성자   </span>
+                    
+                    <span th:text="${vo2.notice_wdate}" style="margin-left: 20px;">작성일</span>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="content">
+            <p><strong>내용:</strong></p>
+            <div class="writing_view_box">
+                <p th:text="${vo2.notice_content}"></p>
+            </div>
+        </div>
+
+        <div class="btn-container" th:if="${session.admin_name} != null">
+            <button type="button" class="btn btn-warning" th:onclick="|handleAction('edit', ${vo2.notice_id})|">공지사항 수정</button>
+            <button type="button" class="btn btn-danger" th:onclick="|handleAction('delete', ${vo2.notice_id})|">공지사항 삭제</button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Troll Report</title>
+    <title>Notice Write</title>
     <div th:replace="~{layout::boottemplate}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -14,15 +14,15 @@
         function closePopupAndRedirect() {
             if (formSubmitted) {
                 if (window.opener) {
-                    // 부모 창에서 /reporttroll/selectAll 페이지로 리다이렉트
-                    window.opener.location.href = '/reporttroll/selectAll';
+                    // 부모 창에서 /notice/selectAll 페이지로 리다이렉트
+                    window.opener.location.href = '/notice/selectAll';
                 }
                 window.close();  // 팝업 창 닫기
             }
         }
 
         $(document).ready(function () {
-            $('#character_name, #report_troll_content').on('input', function () {
+            $('#notice_title, #notice_content').on('input', function () {
                 validateForm();
             });
 
@@ -31,12 +31,12 @@
         });
 
         function validateForm() {
-            const characterName = $('#character_name').val().trim();
-            const reportContent = $('#report_troll_content').val().trim();
+            const noticeTitle = $('#notice_title').val().trim();
+            const noticeContent = $('#notice_content').val().trim();
             const submitButton = $('#submitButton');
 
             // 모든 필드가 유효할 경우에만 버튼 활성화
-            if (characterName !== '' && reportContent !== '') {
+            if (noticeTitle !== '' && noticeContent !== '') {
                 submitButton.prop('disabled', false); // 버튼 활성화
             } else {
                 submitButton.prop('disabled', true); // 버튼 비활성화
@@ -65,36 +65,36 @@
                                 <div class="tab">
                                     <div class="tab-content">
                                         <div class="tab-content-inner active" data-content="signup">
-                                            <h3 class="text-center">박제 게시글 작성</h3>
-                                            <form action="/reporttroll/insertOK" method="post" th:target="submitFrame"
+                                            <h3 class="text-center">공지사항 작성</h3>
+                                            <form action="/notice/insertOK" method="post" th:target="submitFrame"
                                                 th:onsubmit="formSubmitted = true;">
                                                 <div class="row form-group position-relative">
                                                     <div class="col-md-12">
-                                                        <label for="character_name">박제 대상 캐릭터명</label>
-                                                        <input type="text" id="character_name" name="character_name"
-                                                            class="form-control" placeholder="캐릭터명을 입력하세요(최대40자)" maxlength="40">
+                                                        <label for="notice_title">공지사항 제목</label>
+                                                        <input type="text" id="notice_title" name="notice_title"
+                                                            class="form-control" placeholder="제목을 입력하세요(최대40자)" maxlength="40">
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
-                                                        <label for="report_troll_content">박제 내용</label>
-                                                        <textarea id="report_troll_content" name="report_troll_content"
+                                                        <label for="notice_content">공지사항 내용</label>
+                                                        <textarea id="notice_content" name="notice_content"
                                                             cols="30" rows="10" class="form-control"
-                                                            placeholder="신고 내용을 입력하세요(최대 300자)" maxlength="300"
+                                                            placeholder="내용을 입력하세요(최대 300자)" maxlength="300"
                                                             oninput="updateCharCount(this)"></textarea>
                                                         <small id="charCount" class="form-text text-muted text-right">0
                                                             / 300</small>
                                                     </div>
                                                 </div>
 
-                                                <input type="hidden" id="report_troll_writer" name="report_troll_writer"
-                                                    th:value="${session.user_character}">
+                                                <input type="hidden" id="notice_writer" name="notice_writer"
+                                                    th:value="${session.admin_name}">
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12 text-center">
                                                         <input type="submit" id="submitButton"
-                                                            class="btn btn-primary btn-block" value="박제" disabled>
+                                                            class="btn btn-primary btn-block" value="공지사항 등록" disabled>
                                                     </div>
                                                 </div>
                                             </form>

@@ -3,21 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Report Troll Update</title>
+    <title>Notice Update</title>
     <div th:replace="~{layout::boottemplate}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script th:inline="javascript">
         var formSubmitted = false;
-        var reportTrollId = [[${vo2.report_troll_id}]]; // 신고 게시글 ID를 JavaScript 변수로 설정
+        var noticeId = [[${vo2.notice_id}]]; // 공지사항 ID를 JavaScript 변수로 설정
 
         // 팝업 닫고 리다이렉트
         function closePopupAndRedirect() {
             if (formSubmitted) {
                 if (window.opener) {
                     // 부모 창에서 리다이렉트
-                    window.opener.location.href = `/reporttroll/selectOne?report_troll_id=${reportTrollId}`;
+                    window.opener.location.href = `/notice/selectOne?notice_id=${noticeId}`;
                 }
                 window.close();
             }
@@ -44,40 +44,40 @@
                             <div class="tab">
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
-                                        <h3 class="text-center">박제 게시글 수정</h3>
+                                        <h3 class="text-center">공지사항 수정</h3>
 
-                                        <form action="/reporttroll/updateOK" method="post" th:target="submitFrame"
+                                        <form action="/notice/updateOK" method="post" th:target="submitFrame"
                                             th:onsubmit="formSubmitted = true;">
-                                            <input type="hidden" id="report_troll_id" name="report_troll_id"
-                                                th:value="${vo2.report_troll_id}">
+                                            <input type="hidden" id="notice_id" name="notice_id"
+                                                th:value="${vo2.notice_id}">
 
                                             <div class="row form-group position-relative">
                                                 <div class="col-md-12">
-                                                    <label for="character_name">박제 대상 캐릭터명</label>
-                                                    <input type="text" id="character_name" name="character_name"
-                                                        th:value="${vo2.character_name}" class="form-control"
-                                                        placeholder="캐릭터명을 입력하세요">
+                                                    <label for="notice_title">공지사항 제목</label>
+                                                    <input type="text" id="notice_title" name="notice_title"
+                                                        th:value="${vo2.notice_title}" class="form-control"
+                                                        placeholder="공지사항 제목을 입력하세요 (최대 100자)" maxlength="100">
                                                 </div>
                                             </div>
 
                                             <div class="row form-group position-relative">
                                                 <div class="col-md-12">
-                                                    <label for="report_troll_content">박제 내용</label>
-                                                    <textarea id="report_troll_content" name="report_troll_content"
-                                                        class="form-control" placeholder="신고 내용을 입력하세요 (최대 300자)"
-                                                        maxlength="300" rows="5" oninput="updateCharCount(this)"
-                                                        th:text="${vo2.report_troll_content}"></textarea>
-                                                    <small id="charCount" class="form-text text-muted text-right">0 / 300자</small>
+                                                    <label for="notice_content">공지사항 내용</label>
+                                                    <textarea id="notice_content" name="notice_content"
+                                                        class="form-control" placeholder="공지사항 내용을 입력하세요 (최대 1000자)"
+                                                        maxlength="1000" rows="10" oninput="updateCharCount(this)"
+                                                        th:text="${vo2.notice_content}"></textarea>
+                                                    <small id="charCount" class="form-text text-muted text-right">0 / 1000자</small>
                                                 </div>
                                             </div>
 
-                                            <input type="hidden" id="report_troll_writer" name="report_troll_writer"
-                                                th:value="${session.user_character}">
+                                            <input type="hidden" id="notice_writer" name="notice_writer"
+                                                th:value="${session.admin_name}">
 
                                             <div class="row form-group">
                                                 <div class="col-md-12 text-center">
                                                     <input type="submit" id="submitButton" class="btn btn-primary"
-                                                        value="게시글 수정">
+                                                        value="공지사항 수정">
                                                 </div>
                                             </div>
                                         </form>

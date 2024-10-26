@@ -19,87 +19,87 @@ import partyDuo.com.model.MemberVO;
 
 import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;
-import partyDuo.com.model.ReportTrollVO;
+import partyDuo.com.model.NoticeVO;
 import partyDuo.com.service.MemberService;
+import partyDuo.com.service.NoticeService;
 import partyDuo.com.service.PartyListService;
 import partyDuo.com.service.PartyService;
 import partyDuo.com.service.ReportTrollService;
 
 @Slf4j
 @Controller
-public class ReportTrollController {
+public class NotliceController {
 	@Autowired
-	ReportTrollService rtservice;
+	NoticeService nservice;
 	
-	@GetMapping("/reporttroll/insert")
+	@GetMapping("/notice/insert")
 	public String insert() {
-		log.info("report_troll_insert...");
+		log.info("notice_insert...");
 		
-		return "reporttroll/insert";
+		return "notice/insert";
 	}
 	
-	@PostMapping("/reporttroll/insertOK")
-	public String insertOK(ReportTrollVO vo) {
-		log.info("report_troll_insertOK...");
+	@PostMapping("/notice/insertOK")
+	public String insertOK(NoticeVO vo) {
+		log.info("notice_insertOK...");
 		
-		int result = rtservice.insertOK(vo);
+		int result = nservice.insertOK(vo);
 		log.info("result:{}", result);
-		return "redirect:/reporttroll/selectAll";
+		return "redirect:/notice/selectAll";
 	}
 
-	@GetMapping("/reporttroll/update")
-	public String update(ReportTrollVO vo, Model model) {
-		log.info("report_troll_update...");
-		ReportTrollVO vo2 = rtservice.selectOne(vo);
+	@GetMapping("/notice/update")
+	public String update(NoticeVO vo, Model model) {
+		log.info("notice_update...");
+		NoticeVO vo2 = nservice.selectOne(vo);
 		log.info("vo2:{}", vo2);
 		model.addAttribute("vo2", vo2);
-		return "reporttroll/update";
+		return "notice/update";
 	}
 
-	@PostMapping("/reporttroll/updateOK")
-	public String updateOK(ReportTrollVO vo) {
-		log.info("report_troll_updateOK...");
+	@PostMapping("/notice/updateOK")
+	public String updateOK(NoticeVO vo) {
+		log.info("notice_updateOK...");
 	
-		int result = rtservice.updateOK(vo);
+		int result = nservice.updateOK(vo);
 		log.info("result:{}", result);
-		return "redirect:/reporttroll/selectAll";
+		return "redirect:/notice/selectAll";
 				
 	}
 	
-	@GetMapping("/reporttroll/delete")
-	public String delete(ReportTrollVO vo, Model model) {
-		log.info("report_troll_delete...");
-		ReportTrollVO vo2 = rtservice.selectOne(vo);
+	@GetMapping("/notice/delete")
+	public String delete(NoticeVO vo, Model model) {
+		log.info("notice_delete...");
+		NoticeVO vo2 = nservice.selectOne(vo);
 		model.addAttribute("vo2", vo2);
-		return "reporttroll/delete";
+		return "notice/delete";
 	}
 
-	@PostMapping("/reporttroll/deleteOK")
-	public String deleteOK(ReportTrollVO vo) {
-		log.info("report_troll_deleteOK...");
-		int result = rtservice.deleteOK(vo);
+	@PostMapping("/notice/deleteOK")
+	public String deleteOK(NoticeVO vo) {
+		log.info("notice_deleteOK...");
+		int result = nservice.deleteOK(vo);
 		log.info("result:{}", result);
-		return "redirect:/reporttroll/selectAll";
+		return "redirect:/notice/selectAll";
 	}
 	
-	@GetMapping("/reporttroll/selectOne")
-	public String selectOne(ReportTrollVO vo, Model model) {
-		log.info("report_troll_selectOne...");
-		ReportTrollVO vo2= rtservice.selectOne(vo);
+	@GetMapping("/notice/selectOne")
+	public String selectOne(NoticeVO vo, Model model) {
+		log.info("notice_selectOne...");
+		NoticeVO vo2= nservice.selectOne(vo);
 		log.info("vo2:{}", vo2);
-		model.addAttribute("vo2", vo2);
-		
-		return "reporttroll/selectOne";
+		model.addAttribute("vo2", vo2);		
+		return "notice/selectOne";
 	}
 	
-	@GetMapping("/reporttroll/selectAll")
+	@GetMapping("/notice/selectAll")
 	public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "20") int pageBlock) {
-		log.info("report_troll_selectAll...");
-		List<ReportTrollVO> list= rtservice.selectAllPageBlock(cpage, pageBlock);
+		log.info("notice_selectAll...");
+		List<NoticeVO> list= nservice.selectAllPageBlock(cpage, pageBlock);
 		
 		
-		int total_rows = rtservice.getTotalRows();// select count(*) total_rows from member;
+		int total_rows = nservice.getTotalRows();// select count(*) total_rows from member;
 		log.info("total_rows:{}", total_rows);
 		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
 		int totalPageCount = 0;
@@ -117,22 +117,22 @@ public class ReportTrollController {
 		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("currentPage", cpage);
 		model.addAttribute("list",list);
-		return "reporttroll/selectAll";
+		return "notice/selectAll";
 	}
 	
-	@GetMapping("/reporttroll/searchList")
+	@GetMapping("/notice/searchList")
 	public String searchList(Model model, String searchKey,
 			String searchWord, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "20") int pageBlock) {
-		log.info("report_troll_searchList...");
+		log.info("notice_searchList...");
 		log.info(searchKey);
 		log.info(searchWord);
 		
-		List<ReportTrollVO> list = rtservice.searchListPageBlock(searchKey,searchWord,cpage,pageBlock);
+		List<NoticeVO> list = nservice.searchListPageBlock(searchKey,searchWord,cpage,pageBlock);
 		
 		
 		log.info("list: {}", list);
-		int total_rows = rtservice.getSearchTotalRows(searchKey, searchWord);// select count(*) total_rows from member;
+		int total_rows = nservice.getSearchTotalRows(searchKey, searchWord);// select count(*) total_rows from member;
 		log.info("total_rows:{}", total_rows);
 		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
 		int totalPageCount = 0;
@@ -150,6 +150,6 @@ public class ReportTrollController {
 		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("currentPage", cpage);
 		model.addAttribute("list", list);
-		return "reporttroll/selectAll";
+		return "notice/selectAll";
 	}
 }

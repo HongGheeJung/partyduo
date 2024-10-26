@@ -20,7 +20,7 @@ public interface ReportTrollMapper {
 	public ReportTrollVO selectOne(ReportTrollVO vo);
 	
 	public List<ReportTrollVO> selectAllPageBlock(int startRow, int pageBlock);
-	public List<ReportTrollVO> selectAll(int startRow, int pageBlock);
+	public List<ReportTrollVO> selectAll();
 
 	public List<ReportTrollVO> searchListReportTrollCharacterPageBlock(String searchWord, int startRow, int pageBlock);
 	public List<ReportTrollVO> searchListReportTrollWdatePageBlock(String searchWord, int startRow, int pageBlock);

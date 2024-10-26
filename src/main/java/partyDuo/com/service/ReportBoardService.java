@@ -11,7 +11,7 @@ import partyDuo.com.model.PartyBoardVO;
 
 @Slf4j
 @Service
-public class PartyBoardService {
+public class ReportBoardService {
 	
 	@Autowired
 	PartyBoardMapper pbmapper;
