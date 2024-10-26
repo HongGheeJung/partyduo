@@ -4,36 +4,33 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import partyDuo.com.model.ReportTrollVO;
-
-
+import partyDuo.com.model.ReportBoardVO;
 
 @Mapper
 public interface ReportBoardMapper {
-	public int insertOK(ReportTrollVO vo);
-	
-	public int updateOK(ReportTrollVO vo);
-	
-	public int deleteOK(ReportTrollVO vo);
+    public int insertOK(ReportBoardVO vo);
+    
+    public int updateOK(ReportBoardVO vo);
+    
+    public int deleteOK(ReportBoardVO vo);
 
-	public ReportTrollVO selectOne(ReportTrollVO vo);
-	
-	public List<ReportTrollVO> selectAllPageBlock(int startRow, int pageBlock);
-	public List<ReportTrollVO> selectAll();
+    public ReportBoardVO selectOne(ReportBoardVO vo);
+    
+    public List<ReportBoardVO> selectAllPageBlock(int startRow, int pageBlock);
+    
+    public List<ReportBoardVO> selectAll();
 
-	
-	public List<ReportTrollVO> searchListReportBoardTitlePageBlock(String searchWord, int startRow, int pageBlock);
-	public List<ReportTrollVO> searchListReportBoardWriterPageBlock(String searchWord, int startRow, int pageBlock);
-	public List<ReportTrollVO> searchListReportBoardWdatePageBlock(String searchWord, int startRow, int pageBlock);
-	
-	public int getTotalRows();
-	public int getSearchTotalRowsReportBoardTitle(String searchWord);
-	public int getSearchTotalRowsReportBoardWriter(String searchWord);
-	public int getSearchTotalRowsReportBoardWdate(String searchWord);
-	
-
-	
-	
-	
-
+    public List<ReportBoardVO> searchListTitlePageBlock(String searchWord, int startRow, int pageBlock);
+    
+    public List<ReportBoardVO> searchListWriterPageBlock(String searchWord, int startRow, int pageBlock);
+    
+    public List<ReportBoardVO> searchListWdatePageBlock(String searchWord, int startRow, int pageBlock);
+    
+    public int getTotalRows();
+    
+    public int getSearchTotalRowsTitle(String searchWord);
+    
+    public int getSearchTotalRowsWriter(String searchWord);
+    
+    public int getSearchTotalRowsWdate(String searchWord);
 }

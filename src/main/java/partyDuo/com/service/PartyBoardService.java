@@ -56,7 +56,7 @@ public class PartyBoardService {
 		return pbmapper.searchListBossPageBlock( "%"+searchWord+"%", startRow, pageBlock);
 		}else if(searchKey.equals("party_board_id")) {
 			log.info("pb_id");
-			return pbmapper.searchListPartyBoardIdPageBlock("%"+searchWord+"%", startRow, pageBlock);
+			return pbmapper.searchListPartyBoardIdPageBlock(searchWord, startRow, pageBlock);
 		}else if(searchKey.equals("party_board_writer")) {
 			log.info("pb_writer");
 			return pbmapper.searchListPartyBoardWriterPageBlock("%"+searchWord+"%", startRow, pageBlock);

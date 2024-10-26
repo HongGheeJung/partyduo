@@ -3,20 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardCommentInsert</title>
+    <title>reportboardCommentInsert</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"> <!-- Include Bootstrap CSS for styling -->
+    <script src="/js/jquery.min.js"></script> <!-- Include jQuery -->
+    <script src="/js/bootstrap.min.js"></script> <!-- Include Bootstrap JS -->
+
+
 </head>
 
 <body>
 
     <div class="gtco-container" th:fragment="commentinsert">
-        <form action="/partyboardcomment/insertOK" method="post" onsubmit="event.preventDefault(); checkLoginBeforeComment(this);">
-            <!-- 숨겨진 필드 -->
-            <input type="hidden" name="party_board_id" th:value="${vo2.party_board_id}">
-            <input type="hidden" name="party_board_comment_writer" th:value="${session.user_character}">
+        <form action="/reportboardcomment/insertOK" method="post" onsubmit="event.preventDefault(); checkLoginBeforeComment(this);">
+            <!-- Hidden fields -->
+            <input type="hidden" name="report_board_id" th:value="${vo2.report_board_id}">
+            <input type="hidden" name="report_board_comment_writer" th:value="${session.user_character}">
 
             <div class="row form-group">
-                <div class="">
-                    <textarea id="party_board_comment_content_${vo2.party_board_id}" name="party_board_comment_content"
+                <div class="col-md-12">
+                    <textarea id="report_board_comment_content_${vo2.report_board_id}" name="report_board_comment_content"
                         cols="30" rows="5" class="form-control" placeholder="최대 200자까지 입력 가능합니다."
                         maxlength="200"></textarea>
                 </div>
@@ -26,7 +31,6 @@
             </div>
         </form>
     </div>
-
 
 </body>
 

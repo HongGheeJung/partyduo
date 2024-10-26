@@ -75,7 +75,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="3" style="text-align: center;"> <!-- 가운데 정렬 -->
+                                    <td th:attr="colspan=${session.user_id} != null and ${session.admin_name} != null ? 3 : 4" style="text-align: center;"> <!-- 가운데 정렬 -->
                                         <ul class="pagination pagination-sm justify-content-center">
                                             <!-- 부트스트랩 스타일 적용 -->
                                             <!-- 이전 페이지 버튼 -->
@@ -102,12 +102,14 @@
                                             </li>
                                         </ul>
                                     </td>
-
+									
+									<th:block th:if="${session.user_id} != null and ${session.admin_name} != null"> 
                                     <!-- 공지사항 작성 버튼: 세션 admin_name 값이 있는 사람만 보이도록 설정 -->
-                                    <td th:if="${session.admin_name}">
+                                    <td >
                                         <input type="button" class="btn btn-primary" value="공지사항 작성"
                                             onclick="showPopup();">
                                     </td>
+                                    </th:block>
                                 </tr>
                             </tfoot>
                         </table>

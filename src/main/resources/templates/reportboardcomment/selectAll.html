@@ -3,7 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardCommentSelectAll</title>
+    <title>reportboardCommentSelectAll</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"> <!-- Include Bootstrap CSS for styling -->
+    <script src="/js/jquery.min.js"></script> <!-- Include jQuery -->
+    <script src="/js/bootstrap.min.js"></script> <!-- Include Bootstrap JS -->
+    <script>
+        function openPopup(url) {
+            window.open(url, 'popupWindow', 'width=600,height=400,scrollbars=yes');
+        }
+    </script>
 </head>
 
 <body>
@@ -11,33 +19,30 @@
         <hr>
         <div th:if="${list.size() > 0}">
             <th:block th:each="vo : ${list}">
-                <div class="comment-row">
+                <div class="comment-row mb-3">
                     <div class="comment-author">
-                    <a th:href="|/character/info?character_name=${vo.party_board_comment_writer}|">
-                        [[${vo.party_board_comment_writer}]]
-                    </a>	
+                        <a th:href="|/character/info?character_name=${vo.report_board_comment_writer}|">
+                            [[${vo.report_board_comment_writer}]]
+                        </a>	
                     </div>
                     <div class="comment-content">
-                        [[${vo.party_board_comment_content}]]
+                        [[${vo.report_board_comment_content}]]
                     </div>
                     <div class="comment-date">
-                        [[${vo.party_board_comment_wdate}]]
+                        [[${#dates.format(vo.report_board_comment_wdate, 'yyyy-MM-dd HH:mm:ss')}]] <!-- Format date -->
                     </div>
-                    <div class="comment-actions" th:if="${vo.party_board_comment_writer} == ${session.user_character}">
+                    <div class="comment-actions" th:if="${vo.report_board_comment_writer} == ${session.user_character}">
                         <input class="btn btn-primary" type="button"
-                            th:onclick="|openPopup('/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}')|"
+                            th:onclick="|openPopup('/reportboardcomment/update?report_board_comment_id=${vo.report_board_comment_id}')|"
                             value="수정">
-
-
                         <input class="btn btn-danger" type="button"
-                            th:onclick="|openPopup('/partyboardcomment/delete?party_board_comment_id=${vo.party_board_comment_id}')|"
-                            value=삭제>
-
-
+                            th:onclick="|openPopup('/reportboardcomment/delete?report_board_comment_id=${vo.report_board_comment_id}')|"
+                            value="삭제">
                     </div>
                 </div>
             </th:block>
         </div>
+
     </div>
 </body>
 

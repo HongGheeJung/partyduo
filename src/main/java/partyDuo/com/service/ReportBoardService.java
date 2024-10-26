@@ -6,82 +6,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import partyDuo.com.mapper.PartyBoardMapper;
-import partyDuo.com.model.PartyBoardVO;
+import partyDuo.com.mapper.ReportBoardMapper; // 수정된 Mapper
+import partyDuo.com.model.ReportBoardVO; // 수정된 VO
 
 @Slf4j
 @Service
 public class ReportBoardService {
 	
 	@Autowired
-	PartyBoardMapper pbmapper;
+	ReportBoardMapper rbmapper;
 	
-	public int insertOK(PartyBoardVO vo) {
-		log.info("pb_service_insertOK");
-		return pbmapper.insertOK(vo);
+	public int insertOK(ReportBoardVO vo) {
+		log.info("rb_service_insertOK");
+		return rbmapper.insertOK(vo);
 	}
 	
-	public int updateOK(PartyBoardVO vo) {
-		log.info("pb_service_updateOK");
-		return pbmapper.updateOK(vo);
+	public int updateOK(ReportBoardVO vo) {
+		log.info("rb_service_updateOK");
+		return rbmapper.updateOK(vo);
 	}
 	
-	public int deleteOK(PartyBoardVO vo) {
-		log.info("pb_service_deleteOK");
-		return pbmapper.deleteOK(vo);
+	public int deleteOK(ReportBoardVO vo) {
+		log.info("rb_service_deleteOK");
+		return rbmapper.deleteOK(vo);
 	}
 	
-	public PartyBoardVO selectOne(PartyBoardVO vo) {
-		log.info("pb_service_selectOne");
-		return pbmapper.selectOne(vo);
+	public ReportBoardVO selectOne(ReportBoardVO vo) {
+		log.info("rb_service_selectOne");
+		return rbmapper.selectOne(vo);
 	}
 	
-	public List<PartyBoardVO> selectAllPageBlock(int cpage, int pageBlock) {
-		log.info("pb_service_selectAll");
-		int startRow=(cpage-1)*pageBlock;
-		return pbmapper.selectAllPageBlock(startRow, pageBlock);
+	public List<ReportBoardVO> selectAllPageBlock(int cpage, int pageBlock) {
+		log.info("rb_service_selectAll");
+		int startRow = (cpage - 1) * pageBlock;
+		return rbmapper.selectAllPageBlock(startRow, pageBlock);
 	}
 	
-	public List<PartyBoardVO> selectAll() {
-		log.info("pb_service_selectAll");
-		
-		return pbmapper.selectAll();
+	public List<ReportBoardVO> selectAll() {
+		log.info("rb_service_selectAll");
+		return rbmapper.selectAll();
 	}
 	
-	public List<PartyBoardVO> searchListPageBlock(String searchKey,String searchWord,int cpage,int pageBlock) {
-		log.info("pb_service_searchList");
-		int startRow=(cpage-1)*pageBlock;
-		if (searchKey.equals("boss")) {
-			log.info("pb_Boss");
-		return pbmapper.searchListBossPageBlock( "%"+searchWord+"%", startRow, pageBlock);
-		}else if(searchKey.equals("party_board_id")) {
-			log.info("pb_id");
-			return pbmapper.searchListPartyBoardIdPageBlock("%"+searchWord+"%", startRow, pageBlock);
-		}else if(searchKey.equals("party_board_writer")) {
-			log.info("pb_writer");
-			return pbmapper.searchListPartyBoardWriterPageBlock("%"+searchWord+"%", startRow, pageBlock);
-		}else {
-			log.info("pb_wdate");
-			return pbmapper.searchListPartyBoardWdatePageBlock("%"+searchWord+"%", startRow, pageBlock);
+	public List<ReportBoardVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
+		log.info("rb_service_searchList");
+		int startRow = (cpage - 1) * pageBlock;
+
+		if (searchKey.equals("title")) {
+			log.info("title");
+			return rbmapper.searchListTitlePageBlock("%" + searchWord + "%", startRow, pageBlock);
+		} else if (searchKey.equals("writer")) {
+			log.info("writer");
+			return rbmapper.searchListWriterPageBlock("%" + searchWord + "%", startRow, pageBlock);
+		} else { // 기본적으로 작성일로 검색
+			log.info("wdate");
+			return rbmapper.searchListWdatePageBlock("%" + searchWord + "%", startRow, pageBlock);
 		}
 	}
 	
 	public int getTotalRows() {
-		log.info("pb_service_getTotalRows");
-		return pbmapper.getTotalRows();
+		log.info("rb_service_getTotalRows");
+		return rbmapper.getTotalRows();
 	}
 	
-	public int getSearchTotalRows(String searchKey,String searchWord) {
-		log.info("pb_service_getSearchTotalRows");
-		if(searchKey.equals("party_board_id")) {
-			return pbmapper.getSearchTotalRowsBoardId(searchWord);
-		}else if(searchKey.equals("party_board_writer")) {
-			return pbmapper.getSearchTotalRowsBoardWriter("%"+searchWord+"%");
-		}else if(searchKey.equals("boss")) {
-			return pbmapper.getSearchTotalRowsBoss("%"+searchWord+"%");
-		}else {
-			return pbmapper.getSearchTotalRowsBoardWdate("%"+searchWord+"%"); 
+	public int getSearchTotalRows(String searchKey, String searchWord) {
+		log.info("rb_service_getSearchTotalRows");
+
+		if (searchKey.equals("title")) {
+			return rbmapper.getSearchTotalRowsTitle("%" + searchWord + "%");
+		} else if (searchKey.equals("writer")) {
+			return rbmapper.getSearchTotalRowsWriter("%" + searchWord + "%");
+		} else { // 기본적으로 작성일로 검색
+			return rbmapper.getSearchTotalRowsWdate("%" + searchWord + "%"); 
 		}
-		
 	}
 }
