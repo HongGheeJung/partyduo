@@ -18,7 +18,7 @@
 		function openCenteredPopup(from) {
 			var width = 600;
 			var height = 400;
-			var left = (window.screen.width / 2) - (width / 2);
+			var left = (window.screen.width / 4) - (width / 2);
 			var top = (window.screen.height / 2) - (height / 2);
 
 			window.open(`/party/insert?from=${encodeURIComponent(from)}`, '파티 만들기', `width=${width},height=${height},left=${left},top=${top}`);

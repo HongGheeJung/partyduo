@@ -15,17 +15,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.service.ChatService;
 import partyDuo.com.service.EventLikeService;
 import partyDuo.com.service.EventService;
 import partyDuo.com.service.MemberService;
 import partyDuo.com.service.PartyListService;
+import partyDuo.com.service.PartyService;
 import partyDuo.com.model.ChatVO;
 import partyDuo.com.model.EventLikeVO;
 import partyDuo.com.model.EventVO;
 import partyDuo.com.model.MemberVO;
+import partyDuo.com.model.MyPartyVO;
 import partyDuo.com.model.PartyListVO;
+import partyDuo.com.model.PartyVO;
 
 @Slf4j
 @Controller
@@ -48,6 +52,9 @@ public class EventController {
 	
 	@Autowired
 	PartyListService plservice;
+	
+	@Autowired
+	PartyService pservice;
 	
 
 	@GetMapping("/event/insert")
@@ -114,14 +121,16 @@ public class EventController {
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
 		int member_id=vo.getMember_id();
-		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));
+		List<MyPartyVO> plist = plservice.searchMyParty(Integer.toString(member_id), 1, 100);
 		log.info("plist:{}", plist);
 		if(party_id==0) {
 			party_id = plist.get(0).getParty_id();
 		}
+		PartyVO partyvo = (pservice.searchList("party_id", Integer.toString(party_id))).get(0);
 		
-		log.info("party_id:{}", party_id);
-		model.addAttribute("party_id", party_id);
+		
+		log.info("partyvo", partyvo);
+		model.addAttribute("partyvo", partyvo);
 		model.addAttribute("plist", plist);
 		
 		return "cindex";

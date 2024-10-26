@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  
+  	<div th:replace="~{layout::boottemplate}"></div>
   
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -26,21 +26,22 @@
     <title>Calendar #10</title>
   </head>
  
-  <body >
+  <body th:replace="~{layout::layout}">
    
- 
+ <div th:fragment="content">
+
   <div id='calendar-container'>
  <div>
- 	<a href="/main">메인</a>
- 	<a th:href="|/event/insert?party_id=${party_id}|">일정추가</a>
-	<hr>
 	<table id="insertTable">
 			<thead>
-
+					[[${partyvo.party_name}]]&nbsp;&nbsp;&nbsp;&nbsp;
 					<th:block th:each="pvo : ${plist}">
-					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|">[[${pvo.party_id}]]파티 </a></tr>
-					<tr><a th:href="|/chat/room2/${pvo.party_id}|">[[${pvo.party_id}]]파티채팅방 </a></tr>				
+					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|">[[${pvo.party_name}]]파티&nbsp;&nbsp;&nbsp;&nbsp;</a></tr>						
 					</th:block>
+					<hr>
+					<a th:href="|/chat/room2/${partyvo.party_id}|">파티채팅방 </a>
+					<input type="button" class="btn btn-primary btn-block" value="파티채팅방팝업"
+                                            onclick="showPopup();">
 			</thead>
 			<tbody>				
 			</tbody>
@@ -76,10 +77,30 @@
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
       height: 'parent',
+      customButtons: {
+    	    myCustomButton: {
+    	      text: 'New Event',
+    	      click: function() {
+    	    	  var width = 600;
+    	    		var height = 900;
+    	    	    var left = (window.screen.width / 2) - (width / 2);
+    	    		var top = (window.screen.height / 2) - (height / 2);
+    	    	  window.open("/event/insert?party_id="+ [[${partyvo.party_id}]],"a",
+    	    			  `width=${width},height=${height},left=${left},top=${top}`)
+
+    	      }
+    	    },
+    	    myCustomButton2: {
+      	      text: 'Home',
+      	      click: function() {
+      	    	  location.href="/main";
+      	      }
+      	    }
+      },
       header: {
-        left: 'prev,next today',
+        left: 'myCustomButton2 prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        right: 'myCustomButton dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
       defaultView: 'dayGridMonth',
       defaultDate: today,
@@ -89,7 +110,7 @@
       events: [
           $.ajax({
               type: "get",
-              url: '/EventList?party_id='+ [[${party_id}]],
+              url: '/EventList?party_id='+ [[${partyvo.party_id}]],
               success: function (data) {
                   if (data != null) {
                       for (let i = 0; i < data.length; i++) {
@@ -109,9 +130,20 @@
 
     calendar.render();
   });
+      
+      function showPopup() {
+                      var width = 600;
+                      var height = 900;
+                      var left = (window.screen.width / 2) - (width / 2);
+                      var top = (window.screen.height / 2) - (height / 2);
+                      window.open("/chat/room2/" + [[${partyvo.party_id}]], "makeparty", 
+                          `width=${width},height=${height},left=${left},top=${top}`);
+                  
+      }
 
     </script>
 
     <script src="calendar-20/js/main.js"></script>
+    </div>
   </body>
 </html>
