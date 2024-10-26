@@ -2,7 +2,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="reportDuo.com.mapper.ReportBoardCommentMapper">
+<mapper namespace="partyDuo.com.mapper.ReportBoardCommentMapper">
 	<insert id="insertOK">
 		insert into reportboardcomment(report_board_id,report_board_comment_content,report_board_comment_writer) 
 		values(#{report_board_id},#{report_board_comment_content},#{report_board_comment_writer})
@@ -17,9 +17,9 @@
 		delete from reportboardcomment where report_board_comment_id=#{report_board_comment_id}
 	</delete>
 	
-	<select id="searchListreportBoardId"
+	<select id="searchListReportBoardId"
 		resultType="partyDuo.com.model.ReportBoardCommentVO">
-		select * from reportboardcomment where report_board_id like #{searchWord} order by report_board_comment_id desc 
+		select * from reportboardcomment where report_board_id = #{searchWord} order by report_board_comment_id desc 
 	</select>
 	
 	<select id="selectOne"

@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardCommentUpdate</title>
+    <title>ReportBoardCommentUpdate</title>
     <div th:replace="~{layout::boottemplate}"></div>
 
     <script th:inline="javascript">
         var formSubmitted = false;
-        var partyBoardId = [[${ vo2.party_board_id }]]; // vo2가 제대로 정의되었는지 확인
+        var reportBoardId = [[${ vo2.report_board_id }]]; // vo2가 제대로 정의되었는지 확인
 
         function closePopupAndRedirect() {
-            console.log("Closing popup with ID:", partyBoardId); // 디버깅용 로그
+            console.log("Closing popup with ID:", reportBoardId); // 디버깅용 로그
             if (formSubmitted) {
                 if (window.opener) {
-                    window.opener.location.href = `/partyboard/selectOne?party_board_id=${partyBoardId}`;
+                    window.opener.location.href = `/reportboard/selectOne?report_board_id=${reportBoardId}`;
                 }
                 window.close(); // 팝업 창 닫기
             } else {
@@ -35,25 +35,25 @@
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
                                         <h3 class="text-center">댓글 수정</h3> <!-- 제목 가운데 정렬 -->
-                                        <form action="/partyboardcomment/updateOK" method="post" th:target="submitFrame"
-                                            th:onsubmit="formSubmitted = true;">
+                                        <form action="/reportboardcomment/updateOK" method="post" th:target="submitFrame"
+                                              th:onsubmit="formSubmitted = true;">
 
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <input type="hidden" name="party_board_comment_id"
-                                                        th:value="${vo2.party_board_comment_id}">
-                                                    <input type="hidden" name="party_board_id"
-                                                        th:value="${vo2.party_board_id}">
+                                                    <input type="hidden" name="report_board_comment_id"
+                                                           th:value="${vo2.report_board_comment_id}"> <!-- 댓글 ID 업데이트 -->
+                                                    <input type="hidden" name="report_board_id"
+                                                           th:value="${vo2.report_board_id}"> <!-- 게시판 ID 업데이트 -->
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="party_board_comment_content">댓글 내용</label>
-                                                    <textarea id="party_board_comment_content"
-                                                        name="party_board_comment_content" class="form-control"
-                                                        placeholder="댓글을 입력해주세요" rows="5" maxlength="200"
-                                                        th:text="${vo2.party_board_comment_content}"></textarea>
+                                                    <label for="report_board_comment_content">댓글 내용</label>
+                                                    <textarea id="report_board_comment_content"
+                                                              name="report_board_comment_content" class="form-control"
+                                                              placeholder="댓글을 입력해주세요" rows="5" maxlength="200"
+                                                              th:text="${vo2.report_board_comment_content}"></textarea>
                                                 </div>
                                             </div>
 
@@ -65,7 +65,7 @@
                                         </form>
 
                                         <iframe name="submitFrame" style="display:none;"
-                                            th:onload="closePopupAndRedirect()"></iframe>
+                                                th:onload="closePopupAndRedirect()"></iframe>
                                     </div>
                                 </div>
                             </div>

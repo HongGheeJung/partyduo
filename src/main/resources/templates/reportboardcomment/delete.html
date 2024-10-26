@@ -3,27 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PartyBoardCommentDelete</title>
+    <title>ReportBoardCommentDelete</title>
     <div th:replace="~{layout::boottemplate}"></div>
 
     <script th:inline="javascript">
-
         var formSubmitted = false;
-        var partyBoardId = [[${ vo2.party_board_id }]]; // vo2가 제대로 정의되었는지 확인
+        var reportBoardId = [[${ vo.report_board_id }]]; // Ensure 'vo' is defined correctly
 
         function closePopupAndRedirect() {
-            console.log("Closing popup with ID:", partyBoardId); // 디버깅용 로그
+            console.log("Closing popup with ID:", reportBoardId); // Debugging log
             if (formSubmitted) {
                 if (window.opener) {
-                    window.opener.location.href = `/partyboard/selectOne?party_board_id=${partyBoardId}`;
+                    window.opener.location.href = `/reportboard/selectOne?report_board_id=${reportBoardId}`;
                 }
-                window.close(); // 팝업 창 닫기
+                window.close(); // Close popup window
             } else {
                 console.log("Form was not submitted.");
             }
         }
-    </script>
-
     </script>
 </head>
 
@@ -37,16 +34,16 @@
                             <div class="tab">
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
-                                        <h3 class="text-center">댓글 삭제</h3> <!-- 제목 가운데 정렬 -->
-                                        <form action="/partyboardcomment/deleteOK" method="post" th:target="submitFrame"
-                                            th:onsubmit="formSubmitted = true;">
+                                        <h3 class="text-center">댓글 삭제</h3> <!-- Title centered -->
+                                        <form action="/reportboardcomment/deleteOK" method="post" th:target="submitFrame"
+                                              th:onsubmit="formSubmitted = true;">
 
                                             <div class="row form-group">
                                                 <div class="col-md-12 d-flex flex-column align-items-center">
-                                                    <input type="hidden" name="party_board_comment_id"
-                                                        th:value="${vo2.party_board_comment_id}">
-                                                    <input type="hidden" name="party_board_id"
-                                                        th:value="${vo2.party_board_id}">
+                                                    <input type="hidden" name="report_board_comment_id"
+                                                           th:value="${vo.report_board_comment_id}">
+                                                    <input type="hidden" name="report_board_id"
+                                                           th:value="${vo.report_board_id}">
                                                     <p class="text-center mt-3">
                                                         댓글을 정말 삭제하시겠습니까?
                                                     </p>
@@ -61,7 +58,7 @@
                                         </form>
 
                                         <iframe name="submitFrame" style="display:none;"
-                                            onload="closePopupAndRedirect();"></iframe>
+                                                onload="closePopupAndRedirect();"></iframe>
                                     </div>
                                 </div>
                             </div>

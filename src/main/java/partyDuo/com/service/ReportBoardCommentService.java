@@ -6,38 +6,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import partyDuo.com.mapper.PartyBoardCommentMapper;
-import partyDuo.com.model.PartyBoardCommentVO;
+import partyDuo.com.mapper.ReportBoardCommentMapper; // 수정된 Mapper
+import partyDuo.com.model.ReportBoardCommentVO; // 수정된 VO
 
 @Slf4j
 @Service
 public class ReportBoardCommentService {
 	
 	@Autowired
-	PartyBoardCommentMapper pbcmapper;
+	ReportBoardCommentMapper rbcmapper; // 수정된 Mapper 사용
 	
-	public int insertOK(PartyBoardCommentVO vo) {
-		log.info("pbc_service_insertOK");
-		return pbcmapper.insertOK(vo);
+	public int insertOK(ReportBoardCommentVO vo) {
+		log.info("rbc_service_insertOK");
+		return rbcmapper.insertOK(vo);
 	}
 	
-	public int updateOK(PartyBoardCommentVO vo) {
-		log.info("pbc_service_updateOK");
-		return pbcmapper.updateOK(vo);
-	}
-	public int deleteOK(PartyBoardCommentVO vo) {
-		log.info("pbc_service_deleteOK");
-		return pbcmapper.deleteOK(vo);
+	public int updateOK(ReportBoardCommentVO vo) {
+		log.info("rbc_service_updateOK");
+		return rbcmapper.updateOK(vo);
 	}
 	
-	public List<PartyBoardCommentVO> searchListPartyBoardId(String searchWord) {
-		log.info("pbc_service_searchListPartyBoardId");
-		return pbcmapper.searchListPartyBoardId(searchWord);
+	public int deleteOK(ReportBoardCommentVO vo) {
+		log.info("rbc_service_deleteOK");
+		return rbcmapper.deleteOK(vo);
 	}
 	
-	public PartyBoardCommentVO selectOne(PartyBoardCommentVO vo) {
-		log.info("pbc_service_selectOne");
-		return pbcmapper.selectOne(vo);
+	public List<ReportBoardCommentVO> searchListByReportBoardId(String searchWord) {
+		log.info("rbc_service_searchListByReportBoardId");
+		return rbcmapper.searchListReportBoardId(searchWord); // 인자 타입 수정
 	}
 	
+	public ReportBoardCommentVO selectOne(ReportBoardCommentVO vo) {
+		log.info("rbc_service_selectOne");
+		return rbcmapper.selectOne(vo);
+	}
 }

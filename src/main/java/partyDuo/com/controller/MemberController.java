@@ -176,37 +176,43 @@ public class MemberController {
 	}
 	@GetMapping("/member/loginOK")
 	public String member_loginOK(MemberVO vo) {
-		log.info("/loginOK");
-		MemberVO vo2=service.member_login(vo);
-		AdminVO vo3=new AdminVO();
-		vo3.setId(vo2.getId());
-		log.info("vo3: {}", vo3);
-		vo3=adservice.selectOne(vo3);
-		log.info("vo2: {}", vo2);
-		log.info("vo3: {}", vo3);
-		if(vo2==null) {
-			return "member/login";
-		}else if(vo3 !=null && vo2.getId().equals(vo3.getId())){
-			session.setAttribute("user_id", vo2.getId());
-			session.setAttribute("user_character", vo2.getCharacter_name());
-			session.setAttribute("admin_name", vo3.getName());
-			return "redirect:/main";
-		}
-		else {
-			session.setAttribute("user_id", vo2.getId());
-			session.setAttribute("user_character", vo2.getCharacter_name());
-			return "redirect:/main";
-		}
-		
-		
-		
-		
+	    log.info("/loginOK");
+	    MemberVO vo2 = service.member_login(vo);
+	    AdminVO vo3 = new AdminVO();
+	    vo3.setId(vo2.getId());
+	    log.info("vo3: {}", vo3);
+	    vo3 = adservice.selectOne(vo3);
+	    log.info("vo2: {}", vo2);
+	    log.info("vo3: {}", vo3);
+
+	    if (vo2 == null) {
+	        return "member/login";
+	    } else if (vo3 != null && vo3.getAdmin_id() > 0 && vo2.getId().equals(vo3.getId())) {
+	        session.setAttribute("user_id", vo2.getId());
+	        session.setAttribute("user_character", vo2.getCharacter_name());
+	        session.setAttribute("admin_name", vo3.getName());
+	        return "redirect:/main";
+	    } else if (vo3 == null) { // vo3가 null이 아닐 경우 추가 조건
+	        session.setAttribute("user_id", vo2.getId());
+	        session.setAttribute("user_character", vo2.getCharacter_name());
+	        return "redirect:/main";
+	    } else {
+	        // vo3가 null일 경우에 대한 처리 (원하는 경우)
+	        return "member/login"; // 또는 다른 페이지로 리다이렉트
+	    }
 	}
+
+		
+		
+		
+		
+	
 	@GetMapping("/member/logout")
 	public String member_logout() {
 		log.info("/loginout");
 		session.removeAttribute("user_id");
 		session.removeAttribute("user_character");
+		session.removeAttribute("admin_name");
 		return "main";
 	}
 	@GetMapping("/member/findPw")
