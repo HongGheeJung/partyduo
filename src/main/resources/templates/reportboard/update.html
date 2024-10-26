@@ -3,22 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Notice Update</title>
+    <title>신고 수정</title>
     <div th:replace="~{layout::boottemplate}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script th:inline="javascript">
         var formSubmitted = false;
-        var noticeId = [[${vo2.notice_id}]]; // 공지사항 ID를 JavaScript 변수로 설정
+        var reportId = [[${vo2.report_board_id}]]; // 신고 ID를 JavaScript 변수로 설정
 
         // 팝업 닫고 리다이렉트
         function closePopupAndRedirect() {
             if (formSubmitted) {
                 if (window.opener) {
                     // 부모 창에서 리다이렉트
-                    window.opener.location.href = `/notice/selectOne?notice_id=${noticeId}`;
+                    window.opener.location.href = `/reportboard/selectOne?report_board_id=${reportId}`;
                 }
+                // 현재 팝업 창을 닫음
                 window.close();
             }
         }
@@ -44,40 +45,41 @@
                             <div class="tab">
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
-                                        <h3 class="text-center">공지사항 수정</h3>
+                                        <h3 class="text-center">신고 수정</h3>
 
-                                        <form action="/notice/updateOK" method="post" th:target="submitFrame"
+                                        <form action="/reportboard/updateOK" method="post" th:target="submitFrame"
                                             th:onsubmit="formSubmitted = true;">
-                                            <input type="hidden" id="notice_id" name="notice_id"
-                                                th:value="${vo2.notice_id}">
+                                            <input type="hidden" id="report_board_id" name="report_board_id"
+                                                th:value="${vo2.report_board_id}">
 
                                             <div class="row form-group position-relative">
                                                 <div class="col-md-12">
-                                                    <label for="notice_title">공지사항 제목</label>
-                                                    <input type="text" id="notice_title" name="notice_title"
-                                                        th:value="${vo2.notice_title}" class="form-control"
-                                                        placeholder="공지사항 제목을 입력하세요 (최대 100자)" maxlength="100">
+                                                    <label for="report_board_title">신고 제목</label>
+                                                    <input type="text" id="report_board_title" name="report_board_title"
+                                                        th:value="${vo2.report_board_title}" class="form-control"
+                                                        placeholder="신고 제목을 입력하세요 (최대 100자)" maxlength="100">
                                                 </div>
                                             </div>
 
                                             <div class="row form-group position-relative">
                                                 <div class="col-md-12">
-                                                    <label for="notice_content">공지사항 내용</label>
-                                                    <textarea id="notice_content" name="notice_content"
-                                                        class="form-control" placeholder="공지사항 내용을 입력하세요 (최대 1000자)"
+                                                    <label for="report_board_content">신고 내용</label>
+                                                    <textarea id="report_board_content" name="report_board_content"
+                                                        class="form-control" placeholder="신고 내용을 입력하세요 (최대 1000자)"
                                                         maxlength="1000" rows="10" oninput="updateCharCount(this)"
-                                                        th:text="${vo2.notice_content}"></textarea>
-                                                    <small id="charCount" class="form-text text-muted text-right">0 / 1000자</small>
+                                                        th:text="${vo2.report_board_content}"></textarea>
+                                                    <small id="charCount" class="form-text text-muted text-right">0
+                                                        / 1000자</small>
                                                 </div>
                                             </div>
 
-                                            <input type="hidden" id="notice_writer" name="notice_writer"
+                                            <input type="hidden" id="report_board_writer" name="report_board_writer"
                                                 th:value="${session.admin_name}">
 
                                             <div class="row form-group">
                                                 <div class="col-md-12 text-center">
                                                     <input type="submit" id="submitButton" class="btn btn-primary"
-                                                        value="공지사항 수정">
+                                                        value="신고 수정">
                                                 </div>
                                             </div>
                                         </form>

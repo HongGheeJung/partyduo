@@ -40,7 +40,7 @@
 	
 	<select id="searchListPartyBoardIdPageBlock"
 		resultType="partyDuo.com.model.PartyBoardVO">
-		select * from partyboard where party_board-id like #{searchWord} order by party_board_id desc limit #{startRow}, #{pageBlock} 
+		select * from partyboard where party_board_id like #{searchWord} order by party_board_id desc limit #{startRow}, #{pageBlock} 
 	  
 	</select>
 	

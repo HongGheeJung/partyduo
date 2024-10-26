@@ -4,79 +4,66 @@
 
 <mapper namespace="partyDuo.com.mapper.ReportBoardMapper">
 	<insert id="insertOK">
-		insert into reportboard(party_id,req_pwr,boss,party_board_memo,party_board_content,party_board_writer) 
-		values(#{party_id},#{req_pwr},#{boss},#{party_board_memo},#{party_board_content},#{party_board_writer})
+		insert into reportboard(report_board_title, report_board_content, report_board_writer) 
+		values(#{report_board_title}, #{report_board_content}, #{report_board_writer})
 	</insert>
 	
 	<update id="updateOK">
-		update reportboard set req_pwr=#{req_pwr},boss=#{boss},
-				party_board_memo=#{party_board_memo},party_board_content=#{party_board_content}
-				,party_board_wdate=(curtime())
-		where party_board_id=#{party_board_id}
+		update reportboard 
+		set report_board_title=#{report_board_title}, 
+			report_board_content=#{report_board_content},
+			report_board_writer=#{report_board_writer},
+			report_board_wdate=(curtime())
+		where report_board_id=#{report_board_id}
 	</update>
 	
 	<delete id="deleteOK">
-		delete from reportboard where party_board_id=#{party_board_id}
+		delete from reportboard where report_board_id=#{report_board_id}
 	</delete>
 	
 	<select id="selectOne" resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard where party_board_id=#{party_board_id}
+		select * from reportboard where report_board_id=#{report_board_id}
 	</select>
 	
-	<select id="selectAllPageBlock"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard order by party_board_id desc limit #{startRow}, #{pageBlock} 
+	<select id="selectAllPageBlock" resultType="partyDuo.com.model.ReportBoardVO">
+		select * from reportboard order by report_board_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
-	<select id="selectAll"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard order by party_board_id desc 
+	<select id="selectAll" resultType="partyDuo.com.model.ReportBoardVO">
+		select * from reportboard order by report_board_id desc 
 	</select>
 	
-	<select id="searchListBossPageBlock"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard where boss like #{searchWord} order by party_board_id desc limit #{startRow}, #{pageBlock} 
+	<!-- 제목으로 검색 -->
+	<select id="searchListTitlePageBlock" resultType="partyDuo.com.model.ReportBoardVO">
+		select * from reportboard where report_board_title like #{searchWord} order by report_board_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
-	<select id="searchListreportboardIdPageBlock"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard where party_board-id like #{searchWord} order by party_board_id desc limit #{startRow}, #{pageBlock} 
-	  
+	<!-- 작성자로 검색 -->
+	<select id="searchListWriterPageBlock" resultType="partyDuo.com.model.ReportBoardVO">
+		select * from reportboard where report_board_writer like #{searchWord} order by report_board_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
-	<select id="searchListreportboardWriterPageBlock"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard where party_board_writer like #{searchWord} order by party_board_id  desc  limit #{startRow}, #{pageBlock} 
-	
+	<!-- 작성일로 검색 -->
+	<select id="searchListWdatePageBlock" resultType="partyDuo.com.model.ReportBoardVO">
+		select * from reportboard where report_board_wdate like #{searchWord} order by report_board_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
-	<select id="searchListreportboardWdatePageBlock"
-		resultType="partyDuo.com.model.ReportBoardVO">
-		select * from reportboard where party_board_wdate like #{searchWord} order by party_board_id  desc limit #{startRow}, #{pageBlock} 
-	 
-	</select>
 	<select id="getTotalRows" resultType="int">
-		select count(*) total_rows
-		from reportboard
+		select count(*) total_rows from reportboard
 	</select>
 	
-	<select id="getSearchTotalRowsBoss" resultType="int">
-		select count(*) total_rows
-		from reportboard where boss like #{searchWord} 
+	<!-- 제목으로 검색한 총 행 수 -->
+	<select id="getSearchTotalRowsTitle" resultType="int">
+		select count(*) total_rows from reportboard where report_board_title like #{searchWord} 
 	</select>
 	
-	<select id="getSearchTotalRowsBoardId" resultType="int">
-		select count(*) total_rows
-		from reportboard where party_board_id like #{searchWord} 
+	<!-- 작성자로 검색한 총 행 수 -->
+	<select id="getSearchTotalRowsWriter" resultType="int">
+		select count(*) total_rows from reportboard where report_board_writer like #{searchWord} 
 	</select>
 	
-	<select id="getSearchTotalRowsBoardWriter" resultType="int">
-		select count(*) total_rows
-		from reportboard where party_board_writer like #{searchWord} 
-	</select>
-	
-	<select id="getSearchTotalRowsBoardWdate" resultType="int">
-		select count(*) total_rows
-		from reportboard where party_board_wdate like #{searchWord} 
+	<!-- 작성일로 검색한 총 행 수 -->
+	<select id="getSearchTotalRowsWdate" resultType="int">
+		select count(*) total_rows from reportboard where report_board_wdate like #{searchWord} 
 	</select>
 </mapper>
