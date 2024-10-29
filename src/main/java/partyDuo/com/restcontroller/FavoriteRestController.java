@@ -26,8 +26,9 @@ public class FavoriteRestController {
 	
 	
 	@GetMapping("/favorite/insert")
-	public Map<String, String> favorite_insert(String user_id, String character_name) {
+	public Map<String, String> favorite_insert(String character_name) {
 		Map<String, String> map=new HashMap<>();
+		String user_id=(String) session.getAttribute("user_id");
 		log.info("user_id:{}",user_id);
 		log.info("chracter_name:{}",character_name);
 		FavoriteVO vo=service.favorite(user_id, character_name);

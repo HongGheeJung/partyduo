@@ -241,7 +241,7 @@ public class CharacterController {
 	@GetMapping("/character/infoTestSkill")
 	public CharacterSkillDTO character_skill() {
 		String ocid="e1056a9e8886c6d29924d36ab64b0018";
-		String skill_lv="6";
+		String skill_lv="5";
 		CharacterSkillDTO result=service.character_skill(ocid, skill_lv);
 		return result;
 	}
