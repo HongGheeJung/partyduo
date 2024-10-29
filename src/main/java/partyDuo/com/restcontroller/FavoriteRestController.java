@@ -30,6 +30,10 @@ public class FavoriteRestController {
 		Map<String, String> map=new HashMap<>();
 		String user_id=(String) session.getAttribute("user_id");
 		log.info("user_id:{}",user_id);
+		if(user_id==null) {
+			map.put("result", "NotOK");
+			return map;
+		}
 		log.info("chracter_name:{}",character_name);
 		FavoriteVO vo=service.favorite(user_id, character_name);
 		int result=service.favorite_insert(vo);
@@ -43,8 +47,13 @@ public class FavoriteRestController {
 	}
 	
 	@GetMapping("/favorite/delete")
-	public Map<String, String> favorite_delete(String user_id, String character_name){
+	public Map<String, String> favorite_delete(String character_name){
 		Map<String, String> map=new HashMap<>();
+		String user_id=(String) session.getAttribute("user_id");
+		if(user_id==null) {
+			map.put("result", "NotOK");
+			return map;
+		}
 		FavoriteVO vo=service.favorite(user_id, character_name);
 		int result=service.favorite_delete(vo);
 		log.info("result:{}", result);
@@ -56,8 +65,13 @@ public class FavoriteRestController {
 		return map;
 	}
 	@GetMapping("/favorite/selectOne")
-	public Map<String, String> favorite_selectOne(String user_id, String character_name){
+	public Map<String, String> favorite_selectOne(String character_name){
 		Map<String, String> map=new HashMap<>();
+		String user_id=(String) session.getAttribute("user_id");
+		if(user_id==null) {
+			map.put("result", "NotOK");
+			return map;
+		}
 		FavoriteVO vo=service.favorite(user_id, character_name);
 		FavoriteVO vo2=service.favorite_selectOne(vo);
 		if(vo2!=null) {
