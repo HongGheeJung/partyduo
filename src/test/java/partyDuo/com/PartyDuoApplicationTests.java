@@ -9,5 +9,6 @@ class PartyDuoApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
+	
+	
 }
