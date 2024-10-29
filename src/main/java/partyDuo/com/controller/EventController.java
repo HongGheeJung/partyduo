@@ -2,7 +2,7 @@ package partyDuo.com.controller;
 
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -69,6 +69,8 @@ public class EventController {
 	public String update(EventVO vo, Model model) {
 		log.info("/event/update");		
 		log.info("vo:{}", vo);
+		
+		
 
 		EventVO vo2 = service.selectOne(vo);
 		log.info("vo2:{}", vo2);
@@ -174,9 +176,23 @@ public class EventController {
 	}
 
 	@PostMapping("/event/insertOK")
-	public String insertOK(EventVO vo) throws IllegalStateException, IOException {
+	public String insertOK(EventVO vo, String startTime, String endTime) throws IllegalStateException, IOException {
 		log.info("/event/insertOK");
+	
+		startTime = startTime.replace("T"," ");
+		startTime = startTime+":00";
+		endTime = endTime.replace("T"," ");
+		endTime = endTime+":00";
+
+		vo.setEvent_startTime(startTime);
+		vo.setEvent_endTime(endTime);
+		
+
 		log.info("vo:{}", vo);
+		
+		
+		
+		
 
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
