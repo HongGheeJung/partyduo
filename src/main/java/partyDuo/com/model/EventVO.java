@@ -11,8 +11,8 @@ public class EventVO {
 	private int party_id;
 	private String event_title;
 	private String event_content;
-	private Timestamp event_startTime;
-	private Timestamp event_endTime;
+	private String event_startTime;
+	private String event_endTime;
 	private String event_location;
 	private String event_bosstag;
 	private String event_character;

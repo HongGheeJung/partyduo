@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<div th:replace="~{layout::boottemplate}"></div>
+  	
   
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -22,28 +22,41 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="calendar-20/css/style.css">
+    
+    <style> 
+    /* 왼쪽 하단에 버튼을 고정하는 스타일 */ .fixed-bottom-left { position: fixed; bottom: 20px; /* 하단에서의 거리 */ left: 20px; /* 왼쪽에서의 거리 */ z-index: 1000; /* 다른 요소 위에 버튼을 표시 */ } 
+    .pppp {
+	background: #09C6AB;
+	color: #fff;
+	border-radius: 5px ;	
+	}
+
+    
+    </style>
+
+
+
 
     <title>Calendar #10</title>
   </head>
  
-  <body th:replace="~{layout::layout}">
+  <body >
    
  <div th:fragment="content">
 
   <div id='calendar-container'>
- <div>
-	<table id="insertTable">
+ <div class="fixed-bottom-left pppp">
+	<details><table  id="insertTable">
 			<thead>
-					[[${partyvo.party_name}]]&nbsp;&nbsp;&nbsp;&nbsp;
+					<summary>[[${partyvo.party_name}]]&nbsp;&nbsp;&nbsp;&nbsp;</summary>
 					<th:block th:each="pvo : ${plist}">
-					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|">[[${pvo.party_name}]]파티&nbsp;&nbsp;&nbsp;&nbsp;</a></tr>						
+					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|" style="color: white">[[${pvo.party_name}]]파티&nbsp;&nbsp;&nbsp;&nbsp;</a></tr>						
 					</th:block>
-					<hr>
-
+	
 			</thead>
 			<tbody>				
 			</tbody>
-		</table>
+		</table></details>
 	</div>
 	
 	
