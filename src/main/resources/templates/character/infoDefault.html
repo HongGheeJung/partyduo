@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.tailwindcss.com"></script>
 <title>Insert title here</title>
 <div th:replace="~{layout::boottemplate}"></div>
 </head>
@@ -29,15 +30,47 @@
 				<a href="/member/apiCheck">apiCheck</a>
 			</div>
 			<hr>
-			<form action="/character/info" method="get">
-				<table>
-					<tr>
-						<td><label for="character_name">닉네임 입력</label></td>
-						<td><input type="text" id="character_name" name="character_name" value="나로티아사"></td>
-						<td><input type="submit" value="검색">
-					</tr>
-				</table>
+			<div class="w-[600px] mx-auto">
+			<form method="get" action="/character/info" class="relative">
+				<div
+					class="flex items-center bg-white rounded-sm overflow-hidden border border-gray-300"
+					tabindex="0">
+
+					<div data-orientation="vertical" role="none"
+						class="shrink-0 w-[1px] h-[0.8em] bg-foreground/10"></div>
+					<input
+						class="flex h-10 w-full rounded-md border-input py-2 text-md ring-offset-background file:border-0 file:bg-input file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 px-1 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+						placeholder="닉네임을 입력하세요" spellcheck="false" value=""
+						name="character_name">
+					<button
+						class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-auto p-1.5 mr-1 rounded-md w-0 px-0 invisible cursor-text"
+						type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1.25em"
+							height="1.25em" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round"
+							stroke-linejoin="round" class="lucide lucide-x">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+					</button>
+					<button
+						class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-auto h-auto p-1.5 mr-1 rounded-md"
+						type="submit">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1.25em"
+							height="1.25em" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round"
+							stroke-linejoin="round" class="lucide lucide-search">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+					</button>
+				</div>
 			</form>
+			<div class="mt-4 w-full text-center overflow-auto">
+				<div
+					class="inline-flex items-center justify-center flex-wrap gap-2 px-2 [&amp;_.button]:text-zinc-300"></div>
+			</div>
+		</div>
 		</div>
 	</body>
 </html>
