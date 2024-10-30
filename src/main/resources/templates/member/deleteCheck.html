@@ -4,34 +4,36 @@
 <meta charset="UTF-8">
 <title>회원삭제</title>
 <div th:replace="~{layout::boottemplate}"></div>
-<script th:inline="javascript"> 
-let isPwChecked = false;
-$(document).ready(function(){
-	console.log("ready");
-	function deleteCheck(){
-		isPwChecked=false;
-		let pw = $("#pw").val()
-		let pwCheck = $("#pwCheck").val();
-		if(pw===pwCheck){
-			isPwChecked=true;
-		}
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script th:inline="javascript">
+	let isPwChecked = false;
+	
+	$(document).ready(function() {
+		console.log("ready");
 		validateForm();
-	}
-	
-	function validateForm(){
-		const pw = $('#pw').val().trim();
-		const submitButton = $('#submitButton');
-		submitButton.prop('disabled',
-				!(id !== '' && isPwChecked));
-		
-	}
-	
-	$("#pwCheck").on("input", function() {
-		deleteCheck();
-		
-	});
-});
+		function deleteCheck() {
+			isPwChecked = false;
+			let pw = $("#pw").val()
+			let pwCheck = $("#pwCheck").val();
+			if (pw === pwCheck) {
+				isPwChecked = true;
+			}
+			validateForm();
+		}
 
+		function validateForm() {
+			const pw = $('#pw').val();
+			const submitButton = $('#submitButton');
+			submitButton.prop('disabled', !(pw !== '' && isPwChecked));
+
+		}
+
+		$("#pwCheck").on("input", function() {
+			deleteCheck();
+
+		});
+	});
 </script>
 </head>
 <body th:replace="~{layout::layout}">
@@ -60,19 +62,19 @@ $(document).ready(function(){
 											<div class="tab-content">
 												<div class="tab-content-inner active">
 													<form action="/member/deleteOK" method="get">
-														<input type="hidden" name="id"
-															th:value="${vo2.id}">
+														<input type="hidden" name="member_id" th:value="${vo2.member_id}">
 														<input type="hidden" name="pw" id="pw"
 															th:value="${vo2.pw}">
 														<div class="row form-group">
 															<div class="col-md-12">
-																<label for="pw">비밀번호</label> <input
-																	type="password" class="form-control" id="pwCheck">
+																<label for="pw">비밀번호</label> <input type="password"
+																	class="form-control" id="pwCheck">
 															</div>
 															<div class="col-md-12">
-																<input type="submit" id="submitButton" class="btn btn-block btn-primary" value="탈퇴하기">
+																<input type="submit" id="submitButton"
+																	class="btn btn-block btn-primary" value="탈퇴하기">
 															</div>
-															
+
 														</div>
 													</form>
 												</div>
