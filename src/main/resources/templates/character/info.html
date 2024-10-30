@@ -41,8 +41,7 @@
 						console.log('Response:', response);
 						btn_add.attr('hidden', '');
 						btn_del.removeAttr('hidden');
-					}
-					else{
+					} else {
 						console.log('not found');
 					}
 				},
@@ -143,9 +142,54 @@
 		}
 
 	}
+	function showCashItem(preset) {
+		console.log("showCashItem");
+		for (let i = 0; i <= 3; i++) {
+			const trg = $('#radix-\\:r90\\:-trigger-' + i);
+			const cnt = $('#radix-\\:r90\\:-content-' + i);
+			if (i === preset) {
+				trg.attr('aria-selected', 'true');
+				trg.attr('data-state', 'acitve');
+				cnt.attr('data-state', 'active');
+				cnt.removeAttr('hidden');
+			} else {
+				trg.attr('aria-selected', 'false');
+				trg.attr('data-state', 'inacitve');
+				cnt.attr('data-state', 'inactive');
+				cnt.attr('hidden', '');
+			}
+		}
+
+	}
+	function itemSlot(preset) {
+		console.log("itemSlot..");
+		const trgItem = $('#radix-\\:rai\\:-trigger-장비');
+		const cntItem = $('#radix-\\:rai\\:-content-장비');
+		const trgCashItem = $('#radix-\\:rai\\:-trigger-캐시');
+		const cntCashItem = $('#radix-\\:rai\\:-content-캐시');
+		if (preset == 0) {
+			trgItem.attr('data-state', 'active');
+			trgItem.attr('aria-selected', 'true');
+			cntItem.attr('data-state', 'active');
+			cntItem.removeAttr('hidden');
+			trgCashItem.attr('data-state', 'inactive');
+			trgCashItem.attr('aria-selected', 'false');
+			cntCashItem.attr('data-state', 'inactive');
+			cntCashItem.attr('hidden', '');
+		} else {
+			trgItem.attr('data-state', 'inactive');
+			trgItem.attr('aria-selected', 'false');
+			cntItem.attr('data-state', 'inactive');
+			cntItem.attr('hidden', '');
+			trgCashItem.attr('data-state', 'active');
+			trgCashItem.attr('aria-selected', 'true');
+			cntCashItem.attr('data-state', 'active');
+			cntCashItem.removeAttr('hidden');
+		}
+	}
 	$(document).ready(function() {
 		$('#favorite_add_btn').on('click', function() {
-			let url="http://localhost:8820/favorite/insert";
+			let url = "http://localhost:8820/favorite/insert";
 			console.log("즐추")
 			const character_name = "[[${basicDTO.characterName}]]";
 			const btn_add = $('#favorite_add_btn');
@@ -173,7 +217,7 @@
 			});
 		});
 		$('#favorite_del_btn').on('click', function() {
-			let url="http://localhost:8820/character/delete";
+			let url = "http://localhost:8820/favorite/delete";
 			console.log("즐삭");
 			const character_name = "[[${basicDTO.characterName}]]";
 			const btn_add = $('#favorite_add_btn');
@@ -189,8 +233,7 @@
 						console.log('Response:', response);
 						btn_del.attr('hidden', '');
 						btn_add.removeAttr('hidden');
-					}
-					else{
+					} else {
 						console.log('failed..');
 						alert("로그인 후 이용하세요");
 					}
@@ -316,7 +359,8 @@
 													<div
 														class="relative inline-flex items-center w-[14px] h-[14px] rounded-none">
 														<img class="w-full disable-blur"
-															src="/images/world/scania.png" alt="리부트2" loading="lazy">
+															th:src="|/world_icon/${basicDTO.worldName}.png|" alt="월드"
+															loading="lazy">
 													</div>
 													<span>[[${basicDTO.getWorldName()}]]</span>
 												</div>
@@ -732,13 +776,13 @@
 										id="radix-:rai:-trigger-장비"
 										class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground hover:bg-input/70"
 										tabindex="-1" data-orientation="horizontal"
-										data-radix-collection-item="">장비</button>
+										data-radix-collection-item="" onclick="itemSlot(0)">장비</button>
 									<button type="button" role="tab" aria-selected="false"
 										aria-controls="radix-:rai:-content-캐시" data-state="inactive"
 										id="radix-:rai:-trigger-캐시"
 										class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground hover:bg-input/70"
 										tabindex="-1" data-orientation="horizontal"
-										data-radix-collection-item="">캐시/펫</button>
+										data-radix-collection-item="" onclick="itemSlot(1)">캐시/펫</button>
 								</div>
 								<div data-state="active" data-orientation="horizontal"
 									role="tabpanel" aria-labelledby="radix-:rai:-trigger-장비"
@@ -917,6 +961,281 @@
 										</div>
 									</div>
 								</div>
+								<div data-state="inactive" data-orientation="horizontal"
+									role="tabpanel" aria-labelledby="radix-:rai:-trigger-캐시"
+									id="radix-:rai:-content-캐시" tabindex="-1"
+									class="focus-visible:outline-none mt-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+									hidden="">
+									<div class="space-y-4">
+										<div class="flex flex-col items-center">
+											<div dir="ltr" data-orientation="horizontal">
+												<div role="tablist" aria-orientation="horizontal"
+													class="rounded-md p-1 text-muted-foreground flex flex-wrap justify-center items-center py-2 gap-1 h-[auto]"
+													tabindex="0" data-orientation="horizontal"
+													style="outline: none;">
+													<div
+														class="basis-full text-center text-xs text-muted-foreground">현재
+														적용중인 프리셋: [[${cashItemEquipDTO.presetNo}]]</div>
+													<button type="button" role="tab" aria-selected="true"
+														aria-controls="radix-:r8r:-content-0" data-state="active"
+														id="radix-:r8r:-trigger-0"
+														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm py-1.5 font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground flex-col px-1 gap-y-1 text-xs border border-border/50 bg-card hover:bg-muted hover:-translate-y-2"
+														tabindex="-1" data-orientation="horizontal"
+														data-radix-collection-item="" onclick="showCashItem(0)">기본</button>
+													<button type="button" role="tab" aria-selected="false"
+														aria-controls="radix-:r90:-content-1"
+														data-state="inactive" id="radix-:r90:-trigger-1"
+														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm py-1.5 font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground flex-col px-1 gap-y-1 text-xs border border-border/50 bg-card hover:bg-muted hover:-translate-y-2"
+														tabindex="-1" data-orientation="horizontal"
+														data-radix-collection-item="" onclick="showCashItem(1)">프리셋1</button>
+													<button type="button" role="tab" aria-selected="false"
+														aria-controls="radix-:r90:-content-2"
+														data-state="inactive" id="radix-:r90:-trigger-2"
+														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm py-1.5 font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground flex-col px-1 gap-y-1 text-xs border border-border/50 bg-card hover:bg-muted hover:-translate-y-2"
+														tabindex="-1" data-orientation="horizontal"
+														data-radix-collection-item="" onclick="showCashItem(2)">프리셋2</button>
+													<button type="button" role="tab" aria-selected="false"
+														aria-controls="radix-:r90:-content-3"
+														data-state="inactive" id="radix-:r90:-trigger-3"
+														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm py-1.5 font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground flex-col px-1 gap-y-1 text-xs border border-border/50 bg-card hover:bg-muted hover:-translate-y-2"
+														tabindex="-1" data-orientation="horizontal"
+														data-radix-collection-item="" onclick="showCashItem(3)">코디3</button>
+
+												</div>
+											</div>
+											<div dir="ltr" data-orientation="horizontal"
+												class="w-full max-w-2xl mx-auto">
+												<div data-state="active" data-orientation="horizontal"
+													role="tabpanel" aria-labelledby="radix-:r90:-trigger-0"
+													id="radix-:r90:-content-0" tabindex="0"
+													class="focus-visible:outline-none mt-0"
+													style="animation-duration: 0s;">
+													<div
+														class="grid gap-1 grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3">
+														<th:block
+															th:each="ci, ciStat: ${cashItemEquipDTO.cashItemEquipmentBase}">
+															<div
+																class="flex items-center justify-center w-full h-auto min-h-[40px] p-0 gap-x-1 whitespace-pre-wrap break-all"
+																type="button" aria-haspopup="dialog"
+																aria-expanded="false"
+																th:aria-controls="|radix-:r91${ciStat.count}:|"
+																data-state="closed">
+																<div
+																	class="relative shrink-0 flex items-center justify-center w-[40px] h-[40px] bg-muted dark:bg-sonner rounded-sm text-xs break-all disable-blur">
+																	<img
+																		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[36px] disable-blur"
+																		th:src="${ci.cashItemIcon}" alt="cashItem"
+																		loading="lazy">
+																</div>
+																<div class="grow text-xs shrink text-left">
+																	<div class="font-semibold line-clamp-1">[[${ci.cashItemName}]]</div>
+																</div>
+															</div>
+														</th:block>
+													</div>
+												</div>
+												<div data-state="inactive" data-orientation="horizontal"
+													role="tabpanel" aria-labelledby="radix-:r90:-trigger-1"
+													id="radix-:r90:-content-1" tabindex="0"
+													class="focus-visible:outline-none mt-0"
+													style="animation-duration: 0s;" hidden="">
+													<div
+														class="grid gap-1 grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3">
+														<th:block
+															th:each="ci, ciStat: ${cashItemEquipDTO.cashItemEquipmentPreset1}">
+															<div
+																class="flex items-center justify-center w-full h-auto min-h-[40px] p-0 gap-x-1 whitespace-pre-wrap break-all"
+																type="button" aria-haspopup="dialog"
+																aria-expanded="false"
+																th:aria-controls="|radix-:r91${ciStat.count}:|"
+																data-state="closed">
+																<div
+																	class="relative shrink-0 flex items-center justify-center w-[40px] h-[40px] bg-muted dark:bg-sonner rounded-sm text-xs break-all disable-blur">
+																	<img
+																		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[36px] disable-blur"
+																		th:src="${ci.cashItemIcon}" alt="cashItem"
+																		loading="lazy">
+																</div>
+																<div class="grow text-xs shrink text-left">
+																	<div class="font-semibold line-clamp-1">[[${ci.cashItemName}]]</div>
+																</div>
+															</div>
+														</th:block>
+													</div>
+												</div>
+												<div data-state="inactive" data-orientation="horizontal"
+													role="tabpanel" aria-labelledby="radix-:r90:-trigger-2"
+													id="radix-:r90:-content-2" tabindex="0"
+													class="focus-visible:outline-none mt-0"
+													style="animation-duration: 0s;" hidden="">
+													<div
+														class="grid gap-1 grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3">
+														<th:block
+															th:each="ci, ciStat: ${cashItemEquipDTO.cashItemEquipmentPreset2}">
+															<div
+																class="flex items-center justify-center w-full h-auto min-h-[40px] p-0 gap-x-1 whitespace-pre-wrap break-all"
+																type="button" aria-haspopup="dialog"
+																aria-expanded="false"
+																th:aria-controls="|radix-:r91${ciStat.count}:|"
+																data-state="closed">
+																<div
+																	class="relative shrink-0 flex items-center justify-center w-[40px] h-[40px] bg-muted dark:bg-sonner rounded-sm text-xs break-all disable-blur">
+																	<img
+																		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[36px] disable-blur"
+																		th:src="${ci.cashItemIcon}" alt="cashItem"
+																		loading="lazy">
+																</div>
+																<div class="grow text-xs shrink text-left">
+																	<div class="font-semibold line-clamp-1">[[${ci.cashItemName}]]</div>
+																</div>
+															</div>
+														</th:block>
+													</div>
+												</div>
+												<div data-state="inactive" data-orientation="horizontal"
+													role="tabpanel" aria-labelledby="radix-:r90:-trigger-3"
+													id="radix-:r90:-content-3" tabindex="0"
+													class="focus-visible:outline-none mt-0"
+													style="animation-duration: 0s;" hidden="">
+													<div
+														class="grid gap-1 grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3">
+														<th:block
+															th:each="ci, ciStat: ${cashItemEquipDTO.cashItemEquipmentPreset3}">
+															<div
+																class="flex items-center justify-center w-full h-auto min-h-[40px] p-0 gap-x-1 whitespace-pre-wrap break-all"
+																type="button" aria-haspopup="dialog"
+																aria-expanded="false"
+																th:aria-controls="|radix-:r91${ciStat.count}:|"
+																data-state="closed">
+																<div
+																	class="relative shrink-0 flex items-center justify-center w-[40px] h-[40px] bg-muted dark:bg-sonner rounded-sm text-xs break-all disable-blur">
+																	<img
+																		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[36px] disable-blur"
+																		th:src="${ci.cashItemIcon}" alt="cashItem"
+																		loading="lazy">
+																</div>
+																<div class="grow text-xs shrink text-left">
+																	<div class="font-semibold line-clamp-1">[[${ci.cashItemName}]]</div>
+																</div>
+															</div>
+														</th:block>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div
+											class="grid place-items-start w-full max-w-2xl min-h-[30px] mx-auto grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 gap-1">
+											<div class="relative w-full space-y-1">
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9j:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet1Icon}|"
+															alt="">
+													</div>
+													<div class="flex-auto">
+														<div class="text-[10px] leading-3"
+															>[[${petEquipDTO.pet1PetType}]]</div>
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet1Name}]]</div>
+													</div>
+												</div>
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9k:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet1Equipment.itemIcon}|"
+															alt="">
+													</div>
+													<div class="flex-auto text-left">
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet1Equipment.itemName}]]</div>
+														<div class="text-[8px] leading-3 text-muted-foreground">
+															<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet1Equipment.itemOption[0].optionValue}]]</div>
+															<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet1Equipment.itemOption[1].optionValue}]]</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="relative w-full space-y-1">
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9k:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet2Icon}|"
+															alt="">
+													</div>
+													<div class="flex-auto">
+														<div class="text-[10px] leading-3"
+															>[[${petEquipDTO.pet2PetType}]]</div>
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet2Name}]]</div>
+													</div>
+												</div>
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9k:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet2Equipment.itemIcon}|"
+															alt="">
+													</div>
+													<div class="flex-auto text-left">
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet2Equipment.itemName}]]</div>
+														<div class="text-[8px] leading-3 text-muted-foreground">
+															<div>[[${petEquipDTO.pet2Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet2Equipment.itemOption[0].optionValue}]]</div>
+															<div>[[${petEquipDTO.pet2Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet2Equipment.itemOption[1].optionValue}]]</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="relative w-full space-y-1">
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9l:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet3Icon}|"
+															alt="">
+													</div>
+													<div class="flex-auto">
+														<div class="text-[10px] leading-3"
+															>[[${petEquipDTO.pet3PetType}]]</div>
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet3Name}]]</div>
+													</div>
+												</div>
+												<div
+													class="flex items-center text-xs justify-center gap-x-1"
+													type="button" aria-haspopup="dialog" aria-expanded="false"
+													aria-controls="radix-:r9l:" data-state="closed">
+													<div
+														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
+														<img
+															th:src="|${petEquipDTO.pet3Equipment.itemIcon}|"
+															alt="">
+													</div>
+													<div class="flex-auto text-left">
+														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet3Equipment.itemName}]]</div>
+														<div class="text-[8px] leading-3 text-muted-foreground">
+															<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet3Equipment.itemOption[0].optionValue}]]</div>
+															<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet3Equipment.itemOption[1].optionValue}]]</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<details class="mt-2 text-xs overflow-hidden">
 								<summary class="w-fit cursor-pointer focus-visible:outline-0">적용
@@ -942,14 +1261,6 @@
 								</div>
 							</details>
 						</div>
-						<div data-state="inactive" data-orientation="horizontal"
-							role="tabpanel" aria-labelledby="radix-:rai:-trigger-캐시"
-							hidden="" id="radix-:rai:-content-캐시" tabindex="-1"
-							class="focus-visible:outline-none mt-0 focus-visible:ring-0 focus-visible:ring-offset-0"></div>
-						<div data-state="inactive" data-orientation="horizontal"
-							role="tabpanel" aria-labelledby="radix-:rai:-trigger-보유캐릭터"
-							hidden="" id="radix-:rai:-content-보유캐릭터" tabindex="-1"
-							class="focus-visible:outline-none mt-0 focus-visible:ring-0 focus-visible:ring-offset-0"></div>
 						<div
 							class="rounded-sm border border-border/50 bg-card text-card-foreground shadow-sm">
 							<div class="relative p-2.5 pb-4">
@@ -1014,32 +1325,17 @@
 									class="flex justify-between items-center gap-x-1 text-lg font-[900] pb-2.5 whitespace-nowrap">
 									<div class="flex items-center gap-x-1">
 										<div>심볼</div>
-										<div
-											class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-7 rounded-md px-1 gap-x-0.5 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-background">
-											<button type="button" role="checkbox" aria-checked="false"
-												data-state="unchecked" value="on"
-												class="peer h-4 w-4 shrink-0 rounded-sm border ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-current"></button>
-											<span>만렙<span class="hidden min-[400px]:inline">
-													날짜</span></span>
-										</div>
-										<div
-											class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-7 rounded-md px-1 gap-x-0.5 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-background">
-											<button type="button" role="checkbox" aria-checked="false"
-												data-state="unchecked" value="on"
-												class="peer h-4 w-4 shrink-0 rounded-sm border ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-current"></button>
-											<span><span class="hidden min-[400px]:inline">업글
-											</span>비용</span>
-										</div>
+										
 									</div>
 									<div class="flex items-center gap-x-2 text-base font-bold">
 										<div class="flex items-center gap-x-1">
 											<img class="w-[18px] h-[20px] disable-blur"
-												src="/images/icons/force/authentic.png" alt="어센틱포스"
+												src="/images/authentic.png" alt="어센틱포스"
 												loading="lazy"><span>[[${statDTO.finalStat[15].statValue}]]</span>
 										</div>
 										<div class="flex items-center gap-x-1">
 											<img class="w-[19px] h-[19px] disable-blur"
-												src="/images/icons/force/arcane.png" alt="아케인포스"
+												src="/images/arcane.png" alt="아케인포스"
 												loading="lazy"><span>[[${statDTO.finalStat[14].statValue}]]</span>
 										</div>
 									</div>
@@ -1814,6 +2110,7 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>

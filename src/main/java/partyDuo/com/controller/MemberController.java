@@ -41,7 +41,7 @@ public class MemberController {
 		return "member/insert";
 	}
 	@GetMapping("/member/insertOK")
-	public String member_insertOK(MemberVO vo) {
+	public String member_insertOK(MemberVO vo, Model model) {
 		log.info("/insertOK");
 //		vo=new MemberVO();
 //		vo.setId("admin2");
@@ -49,14 +49,21 @@ public class MemberController {
 //		vo.setEmail("abc@efg.com");
 //		vo.setApikey("0123456789");
 //		vo.setCharacter_name("테스트2");
-		log.info("vo: {}", vo);
-		int result=service.member_insert(vo);
-		log.info("result: {}", result);
-		if (result==1) {
-			return "member/selectLogin";
-		}else {
-			return "redirect:/member/insert";
+		try {
+			log.info("vo: {}", vo);
+			int result=service.member_insert(vo);
+			log.info("result: {}", result);
+			if (result==1) {
+				return "member/selectLogin";
+			}else {
+				return "redirect:/member/insert";
+			}
+		} catch (Exception e) {
+			String joinResult="Failed";
+			model.addAttribute("joinResult", joinResult);
+			return "member/insert";
 		}
+		
 		
 	}
 	@GetMapping("/member/update")
@@ -89,6 +96,15 @@ public class MemberController {
 		log.info("/delete");
 		model.addAttribute("vo", vo);
 		return "member/delete";
+	}
+	@GetMapping("/member/deleteCheck")
+	public String member_deleteCheck(MemberVO vo, Model model) {
+		log.info("deleteCheck");
+		log.info("vo: {}", vo);
+		MemberVO vo2=service.member_selectOne(vo);
+		log.info("vo2:{}", vo2);
+		model.addAttribute("vo2", vo2);
+		return "member/deleteCheck";
 	}
 	@GetMapping("/member/deleteOK")
 	public String member_deleteOK(MemberVO vo) {
@@ -175,9 +191,15 @@ public class MemberController {
 		return "member/login";
 	}
 	@GetMapping("/member/loginOK")
-	public String member_loginOK(MemberVO vo) {
+	public String member_loginOK(MemberVO vo, Model model) {
 	    log.info("/loginOK");
 	    MemberVO vo2 = service.member_login(vo);
+	    String loginResult="";
+	    if (vo2 == null) {
+	    	loginResult="NotOK";
+	    	model.addAttribute("loginResult", loginResult);
+	    	return "member/login";
+	    } 
 	    AdminVO vo3 = new AdminVO();
 	    vo3.setId(vo2.getId());
 	    log.info("vo3: {}", vo3);
@@ -185,9 +207,7 @@ public class MemberController {
 	    log.info("vo2: {}", vo2);
 	    log.info("vo3: {}", vo3);
 
-	    if (vo2 == null) {
-	        return "member/login";
-	    } else if (vo3 != null && vo3.getAdmin_id() > 0 && vo2.getId().equals(vo3.getId())) {
+	    if (vo3 != null && vo3.getAdmin_id() > 0 && vo2.getId().equals(vo3.getId())) {
 	        session.setAttribute("user_id", vo2.getId());
 	        session.setAttribute("user_character", vo2.getCharacter_name());
 	        session.setAttribute("admin_name", vo3.getName());

@@ -4,6 +4,35 @@
 <meta charset="UTF-8">
 <title>회원삭제</title>
 <div th:replace="~{layout::boottemplate}"></div>
+<script th:inline="javascript"> 
+let isPwChecked = false;
+$(document).ready(function(){
+	console.log("ready");
+	function deleteCheck(){
+		isPwChecked=false;
+		let pw = $("#pw").val()
+		let pwCheck = $("#pwCheck").val();
+		if(pw===pwCheck){
+			isPwChecked=true;
+		}
+		validateForm();
+	}
+	
+	function validateForm(){
+		const pw = $('#pw').val().trim();
+		const submitButton = $('#submitButton');
+		submitButton.prop('disabled',
+				!(id !== '' && isPwChecked));
+		
+	}
+	
+	$("#pwCheck").on("input", function() {
+		deleteCheck();
+		
+	});
+});
+
+</script>
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
@@ -30,15 +59,22 @@
 										<div class="tab">
 											<div class="tab-content">
 												<div class="tab-content-inner active">
-													<p>
-													<h5>정말 [[${vo.id}]]계정을 삭제하시겠습니까?</h5>
-													</p>
-													<p>
-														<button type="button" class="btn btn-primary"
-															th:onclick="|location.href='@{/member/deleteCheck(id=${vo.id})}'|">예</button>
-														<button type="button" class="btn btn-primary"
-															th:onclick="|location.href='@{/member/update(id=${vo.id})}'|">아니오</button>
-													</p>
+													<form action="/member/deleteOK" method="get">
+														<input type="hidden" name="id"
+															th:value="${vo2.id}">
+														<input type="hidden" name="pw" id="pw"
+															th:value="${vo2.pw}">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="pw">비밀번호</label> <input
+																	type="password" class="form-control" id="pwCheck">
+															</div>
+															<div class="col-md-12">
+																<input type="submit" id="submitButton" class="btn btn-block btn-primary" value="탈퇴하기">
+															</div>
+															
+														</div>
+													</form>
 												</div>
 											</div>
 										</div>
