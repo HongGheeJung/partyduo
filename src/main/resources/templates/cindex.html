@@ -138,8 +138,7 @@
                   if (data != null) {
                       for (let i = 0; i < data.length; i++) {
                           calendar.addEvent({
-                        	  id: data[i].event_id,
-                        	  url: '/event/update?event_id=' + data[i].event_id,
+                        	  id: data[i].event_id,                        	  
                               title: data[i].event_title,
                               start: data[i].event_startTime,
                               end: data[i].event_endTime
@@ -148,21 +147,21 @@
                   }
               }
           })
-      ]
+      ],
+      eventClick: function(event) {
+    	  var width = 600;
+  		var height = 900;
+  	    var left = (window.screen.width / 2) - (width / 2);
+  		var top = (window.screen.height / 2) - (height / 2);
+  	  window.open('/event/update?event_id='+event.event.id,"a",
+  			  `width=${width},height=${height},left=${left},top=${top}`)
+
+      }
     });
 
     calendar.render();
   });
-      
-      function showPopup() {
-                      var width = 600;
-                      var height = 900;
-                      var left = (window.screen.width / 2) - (width / 2);
-                      var top = (window.screen.height / 2) - (height / 2);
-                      window.open("/chat/room2/" + [[${partyvo.party_id}]], "makeparty", 
-                          `width=${width},height=${height},left=${left},top=${top}`);
-                  
-      }
+
 
     </script>
 
