@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <div th:replace="~{layout::boottemplate}"></div>
-<
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
+		<script th:if="${loginResult == 'NotOK'}">
+			alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+		</script>
 		<h1>login</h1>
 		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
 			href="/member/update">update</a> <a href="/member/delete">delete</a>
@@ -52,12 +57,15 @@
 													</form>
 													<div class="row form-group">
 														<div class="col-md-6">
-															<button class="btn-primary" style="width:120px; height:40px;border-radius: 5px;"
-															onclick="location.href='/member/findID'">아이디 찾기</button>
+															<button class="btn-primary"
+																style="width: 120px; height: 40px; border-radius: 5px;"
+																onclick="location.href='/member/findID'">아이디 찾기</button>
 														</div>
 														<div class="col-md-6">
-															<button class="btn-primary" style="width:120px; height:40px;border-radius: 5px;"
-															onclick="location.href='/member/findPw'">비밀번호 찾기</button>
+															<button class="btn-primary"
+																style="width: 120px; height: 40px; border-radius: 5px;"
+																onclick="location.href='/member/findPw'">비밀번호
+																찾기</button>
 														</div>
 													</div>
 												</div>

@@ -127,6 +127,9 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
+		<script th:if="${joinResult=='Failed'}">
+			alert("회원가입에 실패했습니다.");
+		</script>
 		<h1>회원가입</h1>
 		<th:block>
 			<div class="overlay"></div>
