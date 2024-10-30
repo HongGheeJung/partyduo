@@ -179,21 +179,12 @@ public class EventController {
 	public String insertOK(EventVO vo, String startTime, String endTime) throws IllegalStateException, IOException {
 		log.info("/event/insertOK");
 	
-		startTime = startTime.replace("T"," ");
-		startTime = startTime+":00";
-		endTime = endTime.replace("T"," ");
-		endTime = endTime+":00";
 
 		vo.setEvent_startTime(startTime);
 		vo.setEvent_endTime(endTime);
 		
-
 		log.info("vo:{}", vo);
 		
-		
-		
-		
-
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
 		if (result == 1) {
@@ -204,8 +195,12 @@ public class EventController {
 	}
 
 	@PostMapping("/event/updateOK")
-	public String updateOK(EventVO vo) throws IllegalStateException, IOException {
+	public String updateOK(EventVO vo, String startTime, String endTime) throws IllegalStateException, IOException {
 		log.info("/event/updateOK");
+		
+		
+		vo.setEvent_startTime(startTime);
+		vo.setEvent_endTime(endTime);
 		log.info("vo:{}", vo);
 
 

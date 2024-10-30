@@ -128,15 +128,11 @@ function closePopupAndRedirect() {
 														</select>
 													</div>
 												</div>
-												
-												
-
-
-												
+							
 												<div class="row form-group">
 													<div class="col-md-12">
 														<input type="submit" id="submitButton"
-															class="btn btn-primary btn-block" value="게시글 작성" 
+															class="btn btn-primary btn-block" value="이벤트 추가" 
 															title="내용을 작성하세요.">
 													</div>
 												</div>
@@ -154,54 +150,7 @@ function closePopupAndRedirect() {
 		<iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe>
 	</th:block>
 
-		<!-- <form action="/event/insertOK" method="post">
-			<table id="insertTable">
-				<tr>
-					<td><label for="party_id">party_id</label></td>
-					<td>[[${param.party_id}]]<input type="hidden" id="party_id" name="party_id" th:value="${param.party_id}"
-						></td>
-				</tr>
-				<tr>
-					<td><label for="event_title">event_title</label></td>
-					<td><input type="text" id="event_title" name="event_title" th:value="${vo2.event_title}"
-						placeholder="event_title를 입력하세요"></td>
-				</tr>
-
-				<tr>
-					<td><label for="event_content">event_content</label></td>
-					<td><input type="text" id="event_content" name="event_content" value="일정내용"
-						placeholder="event_content를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="event_startTime">event_startTime</label></td>
-					<td><input type="text" id="event_startTime" name="event_startTime" value="2024-10-11 03:30:30"
-						placeholder="event_startTime를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="event_endTime">event_endTime</label></td>
-					<td><input type="text" id="event_endTime" name="event_endTime" value="2024-10-12 02:20:20"
-						placeholder="event_endTime를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="event_location">event_location</label></td>
-					<td><input type="text" id="event_location" name="event_location" value="서울"
-						placeholder="event_location를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="event_bosstag">event_bosstag</label></td>
-					<td><input type="text" id="event_bosstag" name="event_bosstag" value="검마"
-						placeholder="event_bosstag를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td><label for="event_character">event_character</label></td>
-					<td><input type="text" id="event_character" name="event_character" value="오프라인or온라인"
-						placeholder="event_character를 입력하세요"></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="submit" value="가입완료"></td>
-				</tr>
-			</table>
-		</form> -->
+		
 		<!-- jQuery -->
 	<script src="/js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
