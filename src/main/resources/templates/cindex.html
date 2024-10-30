@@ -30,6 +30,26 @@
 	color: #fff;
 	border-radius: 5px ;	
 	}
+	
+	 .modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* 모달을 수직 중앙으로 정렬 */
+}
+
+.modal-content {
+          width: 500px; 
+        min-height: 150px; 
+}
+
+.modal-body {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  padding: 1rem; /* 내부 여백 조정 */
+  white-space: pre-wrap; /* 줄바꿈을 유지하고 여러 줄 표시 가능하게 함 */
+  word-break: break-word; /* 긴 단어가 자동으로 줄바꿈되도록 설정 */
+ text-align: center; /* 텍스트를 가운데 정렬 */
+}
 
     
     </style>
@@ -41,8 +61,27 @@
   </head>
  
   <body >
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" th:text="${errorMessage}"></div>
+            <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
    
- <div th:fragment="content">
+ <div th:fragment="content" id="mainContent">
 
   <div id='calendar-container'>
  <div class="fixed-bottom-left pppp">
@@ -161,7 +200,25 @@
 
     calendar.render();
   });
+      $(document).ready(function () {
+    	  if ([[${errorMessage != null}]]) {
+    	    // 모달이 열리면 페이지의 나머지 부분을 비활성화
+    	    $('#mainContent').attr('inert', true);
+    	    $('#errorModal').modal('show');
+    	    
+    	    
+    	    $('#errorModal').on('hidden.bs.modal', function () {
+    	      $('#mainContent').removeAttr('inert');
+    	    });
+    	  }
+    	});
 
+    	document.addEventListener("DOMContentLoaded", function () {
+    	    const modalBody = document.querySelector(".modal-body");
+    	    if (modalBody) {
+    	        modalBody.innerHTML = modalBody.innerHTML.replace(/\./g, ".<br>");
+    	    }
+    	});
 
     </script>
 

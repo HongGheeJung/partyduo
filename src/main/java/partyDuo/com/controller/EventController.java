@@ -124,6 +124,15 @@ public class EventController {
 		vo=mservice.member_selectOne(vo);
 		int member_id=vo.getMember_id();
 		List<MyPartyVO> plist = plservice.searchMyParty(Integer.toString(member_id), 1, 100);
+		
+		
+		  if (plist.size() == 0 ) { 
+			  model.addAttribute("errorMessage", "파티 가입정보를 찾을 수 없습니다. 파티가입 해주세요."); 
+			  return "main"; // 입력 페이지로 이동 }
+		  }
+		 
+		
+		
 		log.info("plist:{}", plist);
 		if(party_id==0) {
 			party_id = plist.get(0).getParty_id();
@@ -176,8 +185,14 @@ public class EventController {
 	}
 
 	@PostMapping("/event/insertOK")
-	public String insertOK(EventVO vo, String startTime, String endTime) throws IllegalStateException, IOException {
+	public String insertOK(EventVO vo, String startTime, String endTime, Model model) throws IllegalStateException, IOException {
 		log.info("/event/insertOK");
+		
+		if (vo.getEvent_title().equals("") ) {
+			log.info("/event/insertOK error");
+	        model.addAttribute("errorMessage", "이벤트 제목은 필수 입력 항목입니다.");
+	        return "cindex";  // 다시 입력 페이지로 이동
+	    }
 	
 
 		vo.setEvent_startTime(startTime);
