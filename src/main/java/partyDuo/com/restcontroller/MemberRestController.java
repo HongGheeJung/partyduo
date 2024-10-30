@@ -68,11 +68,19 @@ public class MemberRestController {
 	
 	@GetMapping("/checkLogin")
 	@ResponseBody
-	public Map<String, Boolean> checkLogin(HttpSession session) {
-	    Map<String, Boolean> response = new HashMap<>();
+	public Map<String, Object> checkLogin(HttpSession session) {
+	    Map<String, Object> response = new HashMap<>();
 	    Object user = session.getAttribute("user_character");
 	    
-	    response.put("loggedIn", user != null); // 로그인 여부 체크
+	    if (user != null) {
+	        // 로그인된 경우
+	        response.put("loggedIn", true);
+	        response.put("loginMessage", "사용자가 로그인되어 있습니다.");
+	    } else {
+	        // 로그인되지 않은 경우
+	        response.put("loggedIn", false);
+	        response.put("loginMessage", "로그인이 필요합니다. 로그인 후 이용해 주세요.");
+	    }
 	    return response;
 	}
 }
