@@ -113,18 +113,32 @@ function showPopup(url, from) {
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" style="text-align: center;">
+                                    <td colspan="4" style="text-align: center;"> <!-- 가운데 정렬 -->
                                         <ul class="pagination pagination-sm justify-content-center">
-                                            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="|/partylist/myparty?cpage=${currentPage - 1}|">«</a>
+                                            <!-- 부트스트랩 스타일 적용 -->
+                                            <!-- 이전 페이지 버튼 -->
+                                            <li class="page-item"
+                                                th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                                                <a class="page-link"
+                                                    th:href="|/partyboard/selectAll?cpage=${currentPage - 1}|"
+                                                     th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
                                             </li>
+
+                                            <!-- 페이지 번호 반복 -->
                                             <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-                                                <li class="page-item" th:classappend="${i == currentPage} ? 'active' : ''">
-                                                    <a class="page-link" th:href="|/partylist/myparty?cpage=${i}|">[[${i}]]</a>
+                                                <li class="page-item"
+                                                    th:classappend="${i == currentPage} ? 'active' : ''">
+                                                    <a class="page-link"
+                                                        th:href="|/partyboard/selectAll?cpage=${i}|">[[${i}]]</a>
                                                 </li>
                                             </th:block>
-                                            <li class="page-item" th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="|/partylist/myparty?cpage=${currentPage + 1}|">»</a>
+
+                                            <!-- 다음 페이지 버튼 -->
+                                            <li class="page-item"
+                                                th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+                                                <a class="page-link"
+                                                    th:href="|/partyboard/selectAll?cpage=${currentPage + 1}|"
+                                                     th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
                                             </li>
                                         </ul>
                                     </td>
