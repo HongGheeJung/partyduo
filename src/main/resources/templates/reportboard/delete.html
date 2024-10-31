@@ -5,25 +5,10 @@
     <meta charset="UTF-8">
     <title>신고 삭제</title>
     <div th:replace="~{layout::boottemplate}"></div>
-    <script th:inline="javascript">
-        var formSubmitted = false;
-
-        function closePopupAndRedirect() {
-            // 부모 창이 특정 링크로 이동하도록 설정
-            if (formSubmitted) {
-                if (window.opener) {
-                    // 부모 창으로 리다이렉트
-                    window.opener.location.href = '/reportboard/selectAll';
-                }
-                // 현재 팝업 창을 닫음
-                window.close();
-            }
-        }
-    </script>
 </head>
 
 <body>
-    <div class="gtco-container">
+    <div class="gtco-container" id="mainContent">
         <div class="row">
             <div class="col-md-12 col-md-offset-0">
                 <div class="row row-mt-15em">
@@ -33,8 +18,7 @@
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
                                         <h3 class="text-center">신고 삭제</h3>
-                                        <form action="/reportboard/deleteOK" method="post" th:target="submitFrame"
-                                            th:onsubmit="formSubmitted = true;">
+                                        <form action="/reportboard/deleteOK" method="post" >
                                             <div class="row form-group">
                                                 <div class="col-md-12 d-flex flex-column align-items-center">
                                                     <input type="hidden" name="report_board_id"
@@ -52,8 +36,7 @@
                                             </div>
                                         </form>
 
-                                        <iframe name="submitFrame" style="display:none;"
-                                            th:onload="closePopupAndRedirect()"></iframe>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +46,56 @@
             </div>
         </div>
     </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" th:text="${errorMessage}"></div>
+            <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+$(document).ready(function () {
+  if ([[${errorMessage != null}]]) {
+    // 모달이 열리면 페이지의 나머지 부분을 비활성화
+    $('#mainContent').attr('inert', true);
+    $('#errorModal').modal('show');
+    
+    
+    $('#errorModal').on('hidden.bs.modal', function () {
+      $('#mainContent').removeAttr('inert');
+    });
+  }
+  
+  if ([[${successMessage}]] === 'success') {
+      if (window.opener) {
+          window.opener.location.href = '/reportboard/selectAll';
+          window.close(); // 팝업 창 닫기
+      }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modalBody = document.querySelector(".modal-body");
+    if (modalBody) {
+        modalBody.innerHTML = modalBody.innerHTML.replace(/\./g, ".<br>");
+    }
+});
+
+</script>
     <!-- jQuery -->
     <script src="/js/jquery.min.js"></script>
     <!-- jQuery Easing -->

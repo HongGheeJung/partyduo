@@ -71,11 +71,13 @@ public class ReportBoardController {
     @GetMapping("/reportboard/update")
     public String update(ReportBoardVO vo, Model model) {
         log.info("report_update...");
-
+        log.info("vo: {}", vo);
         // 게시물 조회
         ReportBoardVO vo2 = rbService.selectOne(vo);
+        log.info("vo2: {}", vo2);
         if (vo2 == null) {
             model.addAttribute("errorMessage", "해당 게시물을 찾을 수 없습니다.");
+            log.info("1");
             return "reportboard/selectAll";
         }
 
@@ -83,6 +85,7 @@ public class ReportBoardController {
         String user_character = (String) session.getAttribute("user_character");
         if (!vo2.getReport_board_writer().equals(user_character)) {
             model.addAttribute("errorMessage", "작성자만 수정할 수 있습니다.");
+            log.info("2");
             return "reportboard/selectAll";
         }
 
@@ -97,12 +100,12 @@ public class ReportBoardController {
         // 필수 필드 유효성 검사
         if (vo.getReport_board_title() == null || vo.getReport_board_title().trim().isEmpty()) {
         	redirectAttributes.addFlashAttribute("errorMessage", "제목은 필수 입력 항목입니다.");
-            return "redirect:/reportboard/update";
+            return "redirect:/reportboard/update?report_board_id="+vo.getReport_board_id();
         }
 
         if (vo.getReport_board_content() == null || vo.getReport_board_content().trim().isEmpty()) {
         	redirectAttributes.addFlashAttribute("errorMessage", "내용은 필수 입력 항목입니다.");
-            return "redirect:/reportboard/update";
+            return "redirect:/reportboard/update?report_board_id="+vo.getReport_board_id();
         }
 
         try {
@@ -110,15 +113,15 @@ public class ReportBoardController {
             log.info("result: {}", result);
             if (result == 0) {
             	redirectAttributes.addFlashAttribute("errorMessage", "신고 게시물 수정에 실패했습니다.");
-                return "redirect:/reportboard/update";
+                return "redirect:/reportboard/update?report_board_id="+vo.getReport_board_id();
             }
         } catch (Exception e) {
             log.error("신고 게시물 수정 중 오류 발생: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "신고 게시물 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
-            return "redirect:/reportboard/update";
+            return "redirect:/reportboard/update?report_board_id="+vo.getReport_board_id();
         }
         redirectAttributes.addFlashAttribute("successMessage", "success");
-        return "redirect:/reportboard/update"; // 신고 게시판 목록으로 리다이렉트
+        return "redirect:/reportboard/update?report_board_id="+vo.getReport_board_id(); // 신고 게시판 목록으로 리다이렉트
     }
     
     @GetMapping("/reportboard/delete")
@@ -151,15 +154,18 @@ public class ReportBoardController {
             log.info("result: {}", result);
             if (result == 0) {
             	redirectAttributes.addFlashAttribute("errorMessage", "게시물 삭제에 실패했습니다.");
-                return "redirect:/reportboard/delete";
+                return "redirect:/reportboard/delete?report_board_id="+vo.getReport_board_id();
             }
         } catch (Exception e) {
             log.error("게시물 삭제 중 오류 발생: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "게시물 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
-            return "redirect:/reportboard/delete";
+            return "redirect:/reportboard/delete?report_board_id="+vo.getReport_board_id();
         }
-        redirectAttributes.addFlashAttribute("successMessage", "success");
-        return "redirect:/reportboard/delete"; // 신고 게시판 목록으로 리다이렉트
+        
+        model.addAttribute("successMessage", "success");
+        model.addAttribute("vo2", vo);
+        
+        return "reportboard/delete"; // 신고 게시판 목록으로 리다이렉트
     }
 
     @GetMapping("/reportboard/selectOne")
