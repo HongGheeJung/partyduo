@@ -13,7 +13,9 @@ public interface FavoriteMapper {
 	int favorite_insert(FavoriteVO vo);
 	int favorite_delete(FavoriteVO vo);
 	FavoriteVO favorite_selectOne(FavoriteVO vo);
-	List<FavoriteVO> favorite_searchListByMember_id(int searchNum);
-	List<FavoriteVO> favorite_searchListByCharacter_name(int searchNum);
+	List<FavoriteVO> favorite_searchListByMember_id(int searchNum, int startRow, int pageBlock);
+	List<FavoriteVO> favorite_searchListByCharacter_name(int searchNum, int startRow, int pageBlock);
+	int getSearchTotalRowsById(int searchNum);
+	int getSearchTotalRowsByCname(int searchNum);
 	
 }

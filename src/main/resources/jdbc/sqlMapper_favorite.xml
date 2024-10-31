@@ -13,9 +13,9 @@
 		select * from favorite where character_name=#{character_name} and member_id=#{member_id}
 	</select>
 	<select id="favorite_searchListByMember_id" resultType="partyDuo.com.model.FavoriteVO">
-		select * from favorite where member_id=#{searchNum}
+		select * from favorite where member_id=#{searchNum} limit #{startRow}, #{pageBlock} 
 	</select>
 	<select id="favorite_searchListByCharacter_name" resultType="partyDuo.com.model.FavoriteVO">
-		select * from favorite where character_name=#{searchNum}
+		select * from favorite where character_name=#{searchNum} limit #{startRow}, #{pageBlock} 
 	</select>
 </mapper>

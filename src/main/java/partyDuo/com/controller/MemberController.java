@@ -118,16 +118,6 @@ public class MemberController {
 			return "/member/delete?member_id="+vo.getMember_id();
 		}
 	}
-	@GetMapping("/member/selectOne")
-	public String member_selectOne(Model model,MemberVO vo) {
-		log.info("/selectOne");
-		MemberVO vo2=service.member_selectOne(vo);
-		List<FavoriteVO> flist=fservice.favorite_searchList("member_id", vo2.getMember_id());
-		model.addAttribute("vo2", vo2);
-		model.addAttribute("flist",flist);
-		log.info("vo2: {}",vo2);
-		return "member/selectOne";
-	}
 	@GetMapping("/member/selectAll")
 	public String member_selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5")int pageBlock) {

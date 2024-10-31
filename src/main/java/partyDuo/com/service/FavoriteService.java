@@ -49,13 +49,24 @@ public class FavoriteService {
 		return mapper.favorite_selectOne(vo);
 	}
 
-	public List<FavoriteVO> favorite_searchList(String searchKey, int searchNum) {
+	public List<FavoriteVO> favorite_searchList(String searchKey, int searchNum, int cpage, int pageBlock) {
 		// TODO Auto-generated method stub
 		log.info("favorite_searchList....");
+		int startRow=(cpage-1)*pageBlock;
 		if(searchKey.equals("member_id")) {			
-			return mapper.favorite_searchListByMember_id(searchNum);
+			return mapper.favorite_searchListByMember_id(searchNum, startRow, pageBlock);
 		}else {
-			return mapper.favorite_searchListByCharacter_name(searchNum);
+			return mapper.favorite_searchListByCharacter_name(searchNum, startRow, pageBlock);
 		}
+	}
+	
+	public int getSearchTotalRows(String searchKey, int searchNum) {
+		if(searchKey.equals("member_id")) {
+			return mapper.getSearchTotalRowsById(searchNum);
+		}
+		else {
+			return mapper.getSearchTotalRowsByCname(searchNum);
+		}
+		
 	}
 }
