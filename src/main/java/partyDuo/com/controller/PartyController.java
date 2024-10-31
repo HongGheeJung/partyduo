@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.spiralmoon.maplestory.api.dto.character.CharacterBasicDTO;
 import jakarta.servlet.http.HttpSession;
@@ -41,20 +42,26 @@ public class PartyController {
 	MemberService mservice;
 
 	@GetMapping("/party/insert")
-	public String insert() {
+	public String insert(Model model) {
 		log.info("party_insert...");
+		
+		 String user_character = (String) session.getAttribute("user_character");
+		if (user_character == null || user_character.trim().isEmpty()){
+			model.addAttribute("errorMessage", "로그인을 먼저 해주세요.");
+			return "main";}
+
 		return "party/insert";
 	}
 
 	@PostMapping("/party/insertOK")
-	public String insertOK( Model model,PartyVO vo) {
+	public String insertOK( Model model,PartyVO vo,RedirectAttributes redirectAttributes) {
 		log.info("party_insertOK...");
 		log.info("vo:{}", vo);
 		
 		
 	    if (vo.getParty_name() == null || vo.getParty_name().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "파티 이름은 필수 입력 항목입니다.");
-	        return "party/insert";  // 다시 입력 페이지로 이동
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 이름은 필수 입력 항목입니다.");
+	        return "redirect:/party/insert";  // 다시 입력 페이지로 리다이렉트
 	    }
 	    
 //		String character_name = (String)session.getAttribute("user_character");
@@ -69,20 +76,22 @@ public class PartyController {
 //		vo.setParty_world(world);
 	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
 	    
-		if (vo.getParty_world() == null || vo.getParty_world().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "월드정보를 불러오는중 오류가 발생했습니다.");
-	        return "party/insert";  // 다시 입력 페이지로 이동
+	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
+	    
+	    if (vo.getParty_world() == null || vo.getParty_world().trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "월드 정보를 불러오는 중 오류가 발생했습니다.");
+	        return "redirect:/party/insert";  // 다시 입력 페이지로 리다이렉트
 	    }
 	    
-		try {
+	    try {
 	        int result = pservice.insertOK(vo);
 	        log.info("result:{}", result);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "party/insert";  // 에러 메시지를 포함하여 다시 입력 페이지로 이동
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/insert";  // 에러 메시지를 포함하여 다시 입력 페이지로 리다이렉트
 	    }
-		
+	    
 	    try {
 	        PartyListVO vo2 = new PartyListVO();
 	        MemberVO vo3 = new MemberVO();
@@ -98,205 +107,233 @@ public class PartyController {
 	        log.info("result2:{}", result2);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "party/insert";
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/insert";
 	    }
-
-		return "redirect:/partylist/myparty";
+	    redirectAttributes.addFlashAttribute("successMessage", "success");
+	    return "redirect:/party/insert";
 	}
 
 	@GetMapping("/party/update")
-	public String update(PartyVO vo, Model model) {
+	public String update(PartyVO vo, RedirectAttributes redirectAttributes, Model model) {
 	    log.info("party_update...");
 	    
-	    if (vo == null || vo.getParty_id() == 0) {
-	        model.addAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
-	        return "party/myparty";  // 입력 페이지로 이동
+	    String user_character = (String) session.getAttribute("user_character");
+	    if (user_character == null || !user_character.equals(vo.getParty_master())) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "로그인 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+	        return "redirect:/party/myparty";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
 	    }
 	    
-	    PartyVO vo2=null;
+	    // 파티 ID가 유효하지 않은 경우
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty"; // 마이파티 페이지로 리다이렉트
+	    }
+	    
+	    PartyVO vo2 = null;
 	    
 	    try {
-	         vo2 = pservice.selectOne(vo);
+	        vo2 = pservice.selectOne(vo);
 	        log.info("vo: {}", vo2);
-	        model.addAttribute("vo2", vo2);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 정보 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "party/myparty";
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
 	    }
 	    
 	    if (vo2 == null) {
-	        model.addAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
-	        return "party/myparty";
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
 	    }
+	    
+	    // 파티 정보가 유효한 경우 모델에 추가
+	    model.addAttribute("vo2", vo2);
 	    
 	    return "party/update";
 	}
 
 	@GetMapping("/party/delegate")
-	public String delegate(PartyVO vo, Model model) {
-		log.info("party_delegate...");
-		 if (vo == null || vo.getParty_id() == 0) {
-		        model.addAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
-		        return "party/myparty";  // 입력 페이지로 이동
-		    }
+	public String delegate(PartyVO vo, RedirectAttributes redirectAttributes, Model model) {
+	    log.info("party_delegate...");
+	    
+	    // 로그인 여부 체크
+	    String user_character = (String) session.getAttribute("user_character");
+	    if (user_character == null || user_character.trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "로그인을 먼저 해주세요.");
+	        return "redirect:/main";
+	    }
+	    
+	    // 유효한 파티 정보 확인
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
+	        return "redirect:/party/myparty";
+	    }
 
-		    PartyVO vo2;
-		    try {
-		        vo2 = pservice.selectOne(vo);
-		        if (vo2 == null) {
-		            model.addAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
-		            return "party/myparty";
-		        }
-		    } catch (Exception e) {
-		        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-		        model.addAttribute("errorMessage", "파티 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
-		        return "party/myparty";
-		    }
-		    
-		    List<MemberVO> listmember = new ArrayList<>();
-		    try {
-		        List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(vo.getParty_id()));
-		        for (PartyListVO vo3 : list) {
-		            if (vo3.getParty_join() == true) {
-		                try {
-		                    MemberVO vo4 = new MemberVO();
-		                    vo4.setMember_id(vo3.getMember_id());
-		                    vo4 = mservice.member_selectOneByMember_id(vo4);
-		                    if (vo4 != null) {
-		                        log.info("vo3{}", vo4);
-		                        listmember.add(vo4);
-		                    } else {
-		                        log.warn("해당 멤버 정보를 찾을 수 없습니다. member_id: {}", vo3.getMember_id());
-		                    }
-		                } catch (Exception e) {
-		                    log.error("멤버 정보 조회 오류 발생: {}", e.getMessage());
-		                }
-		            }
-		        }
-		    } catch (Exception e) {
-		        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-		        model.addAttribute("errorMessage", "파티 멤버 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
-		        return "party/myparty";
-		    }
-		    
-		log.info("{vo:{}", vo2);
-		model.addAttribute("vo2", vo2);
-		model.addAttribute("listmember", listmember);
-		return "party/delegate";
+	    PartyVO vo2;
+	    try {
+	        vo2 = pservice.selectOne(vo);
+	        if (vo2 == null) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	            return "redirect:/party/myparty";
+	        }
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
+	    }
+
+	    // 파티장 여부 체크
+	    
+	    if (!user_character.equals(vo2.getParty_master())) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티장이 아닙니다. 권한이 없습니다.");
+	        return "redirect:/party/myparty";
+	    }
+
+	    List<MemberVO> listmember = new ArrayList<>();
+	    try {
+	        List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(vo.getParty_id()));
+	        for (PartyListVO vo3 : list) {
+	            if (vo3.getParty_join()) {
+	                try {
+	                    MemberVO vo4 = new MemberVO();
+	                    vo4.setMember_id(vo3.getMember_id());
+	                    vo4 = mservice.member_selectOneByMember_id(vo4);
+	                    if (vo4 != null) {
+	                        log.info("vo3{}", vo4);
+	                        listmember.add(vo4);
+	                    } else {
+	                        log.warn("해당 멤버 정보를 찾을 수 없습니다. member_id: {}", vo3.getMember_id());
+	                    }
+	                } catch (Exception e) {
+	                    log.error("멤버 정보 조회 오류 발생: {}", e.getMessage());
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 멤버 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
+	    }
+	    
+	    log.info("vo: {}", vo2);
+	    model.addAttribute("vo2", vo2);
+	    model.addAttribute("listmember", listmember);
+	    
+	    return "party/delegate";
 	}
 
 	@PostMapping("/party/updateOK")
-	public String updateOK(PartyVO vo, Model model, @RequestParam(defaultValue = "") String from) {
+	public String updateOK(PartyVO vo, RedirectAttributes redirectAttributes, @RequestParam(defaultValue = "") String from) {
 	    log.info("party_updateOK...");
 
 	    // VO 필드 체크
 	    if (vo == null || vo.getParty_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
-	        if ("delegate".equals(from)) {
-	            return "party/delegate";
-	        } else {
-	            return "party/update";
-	        }
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
+	        return redirectToFormPage(from,vo);
 	    }
 
 	    if (vo.getParty_name() == null || vo.getParty_name().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "파티 이름은 필수 입력 항목입니다.");
-	        if ("delegate".equals(from)) {
-	            return "party/delegate";
-	        } else {
-	            return "party/update";
-	        }
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 이름은 필수 입력 항목입니다.");
+	        return redirectToFormPage(from,vo);
 	    }
 
 	    if (vo.getParty_master() == null || vo.getParty_master().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "파티 마스터는 필수 입력 항목입니다.");
-	        if ("delegate".equals(from)) {
-	            return "party/delegate";
-	        } else {
-	            return "party/update";
-	        }
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 마스터는 필수 입력 항목입니다.");
+	        return redirectToFormPage(from,vo);
 	    }
+	    
 
 	    try {
 	        int result = pservice.updateOK(vo);
 	        log.info("result:{}", result);
 	        if (result == 0) {
-	            model.addAttribute("errorMessage", "파티 정보 수정에 실패했습니다. 다시 시도해 주세요.");
-	            if ("delegate".equals(from)) {
-	                return "party/delegate";
-	            } else {
-	                return "party/update";
-	            }
+	            redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 수정에 실패했습니다. 다시 시도해 주세요.");
+	            return redirectToFormPage(from,vo);
 	        }
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        if ("delegate".equals(from)) {
-	            return "party/delegate";
-	        } else {
-	            return "party/update";
-	        }
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return redirectToFormPage(from,vo);
 	    }
-
+	    redirectAttributes.addFlashAttribute("successMessage", "success");
 	    // 성공적으로 수정된 경우 리다이렉트
-	    return "redirect:/party/selectOne?party_id=" + vo.getParty_id();
+	    return redirectToFormPage(from,vo);
+	}
+	
+	private String redirectToFormPage(String from,PartyVO vo) {
+	    if ("delegate".equals(from)) {
+	        return "redirect:/party/delegate?party_id="+vo.getParty_id();
+	    } else {
+	        return "redirect:/party/update?party_id="+vo.getParty_id();
+	    }
 	}
 
-
 	@GetMapping("/party/delete")
-	public String delete(PartyVO vo, Model model) {
-	    log.info("party_delete...");
-
-	    // VO 필드 체크
-	    if (vo == null || vo.getParty_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
-	        return "redirect:/party/myparty";  // 유효한 정보가 없으면 파티 목록으로 리다이렉트
+	public String delete(PartyVO vo, RedirectAttributes redirectAttributes,Model model) {
+log.info("party_update...");
+	    
+	    // 로그인 체크 및 파티 마스터 여부 확인
+		String user_character = (String) session.getAttribute("user_character");	
+		if (user_character == null || !user_character.equals(vo.getParty_master())) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "로그인을 먼저 해주세요.");
+	        return "redirect:/main"; // 로그인 페이지로 리다이렉트
 	    }
-
+	    
+	    // 파티 ID가 유효하지 않은 경우
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty"; // 마이파티 페이지로 리다이렉트
+	    }
+	    
+	    PartyVO vo2 = null;
+	    
 	    try {
-	        PartyVO vo2 = pservice.selectOne(vo);
-	        if (vo2 == null) {
-	            model.addAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다.");
-	            return "redirect:/party/myparty";  // 존재하지 않는 경우 파티 목록으로 리다이렉트
-	        }
-	        model.addAttribute("vo2", vo2);
+	        vo2 = pservice.selectOne(vo);
+	        log.info("vo: {}", vo2);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "redirect:/party/myparty";  // 데이터베이스 오류 발생 시 파티 목록으로 리다이렉트
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
 	    }
-
+	    
+	    if (vo2 == null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/myparty";
+	    }
+	    
+	    // 파티 정보가 유효한 경우 모델에 추가
+	    model.addAttribute("vo2", vo2);
+	    
 	    return "party/delete";
 	}
 
 	@PostMapping("/party/deleteOK")
-	public String deleteOK(PartyVO vo, Model model) {
+	public String deleteOK(PartyVO vo, RedirectAttributes redirectAttributes,Model model) {
 	    log.info("party_deleteOK...");
 
 	    // VO 필드 체크
 	    if (vo == null || vo.getParty_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
-	        return "party/delete";  // 유효한 파티 정보가 없는 경우, 삭제 페이지로 돌아감
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
+	        return "redirect:/party/delete?party_id="+vo.getParty_id(); // 유효한 파티 정보가 없는 경우, 삭제 페이지로 돌아감
 	    }
 
 	    try {
 	        int result = pservice.deleteOK(vo);
 	        log.info("result:{}", result);
-	        
+
 	        if (result == 0) {
-	            model.addAttribute("errorMessage", "파티 삭제에 실패했습니다. 다시 시도해 주세요.");
-	            return "party/delete";  // 삭제 실패 시 삭제 페이지로 돌아감
+	            redirectAttributes.addFlashAttribute("errorMessage", "파티 삭제에 실패했습니다. 다시 시도해 주세요.");
+	            return "redirect:/party/delete?party_id="+vo.getParty_id(); // 삭제 실패 시 삭제 페이지로 돌아감
 	        }
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "party/delete";  // 데이터베이스 오류 발생 시 삭제 페이지로 돌아감
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/party/delete?party_id="+vo.getParty_id(); // 데이터베이스 오류 발생 시 삭제 페이지로 돌아감
 	    }
-
+	    model.addAttribute("successMessage", "success");
+	    model.addAttribute("vo2", vo);
 	    // 삭제 성공 시 리다이렉트
-	    return "redirect:/partylist/myparty";
+	    return "party/delete?party_id="+vo.getParty_id();
 	}
 
 	@GetMapping("/party/selectOne")
