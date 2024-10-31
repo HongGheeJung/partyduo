@@ -85,122 +85,133 @@ public class PartyBoardController {
 	public String insertOK(PartyBoardVO vo, String boss_level, String boss_name, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_insertOK...");
 
-	    // VO 필드가 유효한지 체크
-//	    if (vo == null) {
-//	        model.addAttribute("errorMessage", "파티 게시판 정보를 입력해 주세요.");
-//	        return "partyboard/insert"; // 다시 입력 페이지로 이동
-//	    }
-//	    
-//	    // 필수 필드 체크
-//	    if (vo.getParty_id() == 0) {
-//	        model.addAttribute("errorMessage", "파티 번호가 유효하지 않습니다. 다시 시도해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-//	    
-//	    if (vo.getReq_pwr() <= 0) {
-//	        model.addAttribute("errorMessage", "요구 전투력은 0보다 커야 합니다. 다시 입력해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-//
-//	    if (boss_level == null || boss_level.trim().isEmpty() || boss_name == null || boss_name.trim().isEmpty()) {
-//	        model.addAttribute("errorMessage", "보스 레벨과 보스 이름을 입력해 주세요.");
-//	        return "partyboard/insert"; // 다시 입력 페이지로 이동
-//	    }
-//
-//	    if (vo.getParty_board_memo() == null || vo.getParty_board_memo().trim().isEmpty()) {
-//	        model.addAttribute("errorMessage", "메모를 입력해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-//
-//	    if (vo.getParty_board_content() == null || vo.getParty_board_content().trim().isEmpty()) {
-//	        model.addAttribute("errorMessage", "게시판 내용을 입력해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-//
-//	    if (vo.getParty_board_writer() == null || vo.getParty_board_writer().trim().isEmpty()) {
-//	        model.addAttribute("errorMessage", "작성자를 입력해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-//
-//	    // 보스 정보 설정
-//	    vo.setBoss(boss_level + " " + boss_name);
-//	    
-//	    try {
-//	        // 데이터베이스에 파티 게시판 데이터 추가
-//	        int result = pbservice.insertOK(vo);
-//	        
-//	        // 데이터베이스 저장 실패 시 처리
-//	        if (result == 0) {
-//	            model.addAttribute("errorMessage", "파티 게시판 등록에 실패했습니다. 다시 시도해 주세요.");
-//	            return "partyboard/insert";
-//	        }
-//
-//	    } catch (Exception e) {
-//	        // 데이터베이스 오류 발생 시 처리
-//	        log.error("파티 게시판 등록 중 오류 발생: {}", e.getMessage());
-//	        model.addAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
-//	        return "partyboard/insert";
-//	    }
-	    redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
-//	    redirectAttributes.addFlashAttribute("successMessage", "success");
+	     //VO 필드가 유효한지 체크
+	    if (vo == null) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 정보를 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+// 다시 입력 페이지로 이동
+	    }
+	    
+	    // 필수 필드 체크
+	    if (vo.getParty_id() == 0) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "파티 번호가 유효하지 않습니다. 다시 시도해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+	    
+	    if (vo.getReq_pwr() <= 0) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "요구 전투력은 0보다 커야 합니다. 다시 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+
+	    if (boss_level == null || boss_level.trim().isEmpty() || boss_name == null || boss_name.trim().isEmpty()) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "보스 레벨과 보스 이름을 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+ // 다시 입력 페이지로 이동
+	    }
+
+	    if (vo.getParty_board_memo() == null || vo.getParty_board_memo().trim().isEmpty()) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "메모를 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+
+	    if (vo.getParty_board_content() == null || vo.getParty_board_content().trim().isEmpty()) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "게시판 내용을 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+
+	    if (vo.getParty_board_writer() == null || vo.getParty_board_writer().trim().isEmpty()) {
+	    	redirectAttributes.addFlashAttribute("errorMessage", "작성자를 입력해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+
+	    // 보스 정보 설정
+	    vo.setBoss(boss_level + " " + boss_name);
+	    
+	    try {
+	        // 데이터베이스에 파티 게시판 데이터 추가
+	        int result = pbservice.insertOK(vo);
+	        
+	        // 데이터베이스 저장 실패 시 처리
+	        if (result == 0) {
+	        	redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 등록에 실패했습니다. 다시 시도해 주세요.");
+	    	    return "redirect:/partyboard/insert";
+
+	        }
+
+	    } catch (Exception e) {
+	        // 데이터베이스 오류 발생 시 처리
+	        log.error("파티 게시판 등록 중 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
+		    return "redirect:/partyboard/insert";
+
+	    }
+	    
+	    redirectAttributes.addFlashAttribute("successMessage", "success");
 	    return "redirect:/partyboard/insert";
 	}
 
 	@GetMapping("/partyboard/update")
-	public String update(PartyBoardVO vo, Model model) {
+	public String update(PartyBoardVO vo, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_update...");
-
-	    // VO 유효성 체크
-	    if (vo == null || vo.getParty_board_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.");
-	        return "partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
-	    }
-
+	    log.info("vo:{}",vo);
+    
 	    try {
 	        // 데이터베이스에서 해당 파티 게시판 항목 조회
 	        PartyBoardVO vo2 = pbservice.selectOne(vo);
 	        
 	        // 데이터가 없는 경우 처리
 	        if (vo2 == null) {
-	            model.addAttribute("errorMessage", "해당 파티 게시판 정보를 찾을 수 없습니다.");
-	            return "partyboard/selectAll"; // 데이터가 없는 경우 목록으로 이동
+	        	redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 게시판 정보를 찾을 수 없습니다.3");
+	            return "redirect:/partyboard/selectAll"; // 데이터가 없는 경우 목록으로 이동
 	        }
-
+	        
+	        String user_character = (String) session.getAttribute("user_character");
+		    if (user_character == null || !user_character.equals(vo2.getParty_board_writer())) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
+		        return "redirect:/partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
+		    }
+		    
 	        log.info("vo: {}", vo2);
 	        model.addAttribute("vo2", vo2);
 	    } catch (Exception e) {
 	        // 데이터베이스 오류 발생 시 처리
 	        log.error("파티 게시판 조회 중 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 게시판 조회 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "partyboard/selectAll";
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 조회 중 오류가 발생했습니다. 다시 시도해 주세요.4");
+	        return "redirect:/partyboard/selectAll";
 	    }
-
+	    String successMessage=(String) redirectAttributes.getAttribute("successMessage");
+	    if (successMessage != null) {
+	    	model.addAttribute("successMessage",successMessage);
+	    }
 	    return "partyboard/update";
 	}
 
 	@PostMapping("/partyboard/updateOK")
-	public String updateOK(PartyBoardVO vo, String boss_level, String boss_name, Model model) {
+	public String updateOK(PartyBoardVO vo, String boss_level, String boss_name, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_updateOK...");
 
 	    // 필수 항목 검증
 	    if (vo == null) {
-	        model.addAttribute("errorMessage", "유효한 파티 게시판 정보를 입력해 주세요.");
-	        return "partyboard/update";
+	    	log.info("1");
+	    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 입력해 주세요.");
+	        return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	    }
 
 	    if (vo.getParty_board_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 게시판 번호가 필요합니다.");
-	        return "partyboard/update";
+	    	log.info("2");
+	    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 번호가 필요합니다.");
+	        return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	    }
 
 	    if (boss_level == null || boss_level.trim().isEmpty() || boss_name == null || boss_name.trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "보스 레벨과 보스 이름은 필수 항목입니다.");
-	        return "partyboard/update";
-	    }
-
-	    if (vo.getParty_board_writer() == null || vo.getParty_board_writer().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "작성자는 필수 입력 항목입니다.");
-	        return "partyboard/update";
+	    	log.info("3");
+	    	redirectAttributes.addFlashAttribute("errorMessage", "보스 레벨과 보스 이름은 필수 항목입니다.");
+	        return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	    }
 
 	    // 보스 정보 설정
@@ -209,17 +220,20 @@ public class PartyBoardController {
 	    try {
 	        int result = pbservice.updateOK(vo);
 	        if (result == 0) {
-	            model.addAttribute("errorMessage", "파티 게시판 업데이트에 실패했습니다. 다시 시도해 주세요.");
-	            return "partyboard/update";
+	        	log.info("5");
+	        	redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 업데이트에 실패했습니다. 다시 시도해 주세요.");
+	            return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	        }
 	        log.info("result: {}", result);
-	    } catch (Exception e) {
+	    }catch (Exception e) {
 	        log.error("파티 게시판 업데이트 중 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 게시판 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "partyboard/update";
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	    }
-
-	    return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
+	    log.info("6");
+	   
+	    redirectAttributes.addFlashAttribute("successMessage","success");
+	    return "redirect:/partyboard/update?party_board_id="+vo.getParty_board_id();
 	}
 
 	@GetMapping("/partyboard/delete")
@@ -236,6 +250,7 @@ public class PartyBoardController {
 	        PartyBoardVO vo2 = pbservice.selectOne(vo);
 	        if (vo2 == null) {
 	            model.addAttribute("errorMessage", "삭제하려는 파티 게시판 정보를 찾을 수 없습니다.");
+	            
 	            return "partyboard/selectAll"; // 정보가 없을 경우 목록 페이지로 이동
 	        }
 
@@ -245,18 +260,18 @@ public class PartyBoardController {
 	        model.addAttribute("errorMessage", "파티 게시판 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	        return "partyboard/selectAll"; // 오류 발생 시 목록 페이지로 이동
 	    }
-
+	    
 	    return "partyboard/delete";
 	}
 
 	@PostMapping("/partyboard/deleteOK")
-	public String deleteOK(PartyBoardVO vo, Model model) {
+	public String deleteOK(PartyBoardVO vo, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_deleteOK...");
 
 	    // 필수 항목 검증
 	    if (vo == null || vo.getParty_board_id() == 0) {
-	        model.addAttribute("errorMessage", "유효한 파티 게시판 ID가 필요합니다.");
-	        return "partyboard/selectAll"; // 유효하지 않은 경우 목록 페이지로 이동
+	    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 ID가 필요합니다.");
+	        return "redirect:/partyboard/delete?party_board_id="+vo.getParty_board_id(); // 유효하지 않은 경우 목록 페이지로 이동
 	    }
 
 	    try {
@@ -264,16 +279,17 @@ public class PartyBoardController {
 	        log.info("result: {}", result);
 
 	        if (result == 0) {
-	            model.addAttribute("errorMessage", "파티 게시판 삭제에 실패했습니다. 다시 시도해 주세요.");
-	            return "partyboard/selectAll"; // 삭제 실패 시 목록 페이지로 이동
+	        	redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 삭제에 실패했습니다. 다시 시도해 주세요.");
+	            return "redirect:/partyboard/delete?party_board_id="+vo.getParty_board_id(); // 삭제 실패 시 목록 페이지로 이동
 	        }
 	    } catch (Exception e) {
 	        log.error("파티 게시판 삭제 중 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 게시판 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "partyboard/selectAll"; // 오류 발생 시 목록 페이지로 이동
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/partyboard/delete?party_board_id="+vo.getParty_board_id(); // 오류 발생 시 목록 페이지로 이동
 	    }
-
-	    return "redirect:/partyboard/selectAll";
+	    model.addAttribute("successMessage", "success");
+	    model.addAttribute("vo2", vo);
+	    return "partyboard/delete";
 	}
 
 
