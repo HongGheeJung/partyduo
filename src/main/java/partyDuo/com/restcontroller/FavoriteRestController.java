@@ -1,9 +1,11 @@
 package partyDuo.com.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,9 @@ public class FavoriteRestController {
 	
 	@Autowired
 	FavoriteService service;
+	
+	@Autowired
+	MemberService mservice;
 	
 	
 	@GetMapping("/favorite/insert")
@@ -82,5 +87,28 @@ public class FavoriteRestController {
 		return map;
 	}
 	
-	
+	@GetMapping("/favorite/searchList")
+	public Map<String, Object> favorite_searchList(String id, Model model, int cpage) {
+		int pageBlock=5;
+		log.info("searchList");
+		Map<String, Object> data=new HashMap<>();
+		MemberVO mvo=new MemberVO();
+		mvo.setId(id);
+		int member_id=mservice.member_selectOne(mvo).getMember_id();
+		List<FavoriteVO> list=service.favorite_searchList("member_id", member_id, cpage, pageBlock);
+		data.put("list", list);
+		int total_rows=service.getSearchTotalRows("member_id", mvo.getMember_id());
+		
+		Integer totalPageCount = 0;
+		if (total_rows / pageBlock == 0) {
+			totalPageCount = 1;
+		} else if (total_rows % pageBlock == 0) {
+			totalPageCount = total_rows / pageBlock;
+		} else {
+			totalPageCount = total_rows / pageBlock + 1;
+		}
+		data.put("totlPageCount", totalPageCount);
+		
+		return data;
+	}
 }

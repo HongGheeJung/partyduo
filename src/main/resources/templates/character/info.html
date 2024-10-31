@@ -22,6 +22,9 @@
 	button[aria-selected="false"]{
 		background-color: #ffffff;
 	} */
+.tooltip {
+	display: none;
+}
 </style>
 <script>
 	window.onload = function() {
@@ -187,25 +190,25 @@
 			cntCashItem.removeAttr('hidden');
 		}
 	}
-	function spread(){
+	function spread() {
 		console.log("펼치기...");
-		const statUI=$('#statUI');
+		const statUI = $('#statUI');
 		statUI.removeClass('overflow-hidden');
 		statUI.removeClass('max-h-[150px]');
 		statUI.removeClass('md:max-h-none');
 		statUI.removeClass('md:overflow-auto');
 		statUI.addClass('overflow-y-auto');
-		
+
 	}
-	function fold(){
+	function fold() {
 		console.log("접기");
-		const statUI=$('#statUI');
+		const statUI = $('#statUI');
 		statUI.removeClass('overflow-y-auto');
 		statUI.addClass('overflow-hidden');
 		statUI.addClass('max-h-[150px]');
 		statUI.addClass('md:max-h-none');
 		statUI.addClass('md:overflow-auto');
-		
+
 	}
 	$(document).ready(function() {
 		$('#favorite_add_btn').on('click', function() {
@@ -263,9 +266,28 @@
 				}
 			});
 		});
+		$('#itemCheckbox').click(function() {
+			const itemInfo=$('.itemInfo');
+			const isChecked=$(this).attr('aria-checked')==='true';
+			$(this).attr('aria-checked',!isChecked);
+			if (!isChecked) {
+				$(this).attr('data-state','checked');
+				itemInfo.removeAttr("hidden");
+			}else{
+				itemInfo.attr("hidden","");
+				$(this).attr('data-state','unchecked');
+				
+			}
+		});
 	});
 </script>
 <style>
+#itemCheckbox[aria-checked="true"]::after {
+    content: "✓"; /* 체크 표시 */
+ 	font-size: 10px;
+    color: black;
+    
+}
 .container {
 	display: flex;
 	width: 100%;
@@ -435,8 +457,8 @@
 							</div>
 						</div>
 						<div class="relative">
-							<div
-								id="statUI" class="rounded-sm border border-border/50 bg-card text-card-foreground shadow-sm relative p-2 overflow-hidden max-h-[150px] md:max-h-none md:overflow-auto">
+							<div id="statUI"
+								class="rounded-sm border border-border/50 bg-card text-card-foreground shadow-sm relative p-2 overflow-hidden max-h-[150px] md:max-h-none md:overflow-auto">
 								<div class="flex flex-wrap text-sm gap-y-3 gap-x-2">
 									<div
 										class="basis-full sm:basis-1/2 md:basis-full max-w-[280px] mx-auto">
@@ -782,7 +804,8 @@
 										transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
 										focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 
 										hover:text-accent-foreground w-auto h-auto px-3 py-1 text-xs rounded-xl shadow-lg bg-input 
-										hover:bg-input/80" onclick="spread()">펼치기</button>
+										hover:bg-input/80"
+										onclick="spread()">펼치기</button>
 								</div>
 							</div>
 						</div>
@@ -816,38 +839,48 @@
 									<div dir="ltr" data-orientation="horizontal">
 										<div
 											class="w-full grid grid-cols-[1fr_auto_1fr] justify-center">
-
-										</div>
-										<div class="flex items-center justify-end">
-											<div dir="ltr" data-orientation="horizontal">
-												<div role="tablist" aria-orientation="horizontal"
-													class="items-center rounded-md text-muted-foreground inline-grid justify-center p-0 auto-rows-auto h-[auto] grid-cols-3"
-													tabindex="0" data-orientation="horizontal"
-													style="outline: none;">
-													<button type="button" role="tab" aria-selected="true"
-														aria-controls="radix-:ram:-content-1" data-state="active"
-														id="radix-:ram:-trigger-1"
-														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
-														tabindex="-1" data-orientation="horizontal"
-														data-radix-collection-item=""
-														onclick="showItemEquipment(1)">1</button>
-													<button type="button" role="tab" aria-selected="false"
-														aria-controls="radix-:ram:-content-2"
-														data-state="inactive" id="radix-:ram:-trigger-2"
-														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
-														tabindex="-1" data-orientation="horizontal"
-														data-radix-collection-item=""
-														onclick="showItemEquipment(2)">2</button>
-													<button type="button" role="tab" aria-selected="false"
-														aria-controls="radix-:ram:-content-3"
-														data-state="inactive" id="radix-:ram:-trigger-3"
-														class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
-														tabindex="-1" data-orientation="horizontal"
-														data-radix-collection-item=""
-														onclick="showItemEquipment(3)">3</button>
+											<div class="flex items-center justify-start">
+												<div
+													class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-7 rounded-md px-1 gap-x-1 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-background">
+													<button type="button" role="checkbox" aria-checked="false"
+														data-state="unchecked" value="on"
+														class="peer h-4 w-4 shrink-0 rounded-sm border ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-current"
+														id="itemCheckbox"></button>
+													<span>상세 보기</span>
+												</div>
+											</div>
+											<div class="flex items-center justify-end">
+												<div dir="ltr" data-orientation="horizontal">
+													<div role="tablist" aria-orientation="horizontal"
+														class="items-center rounded-md text-muted-foreground inline-grid justify-center p-0 auto-rows-auto h-[auto] grid-cols-3"
+														tabindex="0" data-orientation="horizontal"
+														style="outline: none;">
+														<button type="button" role="tab" aria-selected="true"
+															aria-controls="radix-:ram:-content-1" data-state="active"
+															id="radix-:ram:-trigger-1"
+															class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
+															tabindex="-1" data-orientation="horizontal"
+															data-radix-collection-item=""
+															onclick="showItemEquipment(1)">1</button>
+														<button type="button" role="tab" aria-selected="false"
+															aria-controls="radix-:ram:-content-2"
+															data-state="inactive" id="radix-:ram:-trigger-2"
+															class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
+															tabindex="-1" data-orientation="horizontal"
+															data-radix-collection-item=""
+															onclick="showItemEquipment(2)">2</button>
+														<button type="button" role="tab" aria-selected="false"
+															aria-controls="radix-:ram:-content-3"
+															data-state="inactive" id="radix-:ram:-trigger-3"
+															class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-input data-[state=active]:text-foreground leading-[1em]"
+															tabindex="-1" data-orientation="horizontal"
+															data-radix-collection-item=""
+															onclick="showItemEquipment(3)">3</button>
+													</div>
 												</div>
 											</div>
 										</div>
+
 									</div>
 									<div data-state="active" data-orientation="horizontal"
 										role="tabpanel" aria-labelledby="radix-:ram:-trigger-1"
@@ -858,7 +891,7 @@
 											class="grid gap-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
 											<th:block th:each="ie: ${itemEquipDTO.itemEquipmentPreset1}">
 												<div
-													class="text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
+													class=" flex flex-col text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
 													aria-controls="radix-:rb2:" data-state="closed">
 													<div class="flex h-full items-center gap-x-1">
@@ -875,10 +908,10 @@
 																		stroke="currentColor" fill="currentColor"
 																		stroke-width="0" viewBox="0 0 256 256" height="1em"
 																		width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <path
-																			d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z">
-                                </path>
-                            </svg><span th:text="${ie.starforce}"
+											                                <path
+																														d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z">
+											                                </path>
+											                            </svg><span th:text="${ie.starforce}"
 																	th:unless="${ie.starforce=='0'}"></span> </span><span
 																	class="text-rose-500 px-0.5 whitespace-nowrap bg-rose-700/5 dark:bg-rose-400/10 rounded-sm"
 																	th:text="'+'+${ie.scrollUpgrade}"
@@ -888,6 +921,245 @@
 															<div class="font-semibold">
 																<span class="line-clamp-1">[[${ie.itemName}]]</span>
 															</div>
+														</div>
+													</div>
+													<div class="grow shrink itemInfo" hidden="">
+														<div
+															class="text-zinc-500 dark:text-zinc-400 text-xs leading-[1.1em] line-clamp-1">[[${ie.itemName}]]</div>
+														<div
+															class="mb-0.5 text-xs leading-[1.2em] text-zinc-500 dark:text-zinc-400">
+															<div class="text-[11px] text-foreground">
+																<th:block th:unless="${ie.starforce=='0'}">
+													                ★[[${ie.starforce}]]
+													            </th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.strength=='0'}">
+																STR:[[${ie.itemTotalOption.strength}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.strength==ie.itemTotalOption.strength}">
+																	(기본:[[${ie.itemBaseOption.strength}]]
+																<th:block th:unless="${ie.itemAddOption.strength=='0'}">+추가옵션:[[${ie.itemAddOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.strength=='0'}">+주문서:[[${ie.itemEtcOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.strength=='0'}">+스타포스:[[${ie.itemStarforceOption.strength}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.dexterity=='0'}">
+																DEX:[[${ie.itemTotalOption.dexterity}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.dexterity==ie.itemTotalOption.dexterity}">
+																	(기본:[[${ie.itemBaseOption.dexterity}]]
+																<th:block th:unless="${ie.itemAddOption.dexterity=='0'}">+추가옵션:[[${ie.itemAddOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.dexterity=='0'}">+주문서:[[${ie.itemEtcOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.dexterity=='0'}">+스타포스:[[${ie.itemStarforceOption.dexterity}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.intelligence=='0'}">
+																	INT:[[${ie.itemTotalOption.intelligence}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.intelligence==ie.itemTotalOption.intelligence}">
+																	(기본:[[${ie.itemBaseOption.intelligence}]]
+																<th:block
+																			th:unless="${ie.itemAddOption.intelligence=='0'}">+추가옵션:[[${ie.itemAddOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.intelligence=='0'}">+주문서:[[${ie.itemEtcOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.intelligence=='0'}">+스타포스:[[${ie.itemStarforceOption.intelligence}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.luck=='0'}">
+															        LUCK:[[${ie.itemTotalOption.luck}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.luck==ie.itemTotalOption.luck}">
+															        (기본:[[${ie.itemBaseOption.luck}]]
+															    <th:block th:unless="${ie.itemAddOption.luck=='0'}">+추가옵션:[[${ie.itemAddOption.luck}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.luck=='0'}">+주문서:[[${ie.itemEtcOption.luck}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.luck=='0'}">+스타포스:[[${ie.itemStarforceOption.luck}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxHp=='0'}">
+															        최대 HP:[[${ie.itemTotalOption.maxHp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxHp==ie.itemTotalOption.maxHp}">
+															        (기본:[[${ie.itemBaseOption.maxHp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxHp=='0'}">+추가옵션:[[${ie.itemAddOption.maxHp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxHp=='0'}">+주문서:[[${ie.itemEtcOption.maxHp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxHp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxHp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxMp=='0'}">
+															        최대 MP:[[${ie.itemTotalOption.maxMp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxMp==ie.itemTotalOption.maxMp}">
+															        (기본:[[${ie.itemBaseOption.maxMp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxMp=='0'}">+추가옵션:[[${ie.itemAddOption.maxMp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxMp=='0'}">+주문서:[[${ie.itemEtcOption.maxMp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxMp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxMp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.attackPower=='0'}">
+															        공격력:[[${ie.itemTotalOption.attackPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.attackPower==ie.itemTotalOption.attackPower}">
+															        (기본:[[${ie.itemBaseOption.attackPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.attackPower=='0'}">+추가옵션:[[${ie.itemAddOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.attackPower=='0'}">+주문서:[[${ie.itemEtcOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.attackPower=='0'}">+스타포스:[[${ie.itemStarforceOption.attackPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.magicPower=='0'}">
+															        마력:[[${ie.itemTotalOption.magicPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.magicPower==ie.itemTotalOption.magicPower}">
+															        (기본:[[${ie.itemBaseOption.magicPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.magicPower=='0'}">+추가옵션:[[${ie.itemAddOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.magicPower=='0'}">+주문서:[[${ie.itemEtcOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.magicPower=='0'}">+스타포스:[[${ie.itemStarforceOption.magicPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.armor=='0'}">
+															        방어력:[[${ie.itemTotalOption.armor}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.armor==ie.itemTotalOption.armor}">
+															        (기본:[[${ie.itemBaseOption.armor}]]
+															    <th:block th:unless="${ie.itemAddOption.armor=='0'}">+추가옵션:[[${ie.itemAddOption.armor}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.armor=='0'}">+주문서:[[${ie.itemEtcOption.armor}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.armor=='0'}">+스타포스:[[${ie.itemStarforceOption.armor}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.speed=='0'}">
+															        이동속도:[[${ie.itemTotalOption.speed}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.speed==ie.itemTotalOption.speed}">
+															        (기본:[[${ie.itemBaseOption.speed}]]
+															    <th:block th:unless="${ie.itemAddOption.speed=='0'}">+추가옵션:[[${ie.itemAddOption.speed}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.speed=='0'}">+주문서:[[${ie.itemEtcOption.speed}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.speed=='0'}">+스타포스:[[${ie.itemStarforceOption.speed}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.jump=='0'}">
+															        점프력:[[${ie.itemTotalOption.jump}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.jump==ie.itemTotalOption.jump}">
+															        (기본:[[${ie.itemBaseOption.jump}]]
+															    <th:block th:unless="${ie.itemAddOption.jump=='0'}">+추가옵션:[[${ie.itemAddOption.jump}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.jump=='0'}">+주문서:[[${ie.itemEtcOption.jump}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.jump=='0'}">+스타포스:[[${ie.itemStarforceOption.jump}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.bossDamage=='0'}">
+															        보스 공격 시 데미지:[[${ie.itemTotalOption.bossDamage}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.bossDamage==ie.itemTotalOption.bossDamage}">
+															        (기본:[[${ie.itemBaseOption.bossDamage}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.bossDamage=='0'}">+추가옵션:[[${ie.itemAddOption.bossDamage}]]%</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.ignoreMonsterArmor=='0'}">
+															        몬스터 방어율 무시:[[${ie.itemTotalOption.ignoreMonsterArmor}]]%
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.allStat=='0'}">
+															        올스탯: [[${ie.itemTotalOption.allStat}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.allStat==ie.itemTotalOption.allStat}">
+															        (기본:[[${ie.itemBaseOption.allStat}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.allStat=='0'}">+추가옵션:[[${ie.itemAddOption.allStat}]]%</th:block>
+															    )
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.damage=='0'}">
+															        데미지:[[${ie.itemTotalOption.damage}]](기본:0%
+															    <th:block th:unless="${ie.itemAddOption.damage=='0'}">+추가옵션:[[${ie.itemAddOption.damage}]]%</th:block>
+															    )
+															
+															</div>
+															<th:block th:unless="${ie.potentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●잠재옵션([[${ie.potentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.potentialOption3==null}>
+																	[[${ie.potentialOption3}]]</div>
+															</th:block>
+															<th:block
+																th:unless="${ie.additionalPotentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●에디셔널([[${ie.additionalPotentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.additionalPotentialOption3==null}>
+																	[[${ie.additionalPotentialOption3}]]</div>
+															</th:block>
 														</div>
 													</div>
 												</div>
@@ -903,7 +1175,7 @@
 											class="grid gap-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
 											<th:block th:each="ie: ${itemEquipDTO.itemEquipmentPreset2}">
 												<div
-													class="text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
+													class="flex flex-col text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
 													aria-controls="radix-:rb2:" data-state="closed">
 													<div class="flex h-full items-center gap-x-1">
@@ -935,6 +1207,245 @@
 															</div>
 														</div>
 													</div>
+													<div class="grow shrink itemInfo" hidden="">
+														<div
+															class="text-zinc-500 dark:text-zinc-400 text-xs leading-[1.1em] line-clamp-1">[[${ie.itemName}]]</div>
+														<div
+															class="mb-0.5 text-xs leading-[1.2em] text-zinc-500 dark:text-zinc-400">
+															<div class="text-[11px] text-foreground">
+																<th:block th:unless="${ie.starforce=='0'}">
+													                ★[[${ie.starforce}]]
+													            </th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.strength=='0'}">
+																STR:[[${ie.itemTotalOption.strength}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.strength==ie.itemTotalOption.strength}">
+																	(기본:[[${ie.itemBaseOption.strength}]]
+																<th:block th:unless="${ie.itemAddOption.strength=='0'}">+추가옵션:[[${ie.itemAddOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.strength=='0'}">+주문서:[[${ie.itemEtcOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.strength=='0'}">+스타포스:[[${ie.itemStarforceOption.strength}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.dexterity=='0'}">
+																DEX:[[${ie.itemTotalOption.dexterity}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.dexterity==ie.itemTotalOption.dexterity}">
+																	(기본:[[${ie.itemBaseOption.dexterity}]]
+																<th:block th:unless="${ie.itemAddOption.dexterity=='0'}">+추가옵션:[[${ie.itemAddOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.dexterity=='0'}">+주문서:[[${ie.itemEtcOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.dexterity=='0'}">+스타포스:[[${ie.itemStarforceOption.dexterity}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.intelligence=='0'}">
+																	INT:[[${ie.itemTotalOption.intelligence}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.intelligence==ie.itemTotalOption.intelligence}">
+																	(기본:[[${ie.itemBaseOption.intelligence}]]
+																<th:block
+																			th:unless="${ie.itemAddOption.intelligence=='0'}">+추가옵션:[[${ie.itemAddOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.intelligence=='0'}">+주문서:[[${ie.itemEtcOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.intelligence=='0'}">+스타포스:[[${ie.itemStarforceOption.intelligence}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.luck=='0'}">
+															        LUCK:[[${ie.itemTotalOption.luck}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.luck==ie.itemTotalOption.luck}">
+															        (기본:[[${ie.itemBaseOption.luck}]]
+															    <th:block th:unless="${ie.itemAddOption.luck=='0'}">+추가옵션:[[${ie.itemAddOption.luck}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.luck=='0'}">+주문서:[[${ie.itemEtcOption.luck}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.luck=='0'}">+스타포스:[[${ie.itemStarforceOption.luck}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxHp=='0'}">
+															        최대 HP:[[${ie.itemTotalOption.maxHp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxHp==ie.itemTotalOption.maxHp}">
+															        (기본:[[${ie.itemBaseOption.maxHp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxHp=='0'}">+추가옵션:[[${ie.itemAddOption.maxHp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxHp=='0'}">+주문서:[[${ie.itemEtcOption.maxHp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxHp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxHp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxMp=='0'}">
+															        최대 MP:[[${ie.itemTotalOption.maxMp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxMp==ie.itemTotalOption.maxMp}">
+															        (기본:[[${ie.itemBaseOption.maxMp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxMp=='0'}">+추가옵션:[[${ie.itemAddOption.maxMp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxMp=='0'}">+주문서:[[${ie.itemEtcOption.maxMp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxMp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxMp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.attackPower=='0'}">
+															        공격력:[[${ie.itemTotalOption.attackPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.attackPower==ie.itemTotalOption.attackPower}">
+															        (기본:[[${ie.itemBaseOption.attackPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.attackPower=='0'}">+추가옵션:[[${ie.itemAddOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.attackPower=='0'}">+주문서:[[${ie.itemEtcOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.attackPower=='0'}">+스타포스:[[${ie.itemStarforceOption.attackPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.magicPower=='0'}">
+															        마력:[[${ie.itemTotalOption.magicPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.magicPower==ie.itemTotalOption.magicPower}">
+															        (기본:[[${ie.itemBaseOption.magicPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.magicPower=='0'}">+추가옵션:[[${ie.itemAddOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.magicPower=='0'}">+주문서:[[${ie.itemEtcOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.magicPower=='0'}">+스타포스:[[${ie.itemStarforceOption.magicPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.armor=='0'}">
+															        방어력:[[${ie.itemTotalOption.armor}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.armor==ie.itemTotalOption.armor}">
+															        (기본:[[${ie.itemBaseOption.armor}]]
+															    <th:block th:unless="${ie.itemAddOption.armor=='0'}">+추가옵션:[[${ie.itemAddOption.armor}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.armor=='0'}">+주문서:[[${ie.itemEtcOption.armor}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.armor=='0'}">+스타포스:[[${ie.itemStarforceOption.armor}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.speed=='0'}">
+															        이동속도:[[${ie.itemTotalOption.speed}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.speed==ie.itemTotalOption.speed}">
+															        (기본:[[${ie.itemBaseOption.speed}]]
+															    <th:block th:unless="${ie.itemAddOption.speed=='0'}">+추가옵션:[[${ie.itemAddOption.speed}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.speed=='0'}">+주문서:[[${ie.itemEtcOption.speed}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.speed=='0'}">+스타포스:[[${ie.itemStarforceOption.speed}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.jump=='0'}">
+															        점프력:[[${ie.itemTotalOption.jump}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.jump==ie.itemTotalOption.jump}">
+															        (기본:[[${ie.itemBaseOption.jump}]]
+															    <th:block th:unless="${ie.itemAddOption.jump=='0'}">+추가옵션:[[${ie.itemAddOption.jump}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.jump=='0'}">+주문서:[[${ie.itemEtcOption.jump}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.jump=='0'}">+스타포스:[[${ie.itemStarforceOption.jump}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.bossDamage=='0'}">
+															        보스 공격 시 데미지:[[${ie.itemTotalOption.bossDamage}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.bossDamage==ie.itemTotalOption.bossDamage}">
+															        (기본:[[${ie.itemBaseOption.bossDamage}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.bossDamage=='0'}">+추가옵션:[[${ie.itemAddOption.bossDamage}]]%</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.ignoreMonsterArmor=='0'}">
+															        몬스터 방어율 무시:[[${ie.itemTotalOption.ignoreMonsterArmor}]]%
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.allStat=='0'}">
+															        올스탯: [[${ie.itemTotalOption.allStat}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.allStat==ie.itemTotalOption.allStat}">
+															        (기본:[[${ie.itemBaseOption.allStat}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.allStat=='0'}">+추가옵션:[[${ie.itemAddOption.allStat}]]%</th:block>
+															    )
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.damage=='0'}">
+															        데미지:[[${ie.itemTotalOption.damage}]](기본:0%
+															    <th:block th:unless="${ie.itemAddOption.damage=='0'}">+추가옵션:[[${ie.itemAddOption.damage}]]%</th:block>
+															    )
+															
+															</div>
+															<th:block th:unless="${ie.potentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●잠재옵션([[${ie.potentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.potentialOption3==null}>
+																	[[${ie.potentialOption3}]]</div>
+															</th:block>
+															<th:block
+																th:unless="${ie.additionalPotentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●에디셔널([[${ie.additionalPotentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.additionalPotentialOption3==null}>
+																	[[${ie.additionalPotentialOption3}]]</div>
+															</th:block>
+														</div>
+													</div>
 												</div>
 											</th:block>
 										</div>
@@ -948,7 +1459,7 @@
 											class="grid gap-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
 											<th:block th:each="ie: ${itemEquipDTO.itemEquipmentPreset3}">
 												<div
-													class="text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
+													class="flex flex-col text-sm py-1 cursor-pointer bg-neutral-100/40 dark:bg-neutral-800/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/50"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
 													aria-controls="radix-:rb2:" data-state="closed">
 													<div class="flex h-full items-center gap-x-1">
@@ -978,6 +1489,245 @@
 															<div class="font-semibold">
 																<span class="line-clamp-1">[[${ie.itemName}]]</span>
 															</div>
+														</div>
+													</div>
+													<div class="grow shrink itemInfo" hidden="">
+														<div
+															class="text-zinc-500 dark:text-zinc-400 text-xs leading-[1.1em] line-clamp-1">[[${ie.itemName}]]</div>
+														<div
+															class="mb-0.5 text-xs leading-[1.2em] text-zinc-500 dark:text-zinc-400">
+															<div class="text-[11px] text-foreground">
+																<th:block th:unless="${ie.starforce=='0'}">
+													                ★[[${ie.starforce}]]
+													            </th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.strength=='0'}">
+																STR:[[${ie.itemTotalOption.strength}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.strength==ie.itemTotalOption.strength}">
+																	(기본:[[${ie.itemBaseOption.strength}]]
+																<th:block th:unless="${ie.itemAddOption.strength=='0'}">+추가옵션:[[${ie.itemAddOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.strength=='0'}">+주문서:[[${ie.itemEtcOption.strength}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.strength=='0'}">+스타포스:[[${ie.itemStarforceOption.strength}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.dexterity=='0'}">
+																DEX:[[${ie.itemTotalOption.dexterity}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.dexterity==ie.itemTotalOption.dexterity}">
+																	(기본:[[${ie.itemBaseOption.dexterity}]]
+																<th:block th:unless="${ie.itemAddOption.dexterity=='0'}">+추가옵션:[[${ie.itemAddOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.dexterity=='0'}">+주문서:[[${ie.itemEtcOption.dexterity}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.dexterity=='0'}">+스타포스:[[${ie.itemStarforceOption.dexterity}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.intelligence=='0'}">
+																	INT:[[${ie.itemTotalOption.intelligence}]]
+																<th:block
+																		th:unless="${ie.itemBaseOption.intelligence==ie.itemTotalOption.intelligence}">
+																	(기본:[[${ie.itemBaseOption.intelligence}]]
+																<th:block
+																			th:unless="${ie.itemAddOption.intelligence=='0'}">+추가옵션:[[${ie.itemAddOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.intelligence=='0'}">+주문서:[[${ie.itemEtcOption.intelligence}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.intelligence=='0'}">+스타포스:[[${ie.itemStarforceOption.intelligence}]]</th:block>
+																)
+																</th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.luck=='0'}">
+															        LUCK:[[${ie.itemTotalOption.luck}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.luck==ie.itemTotalOption.luck}">
+															        (기본:[[${ie.itemBaseOption.luck}]]
+															    <th:block th:unless="${ie.itemAddOption.luck=='0'}">+추가옵션:[[${ie.itemAddOption.luck}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.luck=='0'}">+주문서:[[${ie.itemEtcOption.luck}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.luck=='0'}">+스타포스:[[${ie.itemStarforceOption.luck}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxHp=='0'}">
+															        최대 HP:[[${ie.itemTotalOption.maxHp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxHp==ie.itemTotalOption.maxHp}">
+															        (기본:[[${ie.itemBaseOption.maxHp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxHp=='0'}">+추가옵션:[[${ie.itemAddOption.maxHp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxHp=='0'}">+주문서:[[${ie.itemEtcOption.maxHp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxHp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxHp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.maxMp=='0'}">
+															        최대 MP:[[${ie.itemTotalOption.maxMp}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.maxMp==ie.itemTotalOption.maxMp}">
+															        (기본:[[${ie.itemBaseOption.maxMp}]]
+															    <th:block th:unless="${ie.itemAddOption.maxMp=='0'}">+추가옵션:[[${ie.itemAddOption.maxMp}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.maxMp=='0'}">+주문서:[[${ie.itemEtcOption.maxMp}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.maxMp=='0'}">+스타포스:[[${ie.itemStarforceOption.maxMp}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.attackPower=='0'}">
+															        공격력:[[${ie.itemTotalOption.attackPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.attackPower==ie.itemTotalOption.attackPower}">
+															        (기본:[[${ie.itemBaseOption.attackPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.attackPower=='0'}">+추가옵션:[[${ie.itemAddOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.attackPower=='0'}">+주문서:[[${ie.itemEtcOption.attackPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.attackPower=='0'}">+스타포스:[[${ie.itemStarforceOption.attackPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.magicPower=='0'}">
+															        마력:[[${ie.itemTotalOption.magicPower}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.magicPower==ie.itemTotalOption.magicPower}">
+															        (기본:[[${ie.itemBaseOption.magicPower}]]
+															    <th:block
+																			th:unless="${ie.itemAddOption.magicPower=='0'}">+추가옵션:[[${ie.itemAddOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemEtcOption.magicPower=='0'}">+주문서:[[${ie.itemEtcOption.magicPower}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.magicPower=='0'}">+스타포스:[[${ie.itemStarforceOption.magicPower}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.armor=='0'}">
+															        방어력:[[${ie.itemTotalOption.armor}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.armor==ie.itemTotalOption.armor}">
+															        (기본:[[${ie.itemBaseOption.armor}]]
+															    <th:block th:unless="${ie.itemAddOption.armor=='0'}">+추가옵션:[[${ie.itemAddOption.armor}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.armor=='0'}">+주문서:[[${ie.itemEtcOption.armor}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.armor=='0'}">+스타포스:[[${ie.itemStarforceOption.armor}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.speed=='0'}">
+															        이동속도:[[${ie.itemTotalOption.speed}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.speed==ie.itemTotalOption.speed}">
+															        (기본:[[${ie.itemBaseOption.speed}]]
+															    <th:block th:unless="${ie.itemAddOption.speed=='0'}">+추가옵션:[[${ie.itemAddOption.speed}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.speed=='0'}">+주문서:[[${ie.itemEtcOption.speed}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.speed=='0'}">+스타포스:[[${ie.itemStarforceOption.speed}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.jump=='0'}">
+															        점프력:[[${ie.itemTotalOption.jump}]]
+															    <th:block
+																		th:unless="${ie.itemBaseOption.jump==ie.itemTotalOption.jump}">
+															        (기본:[[${ie.itemBaseOption.jump}]]
+															    <th:block th:unless="${ie.itemAddOption.jump=='0'}">+추가옵션:[[${ie.itemAddOption.jump}]]</th:block>
+																		<th:block th:unless="${ie.itemEtcOption.jump=='0'}">+주문서:[[${ie.itemEtcOption.jump}]]</th:block>
+																		<th:block
+																			th:unless="${ie.itemStarforceOption.jump=='0'}">+스타포스:[[${ie.itemStarforceOption.jump}]]</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.bossDamage=='0'}">
+															        보스 공격 시 데미지:[[${ie.itemTotalOption.bossDamage}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.bossDamage==ie.itemTotalOption.bossDamage}">
+															        (기본:[[${ie.itemBaseOption.bossDamage}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.bossDamage=='0'}">+추가옵션:[[${ie.itemAddOption.bossDamage}]]%</th:block>
+															    )
+															    </th:block>
+																</th:block>
+															</div>
+															<div>
+																<th:block
+																	th:unless="${ie.itemTotalOption.ignoreMonsterArmor=='0'}">
+															        몬스터 방어율 무시:[[${ie.itemTotalOption.ignoreMonsterArmor}]]%
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.allStat=='0'}">
+															        올스탯: [[${ie.itemTotalOption.allStat}]]%
+															    <th:block
+																		th:unless="${ie.itemBaseOption.allStat==ie.itemTotalOption.allStat}">
+															        (기본:[[${ie.itemBaseOption.allStat}]]%
+															    <th:block
+																			th:unless="${ie.itemAddOption.allStat=='0'}">+추가옵션:[[${ie.itemAddOption.allStat}]]%</th:block>
+															    )
+															    </th:block>
+															</div>
+															<div>
+																<th:block th:unless="${ie.itemTotalOption.damage=='0'}">
+															        데미지:[[${ie.itemTotalOption.damage}]](기본:0%
+															    <th:block th:unless="${ie.itemAddOption.damage=='0'}">+추가옵션:[[${ie.itemAddOption.damage}]]%</th:block>
+															    )
+															
+															</div>
+															<th:block th:unless="${ie.potentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●잠재옵션([[${ie.potentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.potentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.potentialOption3==null}>
+																	[[${ie.potentialOption3}]]</div>
+															</th:block>
+															<th:block
+																th:unless="${ie.additionalPotentialOptionGrade==null}">
+																<div class="text-[8px] text-foreground">
+																	●에디셔널([[${ie.additionalPotentialOptionGrade}]])</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption1}]]</div>
+																<div class="text-[8px] text-foreground">
+																	[[${ie.additionalPotentialOption2}]]</div>
+																<div class="text-[8px] text-foreground"
+																	th:unless=${ie.additionalPotentialOption3==null}>
+																	[[${ie.additionalPotentialOption3}]]</div>
+															</th:block>
 														</div>
 													</div>
 												</div>
@@ -1153,35 +1903,40 @@
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9j:" data-state="closed">
+													aria-controls="radix-:r9j:" data-state="closed"
+													th:unless="${petEquipDTO==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet1Icon}|"
-															alt="">
+														<img th:src="|${petEquipDTO.pet1Icon}|" alt="">
 													</div>
 													<div class="flex-auto">
-														<div class="text-[10px] leading-3"
-															>[[${petEquipDTO.pet1PetType}]]</div>
+														<div class="text-[10px] leading-3">[[${petEquipDTO.pet1PetType}]]</div>
 														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet1Name}]]</div>
 													</div>
 												</div>
+
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9k:" data-state="closed"  th:unless="${petEquipDTO.pet1Equipment==null}">
+													aria-controls="radix-:r9k:" data-state="closed">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet1Equipment.itemIcon}|"
-															alt="">
+														<img th:if=${petEquipmentDTO!=null}
+															th:src="|${petEquipDTO.pet1Equipment.itemIcon}|" alt="">
 													</div>
 													<div class="flex-auto text-left">
-														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet1Equipment.itemName}]]</div>
-														<div class="text-[8px] leading-3 text-muted-foreground">
-															<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet1Equipment.itemOption[0].optionValue}]]</div>
-															<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet1Equipment.itemOption[1].optionValue}]]</div>
-														</div>
+														<th:block th:if=${petEquipmentDTO!=null}>
+															<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet1Equipment.itemName}]]</div>
+															<div class="text-[8px] leading-3 text-muted-foreground">
+																<th:block
+																	th:if="${#lists.size(petEquipmentDTO.pet1Equipment.itemOption)!=0}">
+																	<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]:
+																		[[${petEquipDTO.pet1Equipment.itemOption[0].optionValue}]]</div>
+																	<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]:
+																		[[${petEquipDTO.pet1Equipment.itemOption[1].optionValue}]]</div>
+																</th:block>
+															</div>
+														</th:block>
 													</div>
 												</div>
 											</div>
@@ -1192,31 +1947,33 @@
 													aria-controls="radix-:r9k:" data-state="closed">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet2Icon}|"
-															alt="">
+														<img th:src="|${petEquipDTO.pet2Icon}|" alt="">
 													</div>
 													<div class="flex-auto">
-														<div class="text-[10px] leading-3"
-															>[[${petEquipDTO.pet2PetType}]]</div>
+														<div class="text-[10px] leading-3">[[${petEquipDTO.pet2PetType}]]</div>
 														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet2Name}]]</div>
 													</div>
 												</div>
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9k:" data-state="closed"  th:unless="${petEquipDTO.pet2Equipment==null}">
+													aria-controls="radix-:r9k:" data-state="closed"
+													th:unless="${petEquipDTO.pet2Equipment==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet2Equipment.itemIcon}|"
-															alt="">
+														<img th:if=${petEquipmentDTO!=null}
+															th:src="|${petEquipDTO.pet2Equipment.itemIcon}|" alt="">
 													</div>
 													<div class="flex-auto text-left">
-														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet2Equipment.itemName}]]</div>
+														<div class="font-semibold line-clamp-1"
+															th:if=${petEquipmentDTO!=null}>[[${petEquipDTO.pet2Equipment.itemName}]]</div>
 														<div class="text-[8px] leading-3 text-muted-foreground">
-															<div>[[${petEquipDTO.pet2Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet2Equipment.itemOption[0].optionValue}]]</div>
-															<div>[[${petEquipDTO.pet2Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet2Equipment.itemOption[1].optionValue}]]</div>
+															<th:block th:if="${petEquipmentDTO!=null}">
+																<div>[[${petEquipDTO.pet2Equipment.itemOption[0].optionType}]]:
+																	[[${petEquipDTO.pet2Equipment.itemOption[0].optionValue}]]</div>
+																<div>[[${petEquipDTO.pet2Equipment.itemOption[1].optionType}]]:
+																	[[${petEquipDTO.pet2Equipment.itemOption[1].optionValue}]]</div>
+															</th:block>
 														</div>
 													</div>
 												</div>
@@ -1228,31 +1985,33 @@
 													aria-controls="radix-:r9l:" data-state="closed">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet3Icon}|"
-															alt="">
+														<img th:src="|${petEquipDTO.pet3Icon}|" alt="">
 													</div>
 													<div class="flex-auto">
-														<div class="text-[10px] leading-3"
-															>[[${petEquipDTO.pet3PetType}]]</div>
+														<div class="text-[10px] leading-3">[[${petEquipDTO.pet3PetType}]]</div>
 														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet3Name}]]</div>
 													</div>
 												</div>
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9l:" data-state="closed" th:unless="${petEquipDTO.pet3Equipment==null}">
+													aria-controls="radix-:r9l:" data-state="closed"
+													th:unless="${petEquipDTO==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
-														<img
-															th:src="|${petEquipDTO.pet3Equipment.itemIcon}|"
-															alt="">
+														<img th:if=${petEquipmentDTO!=null}
+															th:src="|${petEquipDTO.pet3Equipment.itemIcon}|" alt="">
 													</div>
 													<div class="flex-auto text-left">
-														<div class="font-semibold line-clamp-1">[[${petEquipDTO.pet3Equipment.itemName}]]</div>
+														<div class="font-semibold line-clamp-1"
+															th:if=${petEquipmentDTO!=null}>[[${petEquipDTO.pet3Equipment.itemName}]]</div>
 														<div class="text-[8px] leading-3 text-muted-foreground">
-															<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]: [[${petEquipDTO.pet3Equipment.itemOption[0].optionValue}]]</div>
-															<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]: [[${petEquipDTO.pet3Equipment.itemOption[1].optionValue}]]</div>
+															<th:block th:if="${petEquipmentDTO!=null}">
+																<div>[[${petEquipDTO.pet1Equipment.itemOption[0].optionType}]]:
+																	[[${petEquipDTO.pet3Equipment.itemOption[0].optionValue}]]</div>
+																<div>[[${petEquipDTO.pet1Equipment.itemOption[1].optionType}]]:
+																	[[${petEquipDTO.pet3Equipment.itemOption[1].optionValue}]]</div>
+															</th:block>
 														</div>
 													</div>
 												</div>
@@ -1349,18 +2108,16 @@
 									class="flex justify-between items-center gap-x-1 text-lg font-[900] pb-2.5 whitespace-nowrap">
 									<div class="flex items-center gap-x-1">
 										<div>심볼</div>
-										
+
 									</div>
 									<div class="flex items-center gap-x-2 text-base font-bold">
 										<div class="flex items-center gap-x-1">
 											<img class="w-[18px] h-[20px] disable-blur"
-												src="/images/authentic.png" alt="어센틱포스"
-												loading="lazy"><span>[[${statDTO.finalStat[15].statValue}]]</span>
+												src="/images/authentic.png" alt="어센틱포스" loading="lazy"><span>[[${statDTO.finalStat[15].statValue}]]</span>
 										</div>
 										<div class="flex items-center gap-x-1">
 											<img class="w-[19px] h-[19px] disable-blur"
-												src="/images/arcane.png" alt="아케인포스"
-												loading="lazy"><span>[[${statDTO.finalStat[14].statValue}]]</span>
+												src="/images/arcane.png" alt="아케인포스" loading="lazy"><span>[[${statDTO.finalStat[14].statValue}]]</span>
 										</div>
 									</div>
 								</div>

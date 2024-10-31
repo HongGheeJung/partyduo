@@ -3,8 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://cdn.tailwindcss.com"></script>
-<title>Insert title here</title>
+<title>캐릭터 검색</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <div th:replace="~{layout::boottemplate}"></div>
+<script>
+	function favoriteList(pageNum) {
+		let url2 = "http://localhost:8820/favorite/searchList";
+		let user_id="[[${session.user_id}]]"
+		$.ajax({
+			url : url2,
+			type : "get",
+			data : {
+				id : user_id,
+				cpage : pageNum
+			},
+			dataType : "json",
+			success : function(response) {
+				console.log(response);
+				
+			}
+		});
+	}
+</script>
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
@@ -70,6 +91,49 @@
 				<div
 					class="inline-flex items-center justify-center flex-wrap gap-2 px-2 [&amp;_.button]:text-zinc-300">영어일
 					경우, 대소문자 구분을 해주세요!</div>
+			</div>
+			<div class="gtco-section">
+				<div class="gtco-container">
+					<div class=row>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<th>닉네임</th>
+									<th>바로가기</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td><button></button></td>
+									</tr>
+									<tr>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td
+											th:attr="colspan=${session.user_id} != null and ${session.admin_name} != null ? 3 : 4"
+											style="text-align: center;">
+											<!-- 가운데 정렬 -->
+											<ul class="pagination pagination-sm justify-content-center">
+												<!-- 부트스트랩 스타일 적용 -->
+												<!-- 이전 페이지 버튼 -->
+												<li class="page-item"><a class="page-link">«</a></li>
+
+												<!-- 페이지 번호 반복 -->
+
+												<li class="page-item"><a class="page-link" onclick="favoriteList(1)">1</a></li>
+
+												<!-- 다음 페이지 버튼 -->
+												<li class="page-item"><a class="page-link">»</a></li>
+											</ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
