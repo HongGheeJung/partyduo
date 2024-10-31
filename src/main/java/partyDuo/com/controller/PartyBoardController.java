@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -81,67 +82,68 @@ public class PartyBoardController {
 	}
 
 	@PostMapping("/partyboard/insertOK")
-	public String insertOK(PartyBoardVO vo, String boss_level, String boss_name, Model model) {
+	public String insertOK(PartyBoardVO vo, String boss_level, String boss_name, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_insertOK...");
 
 	    // VO 필드가 유효한지 체크
-	    if (vo == null) {
-	        model.addAttribute("errorMessage", "파티 게시판 정보를 입력해 주세요.");
-	        return "partyboard/insert"; // 다시 입력 페이지로 이동
-	    }
-	    
-	    // 필수 필드 체크
-	    if (vo.getParty_id() == 0) {
-	        model.addAttribute("errorMessage", "파티 번호가 유효하지 않습니다. 다시 시도해 주세요.");
-	        return "partyboard/insert";
-	    }
-	    
-	    if (vo.getReq_pwr() <= 0) {
-	        model.addAttribute("errorMessage", "요구 전투력은 0보다 커야 합니다. 다시 입력해 주세요.");
-	        return "partyboard/insert";
-	    }
-
-	    if (boss_level == null || boss_level.trim().isEmpty() || boss_name == null || boss_name.trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "보스 레벨과 보스 이름을 입력해 주세요.");
-	        return "partyboard/insert"; // 다시 입력 페이지로 이동
-	    }
-
-	    if (vo.getParty_board_memo() == null || vo.getParty_board_memo().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "메모를 입력해 주세요.");
-	        return "partyboard/insert";
-	    }
-
-	    if (vo.getParty_board_content() == null || vo.getParty_board_content().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "게시판 내용을 입력해 주세요.");
-	        return "partyboard/insert";
-	    }
-
-	    if (vo.getParty_board_writer() == null || vo.getParty_board_writer().trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "작성자를 입력해 주세요.");
-	        return "partyboard/insert";
-	    }
-
-	    // 보스 정보 설정
-	    vo.setBoss(boss_level + " " + boss_name);
-	    
-	    try {
-	        // 데이터베이스에 파티 게시판 데이터 추가
-	        int result = pbservice.insertOK(vo);
-	        
-	        // 데이터베이스 저장 실패 시 처리
-	        if (result == 0) {
-	            model.addAttribute("errorMessage", "파티 게시판 등록에 실패했습니다. 다시 시도해 주세요.");
-	            return "partyboard/insert";
-	        }
-
-	    } catch (Exception e) {
-	        // 데이터베이스 오류 발생 시 처리
-	        log.error("파티 게시판 등록 중 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "partyboard/insert";
-	    }
-
-	    return "redirect:/partyboard/selectAll";
+//	    if (vo == null) {
+//	        model.addAttribute("errorMessage", "파티 게시판 정보를 입력해 주세요.");
+//	        return "partyboard/insert"; // 다시 입력 페이지로 이동
+//	    }
+//	    
+//	    // 필수 필드 체크
+//	    if (vo.getParty_id() == 0) {
+//	        model.addAttribute("errorMessage", "파티 번호가 유효하지 않습니다. 다시 시도해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+//	    
+//	    if (vo.getReq_pwr() <= 0) {
+//	        model.addAttribute("errorMessage", "요구 전투력은 0보다 커야 합니다. 다시 입력해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+//
+//	    if (boss_level == null || boss_level.trim().isEmpty() || boss_name == null || boss_name.trim().isEmpty()) {
+//	        model.addAttribute("errorMessage", "보스 레벨과 보스 이름을 입력해 주세요.");
+//	        return "partyboard/insert"; // 다시 입력 페이지로 이동
+//	    }
+//
+//	    if (vo.getParty_board_memo() == null || vo.getParty_board_memo().trim().isEmpty()) {
+//	        model.addAttribute("errorMessage", "메모를 입력해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+//
+//	    if (vo.getParty_board_content() == null || vo.getParty_board_content().trim().isEmpty()) {
+//	        model.addAttribute("errorMessage", "게시판 내용을 입력해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+//
+//	    if (vo.getParty_board_writer() == null || vo.getParty_board_writer().trim().isEmpty()) {
+//	        model.addAttribute("errorMessage", "작성자를 입력해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+//
+//	    // 보스 정보 설정
+//	    vo.setBoss(boss_level + " " + boss_name);
+//	    
+//	    try {
+//	        // 데이터베이스에 파티 게시판 데이터 추가
+//	        int result = pbservice.insertOK(vo);
+//	        
+//	        // 데이터베이스 저장 실패 시 처리
+//	        if (result == 0) {
+//	            model.addAttribute("errorMessage", "파티 게시판 등록에 실패했습니다. 다시 시도해 주세요.");
+//	            return "partyboard/insert";
+//	        }
+//
+//	    } catch (Exception e) {
+//	        // 데이터베이스 오류 발생 시 처리
+//	        log.error("파티 게시판 등록 중 오류 발생: {}", e.getMessage());
+//	        model.addAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
+//	        return "partyboard/insert";
+//	    }
+	    redirectAttributes.addFlashAttribute("errorMessage", "파티 게시판 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
+//	    redirectAttributes.addFlashAttribute("successMessage", "success");
+	    return "redirect:/partyboard/insert";
 	}
 
 	@GetMapping("/partyboard/update")
