@@ -308,7 +308,7 @@ log.info("party_update...");
 	}
 
 	@PostMapping("/party/deleteOK")
-	public String deleteOK(PartyVO vo, RedirectAttributes redirectAttributes) {
+	public String deleteOK(PartyVO vo, RedirectAttributes redirectAttributes,Model model) {
 	    log.info("party_deleteOK...");
 
 	    // VO 필드 체크
@@ -330,7 +330,8 @@ log.info("party_update...");
 	        redirectAttributes.addFlashAttribute("errorMessage", "파티 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	        return "redirect:/party/delete?party_id="+vo.getParty_id(); // 데이터베이스 오류 발생 시 삭제 페이지로 돌아감
 	    }
-	    redirectAttributes.addFlashAttribute("successMessage", "success");
+	    model.addAttribute("successMessage", "success");
+	    model.addAttribute("vo2", vo);
 	    // 삭제 성공 시 리다이렉트
 	    return "party/delete?party_id="+vo.getParty_id();
 	}

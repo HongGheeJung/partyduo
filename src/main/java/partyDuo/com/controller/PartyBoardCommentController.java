@@ -101,36 +101,36 @@ public class PartyBoardCommentController {
 	    // VO 필드 유효성 검증
 	    if (vo == null || vo.getParty_board_comment_id() == 0) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 댓글 정보를 입력해 주세요.");
-	    	return "redirect:/partyboardcomment/update";
+	    	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
 
 	    if (vo.getParty_board_comment_content() == null || vo.getParty_board_comment_content().trim().isEmpty()) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "댓글 내용을 입력해 주세요.");
-	    	return "redirect:/partyboardcomment/update";
+	    	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null || !user_character.equals(vo.getParty_board_comment_writer())) {
+	    if (user_character == null ) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-	    	return "redirect:/partyboardcomment/update";
+	    	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
 
 	    try {
 	        int result = pbcservice.updateOK(vo);
 	        if (result == 0) {
 	        	redirectAttributes.addFlashAttribute("errorMessage", "댓글 수정에 실패했습니다. 다시 시도해 주세요.");
-	        	return "redirect:/partyboardcomment/update";
+	        	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	        }
 	    } catch (Exception e) {
 	        log.error("댓글 수정 중 오류 발생: {}", e.getMessage());
 	        redirectAttributes.addFlashAttribute("errorMessage", "댓글 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "redirect:/partyboardcomment/update";
+	        return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
 	    
 	    redirectAttributes.addFlashAttribute("successMessage", "success");
 	    // 성공적으로 수정된 경우 리다이렉트
-	    return "redirect:/partyboardcomment/update";
+	    return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	}
 
 	@GetMapping("/partyboardcomment/delete")
@@ -164,7 +164,7 @@ public class PartyBoardCommentController {
 	}
 
 	@PostMapping("/partyboardcomment/deleteOK")
-	public String deleteOK(PartyBoardCommentVO vo,RedirectAttributes redirectAttributes) {
+	public String deleteOK(PartyBoardCommentVO vo,RedirectAttributes redirectAttributes,Model model) {
 	    log.info("party_board_comment_deleteOK...");
 
 	    // 댓글 ID와 게시판 ID 유효성 검사
@@ -206,8 +206,10 @@ public class PartyBoardCommentController {
 	        redirectAttributes.addFlashAttribute("errorMessage", "댓글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	    }
-	    redirectAttributes.addFlashAttribute("successMessage", "success");
-		return "redirect:/partyboardcomment/delete";
+	    model.addAttribute("successMessage", "success");
+	    model.addAttribute("vo2", vo);
+		
+	    return "partyboardcomment/delete";
 	}
 
 }
