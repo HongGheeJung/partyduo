@@ -71,10 +71,17 @@ public class EventController {
 		log.info("/event/update");		
 		log.info("vo:{}", vo);
 		
-		
+		// VO 유효성 체크
+	    
 
 		EventVO vo2 = service.selectOne(vo);
 		log.info("vo2:{}", vo2);
+		if (vo2 == null) {
+	        model.addAttribute("errorMessage", "삭제된 이벤트");
+	        model.addAttribute("vo2", vo);
+
+			return "event/update";
+	    }
 
 		model.addAttribute("vo2", vo2);
 
@@ -254,7 +261,7 @@ public class EventController {
 	}
 
 	@PostMapping("/event/deleteOK")
-	public String deleteOK(EventVO vo, Model model) {
+	public String deleteOK(EventVO vo, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		log.info("/event/deleteOK");
 		log.info("vo:{}", vo);
 		
@@ -263,9 +270,9 @@ public class EventController {
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
 
-		model.addAttribute("successMessage", "success");
+		redirectAttributes.addFlashAttribute("successMessage", "success");
 		
-		return "/event/update?event_id="+event_id;
+		return "redirect:/event/update?event_id="+event_id;
 
 	}
 	
