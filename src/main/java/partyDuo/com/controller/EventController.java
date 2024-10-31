@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.ToString;
@@ -70,10 +71,17 @@ public class EventController {
 		log.info("/event/update");		
 		log.info("vo:{}", vo);
 		
-		
+		// VO 유효성 체크
+	    
 
 		EventVO vo2 = service.selectOne(vo);
 		log.info("vo2:{}", vo2);
+		if (vo2 == null) {
+	        model.addAttribute("errorMessage", "삭제된 이벤트");
+	        model.addAttribute("vo2", vo);
+
+			return "event/update";
+	    }
 
 		model.addAttribute("vo2", vo2);
 
@@ -185,13 +193,19 @@ public class EventController {
 	}
 
 	@PostMapping("/event/insertOK")
-	public String insertOK(EventVO vo, String startTime, String endTime, Model model) throws IllegalStateException, IOException {
+	public String insertOK(EventVO vo, String startTime, String endTime, Model model, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		log.info("/event/insertOK");
 		
 		if (vo.getEvent_title().equals("") ) {
 			log.info("/event/insertOK error");
-	        model.addAttribute("errorMessage", "이벤트 제목은 필수 입력 항목입니다.");
-	        return "cindex";  // 다시 입력 페이지로 이동
+			redirectAttributes.addFlashAttribute("errorMessage", "제목은 필수 입력입니다. 입력해주세요");
+	        return "redirect:/event/insert?party_id="+vo.getParty_id();  // 다시 입력 페이지로 이동
+	    }
+		
+		if (startTime.equals("")||endTime.equals("") ) {
+			log.info("/event/insertOK error");
+			redirectAttributes.addFlashAttribute("errorMessage", "날짜는 필수 입력입니다. 입력해주세요");
+	        return "redirect:/event/insert?party_id="+vo.getParty_id();  // 다시 입력 페이지로 이동
 	    }
 	
 
@@ -202,16 +216,33 @@ public class EventController {
 		
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/cindex";
-		} else {
-			return "redirect:/event/insert";
-		}
+		redirectAttributes.addFlashAttribute("successMessage", "success");
+		
+		return "redirect:/event/insert?party_id="+vo.getParty_id();
+		
 	}
 
 	@PostMapping("/event/updateOK")
-	public String updateOK(EventVO vo, String startTime, String endTime) throws IllegalStateException, IOException {
+	public String updateOK(EventVO vo, String startTime, String endTime, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		log.info("/event/updateOK");
+		
+		if (vo.getEvent_title().equals("") ) {
+			log.info("/event/insertOK error");
+			redirectAttributes.addFlashAttribute("errorMessage", "제목은 필수 입력입니다. 입력해주세요");
+	        return "redirect:/event/update?event_id="+vo.getEvent_id();  // 다시 입력 페이지로 이동
+	    }
+		
+		if (vo.getEvent_content().equals("") ) {
+			log.info("/event/insertOK error");
+			redirectAttributes.addFlashAttribute("errorMessage", "내용은 필수 입력입니다. 입력해주세요");
+			return "redirect:/event/update?event_id="+vo.getEvent_id();  // 다시 입력 페이지로 이동
+	    }
+		
+		if (startTime.equals("")||endTime.equals("") ) {
+			log.info("/event/insertOK error");
+			redirectAttributes.addFlashAttribute("errorMessage", "날짜는 필수 입력입니다. 입력해주세요");
+			return "redirect:/event/update?event_id="+vo.getEvent_id();  // 다시 입력 페이지로 이동
+	    }
 		
 		
 		vo.setEvent_startTime(startTime);
@@ -222,25 +253,27 @@ public class EventController {
 
 		int result = service.updateOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/cindex";
-		} else {
-			return "redirect:/event/update" ;
-		}
+		
+		redirectAttributes.addFlashAttribute("successMessage", "success");
+		
+		return "redirect:/event/update?event_id="+vo.getEvent_id();
+		
 	}
 
 	@PostMapping("/event/deleteOK")
-	public String deleteOK(EventVO vo) {
+	public String deleteOK(EventVO vo, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		log.info("/event/deleteOK");
 		log.info("vo:{}", vo);
+		
+		int event_id= vo.getEvent_id();
 
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
-		if (result == 1) {
-			return "redirect:/cindex";
-		} else {
-			return "redirect:/event/delete?event_id=" + vo.getEvent_id();
-		}
+
+		redirectAttributes.addFlashAttribute("successMessage", "success");
+		
+		return "redirect:/event/update?event_id="+event_id;
+
 	}
 	
 	
