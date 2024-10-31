@@ -187,6 +187,26 @@
 			cntCashItem.removeAttr('hidden');
 		}
 	}
+	function spread(){
+		console.log("펼치기...");
+		const statUI=$('#statUI');
+		statUI.removeClass('overflow-hidden');
+		statUI.removeClass('max-h-[150px]');
+		statUI.removeClass('md:max-h-none');
+		statUI.removeClass('md:overflow-auto');
+		statUI.addClass('overflow-y-auto');
+		
+	}
+	function fold(){
+		console.log("접기");
+		const statUI=$('#statUI');
+		statUI.removeClass('overflow-y-auto');
+		statUI.addClass('overflow-hidden');
+		statUI.addClass('max-h-[150px]');
+		statUI.addClass('md:max-h-none');
+		statUI.addClass('md:overflow-auto');
+		
+	}
 	$(document).ready(function() {
 		$('#favorite_add_btn').on('click', function() {
 			let url = "http://localhost:8820/favorite/insert";
@@ -416,7 +436,7 @@
 						</div>
 						<div class="relative">
 							<div
-								class="rounded-sm border border-border/50 bg-card text-card-foreground shadow-sm relative p-2 overflow-hidden max-h-[150px] md:max-h-none md:overflow-auto">
+								id="statUI" class="rounded-sm border border-border/50 bg-card text-card-foreground shadow-sm relative p-2 overflow-hidden max-h-[150px] md:max-h-none md:overflow-auto">
 								<div class="flex flex-wrap text-sm gap-y-3 gap-x-2">
 									<div
 										class="basis-full sm:basis-1/2 md:basis-full max-w-[280px] mx-auto">
@@ -758,7 +778,11 @@
 								<div
 									class="md:hidden absolute bottom-2 right-1/2 translate-x-1/2">
 									<button
-										class="inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground w-auto h-auto px-3 py-1 text-xs rounded-xl shadow-lg bg-input hover:bg-input/80">펼치기</button>
+										class="inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background 
+										transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
+										focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 
+										hover:text-accent-foreground w-auto h-auto px-3 py-1 text-xs rounded-xl shadow-lg bg-input 
+										hover:bg-input/80" onclick="spread()">펼치기</button>
 								</div>
 							</div>
 						</div>
@@ -1145,7 +1169,7 @@
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9k:" data-state="closed">
+													aria-controls="radix-:r9k:" data-state="closed"  th:unless="${petEquipDTO.pet1Equipment==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
 														<img
@@ -1181,7 +1205,7 @@
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9k:" data-state="closed">
+													aria-controls="radix-:r9k:" data-state="closed"  th:unless="${petEquipDTO.pet2Equipment==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
 														<img
@@ -1217,7 +1241,7 @@
 												<div
 													class="flex items-center text-xs justify-center gap-x-1"
 													type="button" aria-haspopup="dialog" aria-expanded="false"
-													aria-controls="radix-:r9l:" data-state="closed">
+													aria-controls="radix-:r9l:" data-state="closed" th:unless="${petEquipDTO.pet3Equipment==null}">
 													<div
 														class="relative flex w-[40px] h-[40px] items-center justify-center rounded-sm bg-muted dark:bg-sonner disable-blur">
 														<img

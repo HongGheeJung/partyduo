@@ -31,6 +31,7 @@ public class CharacterController {
 	@GetMapping("/character/info")
 	public String character_info(String character_name, Model model) {
 		if(character_name==null) {
+			
 			return "character/infoDefault";
 		}
 		try {
@@ -144,9 +145,8 @@ public class CharacterController {
 			return "character/info";
 		}catch(Exception e) {
 			log.info("캐릭터 정보가 없음");
-			Map<String, String> map=new HashMap<>();
-			map.put("result", "error");
-			model.addAttribute("result", map);
+			String notFound="NotFound";
+			model.addAttribute("notFound",notFound);
 			return "character/infoDefault";
 		}
 	}

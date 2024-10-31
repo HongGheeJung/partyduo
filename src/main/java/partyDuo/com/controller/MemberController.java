@@ -109,12 +109,11 @@ public class MemberController {
 	@GetMapping("/member/deleteOK")
 	public String member_deleteOK(MemberVO vo) {
 		log.info("/deleteOK");
-//		vo=new MemberVO();
-//		vo.setMember_id(1);
+		
 		int result=service.member_delete(vo);
 		log.info("result: {}", result);
 		if (result!=0) {			
-			return "redirect:/member/selectAll";
+			return "redirect:/main";
 		}else {
 			return "/member/delete?member_id="+vo.getMember_id();
 		}
