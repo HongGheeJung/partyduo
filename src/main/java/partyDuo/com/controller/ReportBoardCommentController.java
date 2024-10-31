@@ -80,7 +80,7 @@ public class ReportBoardCommentController {
         if (admin_name == null ) {
             log.warn("권한 없음: 관리자 이름이 일치하지 않음");
             redirectAttributes.addFlashAttribute("errorMessage", "댓글을 수정할 권한이 없습니다.");
-            return "redirect:/reportboard/update";
+            return "redirect:/reportboardcomment/update?report_board_comment_id="+vo.getReport_board_comment_id();
         }
 
         try {
@@ -90,8 +90,8 @@ public class ReportBoardCommentController {
             log.error("댓글 수정 오류 발생: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "댓글 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
         }
-
-        return "redirect:/reportboard/update";
+        redirectAttributes.addFlashAttribute("successMessage", "success");
+        return "redirect:/reportboardcomment/update?report_board_comment_id="+vo.getReport_board_comment_id();
     }
 
     @GetMapping("/reportboardcomment/delete")
@@ -126,7 +126,7 @@ public class ReportBoardCommentController {
         if (admin_name == null) {
             log.warn("권한 없음: 관리자 이름이 일치하지 않음");
             redirectAttributes.addFlashAttribute("errorMessage", "댓글을 삭제할 권한이 없습니다.");
-            return "redirect:/reportboard/delete";
+            return "redirect:/reportboardcomment/delete?report_board_comment_id="+vo.getReport_board_comment_id();
         }
 
         try {
@@ -136,8 +136,9 @@ public class ReportBoardCommentController {
             log.error("댓글 삭제 오류 발생: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "댓글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
         }
-
-        return "redirect:/reportboard/delete";
+        model.addAttribute("successMessage", "success");
+        model.addAttribute("vo2",vo);
+        return "reportboardcomment/delete";
     }
 
 }

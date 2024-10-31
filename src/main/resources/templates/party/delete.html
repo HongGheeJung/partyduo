@@ -8,6 +8,8 @@
 
     <script th:inline="javascript">
 
+    var partyName = [[${vo2.party_name}]];
+    
         function validateText() {
             const inputText = document.getElementById('confirmationText').value.trim();
             const submitButton = document.getElementById('submitButton');
@@ -111,7 +113,7 @@ $(document).ready(function () {
   
   if ([[${successMessage}]] === 'success') {
       if (window.opener) {
-          window.opener.location.href = '/partyboard/selectAll';
+          window.opener.location.href = '/partylist/myparty';
           window.close(); // 팝업 창 닫기
       }
   }
