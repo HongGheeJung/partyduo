@@ -19,6 +19,9 @@ public class MemberService {
 	
 	@Autowired
 	CharacterService service;
+	
+	@Autowired
+	MailServiceInter mail;
 
 	
 	public int member_insert(MemberVO vo) {
@@ -69,9 +72,9 @@ public class MemberService {
 		return mapper.member_login(vo);
 //		return null;
 	}
-	public String member_findPwCheck(MemberVO vo) {
+	public String member_findPwCheck(MemberVO vo) throws Exception {
 		log.info("member_findPwCheck()...");
-		vo.setPw(RandomAuth.authGenerate(10));
+		vo.setPw(mail.sendMessage(vo.getEmail()));
 		log.info("vo: {}", vo);
 		int result=mapper.member_update(vo);
 		if(result==0) {
