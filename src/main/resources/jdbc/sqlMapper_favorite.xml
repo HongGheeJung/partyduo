@@ -18,4 +18,7 @@
 	<select id="favorite_searchListByCharacter_name" resultType="partyDuo.com.model.FavoriteVO">
 		select * from favorite where character_name=#{searchNum} limit #{startRow}, #{pageBlock} 
 	</select>
+	<select id="getSearchTotalRowsById" resultType="int">
+		select count(*) from favorite where member_id=#{searchNum}
+	</select>
 </mapper>

@@ -22,6 +22,9 @@ import partyDuo.com.service.MemberService;
 public class MemberController {
 	
 	@Autowired
+	
+	
+	
 	HttpSession session;
 	
 	@Autowired
@@ -236,7 +239,7 @@ public class MemberController {
 		return "member/findID";
 	}
 	@GetMapping("/member/findPwCheck")
-	public String member_findPwCheck(Model model, MemberVO vo) {
+	public String member_findPwCheck(Model model, MemberVO vo) throws Exception {
 		log.info("/findPwCheck");
 //		vo=new MemberVO();
 //		vo.setId("admin");
