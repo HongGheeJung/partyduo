@@ -301,7 +301,7 @@
     </div>
 </div>
 
-        <div class="btn-container" th:if="${vo2.party_board_writer == session.user_character}">
+        <div class="btn-container" th:if="${vo2.party_board_writer == session.user_character || session.admin_name != null}">
             <button type="button" class="btn btn-warning"
                 th:onclick="|handlePopup('update', ${vo2.party_board_id})|">게시글 수정</button>
             <button type="button" class="btn btn-danger" th:onclick="|handlePopup('delete', ${vo2.party_board_id})|">게시글

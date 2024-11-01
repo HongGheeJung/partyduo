@@ -31,11 +31,15 @@ import partyDuo.com.service.ReportTrollService;
 public class ReportTrollController {
 	@Autowired
 	ReportTrollService rtservice;
-	
+	@Autowired
+	HttpSession session;
 	@GetMapping("/reporttroll/insert")
-	public String insert() {
+	public String insert(Model model) {
 		log.info("report_troll_insert...");
-		
+		 String user_character = (String) session.getAttribute("user_character");
+			if (user_character == null || user_character.trim().isEmpty()){
+				model.addAttribute("errorMessage", "로그인을 먼저 해주세요.");
+				return "main";}
 		return "reporttroll/insert";
 	}
 	

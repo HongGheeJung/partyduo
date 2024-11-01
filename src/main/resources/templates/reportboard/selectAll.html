@@ -53,7 +53,7 @@
                             <tbody>
                                 <th:block th:each="vo : ${list}">
                                     <tr>
-                                       <th:block th:if="${vo.report_board_writer != session.user_character}">
+                                       <th:block th:if="${vo.report_board_writer != session.user_character && session.admin_name == null}">
                                         <th  scope="row">
                                         	 [[${vo.report_board_id}]]
                                         </th>

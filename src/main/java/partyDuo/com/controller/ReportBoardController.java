@@ -31,8 +31,12 @@ public class ReportBoardController {
     HttpSession session;
 
     @GetMapping("/reportboard/insert")
-    public String insert() {
+    public String insert(Model model) {
         log.info("report_insert...");
+        String user_character = (String) session.getAttribute("user_character");
+		if (user_character == null || user_character.trim().isEmpty()){
+			model.addAttribute("errorMessage", "로그인을 먼저 해주세요.");
+			return "main";}
         return "reportboard/insert"; // 신고 게시판 insert 페이지
     }
 
@@ -69,24 +73,24 @@ public class ReportBoardController {
     }
 
     @GetMapping("/reportboard/update")
-    public String update(ReportBoardVO vo, Model model) {
+    public String update(ReportBoardVO vo, Model model,RedirectAttributes redirectAttributes) {
         log.info("report_update...");
         log.info("vo: {}", vo);
         // 게시물 조회
         ReportBoardVO vo2 = rbService.selectOne(vo);
         log.info("vo2: {}", vo2);
         if (vo2 == null) {
-            model.addAttribute("errorMessage", "해당 게시물을 찾을 수 없습니다.");
+        	redirectAttributes.addFlashAttribute("errorMessage", "해당 게시물을 찾을 수 없습니다.");
             log.info("1");
-            return "reportboard/selectAll";
+            return "redirect:/reportboard/selectAll";
         }
 
         // 작성자 확인 (세션의 사용자와 작성자 비교)
         String user_character = (String) session.getAttribute("user_character");
-        if (!vo2.getReport_board_writer().equals(user_character)) {
-            model.addAttribute("errorMessage", "작성자만 수정할 수 있습니다.");
+        if (!vo2.getReport_board_writer().equals(user_character) ^ (String)session.getAttribute("admin_name") != null) {
+        	redirectAttributes.addFlashAttribute("errorMessage", "작성자만 수정할 수 있습니다.");
             log.info("2");
-            return "reportboard/selectAll";
+            return "redirect:/reportboard/selectAll";
         }
 
         model.addAttribute("vo2", vo2);
@@ -136,7 +140,7 @@ public class ReportBoardController {
 
         // 작성자 확인 (세션의 사용자와 작성자 비교)
         String user_character = (String) session.getAttribute("user_character");
-        if (!vo2.getReport_board_writer().equals(user_character)) {
+        if (!vo2.getReport_board_writer().equals(user_character) ^ (String)session.getAttribute("admin_name") != null) {
             model.addAttribute("errorMessage", "작성자만 삭제할 수 있습니다.");
             return "redirect:/reportboard/selectAll";
         }

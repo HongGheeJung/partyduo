@@ -33,10 +33,16 @@ public class NotliceController {
 	@Autowired
 	NoticeService nservice;
 	
+	@Autowired
+	HttpSession session;
 	@GetMapping("/notice/insert")
-	public String insert() {
+	public String insert(Model model) {
 		log.info("notice_insert...");
-		
+		String admin_name=(String) session.getAttribute("admin_name");
+		if(admin_name == null || admin_name.trim().isEmpty()) {
+			model.addAttribute("errorMessage", "관리자가 아닙니다.");
+		    return "main";
+		}
 		return "notice/insert";
 	}
 	
@@ -92,14 +98,23 @@ public class NotliceController {
 	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 공지사항 정보를 입력해 주세요.");
 	        return "redirect:/notice/selectAll"; // 공지사항 목록 페이지로 리다이렉트
 	    }
-
+	    
 	    NoticeVO vo2 = null;
-	    try {
+	    
+	    String admin_name=(String) session.getAttribute("admin_name");
+        if(admin_name == null || admin_name.trim().isEmpty()) {
+			model.addAttribute("errorMessage", "관리자가 아닙니다.");
+		    return "main";
+        }
+		try {
+	    	
 	        vo2 = nservice.selectOne(vo);
 	        if (vo2 == null) {
 	            redirectAttributes.addFlashAttribute("errorMessage", "해당 공지사항 정보를 찾을 수 없습니다.");
 	            return "redirect:/notice/selectAll"; // 존재하지 않는 경우 목록 페이지로 리다이렉트
-	        }
+	            
+	    		}
+	       
 	    } catch (Exception e) {
 	        log.error("공지사항 정보 조회 중 오류 발생: {}", e.getMessage());
 	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 정보 조회 중 오류가 발생했습니다. 다시 시도해 주세요.");
@@ -165,7 +180,12 @@ public class NotliceController {
 	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 공지사항 정보를 입력해 주세요.");
 	        return "redirect:/notice/selectAll"; // 공지사항 목록으로 리다이렉트
 	    }
-
+	    
+	    String admin_name=(String) session.getAttribute("admin_name");
+        if(admin_name == null || admin_name.trim().isEmpty()) {
+			model.addAttribute("errorMessage", "관리자가 아닙니다.");
+		    return "main";
+        }   
 	    try {
 	        NoticeVO vo2 = nservice.selectOne(vo);
 	        if (vo2 == null) {
