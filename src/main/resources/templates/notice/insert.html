@@ -9,17 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script th:inline="javascript">
-        var formSubmitted = false;
 
-        function closePopupAndRedirect() {
-            if (formSubmitted) {
-                if (window.opener) {
-                    // 부모 창에서 /notice/selectAll 페이지로 리다이렉트
-                    window.opener.location.href = '/notice/selectAll';
-                }
-                window.close();  // 팝업 창 닫기
-            }
-        }
 
         $(document).ready(function () {
             $('#notice_title, #notice_content').on('input', function () {
@@ -56,7 +46,7 @@
 
 <body>
     <th:block>
-        <div class="gtco-container">
+        <div class="gtco-container" id="mainContent">
             <div class="row">
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row row-mt-15em">
@@ -66,8 +56,7 @@
                                     <div class="tab-content">
                                         <div class="tab-content-inner active" data-content="signup">
                                             <h3 class="text-center">공지사항 작성</h3>
-                                            <form action="/notice/insertOK" method="post" th:target="submitFrame"
-                                                th:onsubmit="formSubmitted = true;">
+                                            <form action="/notice/insertOK" method="post" >
                                                 <div class="row form-group position-relative">
                                                     <div class="col-md-12">
                                                         <label for="notice_title">공지사항 제목</label>
@@ -99,8 +88,7 @@
                                                 </div>
                                             </form>
 
-                                            <iframe name="submitFrame" style="display:none;"
-                                                th:onload="closePopupAndRedirect()"></iframe>
+                       
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +99,56 @@
             </div>
         </div>
     </th:block>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" th:text="${errorMessage}"></div>
+            <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+$(document).ready(function () {
+  if ([[${errorMessage != null}]]) {
+    // 모달이 열리면 페이지의 나머지 부분을 비활성화
+    $('#mainContent').attr('inert', true);
+    $('#errorModal').modal('show');
+    
+    
+    $('#errorModal').on('hidden.bs.modal', function () {
+      $('#mainContent').removeAttr('inert');
+    });
+  }
+  
+  if ([[${successMessage}]] === 'success') {
+      if (window.opener) {
+          window.opener.location.reload();
+          window.close(); // 팝업 창 닫기
+      }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modalBody = document.querySelector(".modal-body");
+    if (modalBody) {
+        modalBody.innerHTML = modalBody.innerHTML.replace(/\./g, ".<br>");
+    }
+});
+
+</script>
     <!-- jQuery and other scripts -->
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery.easing.1.3.js"></script>

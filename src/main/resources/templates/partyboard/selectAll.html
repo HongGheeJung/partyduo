@@ -5,38 +5,7 @@
     <meta charset="UTF-8">
     <title>PartyBoardSelectAll</title>
     <div th:replace="~{layout::boottemplate}"></div>
-    <script th:inline="javascript">
 
-    function showPopup() {
-        fetch('/checkLogin')
-            .then(response => response.json())
-            .then(data => {
-                if (data.loggedIn) {
-                    // 로그인된 경우에만 팝업 열기
-                    var width = 600;
-                    var height = 900;
-                    var left = (window.screen.width / 2) - (width / 2);
-                    var top = (window.screen.height / 2) - (height / 2);
-                    window.open("/partyboard/insert", "makeparty", 
-                        `width=${width},height=${height},left=${left},top=${top}`);
-                } else {
-                    // 로그인되지 않은 경우 알림 후 메인 페이지로 이동
-                	$('#loginModal .modal-body').text(data.loginMessage);
-                    $('#mainContent').attr('inert', true); // 페이지 비활성화
-                    $('#loginModal').modal('show');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-       
-        $('#loginModal').on('hidden.bs.modal', function () {
-            $('#mainContent').removeAttr('inert');
-        });
-        
-        
-    }
-
-
-    </script>
 
     <style>
         .search-form {
@@ -174,7 +143,7 @@
                                     <!-- 게시글 작성 버튼 -->
                                     <td>
                                         <input type="button" class="btn btn-primary btn-block" value="게시글작성"
-                                            onclick="showPopup();">
+                                            onclick="checkLoginAndOpenPopup('/partyboard/insert');">
                                     </td>
                                 </tr>
                             </tfoot>

@@ -16,22 +16,6 @@
  
         // 버튼 클릭 시 팝업 열기 처리 함수 & 로그인 체크 
         function handlePopup(action, id) {
-    if (action === 'apply') {
-        // 참가 신청 시 로그인 체크
-        fetch('/checkLogin')
-            .then(response => response.json())
-            .then(data => {
-                if (data.loggedIn) {
-                    // 로그인 되어 있으면 팝업 열기
-                    openPopup(`/partylist/application?party_id=${id}`, 'Applicationparty', 600, 150);
-                } else {
-                    // 로그인되어 있지 않으면 경고창 후 로그인 페이지로 이동
-                    alert('로그인을 진행해주세요.');
-                    window.location.href = '/member/login';
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    } else {
         // 다른 동작 처리
         let url;
         let name;
@@ -50,7 +34,7 @@
             default:
                 console.error('Unknown action:', action);
         }
-    }
+    
 }
         
         function showTab(tabId) {
@@ -79,12 +63,26 @@
                         form.submit();
                     } else {
                         // 로그인되어 있지 않으면 경고창 후 로그인 페이지로 이동
-                        alert('로그인을 진행해주세요.');
-                        window.location.href = '/member/login';
+                    	$('#loginModal .modal-body').text(data.loginMessage);
+          	          $('#mainContent').attr('inert', true); // 페이지 비활성화
+          	          $('#loginModal').modal('show');
                     }
                 })
                 .catch(error => console.error('Error:', error));
+            $('#loginModal').on('hidden.bs.modal', function () {
+    	        $('#mainContent').removeAttr('inert');
+    	    });
+
+    	    // 로그인 버튼 클릭 시 로그인 페이지로 이동
+    	    $(document).on('click', '#loginRedirectBtn', function() {
+    	        window.location.href = '/member/login';
+    	    });
+ 
         }
+        
+        
+        
+        
     </script>
    
     <style>
@@ -263,7 +261,7 @@
               <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="btn-container">
                    <button type="button" class="btn btn-primary"
-                       th:onclick="|handlePopup('apply', ${vo2.party_id})|">
+                       th:onclick="|checkLoginAndOpenPopup('/partylist/application?party_id=${vo2.party_id}')|">
                        파티 참가 신청
                    </button>
                 </div>

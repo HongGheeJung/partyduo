@@ -4,29 +4,20 @@
 <meta charset="UTF-8">
 <div th:replace="~{layout::boottemplate}"></div>
 <title>PartyJoinApplication</title>
-<script th:inline="javascript">
-var formSubmitted = false;
 
-function closePopupAndRedirect() {
-    // 부모 창이 특정 링크로 이동하도록 설정
-    
-    if(formSubmitted) {
-    if (window.opener) {
-        window.opener.location.href = '/partylist/myparty';
-    }
-    // 팝업 창을 닫음
-    window.close();
-    }
-}
-
-</script>
 </head>
 <body>
 <div>
 <div class="gtco-container">
-       <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card p-4">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0">
+            <div class="row row-mt-15em">
+                <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
+                    <div class="form-wrap">
+                        <div class="tab">
+                            <div class="tab-content">
+                                <div class="tab-content-inner active" data-content="signup">
+                                    
                     <th:block th:switch="${status}">
                 
                         <h1 class="text-center h1"  th:case="'accepted'" >이미 가입된 파티입니다.</h1>
@@ -34,13 +25,14 @@ function closePopupAndRedirect() {
 
                         <th:block th:case="'noapplication'">
                             <h3 class="text-center h3">[[${vo2.party_name}]] 파티에 가입을 신청하시겠습니까?</h3>
-                            <form action="/partylist/applicationOK" method="post" th:target="submitFrame" th:onsubmit="formSubmitted = true;">
+                            <form action="/partylist/applicationOK" method="post" >
                                 <input type="hidden" name="party_id" th:value="${vo2.party_id}">
+                                
                                 <div class="text-center">
                                     <input type="submit" value="가입 신청 완료" class="btn btn-primary">
                                 </div>
                             </form>
-                            <iframe name="submitFrame" style="display:none;" th:onload="closePopupAndRedirect()"></iframe> 
+                             
                         </th:block>
                     </th:block>
                 </div>
@@ -48,7 +40,61 @@ function closePopupAndRedirect() {
         </div>
     </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" th:text="${errorMessage}"></div>
+            <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+$(document).ready(function () {
+  if ([[${errorMessage != null}]]) {
+    // 모달이 열리면 페이지의 나머지 부분을 비활성화
+    $('#mainContent').attr('inert', true);
+    $('#errorModal').modal('show');
+    
+    
+    $('#errorModal').on('hidden.bs.modal', function () {
+      $('#mainContent').removeAttr('inert');
+    });
+  }
+  
+  if ([[${successMessage}]] === 'success') {
+      if (window.opener) {
+          window.opener.location.href = '/partylist/myparty';
+          window.close(); // 팝업 창 닫기
+      }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modalBody = document.querySelector(".modal-body");
+    if (modalBody) {
+        modalBody.innerHTML = modalBody.innerHTML.replace(/\./g, ".<br>");
+    }
+});
+
+</script>
 <!-- jQuery -->
 	<script src="/js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
