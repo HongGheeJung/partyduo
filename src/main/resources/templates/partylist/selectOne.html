@@ -6,15 +6,7 @@
     <div th:replace="~{layout::boottemplate}"></div>
     <title>Party Management</title>
 
-    <script th:inline="javascript">
-        function showPopup(url) {
-            const width = 600;
-            const height = 400;
-            const left = (window.screen.width / 2) - (width / 2);
-            const top = (window.screen.height / 2) - (height / 2);
-            window.open(url, 'popup', `width=${width},height=${height},left=${left},top=${top}`);
-        }
-    </script>
+
 
 </head>
 
@@ -42,7 +34,7 @@
                         <td>
                             <input type="button" class="btn btn-primary"
                                 th:if="${vo.party_master == session.user_character}" value="파티장 위임"
-                                th:onclick="|showPopup('/party/delegate?party_id=${vo.party_id}')|">
+                                th:onclick="|checkLoginAndOpenPopup('/party/delegate?party_id=${vo.party_id}')|">
                         </td>
                     </tr>
                     <th:block th:each="partymember : ${listmember}">
@@ -57,12 +49,12 @@
 
                                 <input type="button" class="btn btn-danger btn-sm"
                                     th:if="${vo.party_master == session.user_character}" value="강퇴하기"
-                                    th:onclick="|showPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
 
 
                                 <input type="button" class="btn btn-warning btn-sm" th:if="${partymember.character_name == session.user_character 
                            and vo.party_master != session.user_character}" value="탈퇴하기"
-                                    th:onclick="|showPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
                             </td>
 
                         </tr>
@@ -73,10 +65,10 @@
                         <td colspan="3" class="text-center">
                             <th:block th:if="${vo.party_master == session.user_character}">
                                 <input type="button" class="btn btn-warning" value="파티 명 수정"
-                                    th:onclick="|showPopup('/party/update?party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/party/update?party_id=${vo.party_id}')|">
 
                                 <input type="button" class="btn btn-danger" value="파티 삭제"
-                                    th:onclick="|showPopup('/party/delete?party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/party/delete?party_id=${vo.party_id}')|">
                             </th:block>
                         </td>
                     </tr>
@@ -105,12 +97,12 @@
                             <td>
                                 <input type="button" class="btn btn-success btn-sm"
                                     th:if="${vo.party_master == session.user_character}" value="수락"
-                                    th:onclick="|showPopup('/partylist/accept?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/partylist/accept?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
                             </td>
                             <td>
                                 <input type="button" class="btn btn-danger btn-sm"
                                     th:if="${vo.party_master == session.user_character}" value="거절"
-                                    th:onclick="|showPopup('/partylist/deny?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
+                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
                             </td>
                         </tr>
                     </th:block>

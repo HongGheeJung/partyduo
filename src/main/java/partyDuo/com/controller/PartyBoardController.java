@@ -378,7 +378,16 @@ public class PartyBoardController {
 	        int total_rows = pbservice.getTotalRows();
 	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
 
-	        // cpage가 1보다 작거나 totalPageCount보다 크면 범위 내로 조정
+	        if (total_rows == 0) {
+	            totalPageCount = 1;
+	        } else if (total_rows % pageBlock == 0) {
+	            totalPageCount = total_rows / pageBlock;
+	        } else {
+	            totalPageCount = total_rows / pageBlock + 1;
+	        }
+	        		
+	        log.info("totalPageCount:{}", totalPageCount);
+	        
 	        if (cpage < 1) {
 	            cpage = 1;
 	        } else if (cpage > totalPageCount) {

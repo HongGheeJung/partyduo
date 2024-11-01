@@ -5,38 +5,6 @@
     <meta charset="UTF-8">
     <title>Report Troll List</title>
     <div th:replace="~{layout::boottemplate}"></div>
-    <script th:inline="javascript">
-
-        function showPopup() {
-            fetch('/checkLogin')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.loggedIn) {
-                        // 로그인된 경우에만 팝업 열기
-                        var width = 600;
-                        var height = 900;
-                        var left = (window.screen.width / 2) - (width / 2);
-                        var top = (window.screen.height / 2) - (height / 2);
-                        window.open("/reporttroll/insert", "reportTroll", 
-                            `width=${width},height=${height},left=${left},top=${top}`);
-                    } else {
-                        // 로그인되지 않은 경우 알림 후 메인 페이지로 이동
-                        alert('로그인을 진행해주세요.');
-                        window.location.href = "/member/login";
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-	
-        function openSelectOnePopup(reportTrollId) {
-            var width = 600;
-            var height = 700;
-            var left = (window.screen.width / 2) - (width / 2);
-            var top = (window.screen.height / 2) - (height / 2);
-            window.open(`/reporttroll/selectOne?report_troll_id=${reportTrollId}`, "reportTrollView", 
-                `width=${width},height=${height},left=${left},top=${top}`);
-        }
-    </script>
 
     <style>
         .search-form {
@@ -87,7 +55,7 @@
                                 <th:block th:each="vo : ${list}">
                                     <tr>
                                         <th scope="row">
-                                            <a href="#" th:onclick="|openSelectOnePopup(${vo.report_troll_id})|">[[${vo.report_troll_id}]]</a>
+                                            <a href="#" th:onclick="|checkLoginAndOpenPopup('/reporttroll/selectOne?report_troll_id=${vo.report_troll_id}')|">[[${vo.report_troll_id}]]</a>
                                         </th>
                                         <td><a th:href="|/character/info?character_name=${vo.character_name}">[[${vo.character_name}]]</a></td>
                                         <td class="report-content">[[${vo.report_troll_content}]]</td>
@@ -98,37 +66,39 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="3" style="text-align: center;"> <!-- 가운데 정렬 -->
-                                        <ul class="pagination pagination-sm justify-content-center">
-                                            <!-- 부트스트랩 스타일 적용 -->
-                                            <!-- 이전 페이지 버튼 -->
-                                            <li class="page-item"
-                                                th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                                <a class="page-link"
-                                                    th:href="|/reporttroll/selectAll?cpage=${currentPage - 1}|">«</a>
-                                            </li>
+                                       <ul class="pagination pagination-sm justify-content-center">
+                <!-- 부트스트랩 스타일 적용 -->
+                <!-- 이전 페이지 버튼 -->
+                <li class="page-item"
+                    th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 1) : '/reporttroll/selectAll?cpage=' + (currentPage - 1)}|"
+                       th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
+                </li>
 
-                                            <!-- 페이지 번호 반복 -->
-                                            <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-                                                <li class="page-item"
-                                                    th:classappend="${i == currentPage} ? 'active' : ''">
-                                                    <a class="page-link"
-                                                        th:href="|/reporttroll/selectAll?cpage=${i}|">[[${i}]]</a>
-                                                </li>
-                                            </th:block>
+                <!-- 페이지 번호 반복 -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+                    <li class="page-item"
+                        th:classappend="${i == currentPage} ? 'active' : ''">
+                        <a class="page-link"
+                           th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/reporttroll/selectAll?cpage=' + i}|">[[${i}]]</a>
+                    </li>
+                </th:block>
 
-                                            <!-- 다음 페이지 버튼 -->
-                                            <li class="page-item"
-                                                th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
-                                                <a class="page-link"
-                                                    th:href="|/reporttroll/selectAll?cpage=${currentPage + 1}|">»</a>
-                                            </li>
-                                        </ul>
+                <!-- 다음 페이지 버튼 -->
+                <li class="page-item"
+                    th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 1) : '/reporttroll/selectAll?cpage=' + (currentPage + 1)}|"
+                       th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
+                </li>
+            </ul>
                                     </td>
 
                                     <!-- 신고글 작성 버튼 -->
                                     <td>
                                         <input type="button" class="btn btn-primary " value="신고글 작성"
-                                            onclick="showPopup();">
+                                            onclick="checkLoginAndOpenPopup('/reporttroll/insert');">
                                     </td>
                                 </tr>
                             </tfoot>

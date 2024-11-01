@@ -215,15 +215,24 @@ public class ReportBoardController {
 
         try {
             // 페이지 요청이 1보다 작을 경우 기본값으로 설정
-            if (cpage < 1) {
-                log.warn("잘못된 페이지 요청: {}", cpage);
-                cpage = 1; // 기본값 설정
-            }
+        	int total_rows = rbService.getTotalRows();
+	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
 
-            if (pageBlock < 1) {
-                log.warn("잘못된 페이지 블록 요청: {}", pageBlock);
-                pageBlock = 20; // 기본값 설정
-            }
+	        if (total_rows == 0) {
+	            totalPageCount = 1;
+	        } else if (total_rows % pageBlock == 0) {
+	            totalPageCount = total_rows / pageBlock;
+	        } else {
+	            totalPageCount = total_rows / pageBlock + 1;
+	        }
+	        		
+	        log.info("totalPageCount:{}", totalPageCount);
+	        
+	        if (cpage < 1) {
+	            cpage = 1;
+	        } else if (cpage > totalPageCount) {
+	            cpage = totalPageCount;
+	        }
 
             // 신고 게시물 목록 조회
             List<ReportBoardVO> list = rbService.selectAllPageBlock(cpage, pageBlock);
@@ -233,19 +242,9 @@ public class ReportBoardController {
             log.info("list: {}", list);
             model.addAttribute("list", list);
 
-            // 총 행 개수 조회 및 총 페이지 수 계산
-            int total_rows = rbService.getTotalRows();
-            log.info("total_rows: {}", total_rows);
-
-            int totalPageCount;
-            if (total_rows == 0) {
-                totalPageCount = 1;
-            } else if (total_rows % pageBlock == 0) {
-                totalPageCount = total_rows / pageBlock;
-            } else {
-                totalPageCount = (total_rows / pageBlock) + 1;
-            }
-            log.info("totalPageCount: {}", totalPageCount);
+          
+            
+         
 
             model.addAttribute("totalPageCount", totalPageCount);
             model.addAttribute("currentPage", cpage);
@@ -270,16 +269,25 @@ public class ReportBoardController {
 
         try {
             // 페이지 요청이 1보다 작을 경우 기본값으로 설정
-            if (cpage < 1) {
-                log.warn("잘못된 페이지 요청: {}", cpage);
-                cpage = 1; // 기본값 설정
-            }
+        	int total_rows = rbService.getSearchTotalRows(searchKey, searchWord);
+	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
 
-            if (pageBlock < 1) {
-                log.warn("잘못된 페이지 블록 요청: {}", pageBlock);
-                pageBlock = 20; // 기본값 설정
-            }
-
+	        // cpage가 1보다 작거나 totalPageCount보다 크면 범위 내로 조정
+	        if (total_rows == 0) {
+	            totalPageCount = 1;
+	        } else if (total_rows % pageBlock == 0) {
+	            totalPageCount = total_rows / pageBlock;
+	        } else {
+	            totalPageCount = total_rows / pageBlock + 1;
+	        }
+	        		
+	        log.info("totalPageCount:{}", totalPageCount);
+	        
+	        if (cpage < 1) {
+	            cpage = 1;
+	        } else if (cpage > totalPageCount) {
+	            cpage = totalPageCount;
+	        }
             // 검색 키워드가 유효하지 않은 경우
             if (searchKey == null || searchKey.trim().isEmpty() || searchWord == null || searchWord.trim().isEmpty()) {
                 log.warn("유효하지 않은 검색 키워드: searchKey={}, searchWord={}", searchKey, searchWord);
@@ -296,18 +304,6 @@ public class ReportBoardController {
             model.addAttribute("list", list);
 
             // 총 검색 결과 수 조회 및 총 페이지 수 계산
-            int total_rows = rbService.getSearchTotalRows(searchKey, searchWord);
-            log.info("total_rows: {}", total_rows);
-
-            int totalPageCount;
-            if (total_rows == 0) {
-                totalPageCount = 1;
-            } else if (total_rows % pageBlock == 0) {
-                totalPageCount = total_rows / pageBlock;
-            } else {
-                totalPageCount = (total_rows / pageBlock) + 1;
-            }
-            log.info("totalPageCount: {}", totalPageCount);
 
             model.addAttribute("totalPageCount", totalPageCount);
             model.addAttribute("currentPage", cpage);
