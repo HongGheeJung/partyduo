@@ -28,6 +28,11 @@
 		where event_id=#{event_id}
 	</select>
 	
+	<select id="selectOne">
+		select * from  eventlike 
+		where event_id=#{event_id}
+	</select>
+	
 	<delete id="deleteOK">
 		delete from eventlike where event_id=#{event_id} and character_name=#{character_name}
 	</delete>
