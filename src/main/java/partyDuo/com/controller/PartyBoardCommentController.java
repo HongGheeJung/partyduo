@@ -85,7 +85,7 @@ public class PartyBoardCommentController {
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null || !user_character.equals(vo2.getParty_board_comment_writer())) {
+	    if (!user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
 	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	    }
@@ -111,7 +111,7 @@ public class PartyBoardCommentController {
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null ) {
+	    if (user_character == null ^ (String)session.getAttribute("admin_name") == null ) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
 	    	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
@@ -153,7 +153,7 @@ public class PartyBoardCommentController {
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null || !user_character.equals(vo2.getParty_board_comment_writer())) {
+	    if ( !user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 삭제할 권한이 없습니다.");
 	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	    }
@@ -189,7 +189,7 @@ public class PartyBoardCommentController {
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String sessionUserCharacter = (String) session.getAttribute("user_character");
-	    if (sessionUserCharacter == null || !sessionUserCharacter.equals(vo2.getParty_board_comment_writer())) {
+	    if (!sessionUserCharacter.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 삭제할 권한이 없습니다.");
 	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	    }

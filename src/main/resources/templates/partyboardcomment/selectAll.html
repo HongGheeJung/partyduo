@@ -23,7 +23,7 @@
                     <div class="comment-date">
                         [[${vo.party_board_comment_wdate}]]
                     </div>
-                    <div class="comment-actions" th:if="${vo.party_board_comment_writer} == ${session.user_character}">
+                    <div class="comment-actions" th:if="${vo.party_board_comment_writer == session.user_character || session.admin_name != null}">
                         <input class="btn btn-primary" type="button"
                             th:onclick="|openPopup('/partyboardcomment/update?party_board_comment_id=${vo.party_board_comment_id}')|"
                             value="수정">

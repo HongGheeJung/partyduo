@@ -73,8 +73,7 @@ public class PartyController {
 ////		
 //		String world=basicDTO.getWorldName();
 //		log.info("world: {}", world);
-//		vo.setParty_world(world);
-	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
+//		vo.setParty_world(world); 
 	    
 	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
 	    

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PartyDelete</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+
+    <script th:inline="javascript">
+
+    var partyName = [[${vo2.party_name}]];
+    
+        function validateText() {
+            const inputText = document.getElementById('confirmationText').value.trim();
+            const submitButton = document.getElementById('submitButton');
+
+            // 입력값이 예상된 텍스트와 정확히 일치하는지 확인
+            const expectedText = (partyName + '삭제하겠습니다.').replace(/\s+/g, '');
+            const normalizedInputText = inputText.replace(/\s+/g, '');
+
+            console.log("Expected Text: ", expectedText); // 로그 출력
+            submitButton.disabled = normalizedInputText !== expectedText;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('confirmationText').addEventListener('input', validateText);
+            validateText();  // 초기화 시 버튼 비활성화
+        });
+    </script>
+</head>
+
+<body>
+    <div class="gtco-container" id="mainContent">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-0">
+                <div class="row row-mt-15em">
+                    <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
+                        <div class="form-wrap">
+                            <div class="tab">
+                                <div class="tab-content">
+                                    <div class="tab-content-inner active" data-content="signup">
+                                        <h3 class="text-center">파티 삭제</h3>
+                                        <form action="/party/deleteOK" method="post"
+                                            >
+
+                                            <div class="row form-group">
+                                                <div class="col-md-12 d-flex flex-column align-items-center">
+                                                    <input type="hidden" name="party_id" th:value="${vo2.party_id}">
+                                                    <p class="text-center mt-3">
+                                                        [[${vo2.party_name}]] 파티를 정말 삭제하시겠습니까?
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <input type="text" id="confirmationText" class="form-control"
+                                                        th:placeholder="|${vo2.party_name}삭제하겠습니다.를 입력하세요.(공백 무시)|">
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-12 text-center">
+                                                    <input type="submit" id="submitButton" class="btn btn-danger"
+                                                        value="삭제완료" disabled>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" th:text="${errorMessage}"></div>
+            <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+$(document).ready(function () {
+  if ([[${errorMessage != null}]]) {
+    // 모달이 열리면 페이지의 나머지 부분을 비활성화
+    $('#mainContent').attr('inert', true);
+    $('#errorModal').modal('show');
+    
+    
+    $('#errorModal').on('hidden.bs.modal', function () {
+      $('#mainContent').removeAttr('inert');
+    });
+  }
+  
+  if ([[${successMessage}]] === 'success') {
+      if (window.opener) {
+          window.opener.location.href = '/partylist/myparty';
+          window.close(); // 팝업 창 닫기
+      }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modalBody = document.querySelector(".modal-body");
+    if (modalBody) {
+        modalBody.innerHTML = modalBody.innerHTML.replace(/\./g, ".<br>");
+    }
+});
+</script>
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.countTo.js"></script>
+    <script src="/js/jquery.stellar.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
