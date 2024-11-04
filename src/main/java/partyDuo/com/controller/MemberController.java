@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class MemberController {
 		log.info("/insert");
 		return "member/insert";
 	}
-	@GetMapping("/member/insertOK")
+	@PostMapping("/member/insertOK")
 	public String member_insertOK(MemberVO vo, Model model) {
 		log.info("/insertOK");
 //		vo=new MemberVO();
@@ -76,7 +77,7 @@ public class MemberController {
 		model.addAttribute("vo2", vo2);
 		return "member/update";
 	}
-	@GetMapping("/member/updateOK")
+	@PostMapping("/member/updateOK")
 	public String member_updateOK(MemberVO vo) {
 		log.info("/updateOK");
 //		vo=new MemberVO();
@@ -109,17 +110,24 @@ public class MemberController {
 		model.addAttribute("vo2", vo2);
 		return "member/deleteCheck";
 	}
-	@GetMapping("/member/deleteOK")
+	@PostMapping("/member/deleteOK")
 	public String member_deleteOK(MemberVO vo) {
 		log.info("/deleteOK");
-		
+		log.info("vo:{}", vo);
 		int result=service.member_delete(vo);
 		log.info("result: {}", result);
 		if (result!=0) {			
 			return "redirect:/main";
 		}else {
-			return "/member/delete?member_id="+vo.getMember_id();
+			return "member/delete?member_id="+vo.getMember_id();
 		}
+	}
+	@PostMapping("/member/deleteByAdmin")
+	public String member_deleteByAdmin(MemberVO vo) {
+		log.info("관리자 권한으로 삭제");
+		MemberVO vo2=service.member_selectOne(vo);
+		int result=service.member_delete(vo2);
+		return "redirect:/main";
 	}
 	@GetMapping("/member/selectAll")
 	public String member_selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
@@ -182,7 +190,7 @@ public class MemberController {
 		log.info("/login");
 		return "member/login";
 	}
-	@GetMapping("/member/loginOK")
+	@PostMapping("/member/loginOK")
 	public String member_loginOK(MemberVO vo, Model model) {
 	    log.info("/loginOK");
 	    MemberVO vo2 = service.member_login(vo);
@@ -238,7 +246,7 @@ public class MemberController {
 		log.info("/findID");
 		return "member/findID";
 	}
-	@GetMapping("/member/findPwCheck")
+	@PostMapping("/member/findPwCheck")
 	public String member_findPwCheck(Model model, MemberVO vo) throws Exception {
 		log.info("/findPwCheck");
 //		vo=new MemberVO();
@@ -253,7 +261,7 @@ public class MemberController {
 			return "member/findPwResult";
 		}
 	}
-	@GetMapping("/member/findIDCheck")
+	@PostMapping("/member/findIDCheck")
 	public String member_findIDCheck(Model model, MemberVO vo) {
 		log.info("/findIDCheck");
 //		vo=new MemberVO();
@@ -276,7 +284,7 @@ public class MemberController {
 		log.info("pw Change vo2: {}",vo2);
 		return "member/pwChange";
 	}
-	@GetMapping("/member/pwChangeOK")
+	@PostMapping("/member/pwChangeOK")
 	public String member_pwChange(Model model, MemberVO vo, String oldpw) {
 		log.info("vo: {}",vo);
 		log.info("oldpw: {}", oldpw);

@@ -8,8 +8,39 @@
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
 		<h1>selectLogin</h1>
-		<a href="/main">main</a>
-		<a href="/member/login">login</a>
+		<th:block>
+			<div class="overlay"></div>
+			<div class="gtco-container">
+				<div class="row">
+					<div id="gtco-header" role="banner">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="row row-mt-15em">
+								<div class="col-md-4 col-md-push-1 animate-box"
+									data-animate-effect="fadeInRight">
+									<div class="form-wrap">
+										<div class="tab">
+											<div class="tab-content">
+												<div class="tab-content-inner active">
+													<p>
+													<h5>회원가입이 완료되었습니다.</h5>
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary"
+															onclick="location.href='/main'">메인으로</button>
+														<button type="button" class="btn btn-primary"
+															onclick="location.href='/member/login'">로그인</button>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
 	</div>
 </body>
 </html>
