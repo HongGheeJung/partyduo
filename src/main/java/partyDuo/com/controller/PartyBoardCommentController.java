@@ -77,18 +77,23 @@ public class PartyBoardCommentController {
 	        	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
 	            return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	        }
+	        
+	     // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
+		    String user_character = (String) session.getAttribute("user_character");
+		    if (!user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
+		    
+		    }
+		    
 	    } catch (Exception e) {
 	        log.error("댓글 정보 불러오는 중 오류 발생: {}", e.getMessage());
 	        redirectAttributes.addFlashAttribute("errorMessage", "댓글 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	    }
 
-	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
-	    String user_character = (String) session.getAttribute("user_character");
-	    if (!user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
-	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
-	    }
+	    
 
 	    model.addAttribute("vo2", vo2);
 	    return "partyboardcomment/update";
@@ -111,7 +116,7 @@ public class PartyBoardCommentController {
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null ^ (String)session.getAttribute("admin_name") == null ) {
+	    if (user_character == null ^ (String)session.getAttribute("admin_name") != null ) {
 	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
 	    	return "redirect:/partyboardcomment/update?party_board_comment_id="+vo.getParty_board_comment_id();
 	    }
@@ -145,6 +150,13 @@ public class PartyBoardCommentController {
 	        	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글 정보를 찾을 수 없습니다.");
 	            return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
 	        }
+	        
+	        String user_character = (String) session.getAttribute("user_character");
+		    if ( !user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 삭제할 권한이 없습니다.");
+		        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
+		    }
+		    
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
 	        redirectAttributes.addFlashAttribute("errorMessage", "댓글 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
@@ -152,11 +164,7 @@ public class PartyBoardCommentController {
 	    }
 
 	    // 작성자 검증 (세션의 유저 캐릭터와 작성자 비교)
-	    String user_character = (String) session.getAttribute("user_character");
-	    if ( !user_character.equals(vo2.getParty_board_comment_writer()) ^ (String)session.getAttribute("admin_name") != null) {
-	    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 삭제할 권한이 없습니다.");
-	        return "redirect:/partyboard/selectOne?party_board_id=" + vo.getParty_board_id();
-	    }
+	   
 
 	    // 삭제 페이지로 이동하여 확인
 	    model.addAttribute("vo2", vo2);
