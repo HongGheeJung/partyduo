@@ -65,18 +65,18 @@ public class PartyController {
 	        return "redirect:/party/insert";  // 다시 입력 페이지로 리다이렉트
 	    }
 	    
-//		String character_name = (String)session.getAttribute("user_character");
-//		String ocid=cservice.foundOcidByName(character_name);
-//		log.info("ocid: {}", ocid);
-//		//캐릭터 기본정보
-//		CharacterBasicDTO basicDTO=cservice.character_basic(ocid);
-//		//캐릭터 스탯 정보
-////		
-//		String world=basicDTO.getWorldName();
-//		log.info("world: {}", world);
-//		vo.setParty_world(world); 
+		String character_name = (String)session.getAttribute("user_character");
+		String ocid=cservice.foundOcidByName(character_name);
+		log.info("ocid: {}", ocid);
+		//캐릭터 기본정보
+		CharacterBasicDTO basicDTO=cservice.character_basic(ocid);
+		//캐릭터 스탯 정보
+//		
+		String world=basicDTO.getWorldName();
+		log.info("world: {}", world);
+		vo.setParty_world(world); 
 	    
-	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
+//	    vo.setParty_world("스카니아"); // 디폴트값 추후 삭제
 	    
 	    if (vo.getParty_world() == null || vo.getParty_world().trim().isEmpty()) {
 	        redirectAttributes.addFlashAttribute("errorMessage", "월드 정보를 불러오는 중 오류가 발생했습니다.");

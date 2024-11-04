@@ -114,6 +114,9 @@ public class MemberController {
 	public String member_deleteOK(MemberVO vo) {
 		log.info("/deleteOK");
 		log.info("vo:{}", vo);
+		session.removeAttribute("user_character");
+		session.removeAttribute("admin_name");
+		session.removeAttribute("user_id");
 		int result=service.member_delete(vo);
 		log.info("result: {}", result);
 		if (result!=0) {			
@@ -133,6 +136,9 @@ public class MemberController {
 	public String member_selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5")int pageBlock) {
 		log.info("/selectAll");
+		if(session.getAttribute("admin_name")==null) {
+			return "main";
+		}
 		List<MemberVO> list=service.member_selectAll(cpage, pageBlock);
 		log.info("list: {}", list);
 		
@@ -194,10 +200,9 @@ public class MemberController {
 	public String member_loginOK(MemberVO vo, Model model) {
 	    log.info("/loginOK");
 	    MemberVO vo2 = service.member_login(vo);
-	    String loginResult="";
 	    if (vo2 == null) {
-	    	loginResult="NotOK";
-	    	model.addAttribute("loginResult", loginResult);
+	    	
+	    	model.addAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	    	return "member/login";
 	    } 
 	    AdminVO vo3 = new AdminVO();
@@ -293,6 +298,7 @@ public class MemberController {
 		int result=service.member_pwChange(vo, oldpw, oldpwCheck);
 		if(result==0) {
 			log.info("youfailed...");
+			model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
 			model.addAttribute("vo2", vo2);
 			return "member/pwChange";
 		}

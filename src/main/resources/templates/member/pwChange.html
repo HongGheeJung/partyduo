@@ -6,16 +6,22 @@
 <div th:replace="~{layout::boottemplate}"></div>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
+<script th:inline="javascript">
 	$(document).ready(function() {
+		
+		/*submitButton.prop('disabled',true);*/
+		
 		function comparePw() {
+			const submitButton=$("#submitButton");
 			let pw = $("#pw").val();
 			let pwcheck = $("#pwcheck").val();
 
 			if (pw === pwcheck) {
 				$("#result").html("비밀번호가 일치합니다.");
+				submitButton.prop('disabled',false);
 			} else {
 				$("#result").text("비밀번호가 일치하지 않습니다.");
+				submitButton.prop('disabled',true);
 			}
 		}
 
@@ -23,7 +29,9 @@
 		$("#pw, #pwcheck").on("input", function() {
 			comparePw();
 		});
+		
 	});
+	
 </script>
 
 </head>
@@ -43,13 +51,13 @@
 										<div class="tab">
 											<div class="tab-content">
 												<div class="tab-content-inner active">
-													<form action="/member/pwChangeOK" method="get">
-														<input type="hidden" name="id"
-															th:value="${vo2.id}">
+													<form action="/member/pwChangeOK" method="post">
+														<input type="hidden" name="id" th:value="${vo2.id}">
 														<div class="row form-group">
 															<div class="col-md-12">
 																<label for="oldpw">현재 비밀번호</label> <input
-																	type="password" class="form-control" id="oldpw" name="oldpw">
+																	type="password" class="form-control" id="oldpw"
+																	name="oldpw">
 															</div>
 														</div>
 														<div class="row form-group">
@@ -68,7 +76,7 @@
 														<div class="row form-group">
 															<div class="col-md-12">
 																<input type="submit" class="btn btn-primary btn-block"
-																	value="비밀번호 수정">
+																	value="비밀번호 수정" id="submitButton" disabled>
 															</div>
 														</div>
 													</form>

@@ -38,12 +38,12 @@
 															th:onclick="|location.href='@{/member/deleteCheck(id=${vo.id})}'|">예</button>
 														<button type="button" class="btn btn-primary"
 															th:onclick="|location.href='@{/member/update(id=${vo.id})}'|">아니오</button>
-														<th:block th:if="${session.admin_name!=null}")>
-															<form action="/member/deleteByAdmin" method="post">
-																<input type="hidden" name="id" th:value="${vo.id}">
-																<input type="submit" value="관리자 권한으로 삭제" class="btn btn-primary">
-															</form>
-														</th:block>
+														<form action="/member/deleteByAdmin" method="post"
+															th:if="${session.admin_name!=null}">
+															<input type="hidden" name="id" th:value="${vo.id}">
+															<input type="submit" value="관리자 권한으로 삭제"
+																class="btn btn-primary">
+														</form>
 													</p>
 												</div>
 											</div>
