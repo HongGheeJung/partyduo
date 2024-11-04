@@ -2,43 +2,120 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>party selectAll</title>
-	<div th:replace="~{layout::boottemplate}"></div>
+    <meta charset="UTF-8">
+    <title>party admin</title>
+    <div th:replace="~{layout::boottemplate}"></div>
+
+
+    <style>
+        .search-form {
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .searchbar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .table td, .table th {
+            text-align: center; /* 테이블의 모든 셀 가운데 정렬 */
+            vertical-align: middle; /* 세로 가운데 정렬 */
+        }
+
+        .party-title {
+            white-space: nowrap;  /* 줄바꿈 방지 */
+            overflow: hidden;     /* 넘치는 텍스트 숨김 */
+            text-overflow: ellipsis; /* 넘칠 경우 ... 표시 */
+            max-width: 400px;     /* 원하는 너비 설정 */
+            text-align: center;   /* 가운데 정렬 */
+        }
+    </style>
 </head>
 
 <body th:replace="~{layout::layout}">
-	<div th:fragment="content">
-		<h3>[[${session.user_id}]]</h3>
-		<h3>[[${session.user_character}]]</h3>
-		<hr>
-		<form action="/party/searchList">
-			<select name="searchKey">
-				<option value="party_name">party_name</option>
-				<option value="party_master">party_master</option>
-			</select>
-			<input type="text" name="searchWord" value="ad">
-			<input type="submit" value="검색">
-		</form>
-		<table>
-			<thead>
-				<tr>
-					<th>파티아이디</th>
-					<th>파티 명</th>
-					<th>파티 장</th>
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="vo : ${list}">
-					<tr>
-						<td><a th:href="|/party/selectOne?party_id=${vo.party_id}|">[[${vo.party_id}]]</a></td>
-						<td>[[${vo.party_name}]]</td>
-						<td>[[${vo.party_master}]]</td>
-					</tr>
-				</th:block>
-			</tbody>
-		</table>
-	</div>
+    <div th:fragment="content">
+        <div class="gtco-section">
+            <div class="gtco-container">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">파티 번호</th>
+                                    <th scope="col">파티 명</th>
+                                    <th scope="col">파티 장</th>
+                                    <th scope="col">파티 월드</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="vo : ${list}">
+                                    <tr>
+                                        <th scope="row">
+                                            [[${vo.party_id}]]
+                                        </th>
+                                        <td >[[${vo.party_name}]]</td>
+                                        <td>[[${vo.party_master}]]</td>
+                                        <td>[[${vo.party_world}]]</td>
+                                      	<td><a href="#" th:onclick="|checkLoginAndOpenPopup('/admin/party/update?party_id=${vo.party_id}')|">수정</a></td>
+										<td><a href="#" th:onclick="|checkLoginAndOpenPopup('/admin/party/delete?party_id=${vo.party_id}')|">삭제</a></td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan=6 style="text-align: center;"> <!-- 가운데 정렬 -->
+                                         <ul class="pagination pagination-sm justify-content-center">
+                <!-- 부트스트랩 스타일 적용 -->
+                <!-- 이전 페이지 버튼 -->
+                <li class="page-item"
+                    th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 1) : '/party/selectAll?cpage=' + (currentPage - 1)}|"
+                       th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
+                </li>
+
+                <!-- 페이지 번호 반복 -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+                    <li class="page-item"
+                        th:classappend="${i == currentPage} ? 'active' : ''">
+                        <a class="page-link"
+                           th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/party/selectAll?cpage=' + i}|">[[${i}]]</a>
+                    </li>
+                </th:block>
+
+                <!-- 다음 페이지 버튼 -->
+                <li class="page-item"
+                    th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 1) : '/party/selectAll?cpage=' + (currentPage + 1)}|"
+                       th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
+                </li>
+            </ul>
+                                    </td>
+									
+									
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="form">
+                            <form action="/admin/party/searchList">
+                                <select name="searchKey" class="input-sm">
+                                    <option value="party_master">파티장</option>
+                                    <option value="party_name">파티명</option>
+                                    <option value="world">월드</option>
+                                </select>
+                                <input class="input-sm" type="text" name="searchWord" placeholder="검색어를 입력하세요">
+                                <input type="submit" class="btn-primary" value="검색">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

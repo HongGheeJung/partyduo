@@ -77,6 +77,13 @@ public class ReportTrollController {
 	                redirectAttributes.addFlashAttribute("errorMessage", "해당 신고 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
 	                return "redirect:/reporttroll/selectAll";
 	            }
+	            String user_character = (String) session.getAttribute("user_character");
+			    if (!user_character.equals(vo2.getReport_troll_writer())^ (String)session.getAttribute("admin_name") != null) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
+			        return "redirect:/reporttroll/selectAll"; // 유효하지 않은 경우 목록으로 이동
+			    }
+	            
+	            
 	            model.addAttribute("vo2", vo2);
 	        } catch (Exception e) {
 	            log.error("데이터베이스 오류 발생: {}", e.getMessage());
@@ -128,6 +135,13 @@ public class ReportTrollController {
 	                redirectAttributes.addFlashAttribute("errorMessage", "해당 신고 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
 	                return "redirect:/reporttroll/selectAll";
 	            }
+	            
+	            String user_character = (String) session.getAttribute("user_character");
+			    if (!user_character.equals(vo2.getReport_troll_writer())^ (String)session.getAttribute("admin_name") != null) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
+			        return "redirect:/reporttroll/selectAll"; // 유효하지 않은 경우 목록으로 이동
+			    }
+			    
 	            model.addAttribute("vo2", vo2);
 	        } catch (Exception e) {
 	            log.error("데이터베이스 오류 발생: {}", e.getMessage());

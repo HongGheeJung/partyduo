@@ -42,7 +42,7 @@
 							<li><a href="/member/insert">회원가입</a></li>
 							<li th:if="${session.admin_name != null}" class="has-dropdown"><a href="#">관리자</a>
 								<ul class="dropdown">
-									<li><a href="">전체 파티 목록</a></li>
+									<li><a href="/admin/party/selectAll">전체 파티 목록</a></li>
 									<li><a href="">전체 유저 목록</a></li>
 									<li><a href="">파티 모집 게시글 목록</a></li><!-- 댓글도 수정 가능하게 할것 -->
 								</ul>

@@ -15,6 +15,7 @@ import dev.spiralmoon.maplestory.api.dto.character.CharacterBasicDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.model.MemberVO;
+import partyDuo.com.model.NoticeVO;
 import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;
 import partyDuo.com.service.CharacterService;
@@ -366,72 +367,257 @@ log.info("party_update...");
 	    return "party/selectOne";
 	}
 
-	@GetMapping("/party/selectAll")
+	@GetMapping("/admin/party/selectAll")
 	public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
-	        @RequestParam(defaultValue = "5") int pageBlock) {
+	        @RequestParam(defaultValue = "20") int pageBlock,RedirectAttributes redirectAttributes) {
 	    log.info("/party_selectAll");
 
 	    try {
 	        // 페이지 요청이 1보다 작을 경우 기본값으로 설정
+	    	int total_rows = pservice.getTotalRows();
+	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
+
+	        // cpage가 1보다 작거나 totalPageCount보다 크면 범위 내로 조정
+	        if (total_rows == 0) {
+	            totalPageCount = 1;
+	        } else if (total_rows % pageBlock == 0) {
+	            totalPageCount = total_rows / pageBlock;
+	        } else {
+	            totalPageCount = total_rows / pageBlock + 1;
+	        }
+	        		
+	        log.info("totalPageCount:{}", totalPageCount);
+	        
 	        if (cpage < 1) {
-	            log.warn("잘못된 페이지 요청: {}", cpage);
-	            cpage = 1; // 기본값 설정
+	            cpage = 1;
+	        } else if (cpage > totalPageCount) {
+	            cpage = totalPageCount;
 	        }
-
-	        if (pageBlock < 1) {
-	            log.warn("잘못된 페이지 블록 요청: {}", pageBlock);
-	            pageBlock = 5; // 기본값 설정
-	        }
-
 	        List<PartyVO> list = pservice.selectAll(cpage, pageBlock);
 	        log.info("list: {}", list);
 	        model.addAttribute("list", list);
 
-	        // 파티 정보가 없을 경우 사용자에게 알림 메시지를 전달
 	        if (list == null || list.isEmpty()) {
-	            model.addAttribute("errorMessage", "등록된 파티 정보가 없습니다.");
+	            model.addAttribute("errorMessage", "등록된 공지사항이 없습니다.");
 	        }
+	        
+	        String admin_name = (String) session.getAttribute("admin_name");
+		    if (admin_name == null ) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "관리자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+		        return "redirect:/main";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
+		    }
+		    
+	        model.addAttribute("totalPageCount", totalPageCount);
+	        model.addAttribute("currentPage", cpage);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "파티 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "main"; // 오류 페이지로 이동
+	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/main"; // 오류 발생 시 메인 페이지로 리다이렉트
 	    }
-
-	    return "party/selectAll";
+	    return "admin/party/selectAll";
 	}
 
-	@GetMapping("/party/searchList")
+	@GetMapping("/admin/party/searchList")
 	public String searchList(Model model, @RequestParam(defaultValue = "party_master") String searchKey,
-	                         @RequestParam(defaultValue = "ad") String searchWord) {
+	                         @RequestParam(defaultValue = "ad") String searchWord,@RequestParam(defaultValue = "1") int cpage,
+	             	        @RequestParam(defaultValue = "20") int pageBlock,RedirectAttributes redirectAttributes) {
 	    log.info("party_searchList...");
-
-	    // 유효성 검사
-	    if (searchKey == null || searchKey.trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "검색 키워드가 유효하지 않습니다.");
-	        return "party/selectAll";
-	    }
-
-	    if (searchWord == null || searchWord.trim().isEmpty()) {
-	        model.addAttribute("errorMessage", "검색어가 비어 있습니다. 모든 파티를 조회합니다.");
-	    }
+	    log.info("searchKey: {}", searchKey);
+	    log.info("searchWord: {}", searchWord);
 
 	    try {
-	        List<PartyVO> list = pservice.searchList(searchKey, searchWord);
-	        log.info("list: {}", list);
+	        // 페이지 요청이 1보다 작을 경우 기본값으로 설정
+	    	int total_rows = pservice.getSearchTotalRows(searchKey, searchWord);
+	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
+
+	        if (total_rows == 0) {
+	            totalPageCount = 1;
+	        } else if (total_rows % pageBlock == 0) {
+	            totalPageCount = total_rows / pageBlock;
+	        } else {
+	            totalPageCount = total_rows / pageBlock + 1;
+	        }
+	        		
+	        log.info("totalPageCount:{}", totalPageCount);
 	        
-	        // 조회된 결과가 없는 경우
-	        if (list == null || list.isEmpty()) {
-	            model.addAttribute("errorMessage", "검색 결과가 없습니다.");
+	        if (cpage < 1) {
+	            cpage = 1;
+	        } else if (cpage > totalPageCount) {
+	            cpage = totalPageCount;
+	        }
+	        // 검색어 유효성 검사
+	        if (searchKey == null || searchKey.trim().isEmpty()) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "검색 키를 입력해 주세요.");
+	            return "redirect:/admin/party/selectAll";
 	        }
 
+	        if (searchWord == null || searchWord.trim().isEmpty()) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "검색어를 입력해 주세요.");
+	            return "redirect:/admin/party/selectAll";
+	        }
+
+	        List<PartyVO> list = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
+	        log.info("list: {}", list);
+
+	        if (list == null || list.isEmpty()) {
+	            model.addAttribute("errorMessage", "검색된 공지사항이 없습니다.");
+	        }
+	        String admin_name = (String) session.getAttribute("admin_name");
+		    if (admin_name == null ) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "관리자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+		        return "redirect:/admin/party/selectAll";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
+		    }
+	        
+	        model.addAttribute("totalPageCount", totalPageCount);
+	        model.addAttribute("currentPage", cpage);
 	        model.addAttribute("list", list);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        model.addAttribute("errorMessage", "검색 도중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "party/selectAll"; // 오류 페이지로 이동
+	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 검색 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll"; // 오류 발생 시 공지사항 목록으로 리다이렉트
 	    }
 
-	    return "party/selectAll";
+	    return "admin/party/selectAll";
+	}
+	
+	@GetMapping("/admin/party/update")
+	public String adminUpdate(PartyVO vo, RedirectAttributes redirectAttributes, Model model) {
+	    log.info("party_admin_update...");
+	    
+	    
+	    
+	    // 파티 ID가 유효하지 않은 경우
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll"; // 마이파티 페이지로 리다이렉트
+	    }
+	    
+	    PartyVO vo2 = null;
+	    
+	    try {
+	        vo2 = pservice.selectOne(vo);
+	        
+	        String admin_name = (String) session.getAttribute("admin_name");
+		    if (admin_name == null ) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "관리자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+		        return "redirect:/admin/party/selectAll";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
+		    }
+		    
+	        log.info("vo: {}", vo2);
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll";
+	    }
+	    
+	    // 파티 정보가 유효한 경우 모델에 추가
+	    model.addAttribute("vo2", vo2);
+	    
+	    return "admin/party/update";
+	}
+	
+	@PostMapping("/admin/party/updateOK")
+	public String adminUpdateOK(PartyVO vo, RedirectAttributes redirectAttributes, @RequestParam(defaultValue = "") String from) {
+	    log.info("party_updateOK...");
+
+	    // VO 필드 체크
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
+	        return  "redirect:/admin/party/update?party_id="+vo.getParty_id();
+	    }
+
+	    if (vo.getParty_name() == null || vo.getParty_name().trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 이름은 필수 입력 항목입니다.");
+	        return  "redirect:/admin/party/update?party_id="+vo.getParty_id();
+	    }
+
+	    if (vo.getParty_master() == null || vo.getParty_master().trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 마스터는 필수 입력 항목입니다.");
+	        return  "redirect:/admin/party/update?party_id="+vo.getParty_id(); 
+	    }
+	    
+
+	    try {
+	        int result = pservice.updateOK(vo);
+	        log.info("result:{}", result);
+	        if (result == 0) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 수정에 실패했습니다. 다시 시도해 주세요.");
+	            return  "redirect:/admin/party/update?party_id="+vo.getParty_id(); 
+	        }
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return  "redirect:/admin/party/update?party_id="+vo.getParty_id(); 
+	    }
+	    log.info(from);
+	    redirectAttributes.addFlashAttribute("successMessage", "success");
+	    // 성공적으로 수정된 경우 리다이렉트
+	    return  "redirect:/admin/party/update?party_id="+vo.getParty_id(); 
+	}
+	
+	@GetMapping("/admin/party/delete")
+	public String adminDelete(PartyVO vo, RedirectAttributes redirectAttributes,Model model) {
+log.info("party_update...");
+	    
+	    
+	    
+	    // 파티 ID가 유효하지 않은 경우
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "해당 파티 정보를 찾을 수 없습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll"; // 마이파티 페이지로 리다이렉트
+	    }
+	    
+	    PartyVO vo2 = null;
+	    
+	    try {
+	        vo2 = pservice.selectOne(vo);
+	     // 로그인 체크 및 파티 마스터 여부 확인
+	        String admin_name = (String) session.getAttribute("admin_name");
+		    if (admin_name == null ) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "관리자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+		        return "redirect:/admin/party/selectAll";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
+		    }
+			
+	        log.info("vo: {}", vo2);
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll";
+	    }
+	    
+	    
+	    // 파티 정보가 유효한 경우 모델에 추가
+	    model.addAttribute("vo2", vo2);
+	    
+	    return "admin/party/delete";
 	}
 
+	@PostMapping("/admin/party/deleteOK")
+	public String adminDeleteOK(PartyVO vo, RedirectAttributes redirectAttributes,Model model) {
+	    log.info("party_deleteOK...");
+
+	    // VO 필드 체크
+	    if (vo == null || vo.getParty_id() == 0) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 정보를 입력해 주세요.");
+	        return "redirect:/admin/party/delete?party_id="+vo.getParty_id(); // 유효한 파티 정보가 없는 경우, 삭제 페이지로 돌아감
+	    }
+
+	    try {
+	        int result = pservice.deleteOK(vo);
+	        log.info("result:{}", result);
+
+	        if (result == 0) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "파티 삭제에 실패했습니다. 다시 시도해 주세요.");
+	            return "redirect:/admin/party/delete?party_id="+vo.getParty_id(); // 삭제 실패 시 삭제 페이지로 돌아감
+	        }
+	    } catch (Exception e) {
+	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/delete?party_id="+vo.getParty_id(); // 데이터베이스 오류 발생 시 삭제 페이지로 돌아감
+	    }
+	    model.addAttribute("successMessage", "success");
+	    model.addAttribute("vo2", vo);
+	    // 삭제 성공 시 리다이렉트
+	    return "admin/party/delete";
+	}
 }

@@ -74,7 +74,36 @@ public class PartyService {
 		int startRow=(cpage-1)*pageBlock;
 		if(searchKey.equals("world")) {
 		return pmapper.searchListWorld("%"+searchWord+"%",startRow,pageBlock);}
-	else { 
-		return pmapper.searchListPartyIdPageBlock(searchWord,startRow,pageBlock);}
-	}}
+	else if(searchKey.equals("party_name")){ 
+		return pmapper.searchListPartyNamePageBlock("%"+searchWord+"%",startRow,pageBlock);
+		}else {
+			return pmapper.searchListPartyMasterPageBlock("%"+searchWord+"%",startRow,pageBlock);
+		}
+	
+	}
+	
+	public int getTotalRows() {
+		log.info("p_service_getTotalRows");
+		return pmapper.getTotalRows();
+	}
+	
+	public int getSearchTotalRows(String searchKey,String searchWord) {
+		log.info("p_service_getSearchTotalRows");
+		if (searchKey.equals("party_master")) {
+			
+			return pmapper.getSearchTotalRowsPartyMaster( "%"+searchWord+"%");
+		}else if (searchKey.equals("party_name")){
+		
+			return pmapper.getSearchTotalRowsPartyName("%"+searchWord+"%");
+		}else {
+			return pmapper.getSearchTotalRowsWorld("%"+searchWord+"%");
+		}
+	}
+
+
+
+
+
+
+}
 

@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
 
-                                <div class="button-group" th:if="${vo2.report_troll_writer} == ${session.user_character}">
+                                <div class="button-group" th:if="${vo2.report_troll_writer == session.user_character || session.admin_name != null} ">
                                  	<button class="btn btn-warning" onclick="handleAction('edit')">수정</button>
 									<button class="btn btn-danger" onclick="handleAction('delete')">삭제</button>				
                                 </div>
