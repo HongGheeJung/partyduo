@@ -16,10 +16,12 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.model.MemberVO;
 import partyDuo.com.model.NoticeVO;
+import partyDuo.com.model.PartyBoardVO;
 import partyDuo.com.model.PartyListVO;
 import partyDuo.com.model.PartyVO;
 import partyDuo.com.service.CharacterService;
 import partyDuo.com.service.MemberService;
+import partyDuo.com.service.PartyBoardService;
 import partyDuo.com.service.PartyListService;
 import partyDuo.com.service.PartyService;
 
@@ -38,6 +40,9 @@ public class PartyController {
 
 	@Autowired
 	PartyListService plservice;
+	
+	@Autowired
+	PartyBoardService pbservice;
 
 	@Autowired
 	MemberService mservice;
@@ -244,7 +249,7 @@ public class PartyController {
 	        return redirectToFormPage(from,vo);
 	    }
 	    
-
+	    PartyBoardVO vo2 = new PartyBoardVO();
 	    try {
 	        int result = pservice.updateOK(vo);
 	        log.info("result:{}", result);
@@ -252,6 +257,15 @@ public class PartyController {
 	            redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 수정에 실패했습니다. 다시 시도해 주세요.");
 	            return redirectToFormPage(from,vo);
 	        }
+	        vo2.setParty_id(vo.getParty_id());
+	        vo2.setParty_board_writer(vo.getParty_master()); 
+	        int result1 = pbservice.masterUpdate(vo2);
+	        log.info("result1:{}", result1);
+	        if (result == 0) {
+	            redirectAttributes.addFlashAttribute("errorMessage", "파티 정보 수정에 실패했습니다. 다시 시도해 주세요.");
+	            return redirectToFormPage(from,vo);
+	        }
+	        
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
 	        redirectAttributes.addFlashAttribute("errorMessage", "파티 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");

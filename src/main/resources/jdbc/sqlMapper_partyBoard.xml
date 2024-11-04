@@ -15,6 +15,12 @@
 		where party_board_id=#{party_board_id}
 	</update>
 	
+	<update id="masterUpdate">
+		update partyboard set 		
+				party_board_writer=#{party_board_writer}
+		where party_id=#{party_id}
+	</update>
+	
 	<delete id="deleteOK">
 		delete from partyboard where party_board_id=#{party_board_id}
 	</delete>

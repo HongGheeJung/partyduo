@@ -355,7 +355,7 @@ public class PartyListController {
 		     String userId = (String) session.getAttribute("user_id");
 		     if (userId == null || userId.trim().isEmpty()) {
 		         redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
-		         return "redirect:/login"; // 로그인 페이지로 리다이렉트
+		         return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
 		     }
 
 		     MemberVO vo = new MemberVO();

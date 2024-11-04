@@ -422,7 +422,7 @@ public class PartyBoardController {
 	                        String bossName = vo.getBoss().replaceAll("(이지|노멀|하드|카오스|익스트림)\\s*", "");
 	                        String bossImagePath = "/boss_img/" + bossName + ".png";
 
-	                        return new PartyBoardNameDTO(vo, party.getParty_name(), party.getParty_world(), bossImagePath);
+	                        return new PartyBoardNameDTO(vo, party.getParty_name(), party.getParty_world(),party.getParty_master(),bossImagePath);
 	                    } catch (Exception e) {
 	                        log.error("파티 정보를 매칭하는 중 오류 발생: {}", e.getMessage());
 	                        return null;
@@ -509,7 +509,7 @@ public class PartyBoardController {
 	                            String bossImagePath = "/boss_img/" + bossName + ".png";
 
 	                            // 일치하는 경우 DTO 생성
-	                            return new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(), bossImagePath);
+	                            return new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(),party.getParty_master() ,bossImagePath);
 	                        }).stream(); // Optional을 Stream으로 변환
 	                    })
 	                    .collect(Collectors.toList());
@@ -536,7 +536,7 @@ public class PartyBoardController {
 	                        String bossImagePath = "/boss_img/" + bossName + ".png";
 
 	                        return optionalParty
-	                                .map(party -> new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(), bossImagePath))
+	                                .map(party -> new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(),party.getParty_master() ,bossImagePath))
 	                                .orElseThrow(() -> new IllegalStateException("파티 정보를 찾을 수 없습니다: " + board.getParty_id()));
 	                    })
 	                    .collect(Collectors.toList());
