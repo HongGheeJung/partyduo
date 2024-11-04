@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>party selectAll</title>
+	<div th:replace="~{layout::boottemplate}"></div>
+</head>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>이벤트 관리</h1>
+
+		
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>event_id</th>
+					<th>party_id</th>
+					<th>event_title</th>
+					<th>event_content</th>
+					<th>event_startTime</th>
+					<th>event_endTime</th>
+					<th>event_location</th>
+					<th>event_bosstag</th>
+					<th>event_character</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+					<tr>
+						<td>[[${vo.event_id}]]</td>
+						<td>[[${vo.party_id}]]</td>
+						<td>[[${vo.event_title}]]</td>
+						<td>[[${vo.event_content}]]</td>
+						<td>[[${vo.event_startTime}]]</td>
+						<td>[[${vo.event_endTime}]]</td>	
+						<td>[[${vo.event_location}]]</td>	
+						<td>[[${vo.event_bosstag}]]</td>	
+						<td>[[${vo.event_character}]]</td>		
+							
+						<td>
+							<form action="/admin/event/deleteOK" method="post">
+								<input type="hidden" name="event_id" th:value="${vo.event_id}">
+								<table id="insertTable">
+									<tr>
+										<th><input type="submit" value="삭제"></th>
+									</tr>
+								</table>
+							</form>
+						
+						</td>			
+					</tr>
+				</th:block>
+			</tbody>
+		</table>		
+	</div>
+
+</body>
+</html>

@@ -94,14 +94,14 @@ public class EventController {
 		return "event/delete";
 	}
 
-	@GetMapping("/event/selectAll")
+	@GetMapping("/admin/event/selectAll")
 	public String selectAll(Model model) {
-		log.info("/event/selectAll");
+		log.info("/admin/event/selectAll");
 		
 		List<EventVO> list = service.selectAll();
 		model.addAttribute("list", list);
 
-		return "event/selectAll";
+		return "admin/event/selectAll";
 	}
 
 	@GetMapping("/event/searchListParty")
@@ -273,6 +273,21 @@ public class EventController {
 		redirectAttributes.addFlashAttribute("successMessage", "success");
 		
 		return "redirect:/event/update?event_id="+event_id;
+
+	}
+	
+	@PostMapping("/admin/event/deleteOK")
+	public String admindeleteOK(EventVO vo) throws IllegalStateException, IOException {
+		log.info("/event/deleteOK");
+		log.info("vo:{}", vo);
+		
+		int event_id= vo.getEvent_id();
+
+		int result = service.deleteOK(vo);
+		log.info("result:{}", result);
+
+		
+		return "redirect:/admin/event/selectAll";
 
 	}
 	
