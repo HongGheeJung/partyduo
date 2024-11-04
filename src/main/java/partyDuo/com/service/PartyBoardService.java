@@ -26,6 +26,11 @@ public class PartyBoardService {
 		return pbmapper.updateOK(vo);
 	}
 	
+	public int masterUpdate(PartyBoardVO vo) {
+		log.info("pb_service_masterUpdate");
+		return pbmapper.masterUpdate(vo);
+	}
+	
 	public int deleteOK(PartyBoardVO vo) {
 		log.info("pb_service_deleteOK");
 		return pbmapper.deleteOK(vo);

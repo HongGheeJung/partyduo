@@ -13,6 +13,7 @@ public interface PartyBoardMapper {
 	public int insertOK(PartyBoardVO vo);
 	
 	public int updateOK(PartyBoardVO vo);
+	public int masterUpdate(PartyBoardVO vo);
 	
 	public int deleteOK(PartyBoardVO vo);
 

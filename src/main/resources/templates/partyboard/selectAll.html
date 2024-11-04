@@ -76,7 +76,7 @@
 							        <th class="col-fixed-width">요구 전투력</th>
 							        <th class="col-fixed-width">공략 보스</th>
 							        <th class="col-fixed-width">간단 메모</th>
-							        <th class="col-fixed-width">작성 자</th>
+							        <th class="col-fixed-width">파티 장</th>
 							        <th class="col-fixed-width">작성 일</th>
               	                </tr>
                             </thead>
@@ -103,7 +103,7 @@
                                         </span>
                                         </td>
                                         <td class="memo-content">[[${vo.vo.party_board_memo}]]</td>
-                                        <td><a th:href="|/character/info?character_name=${vo.vo.party_board_writer}|">[[${vo.vo.party_board_writer}]]</a></td>
+                                        <td><a th:href="|/character/info?character_name=${vo.party_master}|">[[${vo.party_master}]]</a></td>
                                         <td>[[${vo.vo.party_board_wdate}]]</td>
                                     </tr>
                                 </th:block>

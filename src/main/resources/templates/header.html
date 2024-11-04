@@ -20,17 +20,15 @@
 							<li class="has-dropdown"><a href="#">파티</a>
 								<ul class="dropdown">
 									<li><a href="#"
-										onclick="checkLoginAndRedirect('/calendar')">캘린더</a></li>
+										onclick="checkLoginAndRedirect('/cindex')">캘린더</a></li>
 									<li><a href="#"
 										onclick="checkLoginAndRedirect('/partylist/myparty')">내 파티</a></li>
 									<li><a href="/partyboard/selectAll">파티게시판</a></li>
 								</ul></li>
 							<li><a href="/reporttroll/selectAll">박제게시판</a></li>
-							<li class="has-dropdown"><a href="#">고객센터</a>
-								<ul class="dropdown">
-									<li><a href="/reportboard/selectAll">신고게시판</a></li>
-									<li><a href="/guide/guide">이용가이드</a></li>
-								</ul></li>
+							
+							<li><a href="/reportboard/selectAll">신고게시판</a></li>
+						
 							<li th:if="${session.user_id==null}"><a href="/member/login">로그인</a></li>
 							<li th:if="${session.user_id!=null}" class="has-dropdown"><a th:href="@{/character/info(character_name=${session.user_character})}">내정보</a>
 								<ul class="dropdown">
@@ -45,7 +43,7 @@
 								<ul class="dropdown">
 									<li><a href="/admin/party/selectAll">전체 파티 목록</a></li>
 									<li><a href="/member/selectAll">전체 유저 목록</a></li>
-									<li><a href="">파티 모집 게시글 목록</a></li><!-- 댓글도 수정 가능하게 할것 -->
+									
 								</ul>
 							</li>
 						</ul>
