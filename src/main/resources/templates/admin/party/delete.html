@@ -40,7 +40,7 @@
                                 <div class="tab-content">
                                     <div class="tab-content-inner active" data-content="signup">
                                         <h3 class="text-center">파티 삭제</h3>
-                                        <form action="/party/deleteOK" method="post"
+                                        <form action="/admin/party/deleteOK" method="post"
                                             >
 
                                             <div class="row form-group">
@@ -113,7 +113,7 @@ $(document).ready(function () {
   
   if ([[${successMessage}]] === 'success') {
       if (window.opener) {
-          window.opener.location.href = '/partylist/myparty';
+          window.opener.location.reload();
           window.close(); // 팝업 창 닫기
       }
   }

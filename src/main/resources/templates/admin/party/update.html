@@ -71,7 +71,7 @@
                                     <div class="tab-content-inner active" data-content="signup">
                                         <h3 class="text-center">파티 명 수정</h3>
 
-                                        <form action="/party/updateOK" method="post"  >
+                                        <form action="/admin/party/updateOK" method="post"  >
                                             <input type="hidden" id="party_id" name="party_id"
                                                 th:value="${vo2.party_id}">
 											<input type="hidden" name="from" value="update" />
@@ -144,7 +144,7 @@ $(document).ready(function () {
   
   if ([[${successMessage}]] === 'success') {
       if (window.opener) {
-          window.opener.location.href = '/partylist/selectOne?party_id=[[${vo2.party_id}]]';
+          window.opener.location.reload();
           window.close(); // 팝업 창 닫기
       }
   }

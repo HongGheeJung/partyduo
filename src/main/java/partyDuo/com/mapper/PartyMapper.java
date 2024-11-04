@@ -28,6 +28,13 @@ public interface PartyMapper {
 	public PartyVO selectOnePM(PartyVO vo);
 
 	public List<PartyVO> searchListWorld(String searchWord, int startRow, int pageBlock);
+	public List<PartyVO> searchListPartyMasterPageBlock(String searchWord, int startRow, int pageBlock);
+	public List<PartyVO> searchListPartyNamePageBlock(String searchWord, int startRow, int pageBlock);
 
-	public List<PartyVO> searchListPartyIdPageBlock(String searchWord, int startRow, int pageBlock);
+	public int getTotalRows();
+	public int getSearchTotalRowsWorld(String searchWord);
+	public int getSearchTotalRowsPartyMaster(String searchWord);
+	public int getSearchTotalRowsPartyName(String searchWord);
+
+
 }

@@ -171,7 +171,7 @@ public class PartyBoardController {
 	        }
 	        
 	        String user_character = (String) session.getAttribute("user_character");
-		    if (user_character == null || !user_character.equals(vo2.getParty_board_writer())) {
+		    if (!user_character.equals(vo2.getParty_board_writer())^ (String)session.getAttribute("admin_name") != null) {
 		    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
 		        return "redirect:/partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
 		    }
@@ -237,7 +237,7 @@ public class PartyBoardController {
 	}
 
 	@GetMapping("/partyboard/delete")
-	public String delete(PartyBoardVO vo, Model model) {
+	public String delete(PartyBoardVO vo, Model model,RedirectAttributes redirectAttributes) {
 	    log.info("party_board_delete...");
 
 	    // 필수 항목 검증
@@ -253,7 +253,11 @@ public class PartyBoardController {
 	            
 	            return "partyboard/selectAll"; // 정보가 없을 경우 목록 페이지로 이동
 	        }
-
+	        String user_character = (String) session.getAttribute("user_character");
+		    if (!user_character.equals(vo2.getParty_board_writer())^ (String)session.getAttribute("admin_name") != null) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
+		        return "redirect:/partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
+		    }
 	        model.addAttribute("vo2", vo2);
 	    } catch (Exception e) {
 	        log.error("파티 게시판 정보 조회 중 오류 발생: {}", e.getMessage());
