@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>party selectAll</title>
+	<div th:replace="~{layout::boottemplate}"></div>
+</head>
+<body th:replace="~{layout::layout}">
+	<div th:fragment="content">
+		<h1>좋아요 관리</h1>
+
+		
+		<table id="insertTable">
+			<thead>
+				<tr>
+					<th>event_id</th>
+					<th>character_name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="vo : ${list}">
+					<tr>
+						<td>[[${vo.event_id}]]</td>
+						<td>[[${vo.character_name}]]</td>	
+							
+						<td>
+							<form action="/admin/eventlike/deleteOK" method="post">
+								<input type="hidden" name="event_id" th:value="${vo.event_id}">
+								<input type="hidden" name="character_name" th:value="${vo.character_name}">
+								<table id="insertTable">
+									<tr>
+										<th><input type="submit" value="삭제"></th>
+									</tr>
+								</table>
+							</form>
+						
+						</td>			
+					</tr>
+				</th:block>
+			</tbody>
+		</table>		
+	</div>
+
+</body>
+</html>
