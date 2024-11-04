@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	
+
   
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -15,7 +15,8 @@
   
     <link href='calendar-20/fullcalendar/packages/core/main.css' rel='stylesheet' />
     <link href='calendar-20/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
-    
+    <link href='calendar-20/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+   
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="calendar-20/css/bootstrap.min.css">
@@ -84,22 +85,27 @@
  <div th:fragment="content" id="mainContent">
 
   <div id='calendar-container'>
- <div class="fixed-bottom-left pppp">
-	<details><table  id="insertTable">
-			<thead>
-					<summary>[[${partyvo.party_name}]]&nbsp;&nbsp;&nbsp;&nbsp;</summary>
-					<th:block th:each="pvo : ${plist}">
-					<tr><a th:href="|/cindex?party_id=${pvo.party_id}|" style="color: white">[[${pvo.party_name}]]파티&nbsp;&nbsp;&nbsp;&nbsp;</a></tr>						
-					</th:block>
-	
-			</thead>
-			<tbody>				
-			</tbody>
-		</table></details>
-	</div>
-	
-	
-    <div id='calendar'></div>
+			<div class="fixed-bottom-left pppp">
+				<details>
+					<table id="insertTable">
+						<thead>
+							<summary>[[${partyvo.party_name}]]&nbsp;&nbsp;&nbsp;&nbsp;</summary>
+							<th:block th:each="pvo : ${plist}">
+								<tr>
+									<a th:href="|/cindex?party_id=${pvo.party_id}|"
+										style="color: white">[[${pvo.party_name}]]파티&nbsp;&nbsp;&nbsp;&nbsp;</a>
+								</tr>
+							</th:block>
+
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</details>
+			</div>
+
+
+			<div id='calendar'></div>
   </div>
   
   
@@ -119,6 +125,7 @@
     
 
     <script>
+
       document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     
