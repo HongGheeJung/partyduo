@@ -39,12 +39,8 @@
 							</li>
 							<li th:if="${session.user_id==null}"><a href="/member/insert">회원가입</a></li>
 
-							<li th:if="${session.admin_name != null}" class="has-dropdown"><a href="#">관리자</a>
-								<ul class="dropdown">
-									<li><a href="/admin/party/selectAll">전체 파티 목록</a></li>
-									<li><a href="/member/selectAll">전체 유저 목록</a></li>
-									
-								</ul>
+							<li th:if="${session.admin_name != null}" class="has-dropdown"><a href="/admin">관리자</a>
+							
 							</li>
 						</ul>
 					</div>

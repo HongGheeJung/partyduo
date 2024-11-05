@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>main</title>
+	<div th:replace="~{layout::boottemplate}"></div>
+	
+	
+	  
+<script th:inline="javascript">
+
+	
+	
+function showPopup(url) {
+	fetch('/checkLogin')
+        .then(response => response.json())
+        .then(data => {
+            if (data.loggedIn) {
+                // 로그인된 경우에만 팝업 열기
+                var width = 600;
+                var height = 900;
+                var left = (window.screen.width / 2) - (width / 2);
+                var top = (window.screen.height / 2) - (height / 2);
+                window.open(url, "makeparty", 
+                    `width=${width},height=${height},left=${left},top=${top}`);
+            } else {
+                // 로그인되지 않은 경우 알림 후 메인 페이지로 이동
+                alert('로그인을 진행해주세요.');
+                window.location.href = "/member/login";
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
+<style>
+    th,td {
+        text-align: center;
+        img-align: center;  /* 가로 가운데 정렬 */
+        vertical-align: middle;  /* 세로 가운데 정렬 */
+    }
+	
+	.btn-main {
+    background-color: rgb(230, 230, 230);
+    color: #000; /* 텍스트 색상은 검정색으로 설정하여 대비를 줌 */
+    border: none; /* 버튼 테두리 제거 */
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 추가 */
+}
+
+.btn-main:hover {
+    background-color: rgb(210, 210, 210); /* 호버 시 약간 어두운 색상으로 변경 */
+}
+	.main-text	 {
+	 color: #ffffff;
+	 font-weight: bold;
+	 margin-bottom: 0.5rem;
+  }
+  
+</style>
+</head>
+
+<body th:replace="~{layout::layout}">
+
+<div th:fragment="content">
+	
+	<h3>[[${session.user_id}]]</h3>
+	<a href="/admin/party/selectAll">전체 파티 목록</a>
+	<a href="/member/selectAll">전체 유저 목록</a>
+	<a href="/admin/event/selectAll">관리자이벤트</a>
+	<a href="/admin/eventlike/selectAll">관리자이벤트라이크</a>
+	
+	<div class="gtco-container">
+			
+			<div class="row">
+
+				<div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="fh5co-card-item" style="position: relative;">
+        <!-- 오버레이와 이미지가 포함된 figure -->
+        <figure style="margin: 0; position: relative;">
+            <!-- 이미지 -->
+            <img src="/boss_img/스우.png" alt="스우 이미지" style="width: 100%; height: auto; margin-top: -120px; position: relative; z-index: 1;">
+
+            <!-- 블랙 반투명 오버레이 -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); border-radius: 8px; z-index: 2;">
+            </div>
+
+            <!-- 텍스트 오버레이 -->
+            <div class="content-overlay" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; z-index: 3;">  
+                <h2 class="main-text" style="font-size: 2.4rem;">캐릭터 검색</h2>
+            </div>
+            <div class="content-overlay" style="position: absolute; bottom: 30%; left: 50%; transform: translateX(-50%); text-align: center; width: 100%; z-index: 3;">
+			<form method="get" action="/character/info" style="max-width: 350px; margin: auto; position: relative;">
+    <div style="display: flex; align-items: center;  background: #e6e6e6; border-radius: 4px; overflow: hidden; height:50px">
+        <input type="text" class="form-control" name="character_name" placeholder="캐릭터명" aria-label="캐릭터명" 
+               style="border: none; flex: 1; padding: 5px 10px; outline: none; background: #e6e6e6; color: #333;">
+        <button type="submit" class="btn btn-main" style="background: none; border: none; padding: 0 8px; cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+    </div>
+</form>
+
+            </div>
+        </figure>
+    </div>
+</div>
+
+
+				
+				<div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="fh5co-card-item" style="position: relative;">
+        <!-- 오버레이와 이미지가 포함된 figure -->
+        <figure style="margin: 0; position: relative;">
+            <!-- 이미지 -->
+            <img src="/boss_img/림보.png" alt="림보 이미지" style="width: 100%; height: auto; margin-top: -170px; position: relative; z-index: 1;">
+
+            <!-- 블랙 반투명 오버레이 -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); border-radius: 8px; z-index: 2;">
+            </div>
+
+            <!-- 텍스트 오버레이 -->
+            <div class="content-overlay" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; z-index: 3;">  
+                <h2 class="main-text" style="font-size: 2.4rem;">파티 모집 게시판</h2>
+            </div>
+
+            <!-- 버튼 오버레이 -->
+            <div class="content-overlay" style="position: absolute; bottom: 10%; left: 78%; transform: translateX(-50%); text-align: center; width: 100%; z-index: 3;">
+                <div style="display: inline-flex; gap: 5px;">
+                    <a href="/partyboard/selectAll">
+                    <button type="button" class="btn btn-main " style="padding: 4px 10px; font-size: 1.2rem;">바로가기</button>
+                    </a>
+                    <th:block th:if="${session.user_id != null}">
+                    
+                    <button type="button" class="btn btn-main " onclick="showPopup('/partyboard/insert')" style="padding: 4px 10px; font-size: 1.2rem;">게시글 작성</button>
+                	</th:block>
+                </div>
+            </div>
+        </figure>
+    </div>
+</div>
+
+
+
+
+				
+				<th:block th:if="${session.user_id!=null}">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="fh5co-card-item" style="position: relative;">
+        <!-- 오버레이와 이미지가 포함된 figure -->
+        <figure style="margin: 0; position: relative;">
+            <!-- 이미지 -->
+            <img src="/boss_img/선택받은 세렌.png" alt="세렌 이미지" style="width: 100%; height: auto; margin-top: -130px; position: relative; z-index: 1;">
+
+            <!-- 블랙 반투명 오버레이 -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); border-radius: 8px; z-index: 2;">
+            </div>
+
+            <!-- 텍스트 오버레이 -->
+            <div class="content-overlay" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; z-index: 3;">  
+                <h2 class="main-text" style="font-size: 2.4rem;">파티 생성</h2>
+            </div>
+
+            <!-- 버튼 오버레이 -->
+            <div class="content-overlay" style="position: absolute; bottom: 10%; left: 78%; transform: translateX(-50%); text-align: center; width: 100%; z-index: 3;">
+                <div style="display: inline-flex; gap: 5px;">
+                  
+                    <button type="button" class="btn btn-main " onclick="showPopup('/party/insert')" style="padding: 4px 10px; font-size: 1.2rem;">파티 생성</button>
+                
+                </div>
+            </div>
+        </figure>
+    </div>
+</div>
+				</th:block>
+				
+				<th:block th:if="${session.user_id!=null}">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="fh5co-card-item" style="position: relative;">
+        <!-- 오버레이와 이미지가 포함된 figure -->
+        <figure style="margin: 0; position: relative;">
+            <!-- 이미지 -->
+            <img src="/boss_img/가디언 엔젤 슬라임.png" alt="림보 이미지" style="width: 100%; height: auto; margin-top: -130px; position: relative; z-index: 1;">
+
+            <!-- 블랙 반투명 오버레이 -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); border-radius: 8px; z-index: 2;">
+            </div>
+
+            <!-- 텍스트 오버레이 -->
+            <div class="content-overlay" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; z-index: 3;">  
+                <h2 class="main-text" style="font-size: 2.4rem;">캘린더</h2>
+            </div>
+
+            <!-- 버튼 오버레이 -->
+            <div class="content-overlay" style="position: absolute; bottom: 10%; left: 78%; transform: translateX(-50%); text-align: center; width: 100%; z-index: 3;">
+                <div style="display: inline-flex; gap: 5px;">
+                <a href="/cindex">
+                    <button type="button" class="btn btn-main "  style="padding: 4px 10px; font-size: 1.2rem;">바로가기</button>
+                </a>	
+                </div>
+            </div>
+        </figure>
+    </div>
+</div>		
+				</th:block>
+			</div>
+		</div>
+</div>	
+
+</body>
+</html>
