@@ -318,7 +318,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/pwChangeOK")
-	public String member_pwChange(Model model, MemberVO vo, String oldpw) {
+	public String member_pwChangeOK(Model model, MemberVO vo, String oldpw) {
 		log.info("vo: {}", vo);
 		log.info("oldpw: {}", oldpw);
 		MemberVO vo2 = service.member_selectOne(vo);
