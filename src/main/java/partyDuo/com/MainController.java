@@ -24,4 +24,15 @@ public class MainController {
 		return "main";
 	}
 	
+	@GetMapping("/admin")
+	public String admin() {
+	
+
+		//session.setAttribute("user_id","admin");
+		//session.setAttribute("user_character","페이커");
+		
+		log.info("/admin");
+		return "admin";
+	}
+	
 }
