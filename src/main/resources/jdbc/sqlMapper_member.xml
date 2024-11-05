@@ -4,8 +4,8 @@
 
 <mapper namespace="partyDuo.com.mapper.MemberMapper">
 	<insert id="member_insert">
-		insert into member(id, pw, email, apikey, character_name)
-		values(#{id},#{pw},#{email},#{apikey},#{character_name})
+		insert into member(id, pw, email, apikey, character_name, salt)
+		values(#{id},#{pw},#{email},#{apikey},#{character_name}, #{salt})
 	</insert>
 	<update id="member_update">
 		update member set id=#{id}, pw=#{pw}, email=#{email}, apikey=#{apikey}, character_name=#{character_name}

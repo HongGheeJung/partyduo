@@ -16,4 +16,5 @@ public class MemberVO {
 	private String apikey;
 	private String character_name;
 	private String ocid;
+	private String salt;
 }

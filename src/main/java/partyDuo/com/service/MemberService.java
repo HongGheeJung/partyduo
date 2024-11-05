@@ -20,6 +20,7 @@ public class MemberService {
 	@Autowired
 	CharacterService service;
 	
+	
 	@Autowired
 	MailServiceInter mail;
 
@@ -68,13 +69,20 @@ public class MemberService {
 		}
 	}
 	public MemberVO member_login(MemberVO vo) {
+		MemberVO vo2=member_selectOne(vo);
+		if(vo2==null) {
+			return null;
+		}
+		String salt=vo2.getSalt();
+		vo.setPw(HashService.getSHA512(vo.getPw(), salt));
 		log.info("member_login()...");
 		return mapper.member_login(vo);
 //		return null;
 	}
 	public String member_findPwCheck(MemberVO vo) throws Exception {
 		log.info("member_findPwCheck()...");
-		vo.setPw(mail.sendMessage(vo.getEmail()));
+		String newPw=mail.sendMessage(vo.getEmail());
+		vo.setPw(HashService.getSHA512(newPw, vo.getSalt()));
 		log.info("vo: {}", vo);
 		int result=mapper.member_update(vo);
 		if(result==0) {
@@ -106,10 +114,11 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return mapper.apiCheck(vo);
 	}
-	public int member_pwChange(MemberVO vo, String oldpw, String oldpwCheck) {
+	public int member_pwChange(MemberVO vo, String oldpw, String oldpwCheck, String salt) {
 		if(!oldpw.equals(oldpwCheck)) {
 			return 0;
 		}
+		vo.setPw(HashService.getSHA512(vo.getPw(), salt));
 		return mapper.member_pwChange(vo);
 	}
 }

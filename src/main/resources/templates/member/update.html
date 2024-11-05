@@ -45,9 +45,12 @@
 													<div class="row form-group">
 														<div class="col-md-12">
 															<input type="hidden" id="pw" name="pw"
-																th:value="${vo2.pw}"> <label for="id">ID</label>
+																th:value="${vo2.pw}"> 
+															<input type="hidden" id="salt" name="salt"
+																th:value="${vo2.salt}"> 
+															<label for="id">ID</label>
 															<input type="hidden" id="id" name="id"
-																th:value="${vo2.id}" placeholder="ID를 입력하세요">
+																th:value="${vo2.id}">
 															<p class="pform">[[${vo2.id}]]</p>
 															<button type="button"
 																th:onclick="|location.href='@{/member/pwChange(id=${vo2.id})}'|"
