@@ -38,15 +38,7 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>delete</h1>
-		<a href="/main">main</a> <a href="/member/insert">insert</a> <a
-			href="/member/update">update</a> <a href="/member/delete">delete</a>
-		<a href="/member/selectOne">selectOne</a> <a href="/member/selectAll">selectAll</a>
-		<a href="/member/login">login</a> <a href="/member/loginOK">loginOK</a>
-		<a href="/member/findID">findID</a> <a href="/member/findPw">findPW</a>
-		<a href="/member/findPwCheck">findPWCheck</a> <a
-			href="/member/findIDCheck">findIDCheck</a>
-		<hr>
+		
 
 		<th:block>
 			<div class="overlay"></div>
@@ -65,6 +57,11 @@
 														<input type="hidden" name="member_id" th:value="${vo2.member_id}">
 														<input type="hidden" name="pw" id="pw"
 															th:value="${vo2.pw}">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<h3>비밀번호 확인</h3>
+															</div>
+														</div>
 														<div class="row form-group">
 															<div class="col-md-12">
 																<label for="pw">비밀번호</label> <input type="password"

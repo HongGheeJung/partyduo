@@ -37,7 +37,6 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>pwChange</h1>
 		<th:block>
 			<div class="overlay"></div>
 			<div class="gtco-container">
@@ -53,6 +52,11 @@
 												<div class="tab-content-inner active">
 													<form action="/member/pwChangeOK" method="post">
 														<input type="hidden" name="id" th:value="${vo2.id}">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<h3>비밀번호 변경</h3>
+															</div>
+														</div>
 														<div class="row form-group">
 															<div class="col-md-12">
 																<label for="oldpw">현재 비밀번호</label> <input
