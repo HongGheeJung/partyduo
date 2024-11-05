@@ -110,6 +110,8 @@ input[type=button], input[type=submit] {
 
 <script th:inline="javascript">
             $(document).ready(function(){
+            	let chat = document.querySelector('#chat');
+  			   chat.scrollTop = chat.scrollHeight;
 
                 var roomName = [[${room.party_name}]];
                 var roomId = [[${room.party_id}]];
