@@ -33,7 +33,7 @@ input[type=button], input[type=submit] {
 }
 
 .myChat {
-  width: 600px;
+  width: 550px;
   text-align: right;
 }
 
@@ -48,12 +48,12 @@ input[type=button], input[type=submit] {
 <th:block >
     <div >
 
-        <div id="chat" class="container" style="height: 700px; overflow:scroll;" onscroll="scrollFn()" >
+        <div id="chat" class="container" style="height: 800px; overflow:scroll;" onscroll="scrollFn()" >
             <div class="col-6">
                 <h1>[[${room.party_name}]]</h1>
             </div>
             	<div>
-						<table id="insertTable" width = "600" >
+						<table id="insertTable" width = "550" >
 							<tbody>
 								<th:block th:each="vo2 : ${chat_list}">
 								<tr>
