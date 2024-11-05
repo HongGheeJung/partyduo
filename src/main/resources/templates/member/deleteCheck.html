@@ -7,7 +7,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script th:inline="javascript">
-	let isPwChecked = false;
+	/* let isPwChecked = false;
 	
 	$(document).ready(function() {
 		console.log("ready");
@@ -33,7 +33,7 @@
 			deleteCheck();
 
 		});
-	});
+	}); */
 </script>
 </head>
 <body th:replace="~{layout::layout}">
@@ -55,6 +55,8 @@
 												<div class="tab-content-inner active">
 													<form action="/member/deleteOK" method="post">
 														<input type="hidden" name="member_id" th:value="${vo2.member_id}">
+														<input type="hidden" name="id" th:value="${vo2.id}">
+														<input type="hidden" name="salt" th:value="${vo2.salt}">
 														<input type="hidden" name="pw" id="pw"
 															th:value="${vo2.pw}">
 														<div class="row form-group">
@@ -64,8 +66,8 @@
 														</div>
 														<div class="row form-group">
 															<div class="col-md-12">
-																<label for="pw">비밀번호</label> <input type="password"
-																	class="form-control" id="pwCheck">
+																<label for="pwCheck">비밀번호</label> <input type="password"
+																	class="form-control" id="pwCheck" name="pwCheck">
 															</div>
 															<div class="col-md-12">
 																<input type="submit" id="submitButton"
