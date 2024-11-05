@@ -15,7 +15,7 @@
 	});
 	function favoriteList(pageNum) {
 		console.log("favoriteList()"+pageNum);
-		let url2 = "http://localhost:8820/favorite/searchList";
+		let url2 = "/favorite/searchList";
 		let user_id="[[${session.user_id}]]"
 		$.ajax({
 			url : url2,
