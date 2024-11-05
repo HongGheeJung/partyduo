@@ -7,7 +7,6 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>findPW</h1>
 
 		<th:block>
 			<div class="overlay"></div>
@@ -23,6 +22,11 @@
 											<div class="tab-content">
 												<div class="tab-content-inner active">
 													<form action="/member/findPwCheck" method="post">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<h3>비밀번호 찾기</h3>
+															</div>
+														</div>
 														<div class="row form-group">
 															<div class="col-md-12">
 																<label for="id"><h4>ID를 입력하세요</h4></label>

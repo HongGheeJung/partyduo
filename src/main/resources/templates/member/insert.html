@@ -6,6 +6,17 @@
 <div th:replace="~{layout::boottemplate}"></div>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+.pform {
+	border-style: solid;
+	padding: 10px 10px;
+	border-width: 3px;
+	border-radius: 5px;
+	border-color: #eaeaea;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
 <script th:inline="javascript">
 	let isIdChecked = false;
 	let isApiChecked = false;
@@ -105,8 +116,8 @@
 		isIdChecked = false;
 		validateForm();
 	});
-	$('#apikey').on('input', function(){
-		
+	$('#apikey').on('input', function() {
+
 	});
 	function validateForm() {
 		const id = $('#id').val().trim();
@@ -127,10 +138,6 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<script th:if="${joinResult=='Failed'}">
-			alert("회원가입에 실패했습니다.");
-		</script>
-		<h1>회원가입</h1>
 		<th:block>
 			<div class="overlay"></div>
 			<div class="gtco-container">
@@ -145,6 +152,11 @@
 											<div class="tab-content">
 												<div class="tab-content-inner active">
 													<form action="/member/insertOK" method="post">
+														<div class="row form-group">
+															<div class="col-md-12">
+																<h3>회원가입</h3>
+															</div>
+														</div>
 														<div class="row form-group">
 															<div class="col-md-12">
 																<label for="id">ID</label> <input type="text" id="id"
@@ -186,7 +198,7 @@
 																<label for="character_name">닉네임</label> <input
 																	type="text" id="character_name" class="form-control"
 																	name="character_name" value="테스트"
-																	placeholder="캐릭터 이름 입력"> <input type="button"
+																	placeholder="캐릭터 이름 입력" > <input type="button"
 																	id="btn_apiCheck" class="btn btn-primary" value="api">
 																<span id="resultApi" class="result"></span>
 															</div>
@@ -195,7 +207,7 @@
 															<div class="col-md-12">
 																<label for="ocid">ocid</label> <input type="text"
 																	id="ocid" class="form-control" name="ocid"
-																	value="0001010101010" placeholder="ocid입력">
+																	value="0001010101010" placeholder="ocid입력" disabled>
 															</div>
 														</div>
 														<div class="row form-group">
