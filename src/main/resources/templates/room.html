@@ -2,61 +2,100 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 
 <head>
+	<meta charset="UTF-8">
+	
+	
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	
+	<style> 
+input[type=button], input[type=submit] {
+  background-color: #09C6AB;
+  border-radius: 3px ;
+  color: white;
+  padding: 2px 4px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.textbox{
+	 display: inline-block;
+  position: relative;
+  background-color: #ea5936;
+  border-radius: 20px;
+  color: #fff;
+  padding: 7px 12px;
+  margin-bottom: 10px;
+  max-width: 230px;
+}
+
+.myChat {
+  width: 600px;
+  text-align: right;
+}
+
+.fixed-bottom-left { position: fixed; bottom: 20px; /* 하단에서의 거리 */ left: 20px; /* 왼쪽에서의 거리 */ z-index: 1000; /* 다른 요소 위에 버튼을 표시 */ } 
+
+
+</style>
+
 </head>
 
 <body >
 <th:block >
     <div >
 
-        <div class="container">
+        <div id="chat" class="container" style="height: 900px; overflow:scroll;" onscroll="scrollFn()" >
             <div class="col-6">
                 <h1>[[${room.party_name}]]</h1>
             </div>
             	<div>
-						<table id="insertTable">
+						<table id="insertTable" width = "600" >
 							<tbody>
 								<th:block th:each="vo2 : ${chat_list}">
-									<tr>
-										<td>
-										<div class='col-6'>
-											<div class='alert alert-secondary'>
-												<b>[[${vo2.chat_writer}]]  :  [[${vo2.chat_content}]] </b>
+								<tr>
+									<td th:if="${vo2.chat_writer==session.user_character}">
+										<div class='myChat'>
+											<div class='alert alert-secondary textbox'>
+												<b>[[${vo2.chat_content}]] </b>
+												
+											</div>
+											<form action="/chat/deleteOK" method="post" style="float: right;">
+													<input type="hidden" name="chat_id"
+														th:value="${vo2.chat_id}">
+													<table id="insertTable">
+														<tr>
+															<th><input type="submit" value="x" ></th>
+														</tr>
+													</table>
+											</form>
+										</div>
+									</td>
+									<td th:unless="${vo2.chat_writer==session.user_character}">
+										<div>
+											<div class='alert alert-secondary textbox'>
+												<b>[[${vo2.chat_writer}]] : [[${vo2.chat_content}]] </b>
 											</div>
 										</div>
-										</td>
-										
-										
-										<td th:if="${vo2.chat_writer==session.user_character}">
-											<form action="/chat/deleteOK" method="post">
-												<input type="hidden" name="chat_id"
-													th:value="${vo2.chat_id}">
-												<table id="insertTable">
-													<tr>
-														<th><input type="submit" value="삭제"></th>
-													</tr>
-												</table>
-											</form>
 
-										</td>
-									</tr>
-		
-										
 
-								</th:block>
+
+									</td>
+								</tr>
+							</th:block>
 							</tbody>
 						</table>         
                 
             </div>
-            <div id="msgArea" class="col"></div>
-            <div class="col-6">
+            <div id="msgArea" class="col" ></div>
+            <div class="col-6 fixed-bottom-left" >
                     <div class="input-group mb-3">
-                        <input type="text" id="msg" class="form-control">
+                        <input type="text" id="msg" class="form-control" style="width:600px;">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                            <input class="btn btn-outline-secondary" type="button" id="button-send" value="전송">
                         </div>
                     </div>
                 </div>
@@ -95,16 +134,18 @@
                        console.log(writer + ", " + content.chat_id + ", " );
                        if(content.chat_content != null){
                        if(writer === content.chat_writer){
-                           str = "<tr><th:block><td><div class='col-6'>";
-                           str += "<div class='alert alert-secondary'>";
-                           str += "<b>" + writer + " : " + content.chat_content + "</b>";
-                           str += "</div></div></td>";
-                           str += '<td><form action="/chat/deleteOK" method="post">';
+                           str = "<th:block><tr><td><div class='myChat'>";
+                           str += "<div class='alert alert-secondary textbox'>";
+                           str += "<b>" + content.chat_content + "</b>";
+                           str += "</div>";
+                           str += '<form action="/chat/deleteOK" method="post" style="float: right;">';
                            str += '<input type="hidden" id="chat_id" name="chat_id" value="' + content.chat_id + '">';
                            str += '<table id="insertTable"><tr>';
-                           str += '<th><input type="submit" value="삭제"></th></tr>';
-                           str += '</tr></table></form></td></tr>';
-             $("#msgArea").append(str);
+                           str += '<th><input type="submit" value="x"></th>';
+                           str += '</tr></table></form></div></td></tr></th:block>';
+            			   $("#msgArea").append(str);
+             			   let chat = document.querySelector('#chat');
+             			   chat.scrollTop = chat.scrollHeight;
                        }
                        else{
                            str = "<div class='col-6'>";
@@ -112,6 +153,8 @@
                            str += "<b>" + content.chat_writer + " : " + content.chat_content + "</b>";
                            str += "</div></div>";
                            $("#msgArea").append(str);
+                           let chat = document.querySelector('#chat');
+                           chat.scrollTop = chat.scrollHeight;
                        }
                        }
 
@@ -130,6 +173,10 @@
                     msg.value = '';
                 });
             });
+            
+            
+            
+            
 </script>
         
 </body>
