@@ -48,7 +48,7 @@ input[type=button], input[type=submit] {
 <th:block >
     <div >
 
-        <div id="chat" class="container" style="height: 900px; overflow:scroll;" onscroll="scrollFn()" >
+        <div id="chat" class="container" style="height: 700px; overflow:scroll;" onscroll="scrollFn()" >
             <div class="col-6">
                 <h1>[[${room.party_name}]]</h1>
             </div>
@@ -151,7 +151,7 @@ input[type=button], input[type=submit] {
                        }
                        else{
                            str = "<div class='col-6'>";
-                           str += "<div class='alert alert-warning'>";
+                           str += "<div class='alert alert-warning textbox'>";
                            str += "<b>" + content.chat_writer + " : " + content.chat_content + "</b>";
                            str += "</div></div>";
                            $("#msgArea").append(str);
