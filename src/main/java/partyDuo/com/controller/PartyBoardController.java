@@ -486,35 +486,44 @@ public class PartyBoardController {
 	    
 	    try {
 	        // searchKey에 따라 로직 분기
-	        if ("world".equals(searchKey)) {
-	            list = pbservice.selectAllPageBlock(cpage, pageBlock); // 모든 파티 게시판 조회
-	            list2 = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock); // 월드 검색된 파티 목록
-	            log.info("PartyBoard List: {}", list);
-	            log.info("Party List: {}", list2);
+	    	if ("world".equals(searchKey)) {
+	    	    // 월드 검색된 파티 목록 조회
+	    	    list2 = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
+	    	    log.info("Party List: {}", list2);
 
-	            if (list == null || list.isEmpty() || list2 == null || list2.isEmpty()) {
-	                model.addAttribute("errorMessage", "해당 조건으로 검색된 파티 또는 게시판 정보가 없습니다.");
-	                return "partyboard/selectAll";
-	            }
+	    	    if (list2 == null || list2.isEmpty()) {
+	    	        model.addAttribute("errorMessage", "해당 조건으로 검색된 파티 정보가 없습니다.");
+	    	        return "partyboard/selectAll";
+	    	    }
 
-	            final List<PartyBoardVO> partyBoardList = list;
-	            list3 = list2.stream()
-	                    .flatMap(party -> {
-	                        Optional<PartyBoardVO> optionalBoard = partyBoardList.stream()
-	                                .filter(board -> board.getParty_id() == party.getParty_id())
-	                                .findFirst();
+	    	    // 모든 파티 게시판 조회
+	    	    list = pbservice.selectAllPageBlock(cpage, pageBlock);
+	    	    log.info("PartyBoard List: {}", list);
 
-	                        return optionalBoard.map(board -> {
-	                            String bossName = board.getBoss().replaceAll("(이지|노멀|하드|카오스|익스트림)\\s*", "");
-	                            String bossImagePath = "/boss_img/" + bossName + ".png";
+	    	    if (list == null || list.isEmpty()) {
+	    	        model.addAttribute("errorMessage", "해당 조건으로 검색된 게시판 정보가 없습니다.");
+	    	        return "partyboard/selectAll";
+	    	    }
 
-	                            // 일치하는 경우 DTO 생성
-	                            return new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(),party.getParty_master() ,bossImagePath);
-	                        }).stream(); // Optional을 Stream으로 변환
-	                    })
-	                    .collect(Collectors.toList());
+	    	    final List<PartyVO> partyList = list2;
 
-	        } else {
+	    	    list3 = list.stream()
+	    	            .filter(board -> partyList.stream().anyMatch(party -> party.getParty_id() == board.getParty_id())) // 관련 파티가 있는 게시판만 필터링
+	    	            .map(board -> {
+	    	                Optional<PartyVO> optionalParty = partyList.stream()
+	    	                        .filter(party -> party.getParty_id() == board.getParty_id())
+	    	                        .findFirst();
+
+	    	                // 보스 이름에서 난이도 제거 후 이미지 경로 설정
+	    	                String bossName = board.getBoss().replaceAll("(이지|노멀|하드|카오스|익스트림)\\s*", "");
+	    	                String bossImagePath = "/boss_img/" + bossName + ".png";
+
+	    	                return optionalParty
+	    	                        .map(party -> new PartyBoardNameDTO(board, party.getParty_name(), party.getParty_world(), party.getParty_master(), bossImagePath))
+	    	                        .orElseThrow(() -> new IllegalStateException("파티 정보를 찾을 수 없습니다: " + board.getParty_id()));
+	    	            })
+	    	            .collect(Collectors.toList());
+	    	} else {
 	            list = pbservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
 	            list2 = pservice.selectAll(cpage, pageBlock); // 모든 파티 조회
 
