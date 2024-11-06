@@ -137,10 +137,15 @@ public class PartyController {
 	        vo2 = pservice.selectOne(vo);
 	        
 	        String user_character = (String) session.getAttribute("user_character");
-		    if (user_character == null || !user_character.equals(vo2.getParty_master())) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "로그인 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
-		        return "redirect:/partylist/myparty";  // 작성자가 유효하지 않을 경우 다시 상세 페이지로 이동
-		    }
+		    String admin_name=(String)session.getAttribute("admin_name"); 
+		    if(admin_name == null) {
+		    	if (!user_character.equals(vo2.getParty_master())) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	return "redirect:/partylist/myparty";
+			    
+			    }
+	        }
 		    
 	        log.info("vo: {}", vo2);
 	    } catch (Exception e) {
@@ -162,11 +167,15 @@ public class PartyController {
 	    // 로그인 여부 체크
 	    
 	    String user_character = (String) session.getAttribute("user_character");
-	    if (user_character == null || user_character.trim().isEmpty()) {
-	    	log.info("3");
-	    	redirectAttributes.addFlashAttribute("errorMessage", "로그인을 먼저 해주세요.");
-	        return "redirect:/main";
-	    }
+	    String admin_name=(String)session.getAttribute("admin_name"); 
+	    if(admin_name == null) {
+	    	if (!user_character.equals(vo.getParty_master())) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	return "redirect:/partylist/myparty";
+		    
+		    }
+        }
 	    
 	    // 유효한 파티 정보 확인
 	    if (vo == null || vo.getParty_id() == 0) {
@@ -302,11 +311,16 @@ log.info("party_update...");
 	    try {
 	        vo2 = pservice.selectOne(vo);
 	     // 로그인 체크 및 파티 마스터 여부 확인
-			String user_character = (String) session.getAttribute("user_character");	
-			if (user_character == null || !user_character.equals(vo2.getParty_master())) {
-		        redirectAttributes.addFlashAttribute("errorMessage", "로그인을 먼저 해주세요.");
-		        return "redirect:/main"; // 로그인 페이지로 리다이렉트
-		    }
+	        String user_character = (String) session.getAttribute("user_character");
+		    String admin_name=(String)session.getAttribute("admin_name"); 
+		    if(admin_name == null) {
+		    	if (!user_character.equals(vo2.getParty_master())) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	return "redirect:/partylist/myparty";
+			    
+			    }
+	        }
 			
 	        log.info("vo: {}", vo2);
 	    } catch (Exception e) {

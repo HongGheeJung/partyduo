@@ -87,10 +87,14 @@ public class ReportBoardController {
 
         // 작성자 확인 (세션의 사용자와 작성자 비교)
         String user_character = (String) session.getAttribute("user_character");
-        if (!vo2.getReport_board_writer().equals(user_character) ^ (String)session.getAttribute("admin_name") != null) {
-        	redirectAttributes.addFlashAttribute("errorMessage", "작성자만 수정할 수 있습니다.");
-            log.info("2");
-            return "redirect:/reportboard/selectAll";
+	    String admin_name=(String)session.getAttribute("admin_name"); 
+	    if(admin_name == null) {
+	    	if (!user_character.equals(vo2.getReport_board_writer())) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	return "redirect:/reportboard/selectAll";
+		    
+		    }
         }
 
         model.addAttribute("vo2", vo2);
@@ -129,20 +133,25 @@ public class ReportBoardController {
     }
     
     @GetMapping("/reportboard/delete")
-    public String delete(ReportBoardVO vo, Model model) {
+    public String delete(ReportBoardVO vo, Model model,RedirectAttributes redirectAttributes) {
         log.info("report_delete...");
 
         ReportBoardVO vo2 = rbService.selectOne(vo);
         if (vo2 == null) {
-            model.addAttribute("errorMessage", "해당 게시물을 찾을 수 없습니다.");
+        	redirectAttributes.addFlashAttribute("errorMessage", "해당 게시물을 찾을 수 없습니다.");
             return "redirect:/reportboard/selectAll";
         }
 
         // 작성자 확인 (세션의 사용자와 작성자 비교)
         String user_character = (String) session.getAttribute("user_character");
-        if (!vo2.getReport_board_writer().equals(user_character) ^ (String)session.getAttribute("admin_name") != null) {
-            model.addAttribute("errorMessage", "작성자만 삭제할 수 있습니다.");
-            return "redirect:/reportboard/selectAll";
+	    String admin_name=(String)session.getAttribute("admin_name"); 
+	    if(admin_name == null) {
+	    	if (!user_character.equals(vo2.getReport_board_writer())) {
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	return "redirect:/reportboard/selectAll";
+		    
+		    }
         }
 
         model.addAttribute("vo2", vo2);

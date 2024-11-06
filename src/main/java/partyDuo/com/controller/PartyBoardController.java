@@ -171,10 +171,15 @@ public class PartyBoardController {
 	        }
 	        
 	        String user_character = (String) session.getAttribute("user_character");
-		    if (!user_character.equals(vo2.getParty_board_writer())^ (String)session.getAttribute("admin_name") != null) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
-		        return "redirect:/partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
-		    }
+		    String admin_name=(String)session.getAttribute("admin_name"); 
+		    if(admin_name == null) {
+		    	if (!user_character.equals(vo2.getParty_board_writer())) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	return "redirect:/partyboard/selectAll"; 
+			    
+			    }
+	        }
 		    
 	        log.info("vo: {}", vo2);
 	        model.addAttribute("vo2", vo2);
@@ -243,7 +248,7 @@ public class PartyBoardController {
 	    // 필수 항목 검증
 	    if (vo == null || vo.getParty_board_id() == 0) {
 	        model.addAttribute("errorMessage", "유효한 파티 게시판 번호가 필요합니다.");
-	        return "partyboard/selectAll"; // 적절한 목록 페이지로 이동
+	        return "redirect:/partyboard/selectAll"; // 적절한 목록 페이지로 이동
 	    }
 
 	    try {
@@ -251,18 +256,23 @@ public class PartyBoardController {
 	        if (vo2 == null) {
 	            model.addAttribute("errorMessage", "삭제하려는 파티 게시판 정보를 찾을 수 없습니다.");
 	            
-	            return "partyboard/selectAll"; // 정보가 없을 경우 목록 페이지로 이동
+	            return "redirect:/partyboard/selectAll"; // 정보가 없을 경우 목록 페이지로 이동
 	        }
 	        String user_character = (String) session.getAttribute("user_character");
-		    if (!user_character.equals(vo2.getParty_board_writer())^ (String)session.getAttribute("admin_name") != null) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "유효한 파티 게시판 정보를 제공해 주세요.2");
-		        return "redirect:/partyboard/selectAll"; // 유효하지 않은 경우 목록으로 이동
-		    }
+		    String admin_name=(String)session.getAttribute("admin_name"); 
+		    if(admin_name == null) {
+		    	if (!user_character.equals(vo2.getParty_board_writer())) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	return "redirect:/partyboard/selectAll";
+			    
+			    }
+	        }
 	        model.addAttribute("vo2", vo2);
 	    } catch (Exception e) {
 	        log.error("파티 게시판 정보 조회 중 오류 발생: {}", e.getMessage());
 	        model.addAttribute("errorMessage", "파티 게시판 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "partyboard/selectAll"; // 오류 발생 시 목록 페이지로 이동
+	        return "redirect:/partyboard/selectAll"; // 오류 발생 시 목록 페이지로 이동
 	    }
 	    
 	    return "partyboard/delete";
