@@ -34,7 +34,6 @@ public class MemberController {
 	FavoriteService fservice;
 
 
-
 	@Autowired
 	AdminService adservice;
 
@@ -243,6 +242,7 @@ public class MemberController {
 			session.setAttribute("user_id", vo2.getId());
 			session.setAttribute("user_character", vo2.getCharacter_name());
 			session.setAttribute("admin_name", vo3.getName());
+			session.setMaxInactiveInterval(300);
 			return "redirect:/main";
 		} else if (vo3 == null) { // vo3가 null이 아닐 경우 추가 조건
 			session.setAttribute("user_id", vo2.getId());

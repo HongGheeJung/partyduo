@@ -19,7 +19,8 @@ public class MainController {
 
 		//session.setAttribute("user_id","admin");
 		//session.setAttribute("user_character","페이커");
-		
+		log.info("session:{}", session.getAttribute("user_id"));
+		log.info("session:{}", session.getMaxInactiveInterval());
 		log.info("/main");
 		return "main";
 	}
