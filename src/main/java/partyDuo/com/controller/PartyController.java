@@ -166,16 +166,6 @@ public class PartyController {
 	    
 	    // 로그인 여부 체크
 	    
-	    String user_character = (String) session.getAttribute("user_character");
-	    String admin_name=(String)session.getAttribute("admin_name"); 
-	    if(admin_name == null) {
-	    	if (!user_character.equals(vo.getParty_master())) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-		    	log.error("댓글 정보 불러오는 중 오류 발생");
-		    	return "redirect:/partylist/myparty";
-		    
-		    }
-        }
 	    
 	    // 유효한 파티 정보 확인
 	    if (vo == null || vo.getParty_id() == 0) {
@@ -193,7 +183,17 @@ public class PartyController {
 	            return "redirect:/partylist/myparty";
 	        
 	        }
-    	    
+	        String user_character = (String) session.getAttribute("user_character");
+		    String admin_name=(String)session.getAttribute("admin_name"); 
+		    if(admin_name == null) {
+		    	if (!user_character.equals(vo2.getParty_master())) {
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
+			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	return "redirect:/partylist/myparty";
+			    
+			    }
+	        }
+		    
 	    } catch (Exception e) {
 	    	log.info("5");
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
