@@ -86,7 +86,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/updateOK")
-	public String member_updateOK(MemberVO vo) {
+	public String member_updateOK(MemberVO vo, Model model) {
 		log.info("/updateOK");
 //		vo=new MemberVO();
 //		vo.setMember_id(1);
@@ -98,9 +98,14 @@ public class MemberController {
 		int result = service.member_update(vo);
 		log.info("result: {}", result);
 		if (result != 0) {
-			return "redirect:/main";
+			log.info("updateOK....");
+			model.addAttribute("vo2", vo);
+			model.addAttribute("errorMessage","계정 정보 변경이 완료되었습니다.");
+			return "member/update";
 		} else {
-			return "redirect:/member/update?id=" + vo.getId();
+			model.addAttribute("vo2", vo);
+			model.addAttribute("errorMessage","정보 변경에 실패했습니다.");
+			return "member/update";
 		}
 	}
 
@@ -134,7 +139,8 @@ public class MemberController {
 				session.removeAttribute("user_character");
 				session.removeAttribute("admin_name");
 				session.removeAttribute("user_id");
-				return "redirect:/main";
+				model.addAttribute("errorMessage","회원탈퇴를 완료했습니다.");
+				return "main";
 			} else {
 				model.addAttribute("errorMessage","비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
 				model.addAttribute("vo2",service.member_selectOne(vo));
