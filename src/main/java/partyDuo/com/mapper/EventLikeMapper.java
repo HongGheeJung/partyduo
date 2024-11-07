@@ -13,6 +13,8 @@ public interface EventLikeMapper {
 	public int insertOK(EventLikeVO vo);
 	
 	public List<EventLikeVO> selectAll();
+	
+	public List<EventLikeVO> selectlist(EventLikeVO vo);
 
 	public EventLikeVO selectOne(EventLikeVO vo);
 	

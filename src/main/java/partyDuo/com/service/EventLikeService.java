@@ -25,6 +25,10 @@ public class EventLikeService {
 	public List<EventLikeVO> selectAll() {
 		return mapper.selectAll();
 	}
+	
+	public List<EventLikeVO> selectlist(EventLikeVO vo) {
+		return mapper.selectlist(vo);
+	}
 
 	public EventLikeVO selectOne(EventLikeVO vo) {
 		return mapper.selectOne(vo);

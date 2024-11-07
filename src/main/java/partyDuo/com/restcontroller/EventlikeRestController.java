@@ -82,10 +82,12 @@ public class EventlikeRestController {
 		EventLikeVO vo = new EventLikeVO();
 		vo.setCharacter_name(character_name);
 		vo.setEvent_id(Integer.parseInt(event_id));
-		EventLikeVO vo2=service.selectOne(vo);
+		int like =service.selectOneLikecheck(vo);
 		
-		if(vo2!=null) {
-			map.put("result", "OK");
+		if(like == 1) {
+			map.put("result", "like");
+		}else if(like == 0)  {
+			map.put("result", "dislike");
 		}else {
 			map.put("result", "NotOK");
 		}

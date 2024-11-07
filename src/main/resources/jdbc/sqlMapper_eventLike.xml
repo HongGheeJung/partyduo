@@ -14,6 +14,13 @@
 		select * from eventlike order by event_id desc
 	</select>
 	
+	<select id="selectlist"
+		resultType="partyDuo.com.model.EventLikeVO">
+		select * from eventlike
+		where event_id=#{event_id}
+		order by event_id desc
+	</select>
+	
 	<select id="selectOneLikecheck"
 		resultType="int">
 		select count(*) total_rows
