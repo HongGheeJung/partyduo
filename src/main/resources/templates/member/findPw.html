@@ -21,10 +21,22 @@
 										<div class="tab">
 											<div class="tab-content">
 												<div class="tab-content-inner active">
-													<form action="/member/findPwCheck" method="post">
+													<form action="/member/findPwCheck" method="get">
 														<div class="row form-group">
 															<div class="col-md-12">
 																<h3>비밀번호 찾기</h3>
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<label for="email"><h4>email을 입력하세요</h4></label>
+															</div>
+														</div>
+														<div class="row form-group">
+															<div class="col-md-12">
+																<input type="text"
+																	id="email" class="form-control" name="email"
+																	value="abc@def.com">
 															</div>
 														</div>
 														<div class="row form-group">

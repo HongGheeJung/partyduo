@@ -22,18 +22,17 @@ public class MailService implements MailServiceInter{
 	private String ePw;
 
 	@Override
-	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
+	public MimeMessage createMessage(String to, String title, String content) throws MessagingException, UnsupportedEncodingException {
 		log.info("이메일:{}", to);
-		log.info("비밀번호:{}", ePw);
+		log.info("제목:{}", title);
+		log.info("내용:{}", content);
 		
 		MimeMessage message=emailSender.createMimeMessage();
 		
 		message.addRecipients(RecipientType.TO, to);
-		message.setSubject("초기화 비밀번호 입니다.");
+		message.setSubject(title);
 		
-		String msgg="";
-		msgg+="<h1>초기화된 비밀번호입니다.</h1>";
-		msgg+="<h3>"+ePw+"</h3>";
+		String msgg=content;
 		
 		message.setText(msgg, "utf-8", "html");
 		message.setFrom(new InternetAddress("gamhi777@gmail.com","paryDuo_admin"));
@@ -47,11 +46,9 @@ public class MailService implements MailServiceInter{
 	}
 
 	@Override
-	public String sendMessage(String to) throws Exception {
-		ePw=createKey();
-		log.info("ePw:{}",ePw);
+	public String sendMessage(String to, String title, String content) throws Exception {
 		
-		MimeMessage message=createMessage(to);
+		MimeMessage message=createMessage(to, title, content);
 		
 		try {
 			emailSender.send(message);
@@ -60,8 +57,7 @@ public class MailService implements MailServiceInter{
 			throw new IllegalArgumentException();
 		}
 		
-		return ePw;
+		return content;
 	}
-	
 	
 }
