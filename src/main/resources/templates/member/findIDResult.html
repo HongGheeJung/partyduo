@@ -7,7 +7,6 @@
 </head>
 <body th:replace="~{layout::layout}">
 	<div th:fragment="content">
-		<h1>findIDResult</h1>
 		<th:block>
 			<div class="overlay"></div>
 			<div class="gtco-container">
@@ -21,10 +20,8 @@
 										<div class="tab">
 											<div class="tab-content">
 												<div class="tab-content-inner active">
-													<h3>해당 이메일로 되어있는 ID</h3>
-													<th:block th:each="id, idStat: ${list}">
-														<p>[[${idStat.index+1}]]. [[${id}]]</p>
-													</th:block>
+													<h3>등록된 이메일로 아이디가 전송되었습니다.</h3>
+										
 													<div class="row form-group">
 														<div class="col-md-6">
 															<button type="button" class="btn btn-primary" 

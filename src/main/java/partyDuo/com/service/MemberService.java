@@ -81,7 +81,10 @@ public class MemberService {
 	}
 	public String member_findPwCheck(MemberVO vo) throws Exception {
 		log.info("member_findPwCheck()...");
-		String newPw=mail.sendMessage(vo.getEmail());
+		String ePw=mail.createKey();
+		String newPwWithTag=mail.sendMessage(vo.getEmail(), "초기화된 비밀번호입니다.", "<h4>"+ePw+"</h4>");
+		String newPw=newPwWithTag.replaceAll("<[^>]*>", "");
+		log.info(newPw);
 		vo.setPw(HashService.getSHA512(newPw, vo.getSalt()));
 		log.info("vo: {}", vo);
 		int result=mapper.member_update(vo);
@@ -92,10 +95,23 @@ public class MemberService {
 		}
 //		return vo.getPw();
 	}
-	public List<String> member_findIDCheck(MemberVO vo){
+	public String member_findIDCheck(MemberVO vo){
 		log.info("member_findIDCheck()...");
-		return mapper.member_findIdCheck(vo);
-//		return null;
+		List<String> list= mapper.member_findIdCheck(vo);
+		String msg="";
+		for (int i=0; i<list.size(); i++){
+			msg+= "<h4>"+(i+1)+". "+list.get(i)+"</h4>";
+		}	
+		String title="partyDuo 아이디입니다.";
+		try {
+			String result=mail.sendMessage(vo.getEmail(), title, msg);
+			log.info("text:{}",result.replaceAll("<[^>]*>", ""));
+			
+			return "success";
+		}catch(Exception e) {
+			log.info("error:{}", e);
+			return null;
+		}
 	}
 	public int getTotalRows() {
 		// TODO Auto-generated method stub

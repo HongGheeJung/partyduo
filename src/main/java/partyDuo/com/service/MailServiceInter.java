@@ -9,9 +9,11 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public interface MailServiceInter {
-	MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException;
 	
 	String createKey();
 	
-	String sendMessage(String to) throws Exception;
+	String sendMessage(String to, String title, String content) throws Exception;
+
+	MimeMessage createMessage(String to, String title, String content)
+			throws MessagingException, UnsupportedEncodingException;
 }

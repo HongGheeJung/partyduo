@@ -282,17 +282,21 @@ public class MemberController {
 		return "member/findID";
 	}
 
-	@PostMapping("/member/findPwCheck")
+	@GetMapping("/member/findPwCheck")
 	public String member_findPwCheck(Model model, MemberVO vo) throws Exception {
 		log.info("/findPwCheck");
 //		vo=new MemberVO();
 //		vo.setId("admin");
 		MemberVO vo2 = service.member_selectOne(vo);
+		if(!vo2.getEmail().equals(vo.getEmail())) {
+			model.addAttribute("errorMessage","이메일 또는 아이디가 일치하지 않습니다.");
+			return "member/findPw";
+		}
 		String result = service.member_findPwCheck(vo2);
 		log.info("result: {}", result);
-		model.addAttribute("vo2", vo2);
 		if (result == null) {
-			return "redirect:/member/findPw";
+			model.addAttribute("errorMessage","메시지 전송에 실패했습니다.");
+			return "member/findPw";
 		} else {
 			return "member/findPwResult";
 		}
@@ -303,13 +307,11 @@ public class MemberController {
 		log.info("/findIDCheck");
 //		vo=new MemberVO();
 //		vo.setEmail("abc@def.com");
-		List<String> list = service.member_findIDCheck(vo);
-		log.info("list: {}", list);
-		model.addAttribute("list", list);
-		if (list == null) {
-			return "redirect:/member/findId";
+		String result = service.member_findIDCheck(vo);
+		if (result == null) {
+			model.addAttribute("errorMessage","다시 시도해주세요.");
+			return "member/findId";
 		} else {
-
 			return "member/findIdResult";
 		}
 	}
