@@ -18,6 +18,27 @@
 .tooltip {
 	display: none;
 }
+
+.lbtn:hover ~ .liketable { 
+visibility: visible;
+} 
+
+.liketable { 
+ visibility: hidden;
+  width: 120px;
+  background-color: #09C6AB;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+
+
 </style>
 <script>
 	window.onload = function() {
@@ -33,10 +54,14 @@
 					event_id : event_id
 				},
 				success : function(response) {
-					if (response.result === 'OK') {
+					if (response.result === 'like') {
 						console.log('Response:', response);
 						btn_like.attr('hidden', '');
 						btn_dislike.removeAttr('hidden');
+					} else if (response.result === 'dislike') {
+						console.log('Response:', response);
+						btn_dislike.attr('hidden', '');
+						btn_like.removeAttr('hidden');
 					} else {
 						console.log('not found');
 					}
@@ -120,8 +145,12 @@
 								<div class="tab">
 									<div class="tab-content">
 										<div class="tab-content-inner active" data-content="signup">
+
 											
-											<div class="absolute top-6 left-5 flex items-center gap-x-1">
+
+
+
+											<div class="absolute top-6 left-5 flex items-center gap-x-1 lbtn" >
 												<button
 													class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground group text-lg w-[2em] h-[2em] text-zinc-500"
 													type="button" id="like_btn">
@@ -133,8 +162,21 @@
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
 												</button>
 											</div>
+											
+											
+											
 											<h3>캘린더 일정 수정</h3>
-
+											
+											<table class="liketable">
+												<thead>
+													<th:block th:each="vo : ${likelist}">
+														
+															<td>[[${vo.character_name}]]&nbsp;&nbsp;</td>
+														
+													</th:block>
+												</thead>
+											</table>
+											<br>
 											<form action="/event/updateOK" method="post" 
 												th:onsubmit="submitForm(event)">
 												

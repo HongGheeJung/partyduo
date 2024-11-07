@@ -70,11 +70,11 @@ public class EventController {
 	public String update(EventVO vo, Model model) {
 		log.info("/event/update");		
 		log.info("vo:{}", vo);
-		
-		// VO 유효성 체크
-	    
 
 		EventVO vo2 = service.selectOne(vo);
+		EventLikeVO vo3 = new EventLikeVO();
+		vo3.setEvent_id(vo2.getEvent_id());
+		List<EventLikeVO> likelist = service_like.selectlist(vo3);
 		log.info("vo2:{}", vo2);
 		if (vo2 == null) {
 	        model.addAttribute("errorMessage", "삭제된 이벤트");
@@ -84,6 +84,7 @@ public class EventController {
 	    }
 
 		model.addAttribute("vo2", vo2);
+		model.addAttribute("likelist", likelist);
 
 		return "event/update";
 	}
