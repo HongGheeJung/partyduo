@@ -11,10 +11,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	
 	<style> 
-input[type=button], input[type=submit] {
+input[type=button]{
   background-color: #09C6AB;
   border-radius: 3px ;
   color: white;
+  padding: 2px 4px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+input[type=submit] {
+  background-color: #E2E2E2;
+  border-radius: 3px ;
+  color: black;
   padding: 2px 4px;
   text-decoration: none;
   margin: 4px 2px;
@@ -25,6 +35,17 @@ input[type=button], input[type=submit] {
 	 display: inline-block;
   position: relative;
   background-color: #ea5936;
+  border-radius: 20px;
+  color: #fff;
+  padding: 7px 12px;
+  margin-bottom: 10px;
+  max-width: 230px;
+}
+
+.mytextbox{
+	 display: inline-block;
+  position: relative;
+  background-color: #09C6AB;
   border-radius: 20px;
   color: #fff;
   padding: 7px 12px;
@@ -59,7 +80,7 @@ input[type=button], input[type=submit] {
 								<tr>
 									<td th:if="${vo2.chat_writer==session.user_character}">
 										<div class='myChat'>
-											<div class='alert alert-secondary textbox'>
+											<div class='alert alert-secondary mytextbox'>
 												<b>[[${vo2.chat_content}]] </b>
 												
 											</div>
@@ -137,7 +158,7 @@ input[type=button], input[type=submit] {
                        if(content.chat_content != null){
                        if(writer === content.chat_writer){
                            str = "<th:block><tr><td><div class='myChat'>";
-                           str += "<div class='alert alert-secondary textbox'>";
+                           str += "<div class='alert alert-secondary mytextbox'>";
                            str += "<b>" + content.chat_content + "</b>";
                            str += "</div>";
                            str += '<form action="/chat/deleteOK" method="post" style="float: right;">';
