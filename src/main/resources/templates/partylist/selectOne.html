@@ -11,115 +11,105 @@
 </head>
 
 <body th:replace="~{layout::layout}">
-    <div th:fragment="content" class="gtco-container">
-        <h3 class="text-center h3">[[${vo.party_name}]] </h3>
-        <!-- 파티 멤버 정보 테이블 -->
-        <div class="table-responsive">
-            <table class="table  text-center">
-                <thead>
-                    <tr>
-                        <th class="text-center">직급</th>
-                        <th class="text-center">캐릭터명</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-center">파티장</th>
-                        <td>
-                            <a th:href="|/character/info?character_name=${vo.party_master}|">
-                                [[${vo.party_master}]]
-                            </a>
-                        </td>
-                        <td>
-                            <input type="button" class="btn btn-primary"
-                                th:if="${vo.party_master == session.user_character}" value="파티장 위임"
-                                th:onclick="|checkLoginAndOpenPopup('/party/delegate?party_id=${vo.party_id}')|">
-                        </td>
-                    </tr>
-                    <th:block th:each="partymember : ${listmember}">
-                        <tr th:if="${partymember.character_name != vo.party_master}">
-                            <th class="text-center">파티원</th>
-                            <td>
-                                <a th:href="|/character/info?character_name=${partymember.character_name}|">
-                                    [[${partymember.character_name}]]
-                                </a>
-                            </td>
-                            <td>
-
-                                <input type="button" class="btn btn-danger btn-sm"
-                                    th:if="${vo.party_master == session.user_character}" value="강퇴하기"
-                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
+	<div th:fragment="content" class="gtco-container">
+		<h3 class="text-center h3">[[${vo.party_name}]]</h3>
+		<!-- 파티 멤버 정보 테이블 -->
+		<div class="table-responsive">
+			<table class="table  text-center">
+				<thead>
+					<tr>
+						<th class="text-center">직급</th>
+						<th class="text-center">캐릭터명</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="text-center">파티장</th>
+						<td><a
+							th:href="|/character/info?character_name=${vo.party_master}|">
+								[[${vo.party_master}]] </a></td>
+						<td><input type="button" class="btn btn-primary"
+							th:if="${vo.party_master == session.user_character}"
+							value="파티장 위임"
+							th:onclick="|checkLoginAndOpenPopup('/party/delegate?party_id=${vo.party_id}')|">
+						</td>
+					</tr>
+					<th:block th:each="partymember : ${listmember}">
+						<tr th:if="${partymember.character_name != vo.party_master}">
+							<th class="text-center">파티원</th>
+							<td><a
+								th:href="|/character/info?character_name=${partymember.character_name}|">
+									[[${partymember.character_name}]] </a></td>
+							<td><input type="button" class="btn btn-danger btn-sm"
+								th:if="${vo.party_master == session.user_character}"
+								value="강퇴하기"
+								th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
 
 
-                                <input type="button" class="btn btn-warning btn-sm" th:if="${partymember.character_name == session.user_character 
-                           and vo.party_master != session.user_character}" value="탈퇴하기"
-                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
-                            </td>
-							
+								<input type="button" class="btn btn-warning btn-sm"
+								th:if="${partymember.character_name == session.user_character 
+                           and vo.party_master != session.user_character}"
+								value="탈퇴하기"
+								th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
+							</td>
+
 
 						</tr>
-						
+
 					</th:block>
 					<tr>
 						<input type="button" class="btn btn-primary" value="chat"
 							th:onclick="|checkLoginAndOpenPopupforchat('/chat/room2/${vo.party_id}')|">
 					</tr>
 				</tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <th:block th:if="${vo.party_master == session.user_character}">
-                                <input type="button" class="btn btn-warning" value="파티 명 수정"
-                                    th:onclick="|checkLoginAndOpenPopup('/party/update?party_id=${vo.party_id}')|">
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-center"><th:block
+								th:if="${vo.party_master == session.user_character}">
+								<input type="button" class="btn btn-warning" value="파티 명 수정"
+									th:onclick="|checkLoginAndOpenPopup('/party/update?party_id=${vo.party_id}')|">
 
-                                <input type="button" class="btn btn-danger" value="파티 삭제"
-                                    th:onclick="|checkLoginAndOpenPopup('/party/delete?party_id=${vo.party_id}')|">
-                            </th:block>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+								<input type="button" class="btn btn-danger" value="파티 삭제"
+									th:onclick="|checkLoginAndOpenPopup('/party/delete?party_id=${vo.party_id}')|">
+							</th:block></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
 
-        <div class="table-responsive mt-5">
-            <table class="table text-center">
-                <thead>
-                    <tr>
-                        <th colspan="2" class="text-center">파티 신청 대기자 명단</th>
-                        <th class="text-center">수락</th>
-                        <th class="text-center">거절</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <th:block th:each="partyqueue : ${listqueue}">
-                        <tr>
-                            <td>파티 신청 대기자</td>
-                            <td>
-                                <a th:href="|/character/info?character_name=${partyqueue.character_name}|">
-                                    [[${partyqueue.character_name}]]
-                                </a>
-                            </td>
-                            <td>
-                                <input type="button" class="btn btn-success btn-sm"
-                                    th:if="${vo.party_master == session.user_character}" value="수락"
-                                    th:onclick="|checkLoginAndOpenPopup('/partylist/accept?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
-                            </td>
-                            <td>
-                                <input type="button" class="btn btn-danger btn-sm"
-                                    th:if="${vo.party_master == session.user_character}" value="거절"
-                                    th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
-                            </td>
-                        </tr>
-                    </th:block>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    
-    <script>
-    function checkLoginAndOpenPopupforchat(url) {
+		<div class="table-responsive mt-5">
+			<table class="table text-center">
+				<thead>
+					<tr>
+						<th colspan="2" class="text-center">파티 신청 대기자 명단</th>
+						<th class="text-center">수락</th>
+						<th class="text-center">거절</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="partyqueue : ${listqueue}">
+						<tr>
+							<td>파티 신청 대기자</td>
+							<td><a
+								th:href="|/character/info?character_name=${partyqueue.character_name}|">
+									[[${partyqueue.character_name}]] </a></td>
+							<td><input type="button" class="btn btn-success btn-sm"
+								th:if="${vo.party_master == session.user_character}" value="수락"
+								th:onclick="|checkLoginAndOpenPopup('/partylist/accept?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
+							</td>
+							<td><input type="button" class="btn btn-danger btn-sm"
+								th:if="${vo.party_master == session.user_character}" value="거절"
+								th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partyqueue.member_id}&party_id=${vo.party_id}')|">
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+
+		<script>
+    	function checkLoginAndOpenPopupforchat(url) {
 	    fetch('/checkLogin')
 	      .then(response => response.json())
 	      .then(data => {
@@ -149,7 +139,12 @@
 	        window.location.href = '/member/login';
 	    });
 	  }
-</script>
+	</script>
+
+	</div>
+
+
+
 </body>
 
 </html>
