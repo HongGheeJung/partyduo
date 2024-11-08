@@ -56,10 +56,16 @@
                            and vo.party_master != session.user_character}" value="탈퇴하기"
                                     th:onclick="|checkLoginAndOpenPopup('/partylist/deny?member_id=${partymember.member_id}&party_id=${vo.party_id}')|">
                             </td>
+							
 
-                        </tr>
-                    </th:block>
-                </tbody>
+						</tr>
+						
+					</th:block>
+					<tr>
+						<input type="button" class="btn btn-primary" value="chat"
+							th:onclick="|checkLoginAndOpenPopupforchat('/chat/room2/${vo.party_id}')|">
+					</tr>
+				</tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
@@ -110,6 +116,40 @@
             </table>
         </div>
     </div>
+    
+    
+    <script>
+    function checkLoginAndOpenPopupforchat(url) {
+	    fetch('/checkLogin')
+	      .then(response => response.json())
+	      .then(data => {
+	        if (data.loggedIn) {
+	          // 로그인 상태일 경우 해당 페이지로 이동
+	           console.log("Redirecting to: " + url);
+	           var width = 600;
+	           var height = 900;
+	           var left = (window.screen.width / 2) - (width / 2);
+	           var top = (window.screen.height / 2) - (height / 2);
+	           window.open(url, "채팅방 팝업", `width=${width},height=${height},left=${left},top=${top}`);
+	        } else {
+	          // 로그인되지 않은 경우 모달 창을 표시하고 오류 메시지 설정
+	          $('#loginModal .modal-body').text(data.loginMessage);
+	          $('#mainContent').attr('inert', true); // 페이지 비활성화
+	          $('#loginModal').modal('show');
+	        }
+	      })
+	      .catch(error => console.error('Error:', error));
+	    
+	    $('#loginModal').on('hidden.bs.modal', function () {
+	        $('#mainContent').removeAttr('inert');
+	    });
+
+	    // 로그인 버튼 클릭 시 로그인 페이지로 이동
+	    $(document).on('click', '#loginRedirectBtn', function() {
+	        window.location.href = '/member/login';
+	    });
+	  }
+</script>
 </body>
 
 </html>
