@@ -390,6 +390,7 @@ public class PartyBoardController {
 
 	    try {
 	        int total_rows = pbservice.getTotalRows();
+	        log.info("total_rows:{}", total_rows);
 	        int totalPageCount = (total_rows + pageBlock - 1) / pageBlock; // 총 페이지 수 계산
 
 	        if (total_rows == 0) {
@@ -409,18 +410,21 @@ public class PartyBoardController {
 	        }
 
 	        List<PartyBoardVO> list = pbservice.selectAllPageBlock(cpage, pageBlock);
-	        List<PartyVO> list2 = pservice.selectAll(cpage, pageBlock);
+	        List<PartyVO> list2 = pservice.selectAll();
 
 	        if (list == null || list.isEmpty()) {
 	            model.addAttribute("errorMessage", "파티 게시판 정보가 없습니다.");
+	            log.info("1");
 	            return "partyboard/selectAll";
 	        }
 
 	        if (list2 == null || list2.isEmpty()) {
 	            model.addAttribute("errorMessage", "파티 정보가 없습니다.");
+	            log.info("2");
 	            return "partyboard/selectAll";
 	        }
-
+	        log.info("list:{}", list);
+	        log.info("list2:{}", list2);
 	        List<PartyBoardNameDTO> list3 = list.stream()
 	                .map(vo -> {
 	                    try {
@@ -440,7 +444,7 @@ public class PartyBoardController {
 	                })
 	                .filter(Objects::nonNull)
 	                .collect(Collectors.toList());
-
+	        log.info("list3:{}", list3);
 	        model.addAttribute("list3", list3);
 	        model.addAttribute("totalPageCount", totalPageCount);
 	        model.addAttribute("currentPage", cpage);
@@ -466,8 +470,17 @@ public class PartyBoardController {
 	    List<PartyBoardNameDTO> list3;
 	    try {
 	        // 총 행 수를 구하여 페이지 수 계산
-	        int total_rows = pbservice.getSearchTotalRows(searchKey, searchWord);
-	        log.info("total_rows:{}", total_rows);
+	    	int total_rows = 0 ;
+	    	if ("world".equals(searchKey)) {
+	    		List<PartyVO> pl = pservice.searchList(searchKey, searchWord);
+	    		for (PartyVO party : pl) {
+	    	        total_rows += pbservice.getSearchTotalRows("party_id", Integer.toString(party.getParty_id()));
+	    	    }
+	    	} else {
+	    		total_rows = pbservice.getSearchTotalRows(searchKey, searchWord);
+	    	}
+	    	
+	    	log.info("total_rows:{}", total_rows);
 	        int totalPageCount;
 
 	        if (total_rows == 0) {
@@ -498,7 +511,7 @@ public class PartyBoardController {
 	        // searchKey에 따라 로직 분기
 	    	if ("world".equals(searchKey)) {
 	    	    // 월드 검색된 파티 목록 조회
-	    	    list2 = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
+	    	    list2 = pservice.searchList(searchKey, searchWord);
 	    	    log.info("Party List: {}", list2);
 
 	    	    if (list2 == null || list2.isEmpty()) {
@@ -535,7 +548,7 @@ public class PartyBoardController {
 	    	            .collect(Collectors.toList());
 	    	} else {
 	            list = pbservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
-	            list2 = pservice.selectAll(cpage, pageBlock); // 모든 파티 조회
+	            list2 = pservice.selectAll(); // 모든 파티 조회
 
 	            if (list == null || list.isEmpty() || list2 == null || list2.isEmpty()) {
 	                model.addAttribute("errorMessage", "해당 조건으로 검색된 파티 또는 게시판 정보가 없습니다.");

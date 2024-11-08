@@ -28,7 +28,7 @@ public interface PartyBoardMapper {
 	public List<PartyBoardVO> searchListPartyBoardWdatePageBlock(String searchWord, int startRow, int pageBlock);
 	
 	public int getTotalRows();
-	public int getSearchTotalRowsBoardId(String searchWord);
+	public int getSearchTotalRowsId(String searchWord);
 	public int getSearchTotalRowsBoardWriter(String searchWord);
 	public int getSearchTotalRowsBoardWdate(String searchWord);
 	public int getSearchTotalRowsBoss(String searchWord);

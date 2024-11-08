@@ -22,12 +22,14 @@ public interface PartyMapper {
 	public List<PartyVO> searchListPartyMaster(String searchWord);
 	public List<PartyVO> searchListPartyId(String searchWord);
 	public List<PartyVO> searchListPartyName(String searchWord);
+	public List<PartyVO> searchListWorld(String searchWord);
 
-	public List<PartyVO> selectAll(int startRow, int pageBlock);
+	public List<PartyVO> selectAllPageBlock(int startRow, int pageBlock);
+	public List<PartyVO> selectAll();
 
 	public PartyVO selectOnePM(PartyVO vo);
 
-	public List<PartyVO> searchListWorld(String searchWord, int startRow, int pageBlock);
+	public List<PartyVO> searchListWorldPageBlock(String searchWord, int startRow, int pageBlock);
 	public List<PartyVO> searchListPartyMasterPageBlock(String searchWord, int startRow, int pageBlock);
 	public List<PartyVO> searchListPartyNamePageBlock(String searchWord, int startRow, int pageBlock);
 

@@ -69,29 +69,32 @@
                                        <ul class="pagination pagination-sm justify-content-center">
                 <!-- 부트스트랩 스타일 적용 -->
                 <!-- 이전 페이지 버튼 -->
-                <li class="page-item"
-                    th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link"
-                       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 1) : '/reporttroll/selectAll?cpage=' + (currentPage - 1)}|"
-                       th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
-                </li>
+<li class="page-item"
+    th:classappend="${currentPage == 1} ? 'disabled' : ''">
+    <a class="page-link"
+       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 5) : '/reporttroll/selectAll?cpage=' + (currentPage - 5)}|"
+       th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
+</li>
 
-                <!-- 페이지 번호 반복 -->
-                <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-                    <li class="page-item"
-                        th:classappend="${i == currentPage} ? 'active' : ''">
-                        <a class="page-link"
-                           th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/reporttroll/selectAll?cpage=' + i}|">[[${i}]]</a>
-                    </li>
-                </th:block>
+<!-- 페이지 번호 반복 -->
+<th:block th:with="startPage=${T(java.lang.Math).max(currentPage - (currentPage - 1) % 5, 1)},
+                    endPage=${T(java.lang.Math).min(startPage + 4, totalPageCount)}">
+    <th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+        <li class="page-item"
+            th:classappend="${i == currentPage} ? 'active' : ''">
+            <a class="page-link"
+               th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/reporttroll/selectAll?cpage=' + i}|">[[${i}]]</a>
+        </li>
+    </th:block>
+</th:block>
 
-                <!-- 다음 페이지 버튼 -->
-                <li class="page-item"
-                    th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
-                    <a class="page-link"
-                       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 1) : '/reporttroll/selectAll?cpage=' + (currentPage + 1)}|"
-                       th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
-                </li>
+<!-- 다음 페이지 버튼 -->
+<li class="page-item"
+    th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
+    <a class="page-link"
+       th:href="|${searchKey != null && searchWord != null ? '/reporttroll/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 5) : '/reporttroll/selectAll?cpage=' + (currentPage + 5)}|"
+       th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
+</li>
             </ul>
                                     </td>
 

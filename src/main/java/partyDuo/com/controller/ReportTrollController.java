@@ -293,6 +293,8 @@ public class ReportTrollController {
 	            model.addAttribute("totalPageCount", totalPageCount);
 	            model.addAttribute("currentPage", cpage);
 	            model.addAttribute("list", list);
+		        model.addAttribute("searchKey", searchKey);
+		        model.addAttribute("searchWord", searchWord);
 	        } catch (Exception e) {
 	            log.error("데이터베이스 오류 발생: {}", e.getMessage());
 	            redirectAttributes.addFlashAttribute("errorMessage", "검색 중 오류가 발생했습니다. 다시 시도해 주세요.");

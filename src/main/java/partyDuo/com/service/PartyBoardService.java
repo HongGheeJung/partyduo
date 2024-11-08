@@ -78,8 +78,8 @@ public class PartyBoardService {
 	
 	public int getSearchTotalRows(String searchKey,String searchWord) {
 		log.info("pb_service_getSearchTotalRows");
-		if(searchKey.equals("party_board_id")) {
-			return pbmapper.getSearchTotalRowsBoardId(searchWord);
+		if(searchKey.equals("party_id")) {
+			return pbmapper.getSearchTotalRowsId(searchWord);
 		}else if(searchKey.equals("party_board_writer")) {
 			return pbmapper.getSearchTotalRowsBoardWriter("%"+searchWord+"%");
 		}else if(searchKey.equals("boss")) {
