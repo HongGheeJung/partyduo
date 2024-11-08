@@ -128,8 +128,62 @@ visibility: visible;
 					console.log('Error', error);
 				}
 			});
-		});		
+		});	
+		$('#dislike_btn').on('mouseover', function() {
+			let url = "/eventLike/selectOne";
+			console.log("좋아요목록");
+			const event_id = "[[${vo2.event_id}]]";
+			const btn_like = $('#like_btn');
+			const btn_dislike = $('#dislike_btn');
+			$.ajax({
+				url : url,
+				type : 'GET',
+				data : {
+					event_id : event_id
+				},
+				success : function(response) {
+					if (response.result === 'OK') {
+						console.log('Response:', response);
+						
+					} else {
+						console.log('failed..');
+						alert("잘못된 시도");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.log('Error', error);
+				}
+			});
+		});	
+		$('#like_btn').on('mouseover', function() {
+			let url = "/eventLike/selectOne";
+			console.log("좋아요목록");
+			const event_id = "[[${vo2.event_id}]]";
+			const btn_like = $('#like_btn');
+			const btn_dislike = $('#dislike_btn');
+			$.ajax({
+				url : url,
+				type : 'GET',
+				data : {
+					event_id : event_id
+				},
+				success : function(response) {
+					if (response.result === 'OK') {
+						console.log('Response:', response);
+						
+					} else {
+						console.log('failed..');
+						alert("잘못된 시도");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.log('Error', error);
+				}
+			});
+		});
 	});
+	
+	
 	</script>
 
 </head>
