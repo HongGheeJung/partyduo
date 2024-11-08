@@ -31,12 +31,14 @@ public class PartyService {
 	}
 	
 	public List<PartyVO> searchList(String searchKey,String searchWord){
-		log.info("p_service_searchListPageBlock");
+		log.info("p_service_searchList");
 		
 		if (searchKey.equals("party_id")) {
 			return pmapper.searchListPartyId("%"+searchWord+"%");
 		}else if(searchKey.equals("party_name")) {
 			return pmapper.searchListPartyName("%"+searchWord+"%");
+		}else if(searchKey.equals("world")) {
+			return pmapper.searchListWorld("%"+searchWord+"%");
 		}else {
 			return pmapper.searchListPartyMaster(searchWord);
 		}
@@ -59,10 +61,15 @@ public class PartyService {
 		return pmapper.selectOnePname(vo);
 	}
 	
-	public List<PartyVO> selectAll(int cpage, int pageBlock){
+	public List<PartyVO> selectAllPageBlock(int cpage, int pageBlock){
 		log.info("p_service_selectAll");
 		int startRow=(cpage-1)*pageBlock;
-		return pmapper.selectAll(startRow,pageBlock);
+		return pmapper.selectAllPageBlock(startRow,pageBlock);
+	}
+	public List<PartyVO> selectAll(){
+		log.info("p_service_selectAll");
+		
+		return pmapper.selectAll();
 	}
 
 	public PartyVO selectOnePM(PartyVO vo) {
@@ -73,7 +80,7 @@ public class PartyService {
 	public List<PartyVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
 		int startRow=(cpage-1)*pageBlock;
 		if(searchKey.equals("world")) {
-		return pmapper.searchListWorld("%"+searchWord+"%",startRow,pageBlock);}
+		return pmapper.searchListWorldPageBlock("%"+searchWord+"%",startRow,pageBlock);}
 	else if(searchKey.equals("party_name")){ 
 		return pmapper.searchListPartyNamePageBlock("%"+searchWord+"%",startRow,pageBlock);
 		}else {

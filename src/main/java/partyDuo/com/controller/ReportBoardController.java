@@ -320,6 +320,8 @@ public class ReportBoardController {
 
             model.addAttribute("totalPageCount", totalPageCount);
             model.addAttribute("currentPage", cpage);
+	        model.addAttribute("searchKey", searchKey);
+	        model.addAttribute("searchWord", searchWord);
             
         } catch (Exception e) {
             log.error("데이터베이스 오류 발생: {}", e.getMessage());

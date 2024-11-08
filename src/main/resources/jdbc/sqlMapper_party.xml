@@ -18,6 +18,9 @@
 	</delete>
 	
 	<select id="selectAll" resultType="partyDuo.com.model.PartyVO">
+		select * from party order by party_id desc 
+	</select>
+	<select id="selectAllPageBlock" resultType="partyDuo.com.model.PartyVO">
 		select * from party order by party_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
@@ -49,6 +52,9 @@
 	</select>
 	
 	<select id="searchListWorld" resultType="partyDuo.com.model.PartyVO">
+		select * from party where party_world like #{searchWord} order by party_id desc 
+	</select>
+	<select id="searchListWorldPageBlock" resultType="partyDuo.com.model.PartyVO">
 		select * from party where party_world like #{searchWord} order by party_id desc limit #{startRow}, #{pageBlock} 
 	</select>
 	
@@ -62,7 +68,7 @@
 
 	<select id="getTotalRows" resultType="int">
 		select count(*) total_rows
-		from partyboard
+		from party
 	</select>
 	
 	<select id="getSearchTotalRowsPartyName" resultType="int">
