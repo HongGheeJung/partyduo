@@ -310,9 +310,9 @@ public class MemberController {
 		String result = service.member_findIDCheck(vo);
 		if (result == null) {
 			model.addAttribute("errorMessage","다시 시도해주세요.");
-			return "member/findId";
+			return "member/findID";
 		} else {
-			return "member/findIdResult";
+			return "member/findIDResult";
 		}
 	}
 

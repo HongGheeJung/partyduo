@@ -146,6 +146,7 @@ public class CharacterController {
 		}catch(Exception e) {
 			log.info("캐릭터 정보가 없음");
 			String notFound="NotFound";
+			log.info("error:{}",e);
 			model.addAttribute("notFound",notFound);
 			return "character/infoDefault";
 		}
