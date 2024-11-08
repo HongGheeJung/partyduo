@@ -101,9 +101,10 @@
 											if (ocid == null) {
 												$("#apiResult").html(
 														"유효하지 않은 api");
+											}else{
+												document
+												.getElementById("character_name").value = character_name;
 											}
-											document
-													.getElementById("character_name").value = character_name;
 											document.getElementById("ocid").value = ocid;
 										},
 										error : function(ex) {
