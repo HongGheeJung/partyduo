@@ -119,12 +119,24 @@ public class PartyListController {
             log.info("vo3:{}", vo3);
             vo2.setMember_id(vo3.getMember_id());
             vo2.setParty_id(vo.getParty_id());
-            int result = plservice.insertOK(vo2);
-            log.info("result:{}", result);
+            
+            PartyListVO checkApplication = plservice.selectOne(vo2);
+            if (checkApplication != null) {
+                redirectAttributes.addFlashAttribute("errorMessage", "이미 가입신청된 파티입니다.");
+                return "redirect:/partylist/myparty";            	
+            }
+
+            // 새로 신청하기 위해 PartyListVO 객체 생성
+            PartyListVO newApplication = new PartyListVO();
+            newApplication.setMember_id(vo3.getMember_id());
+            newApplication.setParty_id(vo.getParty_id());
+            
+            int result = plservice.insertOK(newApplication);
+            log.info("result:{}", result);            
         } catch (Exception e) {
             log.error("데이터베이스 오류 발생: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "파티 신청 중 오류가 발생했습니다. 다시 시도해 주세요.");
-            return "redirect:/party/selectAll";
+            return "redirect:/partylist/myparty";
         }
         redirectAttributes.addFlashAttribute("successMessage", "success");
         return "redirect:/partylist/application?party_id="+vo.getParty_id();
