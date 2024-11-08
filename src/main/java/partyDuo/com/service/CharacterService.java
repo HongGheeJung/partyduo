@@ -15,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class CharacterService {
-//	private MapleStoryApi api=new MapleStoryApi("test_0046c440e850ceb282a6138bb606bc06a377b0d377369f674d9aa9a74d43175befe8d04e6d233bd35cf2fabdeb93fb0d");
-	private MapleStoryApi api=new MapleStoryApi("live_0046c440e850ceb282a6138bb606bc068953c11b80af7d903b911c271d5772c7efe8d04e6d233bd35cf2fabdeb93fb0d");
+	private MapleStoryApi api=new MapleStoryApi("test_0046c440e850ceb282a6138bb606bc06a377b0d377369f674d9aa9a74d43175befe8d04e6d233bd35cf2fabdeb93fb0d");
+//	private MapleStoryApi api=new MapleStoryApi("live_0046c440e850ceb282a6138bb606bc068953c11b80af7d903b911c271d5772c7efe8d04e6d233bd35cf2fabdeb93fb0d");
 	//닉네임으로 ocid 찾기
 	public String foundOcidByName(String character_name) {
 		CharacterDTO response;
