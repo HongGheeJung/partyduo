@@ -174,8 +174,8 @@ public class PartyBoardController {
 		    String admin_name=(String)session.getAttribute("admin_name"); 
 		    if(admin_name == null) {
 		    	if (!user_character.equals(vo2.getParty_board_writer())) {
-			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 파티를 수정할 권한이 없습니다.");
+			    	log.error("파티 정보 불러오는 중 오류 발생");
 			    	return "redirect:/partyboard/selectAll"; 
 			    
 			    }
@@ -262,8 +262,8 @@ public class PartyBoardController {
 		    String admin_name=(String)session.getAttribute("admin_name"); 
 		    if(admin_name == null) {
 		    	if (!user_character.equals(vo2.getParty_board_writer())) {
-			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 파티를 수정할 권한이 없습니다.");
+			    	log.error("파티 정보 불러오는 중 오류 발생");
 			    	return "redirect:/partyboard/selectAll";
 			    
 			    }
@@ -344,7 +344,7 @@ public class PartyBoardController {
 	        String bossImagePath = "/boss_img/" + bossName + ".png";
 	        model.addAttribute("bossImagePath", bossImagePath);
 
-	        // 댓글 목록 조회
+	        // 파티 목록 조회
 	        List<PartyBoardCommentVO> list = pbcservice.searchListPartyBoardId(Integer.toString(vo.getParty_board_id()));
 	        model.addAttribute("list", list);
 

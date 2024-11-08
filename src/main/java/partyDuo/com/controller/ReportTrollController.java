@@ -82,8 +82,8 @@ public class ReportTrollController {
 	    	    String admin_name=(String)session.getAttribute("admin_name"); 
 	    	    if(admin_name == null) {
 	    	    	if (!user_character.equals(vo2.getReport_troll_writer())) {
-	    		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-	    		    	log.error("댓글 정보 불러오는 중 오류 발생");
+	    		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 박제글을 수정할 권한이 없습니다.");
+	    		    	log.error("박제글 정보 불러오는 중 오류 발생");
 	    		    	return "redirect:/reporttroll/selectAll";
 	    		    
 	    		    }
@@ -146,8 +146,8 @@ public class ReportTrollController {
 	    	    String admin_name=(String)session.getAttribute("admin_name"); 
 	    	    if(admin_name == null) {
 	    	    	if (!user_character.equals(vo2.getReport_troll_writer())) {
-	    		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-	    		    	log.error("댓글 정보 불러오는 중 오류 발생");
+	    		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 박제글을 수정할 권한이 없습니다.");
+	    		    	log.error("박제글 정보 불러오는 중 오류 발생");
 	    		    	return "redirect:/reporttroll/selectAll";
 	    		    
 	    		    }

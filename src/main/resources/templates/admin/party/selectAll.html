@@ -73,7 +73,7 @@
                 <li class="page-item"
                     th:classappend="${currentPage == 1} ? 'disabled' : ''">
                     <a class="page-link"
-                       th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 1) : '/party/selectAll?cpage=' + (currentPage - 1)}|"
+                       th:href="|${searchKey != null && searchWord != null ? '/admin/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage - 1) : '/admin/party/selectAll?cpage=' + (currentPage - 1)}|"
                        th:onclick="${currentPage == 1} ? 'return false;' : ''">«</a>
                 </li>
 
@@ -82,7 +82,7 @@
                     <li class="page-item"
                         th:classappend="${i == currentPage} ? 'active' : ''">
                         <a class="page-link"
-                           th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/party/selectAll?cpage=' + i}|">[[${i}]]</a>
+                           th:href="|${searchKey != null && searchWord != null ? '/admin/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + i : '/admin/party/selectAll?cpage=' + i}|">[[${i}]]</a>
                     </li>
                 </th:block>
 
@@ -90,7 +90,7 @@
                 <li class="page-item"
                     th:classappend="${currentPage == totalPageCount} ? 'disabled' : ''">
                     <a class="page-link"
-                       th:href="|${searchKey != null && searchWord != null ? '/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 1) : '/party/selectAll?cpage=' + (currentPage + 1)}|"
+                       th:href="|${searchKey != null && searchWord != null ? '/admin/party/searchList?searchKey=' + searchKey + '&searchWord=' + searchWord + '&cpage=' + (currentPage + 1) : '/admin/party/selectAll?cpage=' + (currentPage + 1)}|"
                        th:onclick="${currentPage == totalPageCount} ? 'return false;' : ''">»</a>
                 </li>
             </ul>

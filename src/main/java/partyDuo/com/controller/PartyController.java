@@ -140,8 +140,8 @@ public class PartyController {
 		    String admin_name=(String)session.getAttribute("admin_name"); 
 		    if(admin_name == null) {
 		    	if (!user_character.equals(vo2.getParty_master())) {
-			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 파티를 수정할 권한이 없습니다.");
+			    	log.error("파티정보 불러오는 중 오류 발생");
 			    	return "redirect:/partylist/myparty";
 			    
 			    }
@@ -183,16 +183,7 @@ public class PartyController {
 	            return "redirect:/partylist/myparty";
 	        
 	        }
-	        String user_character = (String) session.getAttribute("user_character");
-		    String admin_name=(String)session.getAttribute("admin_name"); 
-		    if(admin_name == null) {
-		    	if (!user_character.equals(vo2.getParty_master())) {
-			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-			    	log.error("댓글 정보 불러오는 중 오류 발생");
-			    	return "redirect:/partylist/myparty";
-			    
-			    }
-	        }
+	        
 		    
 	    } catch (Exception e) {
 	    	log.info("5");
@@ -315,8 +306,8 @@ log.info("party_update...");
 		    String admin_name=(String)session.getAttribute("admin_name"); 
 		    if(admin_name == null) {
 		    	if (!user_character.equals(vo2.getParty_master())) {
-			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-			    	log.error("댓글 정보 불러오는 중 오류 발생");
+			    	redirectAttributes.addFlashAttribute("errorMessage", "해당 파티를 수정할 권한이 없습니다.");
+			    	log.error("파티정보 불러오는 중 오류 발생");
 			    	return "redirect:/partylist/myparty";
 			    
 			    }
@@ -426,7 +417,7 @@ log.info("party_update...");
 	        model.addAttribute("list", list);
 
 	        if (list == null || list.isEmpty()) {
-	            model.addAttribute("errorMessage", "등록된 공지사항이 없습니다.");
+	            model.addAttribute("errorMessage", "파티가 없습니다.");
 	        }
 	        
 	        String admin_name = (String) session.getAttribute("admin_name");
@@ -439,7 +430,7 @@ log.info("party_update...");
 	        model.addAttribute("currentPage", cpage);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	        return "redirect:/main"; // 오류 발생 시 메인 페이지로 리다이렉트
 	    }
 	    return "admin/party/selectAll";
@@ -488,7 +479,7 @@ log.info("party_update...");
 	        log.info("list: {}", list);
 
 	        if (list == null || list.isEmpty()) {
-	            model.addAttribute("errorMessage", "검색된 공지사항이 없습니다.");
+	            model.addAttribute("errorMessage", "검색된 파티이 없습니다.");
 	        }
 	        String admin_name = (String) session.getAttribute("admin_name");
 		    if (admin_name == null ) {
@@ -501,8 +492,8 @@ log.info("party_update...");
 	        model.addAttribute("list", list);
 	    } catch (Exception e) {
 	        log.error("데이터베이스 오류 발생: {}", e.getMessage());
-	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 검색 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        return "redirect:/admin/party/selectAll"; // 오류 발생 시 공지사항 목록으로 리다이렉트
+	        redirectAttributes.addFlashAttribute("errorMessage", "파티 검색 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        return "redirect:/admin/party/selectAll"; // 오류 발생 시 파티 목록으로 리다이렉트
 	    }
 
 	    return "admin/party/selectAll";

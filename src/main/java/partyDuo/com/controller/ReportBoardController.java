@@ -90,8 +90,8 @@ public class ReportBoardController {
 	    String admin_name=(String)session.getAttribute("admin_name"); 
 	    if(admin_name == null) {
 	    	if (!user_character.equals(vo2.getReport_board_writer())) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 신고글을 수정할 권한이 없습니다.");
+		    	log.error("신고글 정보 불러오는 중 오류 발생");
 		    	return "redirect:/reportboard/selectAll";
 		    
 		    }
@@ -147,8 +147,8 @@ public class ReportBoardController {
 	    String admin_name=(String)session.getAttribute("admin_name"); 
 	    if(admin_name == null) {
 	    	if (!user_character.equals(vo2.getReport_board_writer())) {
-		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 댓글을 수정할 권한이 없습니다.");
-		    	log.error("댓글 정보 불러오는 중 오류 발생");
+		    	redirectAttributes.addFlashAttribute("errorMessage", "해당 신고글을 수정할 권한이 없습니다.");
+		    	log.error("신고글 정보 불러오는 중 오류 발생");
 		    	return "redirect:/reportboard/selectAll";
 		    
 		    }
@@ -204,14 +204,14 @@ public class ReportBoardController {
             return "redirect:/reportboard/selectAll";
         }
 
-        // 댓글 목록 조회
+        // 신고글 목록 조회
         List<ReportBoardCommentVO> list;
         try {
             list = rbcService.searchListByReportBoardId(Integer.toString(vo2.getReport_board_id()));
         } catch (Exception e) {
-            log.error("댓글 목록 조회 중 오류 발생: {}", e.getMessage());
-            model.addAttribute("errorMessage", "댓글 목록을 불러오는 중 오류가 발생했습니다.");
-            list = null; // 오류 발생 시 댓글 목록을 null로 설정
+            log.error("신고글 목록 조회 중 오류 발생: {}", e.getMessage());
+            model.addAttribute("errorMessage", "신고글 목록을 불러오는 중 오류가 발생했습니다.");
+            list = null; // 오류 발생 시 신고글 목록을 null로 설정
         }
 
         log.info("vo2: {}", vo2);
