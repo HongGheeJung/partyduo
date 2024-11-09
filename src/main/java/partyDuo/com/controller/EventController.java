@@ -2,7 +2,7 @@ package partyDuo.com.controller;
 
 
 import java.io.IOException;
-import java.sql.Timestamp;
+
 import java.util.List;
 
 
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import jakarta.servlet.http.HttpSession;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import partyDuo.com.service.ChatService;
 import partyDuo.com.service.EventLikeService;
@@ -24,7 +22,6 @@ import partyDuo.com.service.EventService;
 import partyDuo.com.service.MemberService;
 import partyDuo.com.service.PartyListService;
 import partyDuo.com.service.PartyService;
-import partyDuo.com.model.ChatVO;
 import partyDuo.com.model.EventLikeVO;
 import partyDuo.com.model.EventVO;
 import partyDuo.com.model.MemberVO;
@@ -94,15 +91,7 @@ public class EventController {
 		return "event/delete";
 	}
 
-	@GetMapping("/admin/event/selectAll")
-	public String selectAll(Model model) {
-		log.info("/admin/event/selectAll");
-		
-		List<EventVO> list = service.selectAll();
-		model.addAttribute("list", list);
-
-		return "admin/event/selectAll";
-	}
+	
 
 	@GetMapping("/event/searchListParty")
 	public String searchListParty(Model model, 
@@ -123,7 +112,7 @@ public class EventController {
 	}
 
 	@GetMapping("/cindex")
-	public String searchListfirst(Model model, 
+	public String searchListFirst(Model model, 
 			@RequestParam(defaultValue = "0") int party_id) {
 		log.info("/cindex");
 		log.info("party_id:{}", party_id);
@@ -292,6 +281,14 @@ public class EventController {
 
 	}
 	
-	
+	@GetMapping("/admin/event/selectAll")
+	public String selectAll(Model model) {
+		log.info("/admin/event/selectAll");
+		
+		List<EventVO> list = service.selectAll();
+		model.addAttribute("list", list);
+
+		return "admin/event/selectAll";
+	}
 
 }

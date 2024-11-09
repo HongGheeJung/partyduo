@@ -40,15 +40,6 @@
 		event_startTime desc
 	</select>
 	
-	<select id="searchListPartyMonth"
-		resultType="partyDuo.com.model.EventVO">
-		select * from event 
-		where month(event_startTime) = #{month} 
-		and year(event_startTime) = #{year} 
-		and party_id = #{party_id}	
-		order by event_startTime desc
-	</select>
-	
 	<select id="searchListParty"
 		resultType="partyDuo.com.model.EventVO">
 		select * from event 
