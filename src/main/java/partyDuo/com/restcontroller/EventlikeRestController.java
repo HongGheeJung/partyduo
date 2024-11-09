@@ -88,11 +88,21 @@ public class EventlikeRestController {
 		
 		EventLikeVO vo3 = new EventLikeVO();
 		vo3.setEvent_id(Integer.parseInt(event_id));
-		List<EventLikeVO> likelist = service.selectlist(vo3);
+		
+		List<EventLikeVO> likelist = service.selectlist(vo);
 		model.addAttribute("likelist", likelist);
 		log.info("likelist:{}", likelist);
-
-		map.put("result", "OK");
+		
+		int result = service.selectOneLikecheck(vo);
+		if(result != 0) {
+			log.info("result:{like}");
+			map.put("result", "like");
+			
+		}else {
+			log.info("result:{dislike}");
+			map.put("result", "dislike");
+		}
+		
 		
 		return map;
 	}

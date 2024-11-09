@@ -77,7 +77,6 @@ public class EventController {
 		if (vo2 == null) {
 	        model.addAttribute("errorMessage", "삭제된 이벤트");
 	        model.addAttribute("vo2", vo);
-
 			return "event/update";
 	    }
 		EventLikeVO vo3 = new EventLikeVO();
@@ -85,7 +84,6 @@ public class EventController {
 		List<EventLikeVO> likelist = service_like.selectlist(vo3);
 		model.addAttribute("likelist", likelist);
 		model.addAttribute("vo2", vo2);
-
 
 		return "event/update";
 	}
@@ -128,7 +126,7 @@ public class EventController {
 	public String searchListfirst(Model model, 
 			@RequestParam(defaultValue = "0") int party_id) {
 		log.info("/cindex");
-		
+		log.info("party_id:{}", party_id);
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
@@ -268,13 +266,14 @@ public class EventController {
 		log.info("vo:{}", vo);
 		
 		int event_id= vo.getEvent_id();
+		int party_id= vo.getParty_id();
 
 		int result = service.deleteOK(vo);
 		log.info("result:{}", result);
 
 		redirectAttributes.addFlashAttribute("successMessage", "success");
 		
-		return "redirect:/event/update?event_id="+event_id;
+		return "redirect:/event/update?event_id="+event_id+"&party_id="+party_id;
 
 	}
 	
