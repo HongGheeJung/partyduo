@@ -43,19 +43,7 @@ public class EventService {
 	public List<EventVO> searchListParty(int party_id){
 		
 		return mapper.searchListParty(party_id);
-	}
-	
-	public List<EventVO> searchListPartyMonth(int party_id, int month, int year) {		
+	}	
 
-		log.info("search_party_id:{}", party_id);
-		log.info("month:{}", month);
-		log.info("year:{}", year);
-		
-		return mapper.searchListPartyMonth(party_id, month, year);
-	}
-
-	public int getTotalRows() {
-		return mapper.getTotalRows();
-	}
 
 }
