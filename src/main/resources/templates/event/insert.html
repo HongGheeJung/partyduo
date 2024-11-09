@@ -172,7 +172,7 @@ $(document).ready(function () {
   
   if ([[${successMessage}]] === 'success') {
       if (window.opener) {
-          window.opener.location.href = '/cindex';
+          window.opener.location.href = '/cindex?party_id='+[[${param.party_id}]];
           window.close(); // 팝업 창 닫기
       }
   }

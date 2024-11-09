@@ -142,12 +142,15 @@ visibility: visible;
 					event_id : event_id
 				},
 				success : function(response) {
-					if (response.result === 'OK') {
+					if (response.result === 'like') {
 						console.log('Response:', response);
 						
-					} else {
+					} else if (response.result === 'dislike') {
+						console.log('Response:', response);
+						
+					} else{
 						console.log('failed..');
-						alert("잘못된 시도");
+						alert("잘못된 시도@@@");
 					}
 				},
 				error : function(xhr, status, error) {
@@ -168,12 +171,15 @@ visibility: visible;
 					event_id : event_id
 				},
 				success : function(response) {
-					if (response.result === 'OK') {
+					if (response.result === 'like') {
 						console.log('Response:', response);
 						
-					} else {
+					} else if (response.result === 'dislike') {
+						console.log('Response:', response);
+						
+					} else{
 						console.log('failed..');
-						alert("잘못된 시도");
+						alert("잘못된 시도!!!");
 					}
 				},
 				error : function(xhr, status, error) {
@@ -340,6 +346,7 @@ visibility: visible;
 												<div class="row form-group">
 													<div class="col-md-12">
 													<input type="hidden" name="event_id" th:value="${param.event_id}">
+													<input type="hidden" name="party_id" th:value="${vo2.party_id}">
 														<input type="submit" id="submitButton"
 															class="btn btn-primary btn-block" value="이벤트 삭제" 
 															title="내용을 작성하세요.">
@@ -393,7 +400,7 @@ $(document).ready(function () {
   
   if ([[${successMessage}]] === 'success') {
       if (window.opener) {
-          window.opener.location.href = '/cindex';
+          window.opener.location.href = '/cindex?party_id=[[${vo2.party_id}]]';
           window.close(); // 팝업 창 닫기
       }
   }
