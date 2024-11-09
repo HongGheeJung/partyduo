@@ -55,14 +55,14 @@ public class MemberController {
 //		vo.setApikey("0123456789");
 //		vo.setCharacter_name("테스트2");
 		try {
-			log.info("vo: {}", vo);
+//			log.info("vo: {}", vo);
 			String salt=HashService.Salt();
-			log.info("salt:{}",salt);
+//			log.info("salt:{}",salt);
 			vo.setSalt(salt);
 			String password=HashService.getSHA512(vo.getPw(), salt);
 			vo.setPw(password);
 			int result=service.member_insert(vo);
-			log.info("result: {}", result);
+//			log.info("result: {}", result);
 			if (result==1) {
 				return "member/selectLogin";
 			}else {
@@ -87,7 +87,7 @@ public class MemberController {
 
 	@PostMapping("/member/updateOK")
 	public String member_updateOK(MemberVO vo, Model model) {
-		log.info("/updateOK");
+//		log.info("/updateOK");
 //		vo=new MemberVO();
 //		vo.setMember_id(1);
 //		vo.setId("kim");
@@ -96,9 +96,9 @@ public class MemberController {
 //		vo.setApikey("987654321");
 //		vo.setCharacter_name("update테스트");
 		int result = service.member_update(vo);
-		log.info("result: {}", result);
+//		log.info("result: {}", result);
 		if (result != 0) {
-			log.info("updateOK....");
+//			log.info("updateOK....");
 			model.addAttribute("vo2", vo);
 			model.addAttribute("errorMessage","계정 정보 변경이 완료되었습니다.");
 			return "member/update";
@@ -111,14 +111,14 @@ public class MemberController {
 
 	@GetMapping("/member/delete")
 	public String member_delete(MemberVO vo, Model model) {
-		log.info("/delete");
+//		log.info("/delete");
 		model.addAttribute("vo", vo);
 		return "member/delete";
 	}
 
 	@GetMapping("/member/deleteCheck")
 	public String member_deleteCheck(MemberVO vo, Model model) {
-		log.info("deleteCheck");
+//		log.info("deleteCheck");
 		log.info("vo: {}", vo);
 		MemberVO vo2 = service.member_selectOne(vo);
 		log.info("vo2:{}", vo2);
@@ -128,13 +128,13 @@ public class MemberController {
 
 	@PostMapping("/member/deleteOK")
 	public String member_deleteOK(MemberVO vo, String pwCheck, Model model) {
-		log.info("/deleteOK");
-		log.info("vo:{}", vo);
+//		log.info("/deleteOK");
+//		log.info("vo:{}", vo);
 		String hexPw=HashService.getSHA512(pwCheck, vo.getSalt());
-		log.info("hexPw:{}",hexPw);		
+//		log.info("hexPw:{}",hexPw);		
 		if(hexPw.equals(vo.getPw())) {
 			int result = service.member_delete(vo);
-			log.info("result: {}", result);
+//			log.info("result: {}", result);
 			if (result != 0) {
 				session.removeAttribute("user_character");
 				session.removeAttribute("admin_name");
@@ -155,7 +155,7 @@ public class MemberController {
 
 	@PostMapping("/member/deleteByAdmin")
 	public String member_deleteByAdmin(MemberVO vo) {
-		log.info("관리자 권한으로 삭제");
+//		log.info("관리자 권한으로 삭제");
 		MemberVO vo2 = service.member_selectOne(vo);
 		int result = service.member_delete(vo2);
 		return "redirect:/main";
@@ -164,7 +164,7 @@ public class MemberController {
 	@GetMapping("/member/selectAll")
 	public String member_selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5") int pageBlock) {
-		log.info("/selectAll");
+//		log.info("/selectAll");
 		if (session.getAttribute("admin_name") == null) {
 			return "main";
 		}
@@ -184,7 +184,7 @@ public class MemberController {
 		} else {
 			totalPageCount = total_rows / pageBlock + 1;
 		}
-		log.info("totalPageCount:{}", totalPageCount);
+//		log.info("totalPageCount:{}", totalPageCount);
 
 		model.addAttribute("totalPageCount", totalPageCount);
 
@@ -196,13 +196,13 @@ public class MemberController {
 	public String member_searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
 			@RequestParam(defaultValue = "ad") String searchWord, @RequestParam(defaultValue = "1") int cpage,
 			@RequestParam(defaultValue = "5") int pageBlock) {
-		log.info("/searchList");
+//		log.info("/searchList");
 		List<MemberVO> list = service.member_searchList(searchKey, searchWord, cpage, pageBlock);
 		model.addAttribute("list", list);
 
 		int total_rows = service.getSearchTotalRows(searchKey, searchWord);// select count(*) total_rows from member;
-		log.info("total_rows:{}", total_rows);
-		log.info("list: {}", list);
+//		log.info("total_rows:{}", total_rows);
+//		log.info("list: {}", list);
 
 		// int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면됨.
 		int totalPageCount = 0;
@@ -215,7 +215,7 @@ public class MemberController {
 		} else {
 			totalPageCount = total_rows / pageBlock + 1;
 		}
-		log.info("totalPageCount:{}", totalPageCount);
+//		log.info("totalPageCount:{}", totalPageCount);
 
 		model.addAttribute("totalPageCount", totalPageCount);
 
@@ -224,13 +224,13 @@ public class MemberController {
 
 	@GetMapping("/member/login")
 	public String member_login() {
-		log.info("/login");
+//		log.info("/login");
 		return "member/login";
 	}
 
 	@PostMapping("/member/loginOK")
 	public String member_loginOK(MemberVO vo, Model model) {
-		log.info("/loginOK");
+//		log.info("/loginOK");
 		MemberVO vo2 = service.member_login(vo);
 		if (vo2 == null) {
 
@@ -239,10 +239,10 @@ public class MemberController {
 		}
 		AdminVO vo3 = new AdminVO();
 		vo3.setId(vo2.getId());
-		log.info("vo3: {}", vo3);
+//		log.info("vo3: {}", vo3);
 		vo3 = adservice.selectOne(vo3);
-		log.info("vo2: {}", vo2);
-		log.info("vo3: {}", vo3);
+//		log.info("vo2: {}", vo2);
+//		log.info("vo3: {}", vo3);
 
 		if (vo3 != null && vo3.getAdmin_id() > 0 && vo2.getId().equals(vo3.getId())) {
 			session.setAttribute("user_id", vo2.getId());
@@ -271,20 +271,20 @@ public class MemberController {
 
 	@GetMapping("/member/findPw")
 	public String member_findPw() {
-		log.info("/findPw");
+//		log.info("/findPw");
 
 		return "member/findPw";
 	}
 
 	@GetMapping("/member/findID")
 	public String member_findID() {
-		log.info("/findID");
+//		log.info("/findID");
 		return "member/findID";
 	}
 
 	@GetMapping("/member/findPwCheck")
 	public String member_findPwCheck(Model model, MemberVO vo) throws Exception {
-		log.info("/findPwCheck");
+//		log.info("/findPwCheck");
 //		vo=new MemberVO();
 //		vo.setId("admin");
 		MemberVO vo2 = service.member_selectOne(vo);
@@ -293,7 +293,7 @@ public class MemberController {
 			return "member/findPw";
 		}
 		String result = service.member_findPwCheck(vo2);
-		log.info("result: {}", result);
+//		log.info("result: {}", result);
 		if (result == null) {
 			model.addAttribute("errorMessage","메시지 전송에 실패했습니다.");
 			return "member/findPw";
@@ -304,7 +304,7 @@ public class MemberController {
 
 	@PostMapping("/member/findIDCheck")
 	public String member_findIDCheck(Model model, MemberVO vo) {
-		log.info("/findIDCheck");
+//		log.info("/findIDCheck");
 //		vo=new MemberVO();
 //		vo.setEmail("abc@def.com");
 		String result = service.member_findIDCheck(vo);
@@ -318,27 +318,27 @@ public class MemberController {
 
 	@GetMapping("/member/pwChange")
 	public String member_pwChange(Model model, MemberVO vo) {
-		log.info("/selectOne");
+//		log.info("/selectOne");
 		MemberVO vo2 = service.member_selectOne(vo);
 		model.addAttribute("vo2", vo2);
-		log.info("pw Change vo2: {}", vo2);
+//		log.info("pw Change vo2: {}", vo2);
 		return "member/pwChange";
 	}
 
 	@PostMapping("/member/pwChangeOK")
 	public String member_pwChangeOK(Model model, MemberVO vo, String oldpw) {
-		log.info("vo: {}", vo);
-		log.info("oldpw: {}", oldpw);
+//		log.info("vo: {}", vo);
+//		log.info("oldpw: {}", oldpw);
 		MemberVO vo2 = service.member_selectOne(vo);
-		log.info("vo2:{}", vo2);
+//		log.info("vo2:{}", vo2);
 		String salt=vo2.getSalt();
 		oldpw=HashService.getSHA512(oldpw, salt);
-		log.info("oldpw:{}", oldpw);
+//		log.info("oldpw:{}", oldpw);
 		String oldpwCheck = vo2.getPw();
-		log.info("oldpwCheck:{}",oldpwCheck);
+//		log.info("oldpwCheck:{}",oldpwCheck);
 		int result = service.member_pwChange(vo, oldpw, oldpwCheck, salt);
 		if (result == 0) {
-			log.info("youfailed...");
+//			log.info("youfailed...");
 			model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
 			model.addAttribute("vo2", vo2);
 			return "member/pwChange";

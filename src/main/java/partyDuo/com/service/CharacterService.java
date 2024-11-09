@@ -31,14 +31,14 @@ public class CharacterService {
 	}
 	//apikey로 ocid 찾기
 	public String foundOcid(String apikey) {
-		log.info("foundOcid");
+//		log.info("foundOcid");
 		api= new MapleStoryApi(apikey);
 		CharacterListDTO response;
 		
 		try {
 			response=api.getCharacterList();
-			log.info("response:{}", response);
-			log.info("result:{}",response.getAccountList().get(0).getCharacterList().get(0).getOcid());
+//			log.info("response:{}", response);
+//			log.info("result:{}",response.getAccountList().get(0).getCharacterList().get(0).getOcid());
 			
 		}
 		catch(Exception e) {
@@ -55,8 +55,8 @@ public class CharacterService {
 	//foundOcid로 찾은 ocid로 본캐 찾기
 	public String bonCharacter(String ocid) {
 		UnionRankingResponseDTO response;
-		log.info("본캐찾기");
-		log.info("ocid:{}", ocid);
+//		log.info("본캐찾기");
+//		log.info("ocid:{}", ocid);
 		try {
 			response = api.getUnionRanking(null, ocid, null);
 		} catch (Exception e) {

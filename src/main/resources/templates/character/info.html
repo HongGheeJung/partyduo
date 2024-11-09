@@ -212,7 +212,7 @@
 	}
 	$(document).ready(function() {
 		$('#favorite_add_btn').on('click', function() {
-			let url = "http://localhost:8820/favorite/insert";
+			let url = "/favorite/insert";
 			console.log("즐추")
 			const character_name = "[[${basicDTO.characterName}]]";
 			const btn_add = $('#favorite_add_btn');
