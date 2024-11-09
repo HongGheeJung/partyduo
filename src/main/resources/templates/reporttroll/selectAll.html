@@ -55,7 +55,7 @@
                                 <th:block th:each="vo : ${list}">
                                     <tr>
                                         <th scope="row">
-                                            <a href="#" th:onclick="|checkLoginAndOpenPopup('/reporttroll/selectOne?report_troll_id=${vo.report_troll_id}')|">[[${vo.report_troll_id}]]</a>
+                                            <a href="#" th:onclick="|OpenPopup('/reporttroll/selectOne?report_troll_id=${vo.report_troll_id}')|">[[${vo.report_troll_id}]]</a>
                                         </th>
                                         <td><a th:href="|/character/info?character_name=${vo.character_name}">[[${vo.character_name}]]</a></td>
                                         <td class="report-content">[[${vo.report_troll_content}]]</td>
@@ -120,6 +120,20 @@
                 </div>
             </div>
         </div>
+        <script th:inline="javascript">
+        function OpenPopup(url) {
+    	 
+    	          // 로그인 상태일 경우 해당 페이지로 이동
+    	           console.log("Redirecting to: " + url);
+    	           var width = 600;
+    	           var height = 750;
+    	           var left = (window.screen.width / 2) - (width / 2);
+    	           var top = (window.screen.height / 2) - (height / 2);
+    	           window.open(url, "게시글 작성 팝업", `width=${width},height=${height},left=${left},top=${top}`);
+    	       
+    	      
+    	  }
+        </script>
     </div>
 </body>
 
