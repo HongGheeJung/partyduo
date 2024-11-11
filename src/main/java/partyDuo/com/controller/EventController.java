@@ -66,7 +66,6 @@ public class EventController {
 	@GetMapping("/event/update")
 	public String update(EventVO vo, Model model) {
 		log.info("/event/update");		
-		log.info("vo:{}", vo);
 
 		EventVO vo2 = service.selectOne(vo);
 		
@@ -98,13 +97,11 @@ public class EventController {
 			@RequestParam(defaultValue = "01") int party_id) {
 		
 		log.info("event/searchListParty");
-		log.info("party_id:{}", party_id);
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
 		int member_id=vo.getMember_id();
-		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));
-		log.info("plist:{}", plist);	
+		List<PartyListVO> plist = plservice.searchListJoinMember(Integer.toString(member_id));	
 		model.addAttribute("party_id", party_id);
 		model.addAttribute("plist", plist);
 		
@@ -115,7 +112,6 @@ public class EventController {
 	public String searchListFirst(Model model, 
 			@RequestParam(defaultValue = "0") int party_id) {
 		log.info("/cindex");
-		log.info("party_id:{}", party_id);
 		MemberVO vo = new MemberVO();
 		vo.setId((String)session.getAttribute("user_id"));
 		vo=mservice.member_selectOne(vo);
@@ -128,16 +124,12 @@ public class EventController {
 			  return "main"; // 입력 페이지로 이동 }
 		  }
 		 
-		
-		
-		log.info("plist:{}", plist);
 		if(party_id==0) {
 			party_id = plist.get(0).getParty_id();
 		}
 		PartyVO partyvo = (pservice.searchList("party_id", Integer.toString(party_id))).get(0);
 		
-		
-		log.info("partyvo", partyvo);
+
 		model.addAttribute("partyvo", partyvo);
 		model.addAttribute("plist", plist);
 		
@@ -149,12 +141,7 @@ public class EventController {
 			@RequestParam(defaultValue = "01") String searchWord) {
 		
 		log.info("/event/searchListTitle");
-		log.info("searchWord:{}", searchWord);
-
-
 		List<EventVO> list = service.searchListTitle(searchWord);
-		log.info("list.size():{}", list.size());
-
 		model.addAttribute("list", list);
 		
 		return "event/searchlist";
@@ -165,16 +152,14 @@ public class EventController {
 	@GetMapping("/event/selectOne")
 	public String selectOne(EventVO vo, Model model) {
 		log.info("/event/selectOne");	
-		log.info("vo:{}", vo);
 
 		EventVO vo2 = service.selectOne(vo);
-		log.info("vo2:{}", vo2);
-		
+
 		EventLikeVO vo3 = new EventLikeVO();
 		vo3.setEvent_id(vo2.getEvent_id());
 		
 		int likecount = service_like.selectOneLikeCount(vo3);
-		log.info("likecount:{}", likecount);
+
 		model.addAttribute("vo2", vo2);
 		model.addAttribute("likecount", likecount);
 
@@ -201,7 +186,7 @@ public class EventController {
 		vo.setEvent_startTime(startTime);
 		vo.setEvent_endTime(endTime);
 		
-		log.info("vo:{}", vo);
+
 		
 		int result = service.insertOK(vo);
 		log.info("result:{}", result);
@@ -236,7 +221,7 @@ public class EventController {
 		
 		vo.setEvent_startTime(startTime);
 		vo.setEvent_endTime(endTime);
-		log.info("vo:{}", vo);
+
 
 
 
@@ -252,7 +237,7 @@ public class EventController {
 	@PostMapping("/event/deleteOK")
 	public String deleteOK(EventVO vo, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		log.info("/event/deleteOK");
-		log.info("vo:{}", vo);
+
 		
 		int event_id= vo.getEvent_id();
 		int party_id= vo.getParty_id();
@@ -269,7 +254,7 @@ public class EventController {
 	@PostMapping("/admin/event/deleteOK")
 	public String admindeleteOK(EventVO vo) throws IllegalStateException, IOException {
 		log.info("/event/deleteOK");
-		log.info("vo:{}", vo);
+
 		
 		int event_id= vo.getEvent_id();
 
