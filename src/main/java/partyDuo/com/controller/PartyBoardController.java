@@ -69,7 +69,7 @@ public class PartyBoardController {
 	        List<PartyVO> list = pservice.searchList("party_master", user_character);
 	        model.addAttribute("list", list);
 
-	        log.info("list: {}", list);
+	       
 	        
 	    } catch (Exception e) {
 	        // 예상치 못한 오류 발생 시 처리
@@ -423,8 +423,7 @@ public class PartyBoardController {
 	            log.info("2");
 	            return "partyboard/selectAll";
 	        }
-	        log.info("list:{}", list);
-	        log.info("list2:{}", list2);
+	     
 	        List<PartyBoardNameDTO> list3 = list.stream()
 	                .map(vo -> {
 	                    try {
@@ -444,7 +443,7 @@ public class PartyBoardController {
 	                })
 	                .filter(Objects::nonNull)
 	                .collect(Collectors.toList());
-	        log.info("list3:{}", list3);
+	      
 	        model.addAttribute("list3", list3);
 	        model.addAttribute("totalPageCount", totalPageCount);
 	        model.addAttribute("currentPage", cpage);
@@ -512,7 +511,7 @@ public class PartyBoardController {
 	    	if ("world".equals(searchKey)) {
 	    	    // 월드 검색된 파티 목록 조회
 	    	    list2 = pservice.searchList(searchKey, searchWord);
-	    	    log.info("Party List: {}", list2);
+	    	    
 
 	    	    if (list2 == null || list2.isEmpty()) {
 	    	        model.addAttribute("errorMessage", "해당 조건으로 검색된 파티 정보가 없습니다.");
@@ -521,7 +520,7 @@ public class PartyBoardController {
 
 	    	    // 모든 파티 게시판 조회
 	    	    list = pbservice.selectAllPageBlock(cpage, pageBlock);
-	    	    log.info("PartyBoard List: {}", list);
+	    	    
 
 	    	    if (list == null || list.isEmpty()) {
 	    	        model.addAttribute("errorMessage", "해당 조건으로 검색된 게시판 정보가 없습니다.");
@@ -583,7 +582,7 @@ public class PartyBoardController {
 	        return "partyboard/selectAll";
 	    }
 
-	    log.info("list: {}", list);
+	  
 
 
 

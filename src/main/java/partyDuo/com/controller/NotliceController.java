@@ -287,7 +287,7 @@ public class NotliceController {
 	            cpage = totalPageCount;
 	        }
 	        List<NoticeVO> list = nservice.selectAllPageBlock(cpage, pageBlock);
-	        log.info("list: {}", list);
+	      
 	        model.addAttribute("list", list);
 
 	        if (list == null || list.isEmpty()) {
@@ -346,7 +346,7 @@ public class NotliceController {
 	        }
 
 	        List<NoticeVO> list = nservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
-	        log.info("list: {}", list);
+	      
 
 	        if (list == null || list.isEmpty()) {
 	            model.addAttribute("errorMessage", "검색된 공지사항이 없습니다.");

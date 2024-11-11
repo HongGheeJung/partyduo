@@ -322,7 +322,7 @@ public class PartyListController {
 		         
 		         // 파티원 및 대기자 목록 가져오기
 		         List<PartyListVO> list = plservice.searchList("party_id", Integer.toString(party_id));
-		         log.info("list{}", list);
+		         
 
 		         for (PartyListVO vo2 : list) {
 		             try {
@@ -347,8 +347,6 @@ public class PartyListController {
 		     }
 
 		     log.info("vo{}", vo);
-		     log.info("listmember{}", listmember);
-		     log.info("listqueue{}", listqueue);
 		     
 		     model.addAttribute("vo", vo);
 		     model.addAttribute("listmember", listmember);
@@ -385,7 +383,7 @@ public class PartyListController {
 
 		         // 파티 목록 가져오기
 		         List<MyPartyVO> list = plservice.searchMyParty(Integer.toString(member_id), cpage, pageBlock);
-		         log.info("list: {}", list);
+		         
 
 		         if (list == null || list.isEmpty()) {
 		             model.addAttribute("errorMessage", "등록된 파티가 없습니다.");
