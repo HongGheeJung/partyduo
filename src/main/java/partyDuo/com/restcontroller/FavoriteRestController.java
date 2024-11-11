@@ -36,6 +36,7 @@ public class FavoriteRestController {
 		String user_id=(String) session.getAttribute("user_id");
 		log.info("user_id:{}",user_id);
 		if(user_id==null) {
+			map.put("errorMessage", "로그인 해주세요");
 			map.put("result", "NotOK");
 			return map;
 		}
@@ -56,6 +57,7 @@ public class FavoriteRestController {
 		Map<String, String> map=new HashMap<>();
 		String user_id=(String) session.getAttribute("user_id");
 		if(user_id==null) {
+			map.put("errorMessage", "로그인 후 이용해주세요.");
 			map.put("result", "NotOK");
 			return map;
 		}
