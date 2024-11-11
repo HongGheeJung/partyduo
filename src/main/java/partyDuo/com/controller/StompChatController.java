@@ -32,8 +32,7 @@ public class StompChatController {
     public void message(ChatVO message){
     	log.info("/chat/message :{}", message);
     	int result = service.insertOK(message);
-    	message.setChat_id(service.selectMax());
-		log.info("result:{}", message.getChat_id());
+    	message.setChat_id(service.selectLastChat());
         template.convertAndSend("/sub/chat/room2/" + message.getParty_id(), message);
     }
 
