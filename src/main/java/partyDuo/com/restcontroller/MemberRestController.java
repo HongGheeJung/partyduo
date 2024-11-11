@@ -46,6 +46,10 @@ public class MemberRestController {
 		log.info("/apiCheck");
 		Map map=new HashMap<>();
 		log.info("vo:{}", vo);
+		if(vo.getCharacter_name().equals("")) {
+			map.put("result","NotOKNull");
+			return map;
+		}
 		MemberVO vo2=mservice.apiCheck(vo);
 		if(vo2==null) {
 			map.put("result","OK");
@@ -56,11 +60,12 @@ public class MemberRestController {
 	}
 	@GetMapping("/member/apiToCharacter")
 	public Map<String, String> member_apiToCharacter(String apikey) {
+		Map<String,String> map=new HashMap<>();
 		log.info("/apiToCharacter");
 		String ocid=cservice.foundOcid(apikey);
 		log.info("ocid:{}", ocid);
 		String character=cservice.bonCharacter(ocid);	
-		Map map=new HashMap<>();
+		log.info("character_name:{}",character);
 		map.put("character_name", character);
 		map.put("ocid", ocid);
 		return map;

@@ -64,12 +64,17 @@
 				dataType : "json",
 				success : function(response) {
 					console.log(response);
+					
 					let message = '';
 					if (response.result === 'OK') {
 						message = '사용가능';
 						isApiChecked = true;
 						validateForm();
-					} else {
+					}else if(response.result=='NotOKNull') {
+						message = 'api가 유효하지 않습니다.';
+						validateForm();
+					}
+					else {
 						message = '이미 등록된 apikey입니다';
 						validateForm();
 					}
@@ -84,6 +89,7 @@
 				.click(
 						function() {
 							console.log("click....");
+							
 							let url2 = "/member/apiToCharacter";
 							$
 									.ajax({
@@ -98,15 +104,18 @@
 											let character_name = response.character_name;
 											let ocid = response.ocid;
 											$("#apiResult").html("");
-
+											
 											if (ocid == null) {
 												$("#apiResult").html(
 														"유효하지 않은 api");
+												document.getElementById("character_name").value=null;
+												document.getElementById("ocid").value=null;
+												
 											}else{
 												document
 												.getElementById("character_name").value = character_name;
+												document.getElementById("ocid").value = ocid;
 											}
-											document.getElementById("ocid").value = ocid;
 										},
 										error : function(ex) {
 											console.log(ex);
