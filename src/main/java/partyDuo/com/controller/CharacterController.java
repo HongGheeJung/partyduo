@@ -125,7 +125,7 @@ public class CharacterController {
 //			log.info("6차:{}", skillsixDTO.getCharacterSkill().size());
 			//링크 스킬 정보
 			CharacterLinkSkillDTO linkSkillDTO=service.character_linkSkill(ocid);
-//			model.addAttribute("linkSkillDTO", linkSkillDTO);		
+			model.addAttribute("linkSkillDTO", linkSkillDTO);		
 			//V매트릭스 정보
 			CharacterVMatrixDTO vmatrixDTO=service.character_vmatrix(ocid);
 			model.addAttribute("vmatrixDTO", vmatrixDTO);	
