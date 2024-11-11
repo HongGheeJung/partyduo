@@ -233,7 +233,7 @@ public class ReportTrollController {
 		        }
 
 	            List<ReportTrollVO> list = rtservice.selectAllPageBlock(cpage, pageBlock);
-	            log.info("list: {}", list);
+	            
 
 	            if (list == null || list.isEmpty()) {
 	                model.addAttribute("errorMessage", "등록된 신고 정보가 없습니다.");
@@ -281,7 +281,7 @@ public class ReportTrollController {
 		        }
 
 	            List<ReportTrollVO> list = rtservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
-	            log.info("list: {}", list);
+	            
 
 	            if (list == null || list.isEmpty()) {
 	                model.addAttribute("errorMessage", "검색 결과가 없습니다.");

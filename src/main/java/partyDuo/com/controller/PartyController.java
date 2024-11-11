@@ -413,7 +413,7 @@ log.info("party_update...");
 	            cpage = totalPageCount;
 	        }
 	        List<PartyVO> list = pservice.selectAllPageBlock(cpage, pageBlock);
-	        log.info("list: {}", list);
+	     
 	        model.addAttribute("list", list);
 
 	        if (list == null || list.isEmpty()) {
@@ -476,7 +476,7 @@ log.info("party_update...");
 	        }
 
 	        List<PartyVO> list = pservice.searchListPageBlock(searchKey, searchWord, cpage, pageBlock);
-	        log.info("list: {}", list);
+	       
 
 	        if (list == null || list.isEmpty()) {
 	            model.addAttribute("errorMessage", "검색된 파티이 없습니다.");

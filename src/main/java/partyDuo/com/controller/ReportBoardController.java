@@ -252,7 +252,7 @@ public class ReportBoardController {
             if (list == null || list.isEmpty()) {
                 model.addAttribute("errorMessage", "등록된 신고 게시물이 없습니다.");
             }
-            log.info("list: {}", list);
+            
             model.addAttribute("list", list);
 
           
@@ -313,7 +313,7 @@ public class ReportBoardController {
             if (list == null || list.isEmpty()) {
                 model.addAttribute("errorMessage", "검색된 결과가 없습니다.");
             }
-            log.info("list: {}", list);
+            
             model.addAttribute("list", list);
 
             // 총 검색 결과 수 조회 및 총 페이지 수 계산
